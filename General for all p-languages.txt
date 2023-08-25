@@ -1,0 +1,158 @@
+General for all programming languages.
+Beginner
+   1)Console.
+	1)It is similar to java 
+	2)In console we can write either by concatenation or like this below
+		string username=you,sirname=i;
+		Ex:-Console.WriteLine("Hello{0},{1}",username,sirname}(it will provide spaces itselft inbetween)
+		o/p:Hello you i
+	3)C# is case sensitive.
+   2)Data Types
+	1.Boolean datatype(1 bit)
+	2.sbyte (-128 to 127) (8-bits).	
+	3.byte (0 to 255) (8-bits).
+	4.short (-32768 to 32767) (16-bits).
+	5.int (-2147483648 to 2147483647) (32-bits).
+	6.int (0 to 429967295) (32-bits).
+	7.long (-9223372036854775808 to 9223372036854775807) (64 bit)
+	8.ulong (0 to 18446744073709551615)(64 bit)
+	9.char(U+0000 to U+ffff)(16 bits)
+	10.string size is not specified.backslash is used to escape.ex:"\"pregim\"" o/p:"pregim"
+	@ is used esacpe all escapable characters.(verbatim literal).
+	11.FLoat (-3.4028235E+38 to 3.4028235E+38) (32 bits)
+	12.Double (-1.7976931348623157E+308 to 1.7976931348623157E+308) (64 bits)
+	Methods present with these classes 
+	ex:int.MinValue(),char.ToUpper(),string.compare() etc
+   3)Operators
+	1.Assignment operators.(=)
+	2.Arithmetic operators.(+,-,%,*)
+	3.Comparision operators.(==,=>,=<,!=,<,>)
+	4.Conditional operators.(&&,||)
+	5.Ternary operators.(?:)
+		ex:-num =10;
+		Console.writeline(num==10?num:0);
+	6.Null coalescing operators.(??)
+		We cannot implicitly convert nullable value to non nullable type and vice-versa is also true.
+		ex:int n=0;
+		   int? n1=0;
+		   n1=n;(error), correct answer is n1=(int)n;
+		   using null coalescing method is n1=n ?? 0(default value to be asigned);
+    4)Types in C#
+	1.Value types(int,float,double,structs,enums,etc)
+		To make nullable value types use ?.
+		Ex:int? i=null;
+	2.Reference types(Interface,arrays,class,delegates,etc).
+		Refernce types can have null values where as value types cannot be null.
+    5)Data type conversion
+	1.Smaller dattypes can be converted into bigger datatypes (implicit conversion) as there is no data loss.
+	2.Biggerdattypes cannot be converted into bigger datatypes (explicit conversion) is required as there is data loss.
+		Ex:int i=0;
+		   float f=i;(true)  float f=0; int i = f(error) we should convert it explicitly using type cast or convert classes like toint,tostring.
+		   float f=0;int i=int(f); this is type cast; or Convert.ToInt32(f); 
+		When the converted number is more than size of type than it will show minimum value or it will throw exception.
+		1.When we want to convert string to int we should use int.parse(stringvalue).
+		2.If string involves characters than if we try to convert it will throw format exception.
+		3.Ex: string str= "200tg";int res=0;int.TryParse(str,out res),this method will return true or false and it will store output in res.
+     6)Arrays:-It is datamember which is used to dtore data of similar types.
+		Ex:int[] numbers = {0,1,2,3,4}; or int[] numbers=new int[5];
+						   numbers[0]=1,numbers[0]=2,numbers[0]=2,numbers[0]=3,numbers[0]=4,numbers[0]=5;
+		1).int array cannot store string,float,double,long,bute etc it can store only integer.
+		2).Array size cannot be changed once it is fixed.
+		3).It works on index concept.They are strongly typed.i.e type of array cannot be manipulated.
+		
+     7)Comments.
+	/// this type of comment is used to write something about the member 
+	Ex:/// <summary>
+	   /// this integer is of null type
+	   ///</summary>
+	   int? i=0;(when we hover mouse over this int where it is used the message written in summary will be shown in intellisense.
+     8)Conditional statements.These works on true or false.else block will not take any conditions.
+	1)if{}
+	2)if{} else{}
+	3)if {}else if{} else{} (&&,|| are called short circuit operators).
+		We use conditions like &&,||,&,| here || if 1st condition is true it will not check 2nd condition.| will check all conditions present in it.|| is faster.
+		&& if 1st condition is false it will not check 2nd condition and & it will check all conditions written either true or false.
+	4)switch:Multiple if else satements can be replaced with switch.
+		Ex: int a = 40;
+ 			switch (a) 
+ 			{
+     			    case 10:(this will execute same code for below cases)
+     			    case 40:
+         			Console.WriteLine(true);
+         			break;
+     			    case 30:
+         			Console.WriteLine(false);
+         			break;
+     			    default:(this is default case if no condition is satisified).
+         			Console.WriteLine(false);
+         			break;
+ 			}
+	5)goto statement (Using this statement is badway of coding)(this is used randomly shift the position of the controller from one position to another position)
+		Ex: public static void Main()
+ 			{
+    			    int cost = 0;
+    			    Start:
+     			    Console.WriteLine("1 coffe,2coffee,3coffee");
+     			    int userchoice = int.Parse(Console.ReadLine());
+     			    switch (userchoice) 
+     			    {
+         			case 1:
+             			   cost += 1;
+             			   break;
+         			case 2:
+             			   cost += 2;
+             			   break;
+         			case 3:
+             			   cost += 3;
+             			   break;
+         			default:
+             			   Console.WriteLine("invalid choice");
+             			   goto start;
+     			    }
+     			    Reassign:
+     			    Console.WriteLine("Do you want another coffee?");
+     			    string choice = Console.ReadLine();
+     			    switch (choice) 
+     			    {
+         			case "yes":
+             			   goto Start;
+             
+         			case "no":
+             			   break;
+         			default:
+             			   Console.WriteLine("invalid choice");
+             			   goto Reassign;
+     			    }
+     			    Console.WriteLine("Bill =" + cost);
+ 			}
+    9)Loop statements.
+	1.For 2.while 3.do while 4.for each
+	Ex: for while and do while loops
+		 public static void Main()
+ 		{
+     		     int a = 2;
+     		     string userchoice;
+     
+     		     do
+     		     {
+         		int tartget = Convert.ToInt32(Console.ReadLine());
+         		while (a <= tartget)
+         		{
+             		   Console.WriteLine(a);
+             		   a += 2;
+         		}
+         		   do
+         		   {
+             			Console.WriteLine("Do you want to continue-yes or no?");
+             			userchoice = Console.ReadLine();
+             			if(userchoice !="y" &&  userchoice !="n")
+             			{
+                 		    Console.WriteLine("Invalid user choice please redo choice ,y or n?");
+             			}
+         		    }while (userchoice!="y" && userchoice!="n");
+         			
+     	   		}while (userchoice=="y");
+     	
+ 		}
+	
+	
