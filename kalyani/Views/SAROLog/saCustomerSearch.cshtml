@@ -1,0 +1,140 @@
+﻿
+@{
+    ViewBag.Title = "saCustomerSearch";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <input type="hidden" id="assignId" value="0">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading"><b>Customer Search</b></div>
+            <div class="panel-body">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Search Pattern</label>
+                                    <input type="text" id="patternVal" class="form-control" data-column-index="0" placeholder="Search by RegNo/VinNo/PhoneNo " />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>&nbsp;</label>
+                                    <button type="submit" id="btnsasearchCust" class="btn btn-primary start btn-block" onclick="getsaSearchData()">
+                                        <i class="fa fa-search"></i>
+                                        <span>Search</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default" id="tblDiv" >
+                    <div class="panel-body">
+                        <div class="dataTable_wrapper">
+                                <table class="table table-striped table-bordered table-hover" width="100%" id="tblSearchSA">
+
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>Customer Name</th>
+                                            <th>Customer Phone</th>
+                                            <th>Vehicle RegNo</th>
+                                            <th>Chassis No</th>
+                                            <th>RO Date</th>
+                                            <th>RO Status</th>
+                                            <th>Service Advisor Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+</div>
+                    </div>
+                </div>
+                <span id="tblException"></span>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+
+    <script>
+        var input = document.getElementById("patternVal");
+        $(document).ready(function () {
+            $('#tblSearchSA').DataTable({
+                responsive: true,
+                "destroy": true,
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "false",
+                "searching": false,
+                columnDefs: [
+                    { targets: [-1, -3], className: 'dt-body-right' }
+                ],
+            });
+        });
+        // Execute a function when the user releases a key on the keyboard
+        input.addEventListener("keyup", function (event) {
+ 
+            //$('#btnsasearchCust').attr('onclick', "getFilteredData('custDetails_1')");
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                document.getElementById("btnsasearchCust").click();
+
+            }
+        });
+
+        //, , , sainteraction_id
+        function getsaSearchData() {
+            $('#mainLoader').css({ 'display': 'block' });
+
+            var pattern = $('#patternVal').val();
+                    $('#tblSearchSA').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/SAROLog/getSASearchDetails/",
+                    "type": 'post',
+                    "datatype": 'json',
+                    "data": { pattern: pattern}
+                },
+                        "columns": [
+                            {
+                                "data": "Action", render: function (data, type, row) {
+                                    //return `<a class="fa fa-pencil-square" href="${siteRoot}/SACallLogging/SACallLogging/SA%2cS%2c${row.customer_id}%2c${row.vehicleid}" style="font-size: 24pt;color: red;" onclick="recordFilters()"> </a>`
+                                    return `<a class="fa fa-pencil-square" href="${siteRoot}/SACallLogging/SACallLogging/SA%2cS%2c${row.customer_id}%2c${row.vehicleid}%2c${row.roassignmentid}" style="font-size: 24pt;color: red;" onclick="recordFilters()"> </a>`
+                                }
+                            },
+                    { "data": "customerName", "name": "customerName" },
+                    { "data": "customerPhone", "name": "customerPhone" },
+                    { "data": "vehiclereg_no", "name": "vehiclereg_no" },
+                    { "data": "chassisno", "name": "chassisno" },
+                    { "data": "rodate", "name": "rodate" },
+                    { "data": "rostatus", "name": "rostatus" },
+                    { "data": "serviceadvisor_name", "name": "serviceadvisor_name" }
+                ],
+                "processing": "true",
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                },
+                "initComplete": function (data) {
+                    $('#mainLoader').css({ 'display': 'none' });
+                    $('#tblException').text(data.json.exception);
+                }
+            });
+        }
+    
+
+    </script>
+}

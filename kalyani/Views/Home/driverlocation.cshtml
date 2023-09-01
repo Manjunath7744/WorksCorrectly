@@ -1,0 +1,113 @@
+﻿
+@{
+    ViewBag.Title = "AcceptDeliveryNote";
+    Layout = null;
+}
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" type="image/png" href="~/public/images/favicon1.ico">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>AS-Driver Location</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        .main-container {
+            width: 100%;
+            height: 100vh;
+            background: #ede3e3;
+            overflow: scroll;
+        }
+
+        .img-container1 {
+            display: flex;
+        }
+
+            .img-container1 span:nth-child(1) {
+                font-size: 35pt;
+                color: #ea0e0e;
+                font-weight: 600;
+            }
+
+            .img-container1 span:nth-child(2) {
+                font-size: 36pt;
+                color: #f3b324;
+                font-family: monospace;
+                font-weight: 550;
+            }
+    </style>
+</head>
+<body>
+    <div class="container-fluid main-container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="img-container1">
+                    <img src="~/public/images/dealercustomerconnectlogoblack2.png" alt="AutoSherpa" data-toggle="tooltip" title="AUTOSherpa" />
+                </div>
+            </div>
+            @if (ViewBag.Allow == "Allow")
+            {
+                <div class="col-md-5" style="margin-top:25px;">
+                    <span style="cursor:pointer" onclick="noteAction();" class="btn btn-sm btn-primary">Get Location</span> For Vehicle: <span style="color:orangered">@ViewBag.VehRegNo</span>
+                </div>
+            }
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @if (ViewBag.Allow == "Allow")
+                {
+                   <div id="loc_container">
+
+                   </div>
+                }
+                else
+                {
+                    @:<span style="font-size:14pt;color:red;">@ViewBag.Result</span>
+                }
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+        var curLng, CurLtn;
+        var VehRegNo = '@ViewBag.VehRegNo';
+       var DriverName = '@ViewBag.DriverName';
+        var DealerCode='@ViewBag.DealerCode';
+        var NoteId = '@ViewBag.DeliveryNoteId';
+        function noteAction(action) {
+             $.ajax({
+                    type: 'post',
+                    url: '@Url.Action("getLoc")',
+                    dataType: 'json',
+                 data: { DriverName: DriverName, DealerCode: DealerCode, VehRegNo: VehRegNo, NoteId: NoteId },
+                    success: function (res) {
+                        if (res.success == true) {
+                            if (res.lng != curLng && res.lnt != CurLtn) {
+                                var MapImgTag = `<img src="https://maps.googleapis.com/maps/api/staticmap?center=${res.lnt},${res.lng}&zoom=20&size=620x620&markers=icon:https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/images/basic/car.png%7Clabel:D%7C${res.lnt},${res.lng}&key=AIzaSyAIsWLGCNTv-XfwNheb11ENiBAFspC3lzU"/>`;
+                                $('#loc_container').html(MapImgTag);
+                                
+                                curLng = res.lng;
+                                CurLtn = res.lnt;
+                            }
+                            else {
+                                console.log("Same Lng and Lnt Fount: " + res.lnt + "," + res.lng);
+                            }
+                          
+                        }
+                        else {
+                            $('#loc_container').html(res.exception);
+                        }
+                    },
+                    error: function (err) {
+                        alert("Something went wrong, plz reach-out dealer");
+                        console(err);
+                    }
+                });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,451 @@
+﻿@{
+    ViewBag.Title = "listdriverReports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link href="~/public/liveReportCSS/custom.css" rel="stylesheet" />
+<style>
+    thead {
+        background-color: rgb(128, 203, 196);
+        width: 84px;
+    }
+
+    .dashImg1 {
+        width: 30px;
+    }
+
+    .dashImg2 {
+        width: 20px;
+    }
+
+    .scroll {
+        width: 20px;
+        height: 12px;
+        overflow: auto;
+        margin: 0 10px;
+    }
+
+    .scroll4::-webkit-scrollbar {
+        width: 10px;
+        height: 6px;
+    }
+
+    .scroll4::-webkit-scrollbar-thumb {
+        background: #666;
+        border-radius: 20px;
+    }
+
+    .scroll4::-webkit-scrollbar-track {
+        background: #ddd;
+        border-radius: 20px;
+    }
+
+    .panel-heading {
+        cursor: pointer;
+    }
+
+    div#container {
+        height: 400px;
+        width: 400px;
+        border: 2px solid #000;
+        overflow: scroll;
+    }
+
+    .accordion-toggle:after {
+        font-family: 'FontAwesome';
+        content: "\f077";
+        float: right;
+        color: inherit;
+    }
+
+    .panel-heading.collapsed .accordion-toggle:after {
+        content: "\f078";
+    }
+
+    .box-body {
+        padding: 0px;
+    }
+
+    hr {
+        margin-top: 0px;
+        margin-bottom: 0px;
+        border: 0;
+    }
+
+    #slideOut {
+        position: fixed;
+        width: 230px;
+        height: 800px;
+        top: 147px;
+        right: -230px;
+        /* Animation  */
+        transition-property: all;
+        transition-duration: .5s;
+        transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+        z-index: 999;
+    }
+
+
+    /* Display slideOut */
+
+    .showSlideOut {
+        right: 0px !important;
+    }
+
+
+    /* Tab */
+
+    .slideOutTab {
+        margin-top: 50px;
+        position: absolute;
+        left: -40px;
+        height: 200px;
+        width: 40px;
+        -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+        background: #F2AB34;
+        border-radius: 15px 0px 0px 15px
+    }
+
+        .slideOutTab div {
+            text-align: center;
+            position: relative;
+            right: 70px;
+            top: 90px;
+            background: #F2AB34;
+            width: 180px;
+            -webkit-transform: rotate(270deg);
+            -moz-transform: rotate(270deg);
+            -o-transform: rotate(270deg);
+            writing-mode: lr-tb;
+        }
+
+    .modal-content {
+        height: 325px;
+        background-color: white;
+    }
+
+    .modal-body {
+        height: 400px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    .dbbgcolor1 {
+        background-color: #03a9f4;
+    }
+
+    .dbbgcolor2 {
+        background-color: #ffc107;
+    }
+
+    .dbbgcolor3 {
+        background-color: #d559ea;
+    }
+
+    .dbbgcolor4 {
+        background-color: #ff5652;
+    }
+
+    .dbbgcolor5 {
+        background-color: #69afff;
+    }
+
+    .dbbgcolor6 {
+        background-color: #4edec1;
+    }
+
+    .dbbgcolor7 {
+        background-color: #ffc107;
+    }
+
+    .dbbgcolor8 {
+        background-color: #d559ea;
+    }
+
+    .dbbgcolor9 {
+        background-color: #ff5652;
+    }
+
+    ul.multiselect-container.dropdown-menu {
+        height: 121px;
+        overflow: auto;
+    }
+
+    .tile-stats span {
+        margin-top: 5px;
+        font-size: 12px;
+    }
+
+    .boxes {
+        margin: 6px;
+    }
+
+    .x_title h2 {
+        float: none;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    #myTab {
+        margin-bottom: 0px;
+    }
+
+        #myTab > li {
+            /* width: 110px;
+        word-wrap: break-word;*/
+            border-bottom: 2px solid #fff;
+        }
+
+    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        padding: 3px;
+        line-height: 1;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+        color: #000 !important;
+        font-size: 13px;
+        background-color: #fff;
+    }
+
+    .dataTables_length,
+    .dataTables_filter,
+    .dataTables_info {
+        font-size: 12px;
+    }
+
+    /*tbody,th{
+      text-align: center;
+    }*/
+
+    .btn {
+        display: inline-block;
+        /* padding: 0px 4px;  */
+        margin-bottom: 0;
+        font-size: 12px;
+    }
+
+    .nav-tabs > li > a:hover {
+        border-color: #b14b4b #b93131 #b33;
+        color: #000;
+    }
+
+    .html5buttons {
+        display: none;
+    }
+    /* @@media only screen and(max-width:768px;){
+        #Banus{
+        font-size: 8px!important;
+
+        }
+    } */
+</style>
+
+
+<div class="container-fluide">
+    <div class="row">
+        <div class="col-lg-12 panelsm">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <b>Driver Details</b>
+                    <button style="background-color:red;float:right;height:30px;width:100px;margin-top:-5px;" onclick="clearFilter();ReloadPostSalesData();">Refresh</button>
+                </div>
+                <div class="panel-body panelsm">
+                    <div class="panel panel-default">
+                        <div class="tab-content" id="Tabs">
+                            <div class="panel panel-default" style="border-top: #fff;">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <label>Workshop</label>
+                                            <div class="form-group">
+                                                @Html.DropDownList("ddlworkshops", new SelectList(ViewBag.ddlworkshops, "workshopid", "name"), "--Select--", new { @class = "form-control selectpicker ", @id = "workshopID", @onchange = "ReloadPostSalesData();" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    </div>
+
+                                    <div class="panel panel-default tab-pane fade active in" id="schedule" role="tabpanel" aria-labelledby="schedule-tab">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="x_panel">
+                                                <div class="x_title">
+                                                    <b>Driver Details</b>
+                                                    <ul class="nav navbar-right panel_toolbox">
+
+                                                        <li>
+                                                            <a id="tbldriverschedulerdetailsLive_xl"></a>
+                                                        </li>
+                                                        <li>
+                                                            <button type="button" class="btn btn-primary btn-xs pull-right" id="tbldriverschedulerdetailsLive_button" data-toggle="collapse" data-target="#tbldriverschedulerdetailsLiveDiv" onclick="callPostSalesprocedure(1,'tbldriverschedulerdetailsLive');">Show</button>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="x_content collapse" id="tbldriverschedulerdetailsLiveDiv">
+                                                    <div class="">
+                                                        <div>
+                                                            <img id="tbldriverschedulerdetailsLive_Spinner" style=" display: block; margin-left: auto; margin-right: auto; width: 20%;" src="~/public/img/fe.gif" />
+                                                        </div>
+                                                        <table id="tbldriverschedulerdetailsLive" class="table table-striped table-bordered table-hover " style="width:100%;margin:0px;">
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <span class="code" id="tblException" style="font-size:11pt;font-weight:bold;color:red;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                                    @section scripts
+                                    {
+
+<Script>
+
+    $(document).ready(function () {
+        $("#tbldriverschedulerdetailsLive_button").trigger('click'); 
+    });
+
+
+    function clearFilter() {
+        $('#workshopID').removeClass('selectpicker');
+        $('#workshopID').prop('selectedIndex', 0);
+        $('#workshopID').addClass('selectpicker');
+        $('#workshopID').multiselect('rebuild');
+    }
+    function ReloadPostSalesData() {
+        if ($.fn.DataTable.isDataTable("#tbldriverschedulerdetailsLive")) {
+            var table = $("#tbldriverschedulerdetailsLive").DataTable();
+            table.clear();
+            table.destroy();
+            $("#tbldriverschedulerdetailsLive thead th").remove();
+            callPostSalesprocedure(1, "tbldriverschedulerdetailsLive");
+        }
+    }
+    function callPostSalesprocedure(Id, tblId) {
+
+        var workshopID = $('#workshopID option:selected').toArray().map(item => item.value).join();
+        var parameters = { selected_Workshop: workshopID };
+
+        if (!$.fn.DataTable.isDataTable("#" + tblId)) {
+            {
+                $("#" + tblId + "_button").hide();
+                callPostSalesLive_tabledata(parameters, tblId);
+            }
+        }
+    }
+    function getPostSalesTableData(parameters) {
+        return $.ajax({
+            "url": siteRoot + "/fieldDriverScheduler/getPostSalesReports",
+            "type": "POST",
+            "data": { PostSalesData: JSON.stringify(parameters) },
+            "datatype": "json"
+        });
+    }
+    function callPostSalesLive_tabledata(parameters, tblId) {
+        $('#' + tblId + '_Spinner').show();
+        getPostSalesTableData(parameters).done(function (records) {
+            var jsonrecords = JSON.parse(records.data);
+            var my_columns = [];
+            if (records.exception === "" && jsonrecords.length > 0) {
+                $.each(jsonrecords[0], function (key, value) {
+                    var my_item = {};
+                    my_item.data = key;
+                    my_item.title = key;
+                    my_columns.push(my_item);
+                });
+
+                $('#' + tblId).DataTable({
+                    data: jsonrecords,
+                    "columns": my_columns,
+                    "paging": false,
+                    "searching": false,
+                    "order": [[0, "asc"]],
+                    "pageLength": 50,
+                    "initComplete": function (settings, exception) {
+                        $('#' + tblId + '_Spinner').hide();
+                        $("#" + tblId + "_button").show();
+                    }
+
+                });
+                var buttons = new $.fn.dataTable.Buttons('#' + tblId, {
+                    buttons: [
+                        {
+                            extend: 'csvHtml5',
+                            text: '<i class="fa fa-download">&nbsp;&nbsp;Excel</i>',
+                            titleAttr: 'Excel',
+                            filename: tblId
+
+                        }
+                    ]
+                }).container().appendTo($('#' + tblId + '_xl'));
+            }
+            else {
+                var dataset = [{ "Result": "No Data Available" }];
+
+                var my_columns = [];
+                $.each(dataset[0], function (key, value) {
+                    var my_item = {};
+                    my_item.data = key;
+                    my_item.title = key;
+                    my_columns.push(my_item);
+                });
+
+                $('#' + tblId).DataTable({
+                    data: dataset,
+                    "columns": my_columns,
+                    "paging": false,
+                    "searching": false,
+                    "order": [[0, "asc"]],
+                    "pageLength": 50,
+                    "initComplete": function (settings, exception) {
+                        $('#' + tblId + '_Spinner').hide();
+                        $("#" + tblId + "_button").show();
+
+                    }
+                });
+                $('#tblException').text(records.exception);
+            }
+
+        });
+
+    }
+</Script>
+                                    }
+
+
+                                    @*@section scripts
+                                    {
+<script>
+    function getdriverDetails() {
+        var workshopId = $('#fieldLocation').val();
+
+        $.ajax({
+            type: 'POST',
+            "url": siteRoot + "/fieldDriverScheduler/driverdetailsbyworkshop/",
+            async: 'true',
+            datatype: 'json',
+            data: { workshopId: workshopId },
+            cache: false,
+            success: function (res) {
+                if (res.success == true) {
+                    $.each(res.driverDetails, function (key, value) {
+                        $("#driverlist").append($("<option></option>").val(value.id).html(value.driverName));
+                    });
+                }
+            }
+        });
+    }
+</script>
+                                    }*@

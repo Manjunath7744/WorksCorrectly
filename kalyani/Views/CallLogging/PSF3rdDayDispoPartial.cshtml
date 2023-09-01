@@ -1,0 +1,610 @@
+﻿@model AutoSherpa_project.Models.ViewModels.CallLoggingViewModel
+
+<div class="panel panel-primary">
+    <div class="panel-heading" align="center" ; style="background-color:#1797be;">
+        <img src="~/public/images/INTERACTION HISTORY.png" style="width:17px" />&nbsp;<b>
+    @if (ViewBag.typeOfPSF == 7)
+    {
+        @:PSF DISPOSITION FORM 3Rd Day
+    }
+    else
+    {
+        @:PSF DISPOSITION FORM 15Th Day
+    }
+
+</b>
+    </div>
+
+    <div class="panel-body">
+        <div class="col-md-12">
+            <div class="form-group">
+                <div id="PSFconnectCall1H" class="animated  bounceInRight">
+                    <label for=""><b>Did you talk to the customer?</b></label>
+                    <br>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.psfinteraction.isContacted, "Yes", new { @Value = "Yes" })
+                            @*<input type="radio" name="isContacted" value="PSF Yes" id="">*@
+                            Yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.psfinteraction.isContacted, "No", new { @Value = "No" })
+                            @*<input type="radio" name="isContacted" value="PSF No" id="">*@
+                            No
+                        </label>
+                    </div>
+                </div>
+
+                <div style="display:none;" class="animated  bounceInRight" id="PSFNotSpeachDiv">
+                    <br>
+                    <label for=""><b>Choose reason for not being able to talk to customer:</b></label>
+                    <br>
+                    <div class="radio">
+                        <label>
+                            @Html.RadioButtonFor(m => m.psfinteraction.PSFDispositon, "Ringing No response", new { @Value = "Ringing No response" })
+                            @*<input type="radio" name="PSFDispositon" value="Ringing No response" id="">*@
+                            Ringing No response
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            @Html.RadioButtonFor(m => m.psfinteraction.PSFDispositon, "Busy", new { @Value = "Busy" })
+                            @*<input type="radio" name="PSFDispositon" value="Busy" id="">*@
+                            Busy
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            @Html.RadioButtonFor(m => m.psfinteraction.PSFDispositon, "Switched Off / Unreachable", new { @Value = "Switched Off / Unreachable" })
+                            @*<input type="radio" name="PSFDispositon" value="Switched Off / Unreachable" id="">*@
+                            Switched Off / Unreachable
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            @Html.RadioButtonFor(m => m.psfinteraction.PSFDispositon, "Invalid Number", new { @Value = "Invalid Number" })
+                            @*<input type="radio" name="PSFDispositon" value="Invalid Number" id="">*@
+                            Invalid Number
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            @Html.RadioButtonFor(m => m.psfinteraction.PSFDispositon, "NoOther", new { @Value = "Busy" })
+                            @*<input type="radio" name="PSFDispositon" value="NoOther" id="NOOthersCheck">*@
+                            Other
+                        </label>
+                    </div>
+
+
+                    <div class="row animated  bounceInRight" id="PSFNoOthers">
+                        <div class="col-md-3">
+                            <label><b>Remarks</b></label>
+                            @Html.TextAreaFor(m => m.psfinteraction.OtherComments, new { @class = "form-control characterLimit", @rows = "1" })
+                            @*<textarea type="text" class="form-control characterLimit" rows="1" name="OtherComments"></textarea*@
+                        </div>
+                    </div>
+                    <div class="pull-right">
+
+                        <button type="button" class="btn btn-info" name="" id="BackTolatkNoPsf">Back</button>
+                        <button type="submit" class="btn btn-info" name="" value="">Submit</button>
+                    </div>
+                </div>
+
+                <div style="display:none;" class="animated  bounceInRight" id="PSFYesTalkH">
+                    <br />
+                    <div class="col-md-12">
+                        <p>Good Morning/Good Afternoon, I am <b> @Model.wyzuser.userName</b> from <b>@Model.wyzuser.dealerName</b>. Am I speaking to @Model.cust.customerName?</p>
+                        <p>Thank you for choosing our <b>@Model.wyzuser.dealerName</b> for servicing of your <b>@Model.vehi.model</b></p>
+                        <p>Can I talk to you for few minutes to take few feedback about the vehicle service.</p>
+                        <p>What did the Customer Say?</p>
+                        <div class="radio-inline">
+                            <label>
+                                @Html.RadioButtonFor(m => m.listingForm.psfDisposition, "PSF_Yes", new { @Value = "PSF_Yes", @id = "GoodMorningYes" })
+                                @*<input type="radio" name="disposition" value="PSF_Yes" id="GoodMorningYes">*@
+                                Ok, Proceed
+                            </label>
+                        </div>
+                        <div class="radio-inline">
+                            <label>
+                                @Html.RadioButtonFor(m => m.listingForm.psfDisposition, "Call Me Later", new { @Value = "Call Me Later", @id = "GoodMorningNo" })
+                                @*<input type="radio" name="disposition" value="Call Me Later" id="GoodMorningNo">*@
+                                I am Busy
+                            </label>
+                        </div>
+
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-info" id="BackTo1stQ">Back</button>
+                            <button type="button" class="btn btn-info" id="NextTO2ndQ">Next</button>
+                        </div>
+                    </div>
+                </div>
+                <div style="display:none;" class="animated  bounceInRight" id="PSFYesNamaskarYesDivH">
+                    <p>Sir/Madam, were all the requested jobs done to your complete satisfaction?</p>
+
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.psfinteraction.q1_CompleteSatisfication, "PSFSelf Yes", new { @Value = "PSFSelf Yes", @id = "PSF2YesId" })
+                            @*<input type="radio" name="q1_CompleteSatisfication" value="PSFSelf Yes" id="PSF2YesId">*@
+                            Yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.psfinteraction.q1_CompleteSatisfication, "PSFSelf No", new { @Value = "PSFSelf No", @id = "PSF2NoId" })
+                            @*<input type="radio" name="q1_CompleteSatisfication" value="PSFSelf No" id="PSF2NoId">*@
+                            No
+                        </label>
+                    </div>
+
+                    <div style="display:none;" class="row animated  bounceInRight" id="PsfSelfDriveInNo1H">
+
+                        <div class="col-md-12">
+                            <p>Sir we are extremely sorry for an inconvinence caused.</p>
+                            <p>May I know the reason of dissatisfaction.</p>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Function</label>
+                                    @Html.DropDownListFor(m => m.psfinteraction.q2_InconvinenceDSRFunction, new List<SelectListItem> {
+                                        new SelectListItem{ Value="Washing",Text="Washing"},
+                                        new SelectListItem{ Value="Delay Delivery",Text="Delay Delivery"},
+                                        new SelectListItem{ Value="Discrepancy on Charges",Text="Discrepancy on Charges"},
+                                        new SelectListItem{ Value="Requested Repair not Done",Text="Requested Repair not Done"},
+                                        new SelectListItem{ Value="Quality of Work",Text="Quality of Work"},
+                                        new SelectListItem{ Value="SA/Other Emp Behaviour",Text="SA/Other Emp Behaviour"},
+                                        new SelectListItem{ Value="New Problem",Text="New Problem"},
+                                        new SelectListItem{ Value="Others",Text="Others"},
+                                        }, "--Select--", new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Assigned To</label>
+                                    @Html.DropDownListFor(m=>m.psfinteraction.q3_InconvinenceDSRAssignedTo,new List<SelectListItem>{
+                                                new SelectListItem{Text=Model.Latestservices.saName,Value=Model.Latestservices.saName }
+                                          },"--Select--",new {@class="form-control" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Remarks* (Mandate)</label>
+                                    @Html.TextAreaFor(m => m.listingForm.remarksList[2], new { @class = "form-control characterLimit", @row = "2" })
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12">
+                            <p>I have recorded your concern and will inform the same to our service team and our service team will contact you soon. </p>
+                        </div>
+
+
+
+                    </div>
+
+                    <div style="display:none;" class="row animated  bounceInRight" id="PsfSelfDriveINYesH">
+                        @if (Session["PSFDay"].ToString() == "3rdDay" || Session["PSFDay"].ToString() == "15thGoldDay")
+                        {
+                            <div class="col-md-12">
+                                <p>Sir/Madam, I would like to request you to rate following question on the scale of 1 to 10, where 1-8 is poor, 9 is good and 10 is excellent</p>
+                                <div class="col-md-8">
+                                    <label for="sel1">
+                                        @if (Session["PSFDay"].ToString() == "3rdDay")
+                                        {
+                                            @:1.How would you rate the maintenance & repair work done on your car ?
+                                        }
+                                        else if (Session["PSFDay"].ToString() == "15thGoldDay")
+                                        {
+                                            @:1.How would you rate throughness of Service Advisor explantion on the work done and charges?
+                                        }
+                                    </label>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <div class="form-inline">
+
+                                            @Html.DropDownListFor(m=>m.psfinteraction.q17_RateMaintenanceAndRepair,new List<SelectListItem>{
+                                                new SelectListItem{Value="1",Text="1"},
+                                                new SelectListItem{Value="2",Text="2"},
+                                                new SelectListItem{Value="3",Text="3"},
+                                                new SelectListItem{Value="4",Text="4"},
+                                                new SelectListItem{Value="5",Text="5"},
+                                                new SelectListItem{Value="6",Text="6"},
+                                                new SelectListItem{Value="7",Text="7"},
+                                                new SelectListItem{Value="8",Text="8"},
+                                                new SelectListItem{Value="9",Text="9"},
+                                                new SelectListItem{Value="10",Text="10"},
+                                              },"--Select--",new { @class = "form-control rateUs", @id = "sel1" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <label for="sel2">
+                                        @if (Session["PSFDay"].ToString() == "3rdDay")
+                                        {
+                                            @:2. How would you rate the condition or cleanliness of your car, on return?
+                                        }
+                                        else if (Session["PSFDay"].ToString() == "15thGoldDay")
+                                        {
+                                            @:2.How would you rate the pickup process of your car after Servicing?
+                                        }
+                                    </label>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <div class="form-inline">
+                                            @Html.DropDownListFor(m=>m.psfinteraction.q7_RateCleanlinessOfCar,new List<SelectListItem>{
+                                               new SelectListItem{Value="1",Text="1"},
+                                               new SelectListItem{Value="2",Text="2"},
+                                               new SelectListItem{Value="3",Text="3"},
+                                               new SelectListItem{Value="4",Text="4"},
+                                               new SelectListItem{Value="5",Text="5"},
+                                               new SelectListItem{Value="6",Text="6"},
+                                               new SelectListItem{Value="7",Text="7"},
+                                               new SelectListItem{Value="8",Text="8"},
+                                               new SelectListItem{Value="9",Text="9"},
+                                               new SelectListItem{Value="10",Text="10"},
+                                             }, "--Select--",new { @class = "form-control rateUs", @id = "sel2" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <label for="sel3">
+                                        @if (Session["PSFDay"].ToString() == "3rdDay")
+                                        {
+                                            @:3. How would you rate the explanation given by service advisor on the work done and repair charges of the servicing?
+                                        }
+                                        else if (Session["PSFDay"].ToString() == "15thGoldDay")
+                                        {
+                                            @:3.How would you rate the cleanliness of your car, on return?
+                                        }
+
+                                    </label>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <div class="form-inline">
+                                            @Html.DropDownListFor(m=>m.psfinteraction.q5_RateExplanationOfSA, new List<SelectListItem>{
+                                               new SelectListItem{Value="1",Text="1"},
+                                               new SelectListItem{Value="2",Text="2"},
+                                               new SelectListItem{Value="3",Text="3"},
+                                               new SelectListItem{Value="4",Text="4"},
+                                               new SelectListItem{Value="5",Text="5"},
+                                               new SelectListItem{Value="6",Text="6"},
+                                               new SelectListItem{Value="7",Text="7"},
+                                               new SelectListItem{Value="8",Text="8"},
+                                               new SelectListItem{Value="9",Text="9"},
+                                               new SelectListItem{Value="10",Text="10"},
+                                             }, "--Select--", new { @class = "form-control rateUs", @id = "sel3" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <label for="">
+                                        @if (Session["PSFDay"].ToString() == "3rdDay")
+                                        {
+                                            @:4. How would you rate the pick-up process of your car after servicing?
+                                        }
+                                        else if (Session["PSFDay"].ToString() == "15thGoldDay")
+                                        {
+                                            @:4. How would you rate your overall interaction and experience with our workshop?
+                                        }
+
+                                    </label>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <div class="form-inline">
+
+                                            @Html.DropDownListFor(m=>m.psfinteraction.q6_RatePickUpProcessOfCar, new List<SelectListItem>{
+                                               new SelectListItem{Value="1",Text="1"},
+                                               new SelectListItem{Value="2",Text="2"},
+                                               new SelectListItem{Value="3",Text="3"},
+                                               new SelectListItem{Value="4",Text="4"},
+                                               new SelectListItem{Value="5",Text="5"},
+                                               new SelectListItem{Value="6",Text="6"},
+                                               new SelectListItem{Value="7",Text="7"},
+                                               new SelectListItem{Value="8",Text="8"},
+                                               new SelectListItem{Value="9",Text="9"},
+                                               new SelectListItem{Value="10",Text="10"},
+                                             }, "--Select--", new { @class = "form-control rateUs", @id = "" })
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-8">
+                                    <label for="">
+                                        @if (Session["PSFDay"].ToString() == "3rdDay")
+                                        {
+                                            @:5. Whether you have availed the Pick & Drop services provided by Dealer (YES/NO)
+                                        }
+                                        else if (Session["PSFDay"].ToString() == "15thGoldDay")
+                                        {
+                                            @:4.Is your Car Performing Well?
+                                        }
+
+                                    </label>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <div class="form-inline">
+                                            @Html.DropDownListFor(m=>m.psfinteraction.q14_availedPickUpGivenByDealer, new List<SelectListItem>{
+                                             new SelectListItem{Value="Yes",Text="Yes"},
+                                             new SelectListItem{Value="No",Text="No"}
+                                           }, "--Select--", new { @class = "form-control rateUs", @id = "" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @if (Session["PSFDay"].ToString() == "3rdDay")
+                                {
+                                    <div class="col-md-8">
+                                        <label for="">6. How would you rate the cleanliness of Dealer Facility?</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <div class="form-inline">
+                                                @Html.DropDownListFor(m => m.psfinteraction.q16_RateCleanlinessOfDealerFacility, new List<SelectListItem>{
+                                                  new SelectListItem{Value="1",Text="1"},
+                                                  new SelectListItem{Value="2",Text="2"},
+                                                  new SelectListItem{Value="3",Text="3"},
+                                                  new SelectListItem{Value="4",Text="4"},
+                                                  new SelectListItem{Value="5",Text="5"},
+                                                  new SelectListItem{Value="6",Text="6"},
+                                                  new SelectListItem{Value="7",Text="7"},
+                                                  new SelectListItem{Value="8",Text="8"},
+                                                  new SelectListItem{Value="9",Text="9"},
+                                                  new SelectListItem{Value="10",Text="10"},
+                                                }, "--Select--", new { @class = "form-control rateUs", @id = "" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-8">
+                                        <label for="">7. How would you rate your overall interaction & experience with workshop?</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <div class="form-inline">
+                                                @Html.DropDownListFor(m => m.psfinteraction.q8_RateOverAllInteraction, new List<SelectListItem>{
+                                                 new SelectListItem{Value="1",Text="1"},
+                                                 new SelectListItem{Value="2",Text="2"},
+                                                 new SelectListItem{Value="3",Text="3"},
+                                                 new SelectListItem{Value="4",Text="4"},
+                                                 new SelectListItem{Value="5",Text="5"},
+                                                 new SelectListItem{Value="6",Text="6"},
+                                                 new SelectListItem{Value="7",Text="7"},
+                                                 new SelectListItem{Value="8",Text="8"},
+                                                 new SelectListItem{Value="9",Text="9"},
+                                                 new SelectListItem{Value="10",Text="10"},
+                                               }, "--Select--", new { @class = "form-control rateUs", @id = "" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="">8. Did our dealer staff explain you about the "Refer & Win" Program? (YES/NO) </label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <div class="form-inline">
+                                                @Html.DropDownListFor(m => m.psfinteraction.q15_explainedReferAndEarnPRGM, new List<SelectListItem>{
+                                                new SelectListItem{Value="Yes",Text="Yes"},
+                                                new SelectListItem{Value="No",Text="No"}
+                                              }, "--Select--", new { @class = "form-control rateUs", @id = "" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label for="comment">Comments:</label>
+                                            @Html.TextAreaFor(m => m.listingForm.remarksList[0], new { @class = "form-control characterLimit", @rows = "2", @id = "comment" })
+                                            @*<textarea class="form-control characterLimit" rows="2" id="comment" name="remarksList[1]"></textarea>*@
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else if (Session["PSFDay"].ToString() == "15thNonGoldDay")
+                        {
+                            <div class="col-md-12">
+                                <div class="col-md-3">
+                                    <p>Is your Car Performing Well?</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <div class="form-inline">
+                                            @Html.DropDownListFor(m=>m.psfinteraction.q13_IsCarPerformingWell,new List<SelectListItem> {
+                                                    new SelectListItem{Value="Yes",Text="Yes" },
+                                                    new SelectListItem{Value="No",Text="No" },
+                                                },"--Select--",new {@class="form-control",@id="se14" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-info" id="BackToSirMam">Back</button>
+                        <button type="button" class="btn btn-info" id="NextToHowRate">Next</button>
+                    </div>
+
+
+                </div>
+
+
+                <div class="col-md-12 animated  bounceInRight" style="display:none;" id="upsell3rdDayH">
+                    <label>Capture Lead : Is there an Upsell Opportunity.</label>
+                    <br>
+
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.listingForm.LeadYesH, "Yes", new { @Value = "Yes", @id = "LeadYesID3Hyndai" })
+                            @*<input type="radio" name="LeadYesH" value="Yes" id="LeadYesID3Hyndai">*@
+                            Yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.listingForm.LeadYesH, "No", new { @Value = "No", @id = "LeadNoID3Hyndai", @checked = "checked" })
+                            @*<input type="radio" name="LeadYesH" value="No" id="LeadNoID3Hyndai" checked>*@
+                            No
+                        </label>
+                    </div>
+                    <div class="row animated  bounceInRight" style="display:none;" id="LeadHyndai3rdDay">
+                        <div class="col-md-12">
+                            @for (int i = 0; i < Model.tags.Count; i++)
+                            {
+                                <div class="col-md-6">
+                                    <div class="checkbox">
+                                        <label>
+
+                                            @Html.HiddenFor(m => m.listingForm.upsellleads[i].upsellId, new { Value = Model.tags[i].upsellLeadId, @id = "valueselectSBHidden" + Model.tags[i].upsellLeadId })
+                                            @Html.CheckBox("ckUpsell", false, new { @Value = Model.tags[i].upsellLeadId, @upsell_index = 0, @id = "valueselectSB" + Model.tags[i].upsellLeadId, @data_childDiv = @Model.tags[i].upsellType, @class = "LeadClass myOutCheckbox", @onClick = "loadLeadBasedOnUserLocation('valueselectSB" + Model.tags[i].upsellLeadId + "','LeadSB" + Model.tags[i].upsellLeadId + "')" })
+                                            @Model.tags[i].upsellType
+                                        </label>
+                                    </div>
+                                    <div class="row animated  bounceInRight" style="display:none;" id="@Model.tags[i].upsellType">
+                                        <div class="col-md-6">
+                                            <label for="">Tag to</label>
+                                            @Html.DropDownListFor(m => m.listingForm.upsellleads[i].taggedTo, Enumerable.Empty<SelectListItem>(), "Select", new { @class = "form-control", @id = "LeadSB" + Model.tags[i].upsellLeadId })
+                                            @*<select class="form-control" name="upsellLead[0].taggedTo" id="insuranceLead1">
+                                                    <option>Select</option>
+                                                </select>*@
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="comments">Remarks</label>
+                                            @Html.TextAreaFor(m => m.listingForm.upsellleads[i].upsellComments, new { @class = "form-control characterLimit", @rows = "1", @id = "comments1" })
+                                            @*<textarea class="form-control characterLimit" rows="1" id="comments1" name="upsellLead[0].upsellComments"></textarea>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-info" id="BackTo3rdDayRate">Back</button>
+                        <button type="button" class="btn btn-info" id="NextToUpsellInsu">Next</button>
+                    </div>
+                </div>
+
+
+                <div style="display:none;" class="row animated  bounceInRight" id="IamBusyDiv">
+                    <p>We are extremely sorry for an inconvenience </p>
+                    <p>May I know your Suitable time for your valuable feedback</p>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="followUpDate">Call Back Date</label>
+                            @Html.TextBoxFor(m => m.psfinteraction.psfFollowUpDate, new { @class = "datepickerPlus30Days form-control",@autocomplete="off" })
+                            @*<input type="text" name="psfFollowUpDate" class="datepickerPlus30Days form-control" id="">*@
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="followUpTime">Call Back Time</label>
+                            @Html.TextBoxFor(m => m.psfinteraction.psfFollowUpTime, new { @class = "single-input form-control", @autocomplete = "off" })
+                            @*<input type="text" name="psfFollowUpTime" class="single-input form-control" id="">*@
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="followUpTime">Remarks</label>
+                            @Html.TextAreaFor(m => m.listingForm.remarksList[1], new { @class = "form-control characterLimit" })
+                            @*<textarea type="text" name="remarksList[3]" class="form-control characterLimit" id=""></textarea>*@
+                        </div>
+                    </div>
+                    <br>
+                    <div class="pull-right" id="">
+                        <button type="button" class="btn btn-info" name="" id="BackToDidUtlakPSFH">Back</button>
+                        <button type="submit" class="btn btn-info" name="" id="">Submit</button>
+                    </div>
+
+                </div>
+
+                <div style="display:none;" class="row animated  bounceInRight" id="PSFFeedbackQ">
+                    <div class="col-md-12">
+                        <p>May i take a moment to update your information </p>
+
+                        <div class="radio-inline">
+                            <label>
+                                @Html.RadioButtonFor(m => m.psfinteraction.q12_FeedbackTaken, "Yes", new { @value = "Yes", @id = "feedbackYes1", @data_target = "#addBtn", @data_toggle = "modal" })
+                                @*<input type="radio" name="q12_FeedbackTaken" value="Yes" id="feedbackYes1" data-target="#addBtn" data-toggle="modal">*@
+                                Yes
+                            </label>
+                        </div>
+                        <div class="radio-inline">
+                            <label>
+                                @Html.RadioButtonFor(m => m.psfinteraction.q12_FeedbackTaken, "No", new { @value = "No", @id = "feedbackYes2", @checked = "checked" })
+                                @*<input type="radio" name="q12_FeedbackTaken" value="No" id="feedbackNo2" checked>*@
+                                No
+                            </label>
+                        </div>
+
+
+
+
+                        <div style="display:none;" class="row animated  bounceInRight" id="feedbackPSFNo">
+                            <div class="col-md-12">
+                                @if (Session["PSFDay"].ToString() == "3rdDay")
+                                {
+                                    <p>Sir, We shall again call you after 12 days to take your feedback. Our Contact No. is <Company Phone No.> till then should you  </p>
+                                    <p>still have any area of concern please let us know. </p>
+                                    <p>Thank you for your valuable feedback and time. Have a nice day. </p>
+                                }
+                                else if (Session["PSFDay"].ToString() == "15thGoldDay")
+                                {
+                                    <p>Thank you for your valuable feedback and time. Have a nice day. </p>
+                                }
+                            </div>
+
+                        </div>
+                        <div class="pull-right" id="">
+                            <button type="button" class="btn btn-info" name="" id="BackToSirMamDiv">Back</button>
+                            <button type="submit" class="btn btn-info" name="" id="SubmitDivMamDiv">Submit</button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <!--panel Group End-->
+            </div>
+        </div><!--panel Body End-->
+
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/public/javascripts/psf3rdDisposition.js"></script>
+<script type="text/javascript">
+    $("input[type='checkbox']").on('change', function () {
+
+        //var isForUpsell = $(this).attr('upsell_index');
+
+        //if (isForUpsell != null || isForUpsell != undefined) {
+        //    if (isForUpsell == 0) {
+        //        var curId = $(this).attr('value');
+        //        $('valueselectSBHidden' + curId).val()
+        //    }
+        //}
+
+        if ($(this).attr('id') == "CheckedwithDMS") {
+            $('#ckWithDMS').val($(this).attr('id'));
+        }
+        else {
+            $('#valueselectSBHidden').val($(this).attr('value'));
+        }
+
+    });
+</script>
+@*<script src="@routes.Assets.at("javascripts/psf3rdDisposition.js")" type="text/javascript"></script>*@

@@ -1,0 +1,1098 @@
+﻿@model AutoSherpa_project.Models.ViewModels.ForecastInsuranceVM
+@{
+    ViewBag.Title = "ForecastInsuranceGET";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@*-----------------------------CARDS START HERE-----------------------------------*@
+<div class="row">
+
+    <div class="col-sm-2">
+        <!-- small box -->
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h3><div id="totalInsVINsCount"><i class="fa  fa-pulse fa-fw"></i>@ViewBag.countOfData</div></h3>
+                <p>Total VINs</p>
+            </div>
+            <div class="icon"> <i class="fa fa-car"></i> </div>
+
+            <!--<span class="pull-left" data-toggle="modal" data-target=".myModal1">View Details</span>-->
+        </div>
+    </div>      <!-- ./col -->
+    <div class="col-sm-2 col-half-offset">
+        <!-- small box -->
+        <div class="small-box bg-green" style="height: 103px;">
+            <div class="inner">
+                <div id="selected">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-2 col-half-offset">
+        <!-- small box -->
+        <div class="small-box bg-red" style="height: 103px;">
+            <div class="inner">
+                <div id="assigned"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-2 col-half-offset">
+        <!-- small box -->
+        <div class="small-box bg-yellow" style="height: 103px;">
+            <div class="inner">
+                <div id="balanced"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-2 col-half-offset">
+        <!-- small box -->
+        <div class="small-box bg-maroon" style="height: 103px;">
+            <div class="inner">
+                <div id="lastDiv"></div>
+            </div>
+        </div>
+    </div>
+    <!-- ./col -->
+
+</div>
+@*-----------------------------CARDS END HERE-----------------------------------*@
+
+@*-----------------------------DESIGN STARTS HERE-----------------------------------*@
+<div>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            Insurance Call Log Information
+        </div>
+        <div class="panel-body">
+            <div class="tab-content">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+
+                            <div class="col-md-2 " id="policyExpiryFromDiv">
+                                <label>Policy Expiry From Date : </label><br>
+                                <input type="text" class="filter form-control date-picker" style="width:182px" onchange="frompolicyexpirydate = $(this).val();" placeholder="Enter From Date" data-column-index="1" id="frompolicyexpirydate" readonly>
+                            </div>
+                            <div class="col-md-2" id="policyExpiryToDiv">
+                                <label>Policy Expiry To Date : </label><br>
+                                <input type="text" class="filter form-control date-picker-year" style="width:182px" onchange="topolicyexpirydate = $(this).val();" placeholder="Enter To Date" data-column-index="2" id="topolicyexpirydate" readonly>
+                            </div>
+
+                            <div class="col-md-2" id="locationforecastDiv">
+                                <label>Location</label><br>
+                                <select class="filter multi form-control selectpicker" style="width:280px" id="locationAssiged" onchange="getData(this.selectedOptions,'location');" @*onblur="onBlurLocation(this);"*@ multiple
+                                        data-bind="options: availableValues, selectedOptions: selectedValues, multiselect: { includeSelectAllOption: true },event: { blur: $root.onBlur}">
+                                    @*<option value="0">--Select--</option>*@
+                                    @foreach (var item in Model.locations)
+                                    {
+                                        <option value="@item.cityId">@item.name</option>
+                                    }
+                                </select>
+                                <button type="submit" onclick="getWorkshop()"><i class="fa fa-search"></i></button>
+                            </div>
+                            @*<div class="col-md-2" id="locationforecastDiv1" >
+                    <input type="button" id="getWorkshop" name="getWorkshop" value="getWorkshop" onclick="getWorkshop()" class="btn btn-sm btn-info" />
+        </div>*@
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="workshop">Sub-location</label><br>
+                                    <select id="workshopAssiged" class="form-control selectpicker" onchange="getData(this.selectedOptions,'subLoc');" data-column-index="4" @*disabled="true"*@ multiple>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 tab-pane" id="campaignForecastDiv">
+
+                                <label>Campaign Type</label><br>
+                                <select class="filter form-control selectpicker" id="campaignNameForecast" onchange="getData(this.selectedOptions,'campaign');" data-column-index="4" multiple>
+                                    @foreach (var item in Model.campaigns)
+                                    {
+                                        <option value="@item.id">@item.campaignName</option>
+                                    }
+
+                                </select>
+                            </div>
+
+                            <div class="col-md-2" id="renewalForecastDiv">
+                                <label>Renewal Type</label><br>
+                                <select class="filter form-control selectpicker" id="renewalForecast" onchange="getData(this.selectedOptions,'renewal');" data-column-index="5" data-column-index="7" multiple>
+                                    @foreach (var item in Model.renewaltypes)
+                                    {
+                                        <option value="@item.id">@item.renewalTypeName</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            @if (Session["OEM"].ToString() == "MARUTI SUZUKI")
+                            {
+                                <div class="col-md-2" id="isAssignedDiv">
+                                    <div class="form-group">
+
+                                        <label>Model Type</label><br />
+                                        @Html.DropDownList("Model Type", new SelectList(ViewBag.ModelType, "id", "name"), new { @multiple = "multiple", @class = "selectpicker show-tick form-control", @id = "ModelType", @data_live_search = "true", @title = "--Select--", @data_hide_disabled = "true", @data_virtual_scroll = "false" })
+                                    </div>
+                                </div>
+                            }
+
+
+                            @*<div class="col-md-3" id="isAssignedDiv">
+            <label for="">Assigned</label><br>
+            <div class="form-group">
+                <div style="display:inline-flex">
+                    <div class="radio-inline">
+                        <label>
+                            <input type="radio" name="isAssigned" value="Yes" id="assignedTrue" class="assignedCase">
+                            Yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            <input type="radio" name="isAssigned" value="No" id="assignedFalse" class="assignedCase" checked="checked">
+                            No
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+                            <div class="col-md-2" id="isAssignedDiv">
+                                <div class="form-group">
+                                    <label>Is Assigned</label><br>
+                                    <select class="filter form-control selectpickerSMRForecast" style="width:182px" onchange="getData(this.selectedOptions,'assigned');" id="isAssigned" style="background-color:#f4f4f4;">
+                                        <option value="1">No</option>
+                                        <option value="2">Yes</option>
+                                        @*<option value="3" selected="selected">All</option>*@
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2" id="dueDateEditedDiv">
+                                <label>Due Date Edited:</label>
+                                <select class="filter form-control" id="ddlDueDateEdited" data-field="DueDateEdited" >
+                                    <option value="">--Select--</option>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-2">
+                                <br>
+                                <button style="float:right; width:100px; margin-right:20px;" class="btn btn-primary" onclick="viewForeCast();">View</button>
+
+                                <button style="float:right; width:100px; margin-right:10px;" class="btn btn-primary" onclick="clearFilters();">Clear Filter</button>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:15px">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default tab-pane fade" id="availibilityDataView" style="display:none;">
+                    <div class="panel-body inf-content">
+
+                        <div>
+                            <table class="table table-striped table-bordered table-hover" id="availibilityData" style='width:100%;height:auto;'>
+                                <thead>
+                                    <tr>
+                                        <th rowspan='2' style="background-color:rgb(168, 201, 224);padding-bottom: 30px;">LOCATION</th>
+                                        <th colspan='3' style="background-color:rgb(168, 201, 224);">RENEWAL ACTIVE</th>
+                                        <th colspan='3' style="background-color:rgb(168, 201, 224);">RENEWAL LOST</th>
+                                        <th colspan='3' style="background-color:rgb(168, 201, 224);">RENEWAL ACTIVE OD</th>
+                                        <th colspan='3' style="background-color:rgb(168, 201, 224);">RENEWAL LOST OD</th>
+                                        <th colspan='3' style="background-color:rgb(168, 201, 224);">SALES</th>
+                                        <th colspan='3' style="background-color:rgb(168, 201, 224);">SERVICE</th>
+                                        <th rowspan='2' style="background-color:rgb(168, 201, 224);">TOTAL PER LOCATION</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="font-weight: normal;background-color:rgb(168, 201, 224)">TOTAL</th>
+                                        <th style="font-weight: normal;background-color:rgb(168, 201, 224)">UNASSIGNED</th>
+                                        <th style="font-weight: normal;background-color:rgb(168, 201, 224)">ASSIGNED</th>
+                                        <th style="font-weight: normal;background-color:rgb(168, 201, 224)">TOTAL</th>
+                                        <th style="font-weight: normal;background-color:rgb(168, 201, 224)">UNASSIGNED</th>
+                                        <th style="font-weight: normal;background-color:rgb(168, 201, 224)">ASSIGNED</th>
+                                        <th style="font-weight: normal;background-color:rgb(168, 201, 224)">TOTAL</th>
+                                        <th style="font-weight: normal;background-color:rgb(168, 201, 224)">UNASSIGNED</th>
+                                        <th style="font-weight: normal;background-color:rgb(168, 201, 224)">ASSIGNED</th>
+                                        <th style="font-weight: normal;background-color:rgb(168, 201, 224)">TOTAL</th>
+                                        <th style="font-weight: normal;background-color:rgb(168, 201, 224)">UNASSIGNED</th>
+                                        <th style="font-weight: normal;background-color:rgb(168, 201, 224)">ASSIGNED</th>
+                                        <th style="font-weight: normal;background-color:rgb(168, 201, 224)">TOTAL</th>
+                                        <th style="font-weight: normal;background-color:rgb(168, 201, 224)">UNASSIGNED</th>
+                                        <th style="font-weight: normal;background-color:rgb(168, 201, 224)">ASSIGNED</th>
+                                        <th style="font-weight: normal;background-color:rgb(168, 201, 224)">TOTAL</th>
+                                        <th style="font-weight: normal;background-color:rgb(168, 201, 224)">UNASSIGNED</th>
+                                        <th style="font-weight: normal;background-color:rgb(168, 201, 224);border-right-width: 1px;">ASSIGNED</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <button id="buttons1">Excel</button>
+                </div>
+                @*<div class="panel panel-default tab-pane fade" id="psYearDataView" style="display:none;">
+                        <div class="panel-body inf-content">
+
+                            <div>
+                                <table class="table table-striped table-bordered table-hover" id="psYearData" style='width:100%;height:auto;'>
+                                    <thead>
+                                        <tr>
+                                            <th>MAX&nbsp;PS&nbsp;YEAR</th>
+                                            <th>JANUARY</th>
+                                            <th>FEBRUARY</th>
+                                            <th>MARCH</th>
+                                            <th>APRIL</th>
+                                            <th>MAY</th>
+                                            <th>JUNE</th>
+                                            <th>JULY</th>
+                                            <th>AUGUST</th>
+                                            <th>SEPTEMBER</th>
+                                            <th>OCTOBER</th>
+                                            <th>NOVEMBER</th>
+                                            <th>DECEMBER</th>
+                                            <th>OTHERS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="buttons1"></div>
+                    </div>*@
+                <div class="panel panel-default tab-pane fade in active" id="forecastView" style="display:block;">
+                    <div class="panel-body inf-content">
+
+                        <div>
+                            <div>
+                                <table class="table table-striped table-bordered table-hover" id="InsuranceForecastTableMR">
+                                    <thead>
+                                        <tr>
+                                            <th>Campaign</th>
+                                            <th>Customer&nbsp;Name</th>
+                                            <th>Chassis&nbsp;No.</th>
+                                            <th>Reg&nbsp;No.</th>
+                                            <th>Mobile&nbsp;No.</th>
+                                            <th>Renewal&nbsp;Type</th>
+                                            <th>Policy&nbsp;Expiry&nbsp;Date</th>
+                                            <th>Ins.&nbsp;Company&nbsp;Name</th>
+                                            <th>Location</th>
+                                            <th>Assigned</th>
+                                            <th>Assigned&nbsp;Date</th>
+                                            <th>CRE&nbsp;Name</th>
+                                            <th>Last&nbsp;Disposition</th>
+                                            <th>Model&nbsp;Category</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        @*<button style="float:center"><a href="#" id="download" style="color:#000000"><i class="fa fa-download"></i> Download</a></button>*@
+                        @*@Html.ActionLink("Download","DownloadData")*@
+                        <button style="float:center"><a href="#" id="downloadInsDue" onclick="getInsuranceDue();" style="color:#000000"><i class="fa fa-cloud-download"></i> Insurance Due</a></button>
+                        <button id="assignedTo" style="float:center"><a href="#" onclick="assignedTo();" data-toggle="modal" style="color:#000000"><i class="fa fa-external-link-square"></i> Assign</a></button>
+                        <img src="~/public/img/dwnld.gif" class="" style="display: none;float: right;width: 50px;" id="forecastfieldloader" />
+
+                        <button style="float:right" id="forecastDownload" class="btn" onclick="downloadForecastInsurance();"><i class="fa fa-download"></i> Download</button>
+                        <br />
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <span class="code" id="tblException" style="font-size:11pt;font-weight:bold;"></span>
+                        </div>
+                    </div>
+                </div>
+            </div><!--End tab content-->
+
+        </div><!--End panel body-->
+    </div>
+</div>
+
+@*modal pop up for selecting campaign*@
+
+<div class="modal fade" id="selectCampaign" role="dialog">
+    <div class="modal-dialog" style="width:780px;">
+        <div class="panel-heading" style="background-color: #337ab7; color:#fff">
+            <b>Assigned to</b>
+            <button type="button" class="close" data-dismiss="modal">X@*<img src="@routes.Assets.at("images/close1.png")">*@</button><br>
+        </div>
+        <div style="background-color: #fefefe;padding: 30px;">
+            <div class="row" id="campaignSelect" style="display:block;">
+                <div class="col-sm-12">
+                    <div class="col-md-4">
+                        <label>Add Campaign</label><br>
+                        <input type="text" maxlength="50" size="30" id="addCampaignTxt" class="campaign" onchange="refreshDDL();">
+                    </div>
+                    <div class="col-md-3">
+                        <br />
+                        <div style="text-align:center;">
+                            <label>OR</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label>Select Campaign</label>
+                        <select class="filter form-control campaign selectpicker" id="addCampaignDDL" onchange="refreshTextBox();">
+                            <option value="0">--Select--</option>
+                            @foreach (var item in Model.campaigns)
+                            {
+                                <option value="@item.id">@item.campaignName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div align="right">
+                <button class="btn btn-primary" id="CampaignForecast" on onclick="modalPopUpTwo(); getCreList();">Next -></button>
+            </div>
+        </div>
+    </div>
+
+    @*modal pop up for displaying user namess*@
+
+    <div class="modal fade" id="assignForecast" role="dialog">
+        <div class="modal-dialog" style="width:780px;">
+            <div class="panel-heading" style="background-color: #337ab7; color:#fff">
+                <b>Assigned to</b>
+                <label></label>
+                <button type="button" class="close" data-dismiss="modal">X@*<img src="@routes.Assets.at("images/close1.png")">*@</button><br>
+            </div>
+            <div style="background-color: #fefefe;padding: 30px;">
+                <div style="display:inline-flex">
+                    <div class="radio-inline">
+                        <label>
+                            <input type="radio" name="isAuto" value="No" id="AutoFalse" checked="checked">
+                            Manual-Assign
+                        </label>
+                    </div>
+                    @*<div class="radio-inline">
+                            <label>
+                                <input type="radio" name="isAuto" value="Yes" id="AutoTrue">
+                                Auto-Assign
+                            </label>
+                        </div>*@
+                </div>
+                <div class="row" id="manualWyzuser" style="display:block;">
+                    <div class="col-sm-12">
+                        <div id="addCRE">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" id="autoWyzuser" style="display:none;">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <div id="autoList">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div align="right">
+                    <button class="btn btn-primary" id="AssignCallsForecast" onclick="addCampaignModal();">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*-----------------------------DESIGN ENDS HERE-----------------------------------*@
+
+    @*-----------------------------SCRIPT STARTS HERE-----------------------------------*@
+
+    @section scripts{
+
+
+
+        <script>
+            $('#filterLocation').hide();
+
+   //-----------------datepickers--------------------*
+
+            //$(".date-picker-year").datepicker({
+            //    autoclose: true,
+            //    duration: "slow",
+            //    showAnim: "slide",
+            //    showOptions: { direction: "up" },
+            //    dateFormat: 'yy-mm-dd',
+            //    changeMonth: true,
+            //    changeYear: true,
+            //    onSelect: function (date) {
+            //        $('.date-picker-to').datepicker("destroy");
+            //        $('.date-picker-to').datepicker({
+            //            autoclose: true,
+            //            dateFormat: 'yy-mm-dd',
+            //            minDate: $('.date-picker-year').datepicker('getDate')
+            //        });
+            //        var dt1 = $('.date-picker-year').datepicker('getDate');
+            //        var dt2 = $('.date-picker-to').datepicker('getDate');
+            //        if (dt2 <= dt1) {
+            //            var minDate = $('#dt2').datepicker('option', 'minDate');
+            //            $('.date-picker-to').datepicker('setDate', null);
+            //        }
+            //    }
+            //});
+
+            //$(".date-picker-to").datepicker({
+            //    autoclose: true,
+            //    duration: "slow",
+            //    showAnim: "slide",
+            //    showOptions: { direction: "up" },
+            //    dateFormat: 'yy-mm-dd',
+            //    changeMonth: true,
+            //    changeYear: true
+            //});
+
+            $(".date-picker").datepicker({
+                autoclose: true,
+                duration: "slow",
+                showAnim: "slide",
+                dateFormat: 'yy-mm-dd',
+                showOptions: { direction: "up" },
+                changeMonth: true,
+                changeYear: true
+                //minDate: new Date()
+            });
+
+            $(".date-picker-year").datepicker({
+                autoclose: true,
+                duration: "slow",
+                showAnim: "slide",
+                showOptions: { direction: "up" },
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true
+            });
+//----------code for multiselect dropdownlist
+
+        $('.selectpicker').multiselect({
+                includeSelectAllOption: true,
+                enableFiltering: true,
+                enableCaseInsensitiveFiltering: true,
+                numberDisplayed: 1,
+                buttonWidth: '182px',
+                maxHeight: 250
+
+        });
+
+            //------------getting selected values of locaton dropdown
+
+
+            function getWorkshop() {
+                var locationValues = $("#locationAssiged").val();
+                var loc = locationValues.join(',');
+                if (locationValues != null) {
+                    $('#mainLoader').css({ 'display': 'block' });
+                     $.ajax({
+                    type: 'POST',
+                    url: siteRoot + "/ForecastInsurance/getWorkshopValues/",
+                    datatype: 'json',
+                    data: { value: loc },
+                    cache: false,
+                    success: function (workshoplist) {
+
+                if (workshoplist != null) {
+                    $('#workshopAssiged').empty();
+
+                        for (var i = 0; i < workshoplist.length; i++) {
+                            $('#workshopAssiged').append('<option value="' + workshoplist[i].id + '">' + workshoplist[i].workshopName + '</option>');
+                    }
+                     $("#workshopAssiged").multiselect('rebuild');
+                        }
+                        $('#mainLoader').css({ 'display': 'none' });
+                    }, error(error) {
+                        console.log(error);
+                    },
+                    timeout: 591111 // timeout 9.85185 minutes
+        });
+                    //$.ajax({
+                    //    url: siteRoot + "/ForecastInsurance/getWorkshopValues/",
+                    //    type: 'post',
+                    //    dataType: 'json',
+                    //    data: { value: loc },
+                    //    success: function (res) {
+                    //        if (res.success) {
+                    //            $('#workshop').empty();
+                    //            for (i = 0; i < res.data.length; i++) {
+                    //                $("#workshopAssiged").append('<option value="' + res.data[i].id + '">' + res.data[i].name + '</option>');
+                    //            }
+                    //            $('#workshop').rebuild();
+                    //             //$('#workshop').append('<option value="' + workshoplist[i].id + '">' + workshoplist[i].workshopName + '</option>');
+                    //        }
+                    //    }
+                    //});
+                }
+            }
+
+            // var locationValues = "";
+            //$("#locationAssiged").change(function () {
+            //    locationValues = $("#locationAssiged").val();
+            //});
+
+            //$("#locationAssiged").blur(function () {
+            //    if (locationValues != null) {
+            //        Lobibox.notify('warning', {
+            //                continueDelayOnInactiveTab: true,
+            //                msg: 'Only alphabates are allowed.'
+            //            });
+            //    }
+            //});
+
+            //$("#locationAssiged").on('change', function () {
+            //    var locationValues = $("#locationAssiged").val();
+            //}).change(function () {
+            //    if (locationValues != null) {
+            //        $.ajax({
+            //            url: siteRoot + "/ForecastInsurance/getWorkshopValues/",
+            //            type: 'get',
+            //            dataType: 'post',
+            //            data: { value: locationValues },
+            //            success: function (res) {
+
+            //            }
+            //    });
+            //    }
+            //});
+            //$("#locationAssiged").focusout(function () {
+            //    var locationValues = $("#locationAssiged").val();
+            //    if (locationValues != null) {
+            //        $.ajax({
+            //            url: siteRoot + "/ForecastInsurance/getWorkshopValues/",
+            //            type: 'get',
+            //            dataType: 'post',
+            //            data: { value: locationValues },
+            //            success: function (res) {
+
+            //            }
+            //    });
+            //    }
+            //});
+
+        @*var optionSelected;
+            var locationArray = [];
+            var locList = @Html.Raw(Json.Encode(ViewBag.location));
+            $('#locationAssiged').change(function () {
+            $('#workshopAssiged').empty();
+            $('#workshopAssiged').prop("disabled", false);
+            //$('#filterLocation').show();
+            locationArray = [];
+            if (this.selectedOptions.length > 0) {
+                for (var i = 0; i < this.selectedOptions.length; i++) {
+                    if (i == 0) {
+                        //optionSelected = this.selectedOptions[i].value; /*$('#' + $(this).attr('id') + " option:selected").val();*/
+                        locationArray.push(this.selectedOptions[i].value);
+                    }
+                    else{
+                        //optionSelected = optionSelected + ',' + this.selectedOptions[i].value;
+                        locationArray.push(this.selectedOptions[i].value);
+                    }
+                }
+            }
+            for (var i = 0; i < locationArray.length; i++) {
+            var element = locList.filter(m =>m.id == locationArray[i]);
+                $('#workshopAssiged').append('<option value="' + element[0].id + '">'+element[0].name+'</option>');
+            }
+            $('#workshopAssiged').multiselect('rebuild');
+        });*@
+
+
+//-----------------------clearing filters
+
+        function clearFilters() {
+            $('#frompolicyexpirydate').val("");
+            $('#topolicyexpirydate').val("");
+            $('#locationAssiged').multiselect("deselectAll", false).multiselect("refresh");
+            $('#workshopAssiged').multiselect("deselectAll", false).multiselect("refresh");
+            $('#campaignNameForecast').multiselect("deselectAll", false).multiselect("refresh");
+            $('#renewalForecast').multiselect("deselectAll", false).multiselect("refresh");
+            $('#ModelType').multiselect("deselectAll", false).multiselect("refresh");
+            $('#isAssigned').val("1");
+            $('#InsuranceForecastTableMR').empty();
+        }
+
+//------------storing selected values on onchange of each control
+
+        var frompolicyexpirydate, topolicyexpirydate, selectedWorkshop,selectedLocation, selectedCampaign, selectedRenewal, selectedIsAssigned="1",selectedModelType,modelStr;
+        function getData(data,Filter) {
+            if (data.length > 0) {
+                for (var i = 0; i < data.length; i++) {
+                    if (i == 0) {
+                        if (Filter == "subLoc") {
+                            selectedWorkshop = "";
+                            selectedWorkshop = data[i].value;
+                            $('#assignedTo').show();
+                        }
+                        if (Filter == "campaign") {
+                            selectedCampaign = "";
+                            selectedCampaign = data[i].value;
+                        }
+                        if (Filter == "renewal") {
+                            selectedRenewal = "";
+                            selectedRenewal = data[i].value;
+                        }
+                        if (Filter == "assigned") {
+                            selectedIsAssigned = "";
+                            selectedIsAssigned = data[i].value;
+                        }
+                        if (Filter == "location") {
+                            selectedLocation = "";
+                            selectedLocation = data[i].value;
+                        }
+                    }
+                    else if (i > 0) {
+                        if (Filter == "subLoc") {
+                            selectedWorkshop = selectedWorkshop + "," + data[i].value;
+                            $('#assignedTo').show();
+                        }
+                        if (Filter == "campaign") {
+                            selectedCampaign = selectedCampaign + "," + data[i].value;
+                        }
+                        if (Filter == "renewal") {
+                            selectedRenewal = selectedRenewal + "," + data[i].value;
+                        }
+                        if (Filter == "assigned") {
+                            selectedIsAssigned = selectedIsAssigned + "," + data[i].value;
+                        }
+                        if (Filter == "location") {
+                            selectedLocation = selectedLocation + "," + data[i].value;
+                        }
+                    }
+                }
+            }
+            else if (data.length == 0) {
+                if (Filter == "subLoc") {
+                    selectedWorkshop = null;
+                    $('#assignedTo').show();
+                }
+                if (Filter == "campaign") {
+                    selectedCampaign = null;
+                }
+                if (Filter == "renewal") {
+                    selectedRenewal = null;
+                }
+                if (Filter == "assigned") {
+                    selectedIsAssigned = null;
+                }
+                if (Filter == "location") {
+                    selectedLocation = null;
+                }
+            }
+        }
+
+//-----------------------binding filtered data for datatable
+
+            function viewForeCast() {
+                var modelArr = $('#ModelType').val();
+
+                var listOfData = "";
+
+                if (modelArr != null) {
+                    modelStr = modelArr.join(',');
+                     listOfData = {
+                        workshopLocationObj: selectedWorkshop,
+                        cmpaignObj: selectedCampaign,
+                        renewaltypeObj: selectedRenewal,
+                        isAssignedObj: selectedIsAssigned,
+                        fromPolicyExpDataObj: frompolicyexpirydate,
+                        toPolicyExpDataObj: topolicyexpirydate,
+                        modelTypeObj: modelStr,
+                        locationObj: selectedLocation,
+                        duedateEdited: $("#ddlDueDateEdited").val()
+                }
+                } else {
+                    listOfData = {
+                        workshopLocationObj: selectedWorkshop,
+                        cmpaignObj: selectedCampaign,
+                        renewaltypeObj: selectedRenewal,
+                        isAssignedObj: selectedIsAssigned,
+                        fromPolicyExpDataObj: frompolicyexpirydate,
+                        toPolicyExpDataObj: topolicyexpirydate,
+                        locationObj: selectedLocation,
+                        duedateEdited: $("#ddlDueDateEdited").val()
+                }
+                }
+
+
+                if (listOfData.workshopLocationObj != null && listOfData.fromPolicyExpDataObj != null && listOfData.toPolicyExpDataObj != null) {
+
+                    $('#mainLoader').css({ 'display': 'none' });
+                    var DealerName = '@Session["DealerCode"].ToString()';
+                    if (DealerName == "SHIVAMHYUNDAI") {
+                        var rows = [0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+
+                    }
+                    else {
+                        var rows = [0, 1, 2, 3,4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+
+                    }
+                    var InsuranceForecastTable =  $('#InsuranceForecastTableMR').dataTable({
+                        "destroy": true,
+                        dom: 'Bfrtip',
+                        buttons: [{
+                            extend: 'excel',
+                            exportOptions: {
+                                columns: rows
+                            }
+                        }],
+                        "ajax": {
+                            "url": siteRoot + '/ForecastInsurance/FilterForecastData/',
+                            //"async": true,
+                            "type": "POST",
+                            "datatype": "json",
+                            "data": { values: JSON.stringify(listOfData) },
+                        },
+                        "columns": [
+                            {
+                                "data": "campaign", render: function (data, type, row) {
+                                    //debugger;
+                                    return data;
+                                }
+                            },
+                            { "data": "customerName", "name": "customerName" },
+                            { "data": "chassisNo", "name": "chassisNo" },
+                            { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                            { "data": "phoneNumber", "name": "phoneNumber" },
+                            { "data": "NextRenewalType", "name": "NextRenewalType" },
+                            {
+                                "data": "policyDueDate", render: function (data, type, row) {
+                                    return parseJsonDateTime(data);
+                                }
+                            },
+                            { "data": "last_insuirancecompanyname", "name": "last_insuirancecompanyname" },
+                            { "data": "location", "name": "location" },
+                            { "data": "assigned", "name": "assigned" },
+                            {
+                                "data": "assignedDate",  render: function (data, type, row) {
+                                    return reverDate(data);
+                                }
+                            },
+                            { "data": "creName", "name": "creName" },
+                            { "data": "lastDipso", "name": "lastDipso" },
+                            { "data": "modelCategory", "name": "modelCategory" }
+                        ],
+                        "serverSide": "true",
+                        "processing": "true",
+                        "scrollX": "true",
+                        "scrollY": "300",
+                        "paging": false,
+                        "searching": false,
+                        "language": {
+                            "processing": "Loading Please Wait.....!"
+                        },
+                        "initComplete": function (data) {
+                            if (DealerName == "SHIVAMHYUNDAI") {
+
+                                InsuranceForecastTable.api().columns(4).visible(false);
+
+                            }
+                            else {
+                                InsuranceForecastTable.api().columns(4).visible(true);
+                            }
+                            $("forecastView").css({ 'display': 'block' });
+                            $('#tblException').text(data.json.exception);
+                                               // filtercountDisplay();
+                            $('#mainLoader').css({ 'display': 'none' });
+
+                            }
+                    });
+
+                }
+                else {
+                    alert('To Policy Expiry Date,From Policy Expiry Date  and Sub-Location fields are must');
+                }
+                //for dashboards
+                $.ajax({
+                    url: siteRoot + "/ForecastInsurance/insDashboardCount/",
+                    type: 'post',
+                    dataType: 'json',
+                    data: { values: JSON.stringify(listOfData) },
+                    success: function(res){
+                        if (res.success) {
+                            var sel = "",assign = "",bal = "",fil = "";
+                            for (var i = 0; i < res.selectedVeh.length; i++) {
+                                if (res.selectedVeh[i].droppedCount == 1) {
+                                    sel=sel+"<h6 style='margin:0 0 3px;color:#fff;'>" + res.selectedVeh[i].campaignName + " : " + res.selectedVeh[i].count + "</h6>";
+                                    $("#selected").html(sel);
+                                }
+                            }
+                            for (var i = 0; i < res.selectedAssigned.length; i++) {
+                                if (res.selectedAssigned[i].droppedCount == 2) {
+                                    assign= assign+ "<h6 style='margin:0 0 3px;color:#fff;'>" +res.selectedAssigned[i].campaignName +" : "+ res.selectedAssigned[i].count +"</h6>";
+                                    $("#assigned").html(assign);
+                                }
+                            }
+                            for (var i = 0; i < res.selectedBalanced.length; i++) {
+                                if (res.selectedBalanced[i].droppedCount == 3) {
+                                    bal=bal+"<h6 style='margin:0 0 3px;color:#fff;'>" +res.selectedBalanced[i].campaignName +" : "+ res.selectedBalanced[i].count +"</h6>";
+                                    $("#balanced").html(bal)
+                                }
+                            }
+                            for (var i = 0; i < res.filteredVeh.length; i++) {
+                                if (res.filteredVeh[i].droppedCount == 4) {
+                                    fil=fil+"<h6 style='margin:0 0 3px;color:#fff;'>" +res.filteredVeh[i].campaignName +" : "+ res.filteredVeh[i].count +"</h6>";
+                                    $("#lastDiv").html(fil);
+                                }
+                            }
+                        }
+                    },
+                    error: function (res) {
+                        console.log("error in insurance forecast dashboard count");
+                    }
+                });
+
+        }
+
+//-----------------------------date time conversion in data table
+
+        //function parseJsonDateTime(datetime) {
+        //        var ConDate = "";
+        //        if (datetime != null) {
+        //            ConDate = new Date(parseInt(datetime.substr(6)));
+
+        //            if (ConDate.getMonth() < 10) {
+        //                ConDate = ConDate.getFullYear() + '-0' + (parseInt(ConDate.getMonth()) + 1) + '-' + ConDate.getDate();
+        //            }
+        //            else {
+        //                ConDate = ConDate.getFullYear() + '-' + (parseInt(ConDate.getMonth()) + 1) + '-' + ConDate.getDate();
+        //            }
+
+        //            return ConDate;
+        //        }
+        //        else {
+        //            return ConDate;
+        //        }
+        //    }
+            //function dateWithTime(date) {
+            //if (date != null && date != undefined && date != '0' && date.includes('-')) {
+            //    // if (date.includes('am') || date.includes('pm')|| date.includes('a.m') || date.includes('p.m')) {
+            //    //    date = date.split(' ')[0];
+            //    //}
+            //    date = date.split("T")[0];
+            //    //date = date.split("-").reverse().join("-");
+
+            //}
+            //else if (date != null && date != undefined && date != '0' && date.includes('/')) {
+            //     if (date.includes('am') || date.includes('pm')|| date.includes('a.m') || date.includes('p.m')) {
+            //        date = date.split(' ')[0];
+            //    }
+
+            //    //date = date.split("/").reverse().join("/");
+            //    date = date.replace(new RegExp('/', 'g'), '-');
+
+            //}
+            //else {
+            //    date = "-";
+            //}
+
+        //    return date;
+        //}
+//--------------------hide and show of modals after clicking assign
+             function assignedTo() {
+                $('#selectCampaign').modal('show');
+                $('#assignForecast').modal('hide');
+            }
+
+            $("#addCampaignTxt").keypress(function (e) {
+                    var code = e.keyCode || e.which;
+                    if ((code < 65 || code > 90) && (code < 97 || code > 122) && code != 32 && code != 46)
+                    {
+                        Lobibox.notify('warning', {
+                            continueDelayOnInactiveTab: true,
+                            msg: 'Only alphabates are allowed.'
+                        });
+
+                        return false;
+                    }
+                });
+
+            function refreshDDL() {
+                $('#addCampaignDDL').val('');
+                $('#addCampaignDDL').multiselect('refresh');
+                var camps =@Html.Raw(Json.Encode(ViewBag.campaign));
+
+                var campaignFromInput = $('#addCampaignTxt').val() + ",txt";
+                for (var i = 0; i < camps.length;i++)
+                {
+                    if (camps[i] == campaignFromInput)
+                    {
+                        alert('Please choose another campaign name');
+                    }
+                    else
+                    {
+                        campaignData = campaignFromInput;
+                    }
+                }
+            }
+            function refreshTextBox() {
+                $('#addCampaignTxt').val("");
+                campaignData = $('#addCampaignDDL').val() + ",ddl";
+            }
+            function modalPopUpTwo() {
+                $('#assignForecast').modal('show');
+            }
+
+            //get cre list based on selected sublocation and insurance role
+            function getCreList() {
+                $.ajax({
+                    url: siteRoot + "/ForecastInsurance/getCreList/",
+                    type: 'get',
+                    dataType: 'json',
+                    data: { value: selectedWorkshop },
+                    success: function (res) {
+                        for (i = 0; i < res.data.length;i++)
+                        {
+                            $("#addCRE").append('<div class="form-group col-sm-3"><input type="checkbox" class="creList" name="wyzuserList" value="'+res.data[i].id+'"><label>'+res.data[i].name+'</label><div>');
+                        }
+                    }
+                });
+            }
+
+            function addCampaignModal() {
+                $('#groupUserNameModal').modal('show');
+                var creList = "";
+
+                $('.creList').each(function () {
+                    var isChecked = $(this).prop('checked');
+                    if (isChecked == true) {
+                        if (creList === "") {
+                            creList = $(this).val();
+                        }
+                        else {
+                            creList = creList + "," + $(this).val();
+                        }
+
+                    }
+                });
+
+                var listOfData = {
+                    workshopLocationObj:selectedWorkshop,
+                    cmpaignObj:selectedCampaign,
+                    renewaltypeObj: selectedRenewal,
+                    isAssignedObj: selectedIsAssigned,
+                    fromPolicyExpDataObj:frompolicyexpirydate,
+                    toPolicyExpDataObj: topolicyexpirydate,
+                    ModalCampaign: campaignData,
+                    modelTypeObj: modelStr,
+                     locationObj:selectedLocation,
+                    creList: creList
+                };
+                $.ajax({
+                    url: siteRoot+'/ForecastInsurance/submitModal/',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { values: JSON.stringify(listOfData) },
+                    success: function (res) {
+                        if (res.success) {
+                            var content = "";
+                            $('#assignForecast').modal('hide');
+                            $('#selectCampaign').modal('hide');
+                             Lobibox.notify('info', {
+                                msg:"data assigned successfully"
+                            });
+                            //$('#groupUserNameModal').modal('show');
+                            //$('#groupUserNameModal').css('display','block');
+                            //if (res.length > 0) {
+                            //for (var i = 0; i < res.length; i++) {
+                            //    var element = '<div class="col-md-6">' + res[i].Key + ':</div><div class="col-md-6">' + res[i].Value + '</div>';
+                            //    content = content + '<div class="row">' + element + '</div>';
+                            //}
+                            //}
+                            //$('#modalDataID').append(content);
+                        }
+                        else {
+                            Lobibox.notify('warning', {
+                                msg:res.exception
+                            });
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            }
+
+            function getInsuranceDue() {
+                var listOfData = {
+                        workshopLocationObj: selectedWorkshop,
+                        cmpaignObj: selectedCampaign,
+                        renewaltypeObj: selectedRenewal,
+                        isAssignedObj: selectedIsAssigned,
+                        fromPolicyExpDataObj: frompolicyexpirydate,
+                    toPolicyExpDataObj: topolicyexpirydate,
+                    searchPatternObj: ""
+                }
+                $.ajax({
+                    url: siteRoot + "/ForecastInsurance/downloadInsuranceForecastInsDueFormat/",
+                    type: 'post',
+                    dataType: 'json',
+                    data: { values: JSON.stringify(listOfData) },
+                    success: function (res) {
+                        if (res.success == true) {
+                            window.location.href = siteRoot + "/ForecastInsurance/Download/";
+                        }
+                        else {
+                            alert(res.error);
+                        }
+
+                    }
+                });
+            }
+
+
+
+            function downloadForecastInsurance()
+            {
+                $('#forecastDownload').css({ 'display': 'none' });
+                $('#forecastfieldloader').css({ 'display': 'block' });
+                var ModelType = $('#ModelType option:selected').toArray().map(item => item.value).join();
+
+                var listOfData = {
+                    workshopLocationObj: selectedWorkshop,
+                    cmpaignObj: selectedCampaign,
+                    renewaltypeObj: selectedRenewal,
+                    isAssignedObj: selectedIsAssigned,
+                    fromPolicyExpDataObj: frompolicyexpirydate,
+                    toPolicyExpDataObj: topolicyexpirydate,
+                    modelTypeObj: ModelType
+                }
+                $.ajax({
+                    url: siteRoot + "/ForecastInsurance/downloadInsuranceForecastLimit/",
+                    type: 'post',
+                    dataType: 'json',
+                    data: { forecastData: JSON.stringify(listOfData) },
+                    success: function (res) {
+                        if (res.success == true) {
+                            window.location.href = siteRoot + "/ForecastInsurance/Download/";
+
+
+                        }
+                        else if (res.success == false) {
+                            Lobibox.notify('warning', {
+                                msg: res.error
+                            });
+                            $('#forecastDownload').css({ 'display': 'block' });
+                            $('#forecastfieldloader').css({ 'display': 'none' });
+                            return false;
+                        }
+                        else {
+                            $('#forecastDownload').css({ 'display': 'block' });
+                            $('#forecastfieldloader').css({ 'display': 'none' });
+                            alert(res.error);
+                        }
+                        $('#forecastDownload').css({ 'display': 'block' });
+                        $('#forecastfieldloader').css({ 'display': 'none' });
+                    }
+
+                });
+            }
+        </script>
+    }

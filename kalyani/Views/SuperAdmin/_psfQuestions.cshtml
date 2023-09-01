@@ -1,0 +1,318 @@
+﻿@model AutoSherpa_project.Models.psfquestions
+@{
+    string visitedcustcategory = "";
+    string pickupcustcategory = "";
+    int selectedcampaign = 0;
+
+    if (Model != null)
+    {
+        visitedcustcategory = Model.visited_cust_cat;
+        pickupcustcategory = Model.pickup_cust_cat;
+        selectedcampaign = Model.campaignid;
+
+    }
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <b id="pnlHead">PSF Questions</b>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            @Html.Label("Questions No")
+                            @Html.TextBoxFor(a => a.question_no, new { @class = "form-control numberOnly", @id = "txtQuestionno", @Required = "required", @autocomplete = "false" })
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            @Html.Label("Question")
+                            @Html.TextBoxFor(a => a.question, new { @class = "form-control", @id = "txtQuestion", @Required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            @Html.Label("Is Active")
+                            @Html.DropDownListFor(m => m.isActive, new List<SelectListItem> { new SelectListItem { Text = "True", Value = "true" }, new SelectListItem { Text = "False", Value = "false" } }, "--Select--", new { @class = "form-control", @id = "ddlIsactive" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group" id="DisplayType" onchange="ShowDivs()">
+                            @Html.Label("Display Type")
+                            @Html.DropDownListFor(m => m.display_type, new List<SelectListItem>
+                            { new SelectListItem{Text="drop-down", Value="drop-down"},
+                            new SelectListItem{Text="radio-button", Value="radio-button"}}, "--Select--", new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-3 hideddl" id="DDLRange " style="display:none;">
+                        <div class="form-group">
+                            @Html.Label("DDL Range")<span style="color:red;"> (Note:ex:-1,10 or 20,40)</span>
+                            @Html.TextBoxFor(a => a.ddl_range, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-4 hideddl" id="DDLOptions" style="display:none;">
+                        <div class="form-group">
+                            @Html.Label("DDL Options")<span style="color:red;"> (Note:Please give Options Separated By Comma)</span>
+                            @Html.TextBoxFor(a => a.ddl_options, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-2 hideradio" id="RadioOptions" style="display:none;">
+                        <div class="form-group">
+                            @Html.Label("Radio Options")
+                            @Html.TextBoxFor(a => a.radio_options, new { @class = "form-control", @readonly = "readonly", @Value = "Yes,No" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            @Html.Label("Campaign Id")
+                            @Html.DropDownListFor(m => m.campaignid, new SelectList(ViewBag.campaignList, "id", "campaignName", selectedcampaign), "--Select--", new { @class = "form-control", @id = "txtcampaignid", @Required = "required" })
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            @Html.Label("Binding Var")
+                            @Html.DropDownListFor(m => m.binding_var, new List<SelectListItem>
+                            { new SelectListItem{Text="qFordQ1", Value="qFordQ1"},
+                            new SelectListItem{Text="qFordQ2", Value="qFordQ2"},
+                            new SelectListItem{Text="qFordQ3", Value="qFordQ3"},
+                            new SelectListItem{Text="qFordQ4", Value="qFordQ4"},
+                            new SelectListItem{Text="qFordQ5", Value="qFordQ5"},
+                            new SelectListItem{Text="qFordQ6", Value="qFordQ6"},
+                            new SelectListItem{Text="qFordQ7", Value="qFordQ7"},
+                            new SelectListItem{Text="qFordQ8", Value="qFordQ8"},
+                            new SelectListItem{Text="qFordQ9", Value="qFordQ9"},
+                            new SelectListItem{Text="qFordQ10", Value="qFordQ10" },
+                            new SelectListItem{Text="qFordQ11", Value="qFordQ11" },
+                            new SelectListItem{Text="qFordQ12", Value="qFordQ12" },
+                            new SelectListItem{Text="qFordQ13", Value="qFordQ13" },
+                            new SelectListItem{Text="qFordQ14", Value="qFordQ14" }}, "--Select--", new { @class = "form-control", @onchange = "ajaxCall(this);", @id = "ddlBindingvar" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            @Html.Label("Qs Mandatory")
+                            @Html.DropDownListFor(m => m.qs_mandatory, new List<SelectListItem>
+                                { new SelectListItem{Text="True", Value="true"},
+                                new SelectListItem{Text="False", Value="false"}}, "--Select--", new { @class = "form-control", @id = "ddlQsmandatory" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <div style="float: left;">
+                                <label>Visited Customer Category</label>
+
+                            </div>
+                            <div style="float: left;">
+                                @Html.HiddenFor(m => m.visited_cust_cat, new { @id = "visitedcustcattxt" })
+                                <input type="checkbox" name="visitedcustcat" value="cx1" id="cx1" />&#160;cx1<br />
+                                <input type="checkbox" name="visitedcustcat" value="gold" id="gold" />&#160;gold<br />
+                                <input type="checkbox" name="visitedcustcat" value="diamond" id="diamond" />&#160;diamond<br />
+                                <input type="checkbox" name="visitedcustcat" value="platinum" id="platinum" />&#160;platinum<br />
+                                <input type="checkbox" name="visitedcustcat" value="above 7 yrs" id="above 7 yrs" />&#160;above 7 yrs<br />
+                                <input type="checkbox" name="visitedcustcat" value="nosaledate" id="nosaledate" />&#160;nosaledate<br />
+                                <input type="checkbox" name="visitedcustcat" value="bodyshop" id="bodyshop" />&#160;bodyshop
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <div style="float: left;">
+                                <label>Pickup Customer Category</label>
+                            </div>
+                            <div style="float: left;">
+                                @Html.HiddenFor(m => m.pickup_cust_cat, new {@id= "pickupcustcattxt"})
+                                <input type="checkbox" name="pickupcustcat" value="cx1" id="cx1" />&#160;cx1<br />
+                                <input type="checkbox" name="pickupcustcat" value="gold" id="gold" />&#160;gold<br />
+                                <input type="checkbox" name="pickupcustcat" value="diamond" id="diamond" />&#160;diamond<br />
+                                <input type="checkbox" name="pickupcustcat" value="platinum" id="platinum" />&#160;platinum<br />
+                                <input type="checkbox" name="pickupcustcat" value="above 7 yrs" id="above 7 yrs" />&#160;above 7 yrs<br />
+                                <input type="checkbox" name="pickupcustcat" value="nosaledate" id="nosaledate" />&#160;nosaledate<br />
+                                <input type="checkbox" name="pickupcustcat" value="bodyshop" id="bodyshop" />&#160;bodyshop
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                @Html.HiddenFor(m => m.id)
+                <div class="col-md-2" style="display: flex;padding-top: 10px;">
+                    <br />
+                    <label></label>
+                    <input type="submit" class="form-control btn btn-primary btn-sm" value="Submit" id="psfquestSubmit" />
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+        $(document).ready(function () {
+            ShowDivs();
+            var visitedcustcat = '@visitedcustcategory';
+            var pickupcustcat = '@pickupcustcategory';
+
+            if (visitedcustcat != null && visitedcustcat != "") {
+                var arrayvisitedcustcat = visitedcustcat.split(',');
+
+                for (var i = 0; i < arrayvisitedcustcat.length; i++) {
+
+                        $('input[name="visitedcustcat"][value="' + arrayvisitedcustcat[i] + '"]').prop("checked", true);
+                    }
+
+            }
+            if (pickupcustcat != null && pickupcustcat != "") {
+                var arraypickupcustcat = pickupcustcat.split(',');
+
+                for (var i = 0; i <  arraypickupcustcat.length; i++) {
+
+                    $('input[name="pickupcustcat"][value="' + arraypickupcustcat[i] + '"]').prop("checked", true);
+
+                    }
+
+            }
+
+        });
+    function ShowDivs() {
+
+            DisplayType = $('#display_type').val();
+
+        if (DisplayType == "drop-down") {
+            $('.hideddl').show();
+            $('.hideradio').hide();
+
+        }
+        else if (DisplayType == "radio-button") {
+            $('.hideddl').hide();
+            $('.hideradio').show();
+        }
+        else {
+            $('.hideradio').hide();
+            $('.hideddl').hide();
+
+        }
+    }
+    function ajaxCall() {
+        var bindingVar = $('#ddlBindingvar').val();
+            $.ajax({
+            type: 'POST',
+            url: '@Url.Action("checkbindingvar")',
+            datatype: 'json',
+            cache: false,
+            data: { bindingVar: bindingVar },
+            success: function (res) {
+                if (res.success == true) {
+                    if (res.exist == true) {
+                        $('#ddlBindingvar').val('');
+                        $('#ddlBindingvar').focus();
+                        Lobibox.notify('error', {
+                            msg: 'This Binding Var already exist cannot add to database'
+                        });
+                        return false;
+                    }
+                }
+                else if (res.success == false) {
+                    Lobibox.notify('warning', {
+                        msg: res.exception
+                    });
+                }
+           },
+            error: function (ex) {
+            }
+        });
+    }
+
+    $("#psfquestSubmit").click(function () {
+
+        var visitedtcustCategory = '';
+        $('[name="visitedcustcat"]').each(function (i, e) {
+            if ($(e).is(':checked')) {
+                var comma = visitedtcustCategory.length === 0 ? '' : ',';
+                visitedtcustCategory += (comma + e.value.trim());
+            }
+        });
+        $('#visitedcustcattxt').val(visitedtcustCategory); 
+
+        var pickupcustCategory = '';
+        $('[name="pickupcustcat"]').each(function (i, e) {
+            if ($(e).is(':checked')) {
+                var comma = pickupcustCategory.length === 0 ? '' : ',';
+                pickupcustCategory += (comma + e.value.trim());
+            }
+        });
+        $('#pickupcustcattxt').val(pickupcustCategory);
+
+
+
+
+
+
+        var questionNo = $("#txtQuestionno").val();
+        var question = $("#txtQuestion").val();
+        var isActive = $("#ddlIsactive").val();
+        var campaignId = $("#txtcampaignid").val();
+        var qsmandatory = $('#ddlQsmandatory').val();
+
+
+        if (questionNo == '' && question == '' && campaignId == '') {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please Enter The Mandatory Fields .'
+                });
+                return false;
+
+        }
+        else if (isActive == '') {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please Select isActive'
+                });
+                return false;
+            }
+
+          else if (qsmandatory == '') {
+            Lobibox.notify('warning', {
+                continueDelayOnInactiveTab: true,
+                msg: 'Please Select qsmandatory'
+            });
+            return false;
+
+        }
+    });
+    function clearControls() {
+        $('#txtQuestionno').val('');
+        $('#txtQuestion').val('');
+        $('#ddlIsactive').val('');
+        $('#display_type').prop('selectedIndex',0);
+        $('#ddl_range').val('');
+        $('#ddl_options').val('');
+        $('#radio_options').val('');
+        $('#txtcampaignid').val('');
+        $('#ddlBindingvar').val('');
+       // $('visitedcustcattxt').val('');
+        $('#ddlQsmandatory').val('');
+        $('input[type=checkbox]').each(function () {
+            this.checked = false;
+        });
+    }
+
+</script>
+

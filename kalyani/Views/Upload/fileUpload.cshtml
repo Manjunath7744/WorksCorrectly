@@ -1,0 +1,505 @@
+﻿@model AutoSherpa_project.Models.ViewModels.uploadViewModel
+@{
+    ViewBag.Title = "fileUpload";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- blueimp File Upload & Gallery styles -->
+<link href="~/Content/jQuery.FileUpload/css/jquery.fileupload-ui.css" rel="stylesheet" />
+<link href="~/Content/jQuery.FileUpload/css/jquery.fileupload.css" rel="stylesheet" />
+<link href="~/Content/blueimp-gallery2/css/blueimp-gallery-video.min.css" rel="stylesheet" />
+<link href="~/Content/blueimp-gallery2/css/blueimp-gallery-video.css" rel="stylesheet" />
+<link href="~/Content/blueimp-gallery2/css/blueimp-gallery-indicator.css" rel="stylesheet" />
+
+<input type="hidden" id="uploadIds">
+@*<input type="hidden" id="username" name="username" value="@user">
+    <input type="hidden" id="dealername" name="dealername" value="@dealer">*@
+
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="col-md-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><b>Instructions</b></h3>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        <li>The maximum file size for uploads is <strong>5999 KB</strong> </li>
+                        <li>Only file types of xlsx are allowed </li>
+                        <li>You can <strong>drag &amp; drop</strong> files from your desktop on this webpage. </li>
+                        <li id='workshopCodeDesciption'>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" id="autoPlanView" style="display:none">
+            <div class="panel panel-info">
+                <div class="panel-heading"><h3 class="panel-title"><b>Assignment Plan List</b></h3></div>
+                <div class="panel-body">
+                    <div class="panel panel-default">
+                        <div class="panel-body inf-content">
+                            <div>
+                                <div>
+                                    <table class="table table-striped table-bordered table-hover" id="assignmentPlanList" style="width:100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>Campaign&nbsp;Name</th>
+                                                <th>Location</th>
+                                                <th>Wyzuser&nbsp;Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id='tbodyid'>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div id="noData" style="display:none;">
+                            </div>
+                            <div>
+                                <center>
+                                    @* <button type="button" id="changePlan" class="btn btn-sm btn-primary" onclick="window.location.href='<%= Url.Action(" ","") %>';" , style=display:none;'>Change Plan</button>*@
+                                    <input value="Change Plan" type="button" style="display:none" id="changePlan" class="btn btn-sm btn-primary" onclick="@("window.location.href='" + @Url.Action("autoAssignmentPlan", "Upload") + "'");" />
+
+
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading"><b>Manage Upload files</b></div>
+    <div class="panel-body">
+
+
+        <!-- The file upload form used as target for the file upload widget -->
+        @*  <form id="fileupload" action="/postfile" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">*@
+
+        <input type="hidden" id="uploadTypeHidden" name="uploadTypeHidden" value="test" />
+        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+
+        <br>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-md-3">
+                    <label>Upload Type : </label>
+                    @Html.DropDownList("uploadType", new SelectList(ViewBag.uploadList, "id", "uploadtypes"), "Select", new { @class = "form-control m-b selectpickerupload", @id = "uploadType", @data_field = "uploadType", @onchange = "autoAssignmentPlanView();" })
+                    @*<select name="uploadType" id="uploadType" class="form-control m-b selectpickerupload" onchange="autoAssignmentPlanView();">
+                            <option value="">--Select--</option>
+                            @for (uploadType < -uploadTypes)
+                            {
+                                <option value="@uploadType.getId()">@uploadType.getUploadTypeName()</option>
+                            }
+                        </select>*@
+                    <br />
+                </div>
+                <div class="col-md-2" id="sales_id">
+                    <label>Type Of Workshop : </label>
+
+
+                    @Html.DropDownListFor(model => model.FileUploads.locType_id, new SelectListItem[]{
+                 new SelectListItem() {Text = "--Select--", Value="0"},
+                 new SelectListItem() {Text = "SERVICE", Value="2"},
+                 new SelectListItem() {Text = "SALES", Value="1"},
+                                     }, new { @class = "form-control m-b", @id = "locType_id", @onchange = "workshopsBasedOnLocAndType('location_id');" })
+                    @*<select name="locType" id="locType_id" class="form-control m-b" onchange="workshopsBasedOnLocAndType('location_id');">
+
+                            <option value="2">SERVICE</option>
+                            <option value="1">SALES</option>
+
+
+                        </select>*@
+                </div>
+                <div class="col-md-2" id="loc_id">
+                    <label>Location : </label>
+
+                    <select name="location" id="location_id" onchange="workshopsBasedOnLocAndType('location_id');" class="form-control m-b">
+                        @*<option value="0">--SELECT--</option>
+                            @for (localist < -locationList)
+                            {
+                                <option value="@localist.getCityId()">@localist.getName()</option>
+                            }*@
+
+                    </select>
+                </div>
+                <div class="col-md-2" id="workS_id">
+                    <label>Workshop : </label>
+
+                    <select name="workshop_id" id="workshop_id" class="form-control m-b" onchange="autoAssignmentPlans();" required>
+                        <option value="0">--SELECT--</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2" style="display:none;" id="CampIDDis">
+                    <label>Campaign Name : </label>
+                    <select name="campaignName" id="CampaignId" class="form-control m-b" onchange="autoAssignmentPlans();">
+                    </select>
+                </div>
+                <div class="col-md-1" style="display:none;width: 12.499999995%;" id="campaignFromDate">
+                    <label>From Date : </label>
+                    <input type="text" class="datepickerFilter form-control m-b" name="campaignFromDate" readonly>
+                </div>
+                <div class="col-md-1" style="display:none;width: 12.499999995%;" id="campaignToDate">
+                    <label>To Date : </label>
+                    <input type="text" class="datepickerFilter form-control m-b" name="campaignToDate" readonly>
+                </div>
+            </div>
+        </div>
+
+        @Html.Partial("_Files")
+
+        @section scripts
+{
+
+            <script>
+                var $form = null;
+                $(function () {
+                    loadWorkshops();
+
+                    $form = $('#fileupload').fileupload({
+                        dataType: 'json'
+                    });
+
+                });
+
+                $('#fileupload').addClass('fileupload-processing');
+
+            </script>
+            <script>
+                function autoAssignmentPlanView() {
+                    $('#noData').html('');
+                    ajaxCampaignList();
+                    var utype = $('#uploadType').val();
+                    if (utype == '3' || utype == '4' || utype == '5') {
+                        document.getElementById("autoPlanView").style.display = "block";
+                    }
+                    else {
+                        document.getElementById("autoPlanView").style.display = "none";
+                    }
+                }
+                function validateForm() {
+                    var utype = $('#uploadType').val();
+                    if (utype == '4' || utype == '5') {
+                        var campId = $('#CampaignId').val();
+                        if (campId == "0") {
+                            Lobibox.notify('error', {
+                                msg: 'Select Campaign.'
+                            });
+                            return false;
+                        }
+                    }
+                    else if (utype == '3') {
+                        var workshopId = $('#workshop_id').val();
+                        if (workshopId == "0") {
+                            Lobibox.notify('error', {
+                                msg: 'Select Workshop.'
+                            });
+                            return false;
+                        }
+                    }
+                }
+
+
+                function ajaxCampaignList() {
+                    var uploadTypeList = document.getElementById("uploadType");
+                    var uploadType = uploadTypeList.options[uploadTypeList.selectedIndex].text;
+
+                    // $("#sampleExcel").attr("href", "/downloadSampleExcel/" + uploadType + "");
+                    var urlLink = "/Upload/getCampaignNamesByUpload/";
+
+                    $.ajax({
+                        type: 'POST',
+                        url: urlLink,
+                        datatype: 'json',
+                        data: { uploadType: uploadType },
+                        cache: false,
+                        success: function (camp) {
+                            if (camp.campAjaxList.length != 0) {
+
+                                document.getElementById("CampIDDis").style.display = "block";
+                                document.getElementById("campaignFromDate").style.display = "none";
+                                document.getElementById("campaignToDate").style.display = "none";
+                                document.getElementById("loc_id").style.display = "none";
+                                document.getElementById("workS_id").style.display = "none";
+                                document.getElementById("sales_id").style.display = "none";
+
+                                $('#CampaignId').empty();
+                                var dropdown = document.getElementById("CampaignId");
+                                dropdown[0] = new Option('--SELECT--', '0');
+
+                                for (var i = 0; i < camp.campAjaxList.length; i++) {
+
+                                    dropdown[dropdown.length] = new Option(camp.campAjaxList[i].campName, camp.campAjaxList[i].campId);
+                                }
+                            }
+                            else {
+                                document.getElementById("CampIDDis").style.display = "none";
+                                document.getElementById("campaignFromDate").style.display = "none";
+                                document.getElementById("campaignToDate").style.display = "none";
+                                document.getElementById("loc_id").style.display = "block";
+                                document.getElementById("workS_id").style.display = "block";
+                                document.getElementById("sales_id").style.display = "block";
+                            }
+                        },
+                        error(error) {
+                            alert(error);
+
+                        }
+                    });
+
+                }
+
+                //workshop load by city and type in upload
+                function workshopsBasedOnLocAndType(sel) {
+                    var cityId = document.getElementById(sel).value;
+                    var locType = document.getElementById('locType_id').value;
+                    if (cityId == 0) {
+                        $('#workshop_id').empty();
+                        var loc = '<option value="0">--SELECT--</option>';
+                        $('#workshop_id').append(loc);
+                    }
+                    else {
+                        //var urlLink="/CRE/listWorkshopsByID/"+cityId+"";
+                        var urlLink = "/CRE/listWorkshopsByIdAndType/" + cityId + "/" + locType;
+
+                        $.ajax({
+                            url: urlLink
+
+                        }).done(function (workshops) {
+                            if (workshops != null) {
+                                $('#workshop_id').empty();
+                                var dropdown = document.getElementById("workshop_id");
+                                dropdown[dropdown.length] = new Option("--SELECT--", "0");
+                                for (var i = 0; i < workshops.length; i++) {
+                                    dropdown[dropdown.length] = new Option(workshops[i].workshopName, workshops[i].id);
+                                }
+                            }
+
+                        });
+                    }
+                }
+
+
+
+                function autoAssignmentPlan1s() {
+
+                    $('#assignmentPlanList').on('shown.bs.collapse', function () {
+                        $($.fn.dataTable.tables(true)).DataTable()
+                            .columns.adjust();
+                    });
+                }
+
+
+                function autoAssignmentPlans() {
+                    var utype = $('#uploadType').val();
+                    var uploadName = $('#uploadType option:selected').text();
+                    var campName = $('#CampaignId option:selected').text();
+
+                    if (utype == '3' || utype == '4' || utype == '5') {
+                        document.getElementById("changePlan").style.display = "block";
+                        var campId = $('#CampaignId').val();
+                        var workshopId = $('#workshop_id').val();
+                        var campName = $('#CampaignId option:selected').text();
+                        var workshopName = $('#workshop_id option:selected').text();
+                        $('#assignmentPlanList').DataTable({
+                            "destroy": true,
+                            "ajax": {
+                                "url": "/Upload/getAssignmentPlanList/",
+                                "type": "POST",
+                                "datatype": "json",
+                                "data": { uploadTypeId: utype, campaignId: campId, workshopId: workshopId, uploadTypeName: uploadName, campaignName: campName }
+                            },
+                            "columns": [
+
+                                { "data": "campaignName", "name": "campaignName" },
+                                { "data": "locationName", "name": "locationName" },
+                                { "data": "CreName", "name": "CreName" }
+                            ],
+                            "initComplete": function (data) {
+                                var totalRecords = 0;
+                                //$("#assignmentPlanList").dataTable().fnGetData().length;
+                                //alert(totalRecords);
+                                if (totalRecords === 0) {
+                                    if (utype == '4' || utype == '5') {
+                                        $('#noData').html('<span><b>No Auto Assignment Plan</b> is available for <b>' + campName + '</b> campaign. Click on <b>Change Plan</b> button to add Plans</span>');
+                                    }
+                                    else {
+                                        $('#noData').html('<span><b>No Auto Assignment Plan</b> is available for <b>' + workshopName + '</b> location. Click on <b>Change Plan</b> button to add Plans</span>');
+                                    }
+                                    document.getElementById('noData').style.display = "block";
+                                }
+                                else {
+                                    document.getElementById('noData').style.display = "none";
+                                }
+                            },
+                            "serverSide": "true",
+                            "processing": "true",
+                            "serverSide": true,
+                            "scrollX": "true",
+                            "scrollY": "300",
+                            "paging": "true",
+                            "searching": true,
+                            "language": {
+                                "processing": "Loading Please Wait.....!"
+                            }
+                        });
+                    }
+                }
+
+                //                       function autoAssignmentPlans() {
+                //var utype = $('#uploadType').val();
+                //                   var uploadName = $('#uploadType option:selected').text();
+                //                   var campName = $('#CampaignId option:selected').text();
+
+                //                           if (utype == '3' || utype == '4' || utype == '5') {
+                //                               document.getElementById("changePlan").style.display = "block";
+                //                               var campId = $('#CampaignId').val();
+                //                               var workshopId = $('#workshop_id').val();
+                //                               var campName = $('#CampaignId option:selected').text();
+                //                               var workshopName = $('#workshop_id option:selected').text();
+                //                               var url = "/Upload/getAssignmentPlanList/";
+                //                               $('#assignmentPlanList').DataTable({
+                //                                   "destroy": true,
+                //                                   "ajax": {
+                //                                       "url": "/Upload/getAssignmentPlanList/",
+                //                                       "type": "POST",
+                //                                       "datatype": "json",
+                //                                       "data": { uploadTypeId: utype, campaignId: campId, workshopId: workshopId, uploadTypeName: uploadName, campaignName: campName }
+                //                                   },
+                //                                   "columns": [
+
+                //                                       { "data": "campaignName", "name": "campaignName" },
+                //                                       { "data": "locationName", "name": "locationName" },
+                //                                       { "data": "CreName", "name": "CreName" }],
+                //                                   "serverSide": "true",
+                //                                   "processing": "true",
+                //                                   "serverSide": true,
+                //                                   "scrollX": "true",
+                //                                   "scrollY": "300",
+                //                                   "paging": "true",
+                //                                   "searching": true,
+                //                                   "language": {
+                //                                       "processing": "Loading Please Wait.....!"
+                //                                   }
+                //                               });
+                //                           }
+                //       }
+
+                //             function autoAssignmentPlans() {
+                //                 var utype = $('#uploadType').val();
+                //                 var uploadName = $('#uploadType option:selected').text();
+                //                 var campName = $('#CampaignId option:selected').text();
+
+                //                 if (utype == '3' || utype == '4' || utype == '5') {
+                //                     document.getElementById("changePlan").style.display = "block";
+                //                     var campId = $('#CampaignId').val();
+                //                     var workshopId = $('#workshop_id').val();
+                //                     var campName = $('#CampaignId option:selected').text();
+                //                     var workshopName = $('#workshop_id option:selected').text();
+                //                     var url = "/Upload/getAssignmentPlanList/";
+
+                //                     $('#assignmentPlanList').DataTable({
+                //                         "destroy": true,
+                //                         "ajax": {
+                //                             "url": url,
+                //                             "type": "POST",
+                //                             "datatype": "json",
+                //                             "data": [{ uploadTypeId: utype, campaignId: campId, workshopId: workshopId, uploadTypeName: uploadName, campaignName: campName }]
+                //                         },
+                //                         "columns": [
+                //                             { "data": "campaignName", "name": "campaignName" },
+                //                             { "data": "locationName", "name": "locationName" },
+                //                             { "data": "CreName", "name": "CreName" }
+
+                //                         ],
+                //                         "initComplete" : function(data) {
+                //                             var totalRecords = 0;//$("#assignmentPlanList").dataTable().fnGetData().length;
+                //	//alert(totalRecords);
+                //	if(totalRecords === 0) {
+                //		if(utype == '4' || utype == '5'){
+                //			$('#noData').html('<span><b>No Auto Assignment Plan</b> is available for <b>'+campName+'</b> campaign. Click on <b>Change Plan</b> button to add Plans</span>');
+                //		}
+                //		else {
+                //			$('#noData').html('<span><b>No Auto Assignment Plan</b> is available for <b>'+workshopName+'</b> location. Click on <b>Change Plan</b> button to add Plans</span>');
+                //		}
+                //		document.getElementById('noData').style.display = "block";
+                //	}
+                //	else {
+                //		document.getElementById('noData').style.display = "none";
+                //	}
+                //},
+
+                //                         "serverSide": "true",
+                //                         "processing": "true",
+                //                         "serverSide": true,
+                //                         "scrollX": "true",
+                //                         "scrollY": "300",
+                //                         "paging": "true",
+                //                         "searching": true,
+                //                         "language": {
+                //                             "processing": "Loading Please Wait.....!"
+                //                         }
+                //                     });
+                //                 }
+                //             }
+
+
+
+
+                function DownloadExcel() {
+                    var utype = $('#uploadType').val();
+                    var name = $("#uploadType option:selected").text();
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Upload/ExcelExport",
+                        data: { utype: utype, name: name },
+
+                        cache: false,
+                        success: function (data) {
+                            //debugger;
+                            window.location = '/Upload/Download';
+                        },
+                        error: function (data) {
+                            Materialize.toast("Something went wrong. ", 3000, 'rounded');
+                        }
+                    });
+                }
+
+
+
+                function loadWorkshops() {
+                    var note = "<b>Workshop Codes - </b><br><table><tr><th style='padding-right:10px;'>Workshop&nbsp;Name&nbsp;&nbsp;&nbsp;</th><th>WorkshopCode</th></tr>";
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Upload/loadWorkshops",
+                        data: {},
+
+                        cache: false,
+                        success: function (res) {
+                            console.log(res);
+                            for (var i = 0; i < res.data.length; i++) {
+
+                                note += "<tr><td style='padding-right:10px;'>" + res.data[i].workshopName + "</td><td>" + res.data[i].code + "</td></tr>";
+
+                            }
+
+                            note += "</table>";
+                            document.getElementById('workshopCodeDesciption').innerHTML = note;
+
+
+                        },
+                        error: function (data) {
+                            Materialize.toast("Something went wrong. ", 3000, 'rounded');
+                        }
+                    });
+                }
+            </script>
+        }

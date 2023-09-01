@@ -1,0 +1,183 @@
+﻿
+@{
+    ViewBag.Title = "SearchAndDelete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading"><b>Customer Search and Delete</b></div>
+            <div class="panel-body">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Search Customer</label>
+                                        <input type="text" placeholder="Search by chassis no/veh reg no" id="searchCustomer" class="form-control" autocomplete="off"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <button type="submit" id="searchCust" class="btn btn-primary start btn-block" onclick="getData();">
+                                            <i class="fa fa-search"></i>
+                                            <span>Search</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default" id="tblDiv" style="display:block">
+                    <div class="panel-body">
+                        <div class="dataTable_wrapper">
+                            <table class="table table-striped table-bordered table-hover" id="customerSearchTable">
+                                <thead>
+                                    <tr>
+                                        <th>Customer Name</th>
+                                        <th>Vehicle RegNo.</th>
+                                        <th>Chassis No</th>
+                                        <th>Phone Number</th>
+                                        <th>Address</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div>
+    <div class="modal fade" id="deleteConfirmation" role="dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="padding:1px;text-align:center;color:red;">
+                <button type="button" class="close crossBtnCorner" data-dismiss="modal"><img src="~/public/images/close1.png"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                       <p>Are you sure you want to delete this row</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="deleteOnConfirmation" onclick="deleteOnConfirmation();">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>*@
+<div>
+    <div class="modal fade" id="deleteConfirmation" role="dialog">
+        <div class="modal-dialog modal-xs">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header" style="padding:1px;text-align:center;color:red;">
+                    <button type="button" class="close crossBtnCorner" data-dismiss="modal"><img src="~/public/images/close1.png"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <h4>Are you sure you want to delete this row</h4>
+                            </div>
+                           </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="deleteOnConfirmation" onclick="deleteOnConfirmation();">Yes</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+    @section scripts{
+        <script>
+            function getData() {
+                var search = $("#searchCustomer").val();
+
+                if (search != null && search != "") {
+                    $("#customerSearchTable").DataTable({
+                        "destroy": true,
+                        "ajax": {
+                            "url": siteRoot + "/SearchAndDelete/searchData/",
+                            "type": 'post',
+                            "datatype": 'json',
+                            "data": { value: search }
+                        },
+                        "columns": [
+                            { "data": "customerName", "name": "customerName" },
+                            { "data": "vehRegNo", "name": "vehRegNo" },
+                            { "data": "chassisNo", "name": "chassisNo" },
+                            { "data": "phone", "name": "phone" },
+                            { "data": "address", "name": "address" },
+                            {
+                                "data": "Action", render: function (data, type, row) {
+                                    return `<button type="button" id="delbtn" class="btn btn-primary btn-lg" data-chassis=${row.chassisNo} style="border-radius: 29px;" onclick="deleteRow(this);">Delete</button>`;
+                                }
+                            }
+                        ],
+                        "serverSide": true,
+                        "processing": true,
+                        "scrollX": true,
+                        "scrollY": 300,
+                        "paging": false,
+                        "searching": false,
+                        "language": {
+                            "processing": "loading please wait....!"
+                        },
+                        "initComplete": function (setting, json) {
+                            $('#tblDiv').css("display:block");
+                        }
+                    });
+                }
+                else {
+                    Lobibox.notify('warning', {
+                        msg:'Please enter Chassis No or VehReg No'
+                    });
+                }
+                
+            }
+            var chassisNo;
+            function deleteRow(ele) {
+                $("#deleteConfirmation").modal("show");
+            }
+
+            function deleteOnConfirmation() {
+                //var a = $(ele).closest('tr').find('td:eq(4)').text();
+                var chassisNo = $("#delbtn").attr("data-chassis");
+                 $('#mainLoader').css({ 'display': 'block' });
+                $.ajax({
+                    url: siteRoot + "/SearchAndDelete/deleteCustomer/",
+                    type: 'post',
+                    dataType: 'json',
+                    data: { value: chassisNo },
+                    success: function (data) {
+                        if (data.success) {
+                            $("#customerSearchTable").empty();
+                            $("#tblDiv").css({ 'display': 'none' })
+                            $("#searchCustomer").val();
+                             $('#mainLoader').css({ 'display': 'none' });
+                        }
+                        else {
+                            Lobibox.notify('error', {
+                                msg: 'the row could not be deleted'
+                            });
+                        }
+
+                    }
+                });
+            }
+        </script>
+    }

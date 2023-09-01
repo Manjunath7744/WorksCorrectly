@@ -1,0 +1,2745 @@
+﻿@model AutoSherpa_project.Models.ViewModels.SACalllogingVM
+@{
+    ViewBag.Title = "SACallLogging";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string policydueDate = "";
+    string vehiclesaleDate = "";
+    string phoneNumber = "";
+    string rostatusDisable = Model.rosaassignment.rostatus;
+    if (Model.LatestInsurance != null && Model.LatestInsurance.policyDueDate != null)
+    {
+        policydueDate = Convert.ToDateTime(Model.LatestInsurance.policyDueDate).ToString("dd-MM-yyyy");
+    }
+    if (Model.vehi != null && Model.vehi.saleDate != null)
+    {
+        vehiclesaleDate = Convert.ToDateTime(Model.vehi.saleDate).ToString("dd-MM-yyyy");
+    }
+    if(Model.custPhoneList.Count(m => m.isPreferredPhone == true)>0)
+    {
+        phoneNumber = Model.custPhoneList.FirstOrDefault(m => m.isPreferredPhone == true).phoneNumber;
+    }
+}
+
+<style>
+
+    .valuePadding {
+        border: 1px inset #ccc;
+    }
+
+        .valuePadding input {
+            border: none;
+            padding: 0px;
+            outline: none;
+        }
+
+    .panel-info > .panel-heading {
+        color: #f4fafd;
+        background-color: #3586af;
+        border-color: #bce8f1;
+    }
+
+    .dataTables_scrollBody {
+        overflow-x: hidden;
+    }
+
+    .dataTables_scrollHead {
+        overflow: auto;
+    }
+
+    #InduspullOutIns > tbody > tr, td {
+        border: 1px solid #000;
+    }
+
+    #dispoHistBody {
+        font-weight: 300;
+    }
+
+    .dispoScroll {
+        overflow-y: scroll;
+        max-height: 300px;
+        min-height: 100px;
+    }
+
+    table.dataTable tbody th, table.dataTable tbody td {
+        white-space: break-spaces;
+    }
+    /*table.dataTable tbody th,
+    table.dataTable tbody td {
+        white-space: nowrap;
+    }*/
+    .dataTables_scroll {
+        margin-right: -9px;
+    }
+
+    .dataTables_filter {
+        display: none;
+    }
+
+    .ins-col {
+        border: 3px solid red;
+    }
+
+        .ins-col > label {
+            border-left: 3px solid blue;
+            margin-left: 5px;
+        }
+
+
+    @@media only screen and (max-width: 768px) {
+        /* For mobile phones: */
+        .dataTables_filter {
+            display: none;
+        }
+    }
+
+    .ColorGreen {
+        background-color: green;
+    }
+
+    .ColorRed {
+        background-color: red;
+    }
+
+    .schis th,
+    .schis td {
+        border: 2px solid black;
+    }
+
+    .LightSeaGreen {
+        background-color: #20B2AA;
+    }
+
+    .control-holder {
+        display: inline-flex
+    }
+
+        .control-holder div {
+            margin: 0px 5px;
+        }
+
+    @@media only screen and (max-width: 768px) {
+        /* For mobile phones: */
+        /*.sidebar1 {
+            display: none;
+        }*/
+        .divscroll {
+            min-height: 190px;
+            max-height: 190px;
+            overflow: scroll;
+        }
+
+        #dispoHistBody {
+            font-weight: 600;
+        }
+
+        .control-holder {
+            overflow-x: scroll;
+            width: 106%;
+            margin-left: -10px;
+            margin-right: -9px;
+        }
+
+        @@media (min-width: 992px) {
+            .modal-dialog {
+                width: 70%;
+            }
+        }
+
+        @@media (max-width:768px) {
+            .modal-dialog {
+                margin-left: 0px !important;
+                width: 100%;
+                margin-top: 100px;
+            }
+
+            .modal {
+                top: auto;
+            }
+
+            .mbheight {
+                min-height: 400px;
+                overflow-y: scroll;
+                max-height: 400px;
+            }
+        }
+</style>
+
+<div class="row">
+    <div class="col-md-6 panelsm">
+        <div id="panelDemo10" class="panel panel-info custinfoData">
+            <div class="panel-heading" style="text-align:center; padding: 10px;">
+                <b>
+                    <i class="fa fa-user"></i>&nbsp;
+                    <span id="custName">
+                        @if (Model.cust.customerName != null)
+                        {
+                            <text>@Model.cust.customerName</text>
+                        }
+                        else
+                        {
+                            @Model.cust.customerFName;
+
+                        }
+                    </span>
+                </b>
+                @Html.ActionLink("Back", "sAROLog", "sAROLog", new { }, new { @class = "btn fa fa-arrow-left", @style = "float: left; display: block;color:white; background-color: red;" });
+                <br />
+                <b>
+                    <i class="fa fa-user-circle">
+                        <input type="text" id="driverIdUpdate" class="animated rubberBand" style="border:none;background-color:#1797be;" value="@if(Model.cust.userDriver!=null){@Model.cust.userDriver;}" readonly>
+                    </i>
+                </b>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="control-holder">
+                            <div>
+                                <select class="btn btn-primary btn-sm form-control" style="cursor:default;width: 135px;font-size: medium;" id="ddl_phone_no">
+                                    @if (Model.custPhoneList != null && Model.custPhoneList.Count() > 0)
+                                    {
+                                        foreach (var ph in Model.custPhoneList)
+                                        {
+                                            <option value="@ph.phone_Id">@ph.phoneNumber</option>
+                                        }
+                                    }
+
+                                </select>
+                            </div>
+
+                            <div>
+                                <button type="button" class="btn btn-success btn-sm" data-target="#addBtn" data-toggle="modal" data-backdrop="static" data-keyboard="false"><i class="fa fa-pencil-square-o fa-lg"></i></button>
+                            </div>
+                            <div>
+                                @if (Model.cust.doNotDisturb == true)
+                                {<button type="button" id="btnDND" class="btn btn-danger btn-sm">DND</button>}
+                                <button type="button" style="display:none;" id="btnDND" class="btn btn-danger btn-sm">DND</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 phoneselect">
+                        <div class="col-xs-2">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12" style="margin-top: 10px;">
+                        <div class="col-xs-3">
+                            <input type="hidden" id="isCallinitaited" name="isCallinitaited" value="NotDailed">@*customerData.getPreferredPhone().getPhone_Id()*@
+                            <button type="button" id="callIdBtn" class="btn btn-primary btn-lg" onclick="doCall();" style="border-radius: 29px;"><i class="fa fa-phone-square fa-2x" aria-hidden="true" title="Make Call"></i></button>
+                        </div>
+                        <div class="col-xs-3">
+                            @if (Model.wyzuser.dealerCode == "CAUVERYFORD")
+                            {
+                                <button type="button" id="callIdBtnGSM" class="btn btn-primary btn-lg" onclick="doGSM();" style="border-radius: 29px;"><i class="fa fa-mobile fa-2x" aria-hidden="true" title="GSM Call "></i></button>
+
+                            }
+                            else
+                            {
+                                <button type="button" id="callIdBtnGSM" class="btn btn-primary btn-lg" onclick="doGSM();" style="border-radius: 29px;"><i class="fa fa-mobile fa-2x" aria-hidden="true" title="GSM Call "></i></button>
+
+                            }
+                        </div>
+                        <div class="col-xs-3">
+                            <button type="button" class="btn btn-primary btn-lg" data-docName="NA" data-EmailFor="custom" onclick="openEmailpopUp(this)" style="border-radius: 29px;"><i class="fa fa-envelope-square fa-2x" aria-hidden="true"></i></button>
+                        </div>
+                        <div class="col-xs-3">
+                            <button type="button" data-toggle="modal" data-target="#smsPopuId" data-backdrop="static" data-keyboard="false" class="btn btn-primary  btn-lg" style="border-radius: 29px;"><i class="fa fa-comment fa-2x" title="SMS"></i></button>
+                        </div>
+                    </div>
+                    <div style="margin-top: 6px;margin-left: 15px;">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <span><b><u>Email:</u>&nbsp; </b></span><span style="font-size:15px" id="ddl_email">
+                                    @if (Model.cust.emails.FirstOrDefault(m => m.isPreferredEmail == true) != null)
+                                    {
+                                        @Model.cust.emails.FirstOrDefault(m => m.isPreferredEmail == true).emailAddress
+                                    }
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <span style="font-size:14px"><b><u>Phone :</u>&nbsp; </b></span> <span class="phoneBlog" id="prefPhone" style="font-size:14px">
+                                    @if (Model.custPhoneList != null && Model.custPhoneList.Count() > 0)
+                                    {
+                                        foreach (var ph in Model.custPhoneList)
+                                        {
+                                            @ph.phoneNumber<text>,</text>
+                                        }
+                                    }
+
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <span style="font-size:14px"><b><u>Address:</u>&nbsp; </b></span>
+                                <span class="addressBlog" id="prefAdressUpdate" style="font-size:14px;word-break: break-all;">
+                                    @if (Model.cust.addresses.Count != 0)
+                                    {
+                                        if (Model.cust.addresses.Any(m => m.isPreferred == true))
+                                        {
+                                            if (Model.cust.addresses.FirstOrDefault(m => m.isPreferred == true).concatenatedAdress != null && Model.cust.addresses.FirstOrDefault(m => m.isPreferred == true).concatenatedAdress != "")
+                                            {
+                                                @Model.cust.addresses.FirstOrDefault(m => m.isPreferred == true).concatenatedAdress;
+                                            }
+                                            else
+                                            {
+                                                <text>NA</text>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <text>NA</text>
+                                        }
+                                    }
+
+
+                                </span>
+                                <button class="fa fa-slideshare" style="color: #0e8006;" data-target="#AddressUpdatePopup" data-toggle="modal"
+                                        data-backdrop="static" data-keyboard="false" onclick="getAddressForPopUp()"></button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <span style="font-size:14px"><b><u>City:</u>&nbsp;</b></span><span id="city" style="font-size:14px">
+                                    @if (Model.cust.addresses.Select(m => m.isPreferred == true) != null)
+                                    {
+                                        if (Model.cust.addresses.Where(m => m.isPreferred == true).Select(m => m.city).FirstOrDefault() != null)
+                                        {
+                                            @Model.cust.addresses.Where(m => m.isPreferred == true).Select(m => m.city).FirstOrDefault()
+                                        }
+                                        else
+                                        {
+                                            <text>NA</text>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <text>NA</text>
+                                    }
+                                </span>
+                            </div>
+                            <div class="col-xs-12">
+                                <span style="font-size:14px"><b><u>Pincode:</u>&nbsp;</b></span><span style="font-size:14px" id="pin">
+                                    @if (Model.cust.addresses.Select(m => m.isPreferred == true) != null)
+                                    {
+                                        @Model.cust.addresses.Where(m => m.isPreferred == true).Select(m => m.pincode).FirstOrDefault()
+                                    }
+                                    else
+                                    {
+                                        <text>NA</text>
+                                    }
+                                    @*@{if (customerData.getPreferredAdress() != null) { customerData.getPreferredAdress().getPincode()}}*@
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--button-->
+                    <div class="col-sm-12 col-md-12" style="padding-left:0px;padding-right:0px;">
+
+                        @if (Session["DealerCode"].ToString() == "PAWANHYUNDAI" || Session["DealerCode"].ToString() == "HANSHYUNDAI")
+                        {
+                            <div class="col-xs-12 col-md-12">
+                                <button type="button" class="btn btn-info btn-flat btn-block loya" style="cursor:default;">
+                                    <span style="font-size:15px">
+                                        Customer Category:
+                                        @if (Model.CustCategory != null)
+                                        {
+                                            <b> @Model.CustCategory</b>
+                                        }
+                                    </span>
+                                </button>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-xs-12 col-md-5" style="margin-bottom:4px;">
+                                @if (Session["OEM"].ToString() == "MARUTI SUZUKI")
+                                {
+                                    @:<button type="button" class="btn btn-info btn-flat btn-block loya" style="cursor:default;">
+                                        if (Model.vehi.ispdate != null)
+                                        {
+                                            if (Convert.ToDateTime(Model.vehi.ispdate).Date >= DateTime.Now.Date)
+                                            {
+                                                @:ISP @Convert.ToDateTime(Model.vehi.ispdate).ToString("dd-MM-yyyy")
+                                            }
+                                            else
+                                            {
+                                                @:ISP.No
+                                            }
+                                        }
+                                        else
+                                        {
+                                            @:ISP.No
+                                        }
+                                    @:</button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-info btn-flat btn-block loya" style="cursor:default;">
+                                        @*<b style="font-size:15px">Loyality Points</b><br>*@
+                                        @Ajax.ActionLink("Loyality Points", "getLoyality", "CallLogging", new AjaxOptions { OnSuccess = "loyalityDone", OnFailure = "loyalityFailure" }, new { @style = "color: #fff;font - weight: 900;" })<b id="loyalityPoint"></b>
+                                    </button>
+                                }
+                            </div>
+
+                            <div class="col-xs-12 col-md-7">
+                                @if (Session["DealerCode"].ToString() == "INDUS")
+                                {
+                                    <button type="button" class="btn btn-info btn-flat btn-block loya" style="cursor:default;">
+                                        LOYALTY - @Model.vehi.loyaltycardnumber PT | @if (Model.vehi.loyaltybalancedate != null)
+                                        {@Convert.ToDateTime(Model.vehi.loyaltybalancedate).ToString("dd-MMM-yyyy");
+                                    }
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-info btn-flat btn-block loya" style="cursor:default;">
+                                        <b style="font-size:15px">Card No.</b><br>
+                                        <b id="cardNo"></b>
+                                    </button>
+                                }
+                            </div>
+                        }
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 panelsm" style="padding: 0px;">
+        <div class="col-sm-6" style="padding: 0px;">
+            <!-- START panel-->
+            <div id="panelDemo10" class="panel panel-info">
+                <div class="panel-heading">
+                    <b>VEHICLE&nbsp;INFO</b>
+                    <img src="~/public/images/car.png" class="pull-right" style="width:28px;"></img>
+                </div>
+                <div class="panel-body" style="height: 110px;overflow: auto;padding: 5px;">
+                    @if (Model.vehi != null)
+                    {
+
+                        @:<span id="vehRegNO"><b>@Model.vehi.vehicleRegNo</b></span>&nbsp;|&nbsp;<span>
+                            <b>
+                                @if (Session["DealerCode"].ToString() == "INDUS")
+                                {
+                                    @Model.vehi.chassisNo.Substring(0, Model.vehi.chassisNo.IndexOf('C')); @:&nbsp; | &nbsp; @Model.vehi.chassisNo.Substring(Model.vehi.chassisNo.IndexOf('C'))
+                                }
+                                else
+                                {
+                                    @Model.vehi.chassisNo;
+                                }
+                            </b>
+                        @:</span><br><span id="modelNo"><b>@Model.vehi.model</b></span>
+                        @:<span>&nbsp;<b>@Model.vehi.engineNo</b>&nbsp;| &nbsp;<b>@Model.vehi.variant</b>&nbsp;| &nbsp;<br><b>@Model.vehi.color</b> &nbsp; &nbsp;<b style="color:red;">
+                                if (Model.ceicustCat != null && Session["OEM"].ToString() == "MARUTI SUZUKI")
+                                {@Model.ceicustCat}
+                        @:</b>
+                    @:</span><br />
+                    @:<span><b>Mileage(Kms):</b>&nbsp;<b>@Model.vehi.odometerReading</b></span><br />
+                    @:<span><b>Sale Location:</b>&nbsp;<b>@Model.vehi.dealershipName</b></span><br />
+                    @:<span><b>Sale&nbsp;Date:</b>&nbsp;<b class="servi" style="background-color: #f05050; color: #fff;border-radius: 3px;font-size: 13px;border-color: transparent;">
+                            if (Model.vehi.saleDate != null)
+                            {@Convert.ToDateTime(Model.vehi.saleDate).ToString("dd-MM-yyyy");
+                        }
+                    @:</b>
+                @:</span><br>
+                @:<span><b>Dealer&nbsp;:</b>&nbsp;<b>
+                        if (@Model.vehi.isSalesDone == "1")
+                        {
+                            @:Self
+                        }
+                        else
+                        {
+                            @:Others
+                        }
+                    @:</b></span>
+                    @:<br><span><b>Year&nbsp;of&nbsp;Manufacturing&nbsp;:</b>&nbsp;<b>@Model.vehi.yearofmanufacture</b></b></span>
+                    @:<br><span>
+                        @:<b>OEM&nbsp;Warranty&nbsp;Date&nbsp;:</b>&nbsp;<b>
+                            if (Model.vehi.OEMWarrentyDate != null)
+                            {@Convert.ToDateTime(Model.vehi.OEMWarrentyDate).ToString("dd-MM-yyyy")}
+                    @:</b><br />
+                    @:<span><b>Fuel&nbsp;Type:</b>&nbsp;<b>
+                            if (Model.cust.vehicles.FirstOrDefault() != null && Model.cust.vehicles.FirstOrDefault().fuelType != null)
+                            {
+                                @Model.cust.vehicles.FirstOrDefault().fuelType;
+                            }
+                            else
+                            {
+                                @:-
+                            }
+                        @:</b></b></span><br />
+                        @:<span>
+                            <b>DSE:</b>
+                            @:&nbsp;<b>
+                                if (Model.cust.vehicles.FirstOrDefault() != null && Model.cust.vehicles.FirstOrDefault().dse != null)
+                                {
+                                    @Model.cust.vehicles.FirstOrDefault().dse;
+                                }
+                                else
+                                {
+                                    @:-
+                                }
+                            @:</b></span>
+                        @:</span>
+                        if (Session["DealerCode"].ToString() == "HANSHYUNDAI" || Session["OEM"].ToString() == "FORD" || Session["DealerCode"].ToString() == "GALAXYTOYOTA" || Session["DealerCode"].ToString() == "TOYOTADEMO")
+                        {
+                            @:<span>
+                                <b>LMC&nbsp;:</b>
+                                @:&nbsp;<b>
+                                    if (Model.cust.vehicles.FirstOrDefault().LMC != null)
+                                    {@Model.cust.vehicles.FirstOrDefault().LMC;
+                                }
+                            @:</b>
+                        @:</span>
+                    }
+                }
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6" style="padding: 0px;">
+            <!-- START panel-->
+            <div id="panelDemo10" class="panel panel-info">
+                <div class="panel-heading">
+                    <b>Ticket&nbsp;Status&nbsp;</b>
+                    @if (Model.enableDispositionForm == true)
+                    {
+                    <span id="popupPdtstatus"><i class="fa fa-pencil-square-o fa-lg pull-right" id="pdtshowhide" style="width:28px;" data-target="#roPDTUpdation" data-toggle="modal" data-backdrop="static" data-keyboard="false"></i></span>
+                    <span id="popupROstatus"><i class="fa fa-clock-o fa-lg pull-right" style="width:28px;" data-target="#roStatusUpdation" data-toggle="modal" data-backdrop="static" data-keyboard="false"></i></span>
+                    }
+                </div>
+                <div class="panel-body" style="height: 110px;overflow: auto;padding: 5px;">
+                    @if (Model.enableDispositionForm == true)
+                    {
+                        <span style="font-size: 13px;">&nbsp;<b>Status:</b>&nbsp;<span id="tickStatus">@Model.rosaassignment.rostatus</span></span><br />
+                        <span style="font-size: 13px;">
+                            &nbsp;<b>PDT:</b>&nbsp;<span id="tcktpdtstatus">
+                                @if (Model.rosaassignment.promisedeliverytime != null)
+                                {@Convert.ToDateTime(Model.rosaassignment.promisedeliverytime).ToString("dd-MM-yyyy");
+                                }
+                            </span>
+                        </span><br /><span style="font-size: 13px;">
+                            &nbsp;<b>RO Date:</b>&nbsp;@if (Model.rosaassignment.rodate != null)
+                            {@Convert.ToDateTime(Model.rosaassignment.rodate).ToString("dd-MM-yyyy");
+                        }
+                        </span><br />
+                        <span style="font-size: 13px;">&nbsp;<b>RO ID:</b>&nbsp;@Model.rosaassignment.ronumber + @Model.rosaassignment.chassisno</span><br />
+                        <span style="font-size: 13px;">&nbsp;<b>Technician:</b>&nbsp;@Model.rosaassignment.technician</span><br />
+                        <span style="font-size: 13px;">&nbsp;<b>SA:</b>&nbsp;@Model.rosaassignment.serviceadvisor_name</span><br />
+                        <span style="font-size: 13px;">&nbsp;<b>Visit Type:</b>&nbsp;@Model.rosaassignment.visittypes</span><br />
+                        <span style="font-size: 13px;">&nbsp;<b>Last Mileage:</b>&nbsp;@Model.rosaassignment.mileage</span><br />
+                        <span style="font-size: 13px;">&nbsp;<b>Workshop:</b>&nbsp;@if (Model.rosaassignment.workshop_id != null && (Model.allworkshopList.Count(m => m.id == Model.rosaassignment.workshop_id) > 0))
+                        {@Model.allworkshopList.FirstOrDefault(m => m.id == Model.rosaassignment.workshop_id).workshopName;}</span><br />
+                    }
+                    </div>
+
+            </div>
+        </div>
+        <div class="col-sm-6" style="padding: 0px;">
+            <!-- START panel-->
+            <div id="panelDemo10" class="panel panel-info">
+                <div class="panel-heading">
+                    <b>INSURANCE INFO&nbsp;&nbsp;&nbsp;</b><img src="~/public/images/truck.png" class="pull-right" style="width:28px;"></img>
+                </div>
+                <div class="panel-body" style="height: 110px;overflow: auto;padding: 5px;">
+                    <span>
+                        <b>Due Date &nbsp;(CL) &nbsp;</b><b class="servi" style="background-color: #f05050;color: #fff;border-radius: 3px;   font-size: 13px;border-color: transparent;" id="policyduedateINS">
+                            @if (Model.vehi.policyDueDate != null)
+                            {@Convert.ToDateTime(Model.vehi.policyDueDate).ToString("dd-MM-yyyy");
+                        }
+                        </b><br>
+                        <b>LAST&nbsp;PolicyNo.</b>
+                        @if (Model.LatestInsurance.policyNo != null)
+                        {
+                            if (Model.LatestInsurance.policyNo.Contains("'"))
+                            {@Model.LatestInsurance.policyNo.Replace("'", "");
+                        }
+                        else
+                        { @Model.LatestInsurance.policyNo;
+                    }
+                }<b><br />Premium(Rs.)</b>@Model.LatestInsurance.premiumAmountAfterTax
+            </span><br />
+            <b>Due Date</b><span>
+                @if (Model.LatestInsurance.policyDueDate != null)
+                {@Convert.ToDateTime(Model.LatestInsurance.policyDueDate).ToString("dd-MM-yyyy");
+            }<br /><b>InsuranceCo. &nbsp;</b>@if (Model.LatestInsurance.insuranceCompanyName != null)
+                {@Model.LatestInsurance.insuranceCompanyName}
+            else
+            {@Model.vehi.insuranceCompanyName}
+        </span>
+        <br />
+        <span>
+            <b>IDV & NCB:&nbsp;</b><span id="idv">@Model.LatestInsurance.idv & @Model.LatestInsurance.ncBAmount</span>
+        </span>
+    </div>
+
+</div>
+<!-- END panel-->
+</div>
+<div class="col-sm-6" style="padding: 0px;">
+    <!-- START panel-->
+    <div id="panelDemo10" class="panel panel-info">
+        <div class="panel-heading"><b>PULL&nbsp;factor&nbsp;</b><img src="~/public/images/warranty-certificate.png" class="pull-right" style="width:28px;"></img></div>
+        <div class="panel-body" style="height: 110px;overflow: auto;padding: 5px;">
+            <span style="font-size: 13px;">&nbsp;<b>Insurance:</b>&nbsp; @Model.insurance</span><br />
+            <span style="font-size: 13px;">&nbsp;<b>New Car:</b>&nbsp;@Model.newcar</span><br />
+            <span style="font-size: 13px;">&nbsp;<b>RSA:</b>&nbsp;@Model.rsa</span><br />
+            <span style="font-size: 13px;">&nbsp;<b>EW Car:</b>&nbsp;@Model.ew</span><br />
+
+        </div>
+
+    </div>
+</div>
+
+
+
+</div>
+
+</div>
+
+
+<div class="row animated backInRight">
+    @*@if ((Model.rosaassignment.promisedeliverytime != null && DateTime.Now.Date > Model.rosaassignment.promisedeliverytime) || (Model.rosaassignment.rodate != null && Model.rosaassignment.rodate == DateTime.Now.Date))*@
+    @if (Model.enableDispositionForm == true)
+    {
+        using (Html.BeginForm("SACallLoggingPost", "SACallLogging", FormMethod.Post))
+        {
+
+            @Html.TextBoxFor(m => m.CustomerId, new { @type = "hidden" })
+            @Html.TextBoxFor(m => m.VehicleId, new { @type = "hidden" })
+            @Html.TextBoxFor(m => m.rosaassignedId, new { @type = "hidden" })
+            <div class="col-lg-12 disposit  panelsm" id="callDispoI">
+                <div class="panel panel-primary">
+                    <div class="panel-heading " align="center" ; style="background-color:#1797be;">
+                        <img src="~/public/images/phone1.png" id="imgInter" style="width:17px">&nbsp;<b id="interHeading">DISPOSITION FORM</b>
+                    </div>
+                    <div class="panel-body disposit">
+                        <div class="row">
+                            <div class="col-md-3 col-md-offset-0">
+                                <div class="form-group">
+                                    <label for="customerName">Select Reason for Pending RO<i style="color:red">*</i>:</label>
+                                    @Html.DropDownListFor(m => m.Sainteraction.reasonforpendingro, new SelectList(Model.roreasons, "reason", "reason", Model.roreasons), "--Select--", new { @class = "form-control", @id = "reasonforpendingRO", @onchange = "getpartsMenu();" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row animated  bounceInRight " style="display:none;" id="reasonforpendingRODiv">
+                            <div class="col-lg-offset-1 col-lg-10 table-responsive">
+                                <table id="tblpartsdetails" class="table table-striped table-bordered table-hover">
+                                    <thead align="center">
+                                        <tr>
+                                            <th scope="col">Part Name</th>
+                                            <th scope="col">Part Number</th>
+                                            <th scope="col">Request Date</th>
+                                            <th scope="col">Order Date</th>
+                                            <th scope="col">Estimated Delivery</th>
+                                            <th scope="col"><button id="AddButton" class="btn btn-success" type="button"><i class="fa fa-plus"></i></button></th>
+                                            <th><button class="btn btn-danger" onclick="removetablerow()" type="button"><i class="fa fa-trash"></i></button></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                                @Html.HiddenFor(m => m.Sainteraction.totalParts, new { @id = "totalContacts", @Value = "0" })
+                            </div>
+
+                            @*<div class="form-horizontal col-md-offset-3">
+                                    <div class="form-group">
+                                        <label class="col-sm-3">Part Name</label>
+                                        <div class="col-sm-3">
+                                            @Html.TextBoxFor(model => model.Sainteraction.partname, new { @class = "form-control", @id = "partName" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="  col-sm-3">Part Number</label>
+                                        <div class="col-sm-3">
+                                            @Html.TextBoxFor(model => model.Sainteraction.partnumber, new { @class = "form-control ", @id = "partNumber" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="  col-sm-3">Request Date</label>
+                                        <div class="col-sm-3">
+                                            @Html.TextBoxFor(model => model.Sainteraction.requestdate, "{0:dd-MM-yyyy}", new { @class = "form-control  datepicker", @id = "requestDate" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="  col-sm-3">Order Date</label>
+                                        <div class="col-sm-3">
+                                            @Html.TextBoxFor(model => model.Sainteraction.orderdate, "{0:dd-MM-yyyy}", new { @class = "form-control  datepicker", @id = "orderDate" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="  col-sm-3">ETD</label>
+                                        <div class="col-sm-3">
+                                            @Html.TextBoxFor(model => model.Sainteraction.etd, "{0:dd-MM-yyyy}", new { @class = "form-control  datepicker", @id = "etd" })
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-success">ADD</button>
+                                    </div>
+                                </div>*@
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="">Pending Remarks</label>
+                                    @Html.TextAreaFor(model => model.Sainteraction.pendingreson_remarks, new { @class = "form-control characterLimit", @rows = "2", @id = "pendingresonRemarks" })
+                                </div>
+                            </div>
+                            <div class="col-md-4 pull-right">
+                                <br /><br />
+                                <button type="submit" class="btn btn-success" id="btnrosubmit">Submit</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+        <!-----------Referal WorkFlow--------->
+        <div class="row-fluid">
+            <div class="col-md-12  panelsm">
+                <div class="panel panel-primary">
+                    <div class="panel-heading " align="center" style="background-color:#1797be;" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOnereferal">
+                        <img src="" style="width:17px">&nbsp;<b>REFERRAL WORKFLOW</b>
+                    </div>
+                    @using (Ajax.BeginForm("saReferalCallLog", "SACallLogging", new AjaxOptions { OnSuccess = "referalSave", OnFailure = "referalFailure", HttpMethod = "POST" }))
+                    {
+                        @Html.TextBoxFor(m => m.CustomerId, new { @type = "hidden" })
+                        @Html.TextBoxFor(m => m.VehicleId, new { @type = "hidden" })
+                        @Html.TextBoxFor(m => m.rosaassignedId, new { @type = "hidden" })
+                        <div id="collapseOnereferal" class="panel-collapse collapse in">
+                            <div class="panel-body panelsm">
+                                <div class="row" id="">
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <div class="checkbox ">
+                                                    <label>
+                                                        @Html.CheckBoxFor(m => m.Sareferrals.insurance, new { @id = "referealInsurance", @class = "resetcheckBox", @onchange = "valueChanged('referealInsurance')" })
+                                                        Insurance
+                                                    </label>
+                                                </div>
+                                                <div class="animated  bounceInRight referealInsuranceDiv" style="display:none;" id="referealInsuranceDiv">
+
+                                                    <div class="form-horizontal ">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-5">Policy Expiry Date</label>
+                                                            <div class="col-sm-5">
+                                                                @Html.TextBoxFor(model => model.Sareferrals.policyexpirydate, new { @class = "form-control datepicker", @id = "inspolicyexpirydate", @Value = policydueDate })
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-5">Last IDV</label>
+                                                            <div class="col-sm-5">
+                                                                @Html.TextBoxFor(model => model.Sareferrals.lastdiv, new { @class = "form-control numberOnly ", @maxlength = "7", @id = "inslastdiv", @Value = Model.LatestInsurance.idv })
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-5">Insurance Company</label>
+                                                            <div class="col-sm-5">
+                                                                @Html.DropDownListFor(m => m.Sareferrals.inurancecompany, new SelectList(Model.companiesList, "companyName", "companyName", Model.LatestInsurance.insuranceCompanyName), "--Select--", new { @class = "form-control", @id = "inscompany" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-5">Last NCB (%)</label>
+                                                            <div class="col-sm-3">
+                                                                @Html.TextBoxFor(model => model.Sareferrals.lastncb, new { @class = "form-control numberOnly", @id = "inslastncb", @maxlength = "2", @Value = Model.LatestInsurance.ncBAmount })
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-5">Comprehensive</label>
+                                                            <div class="col-sm-5">
+                                                                @Html.DropDownListFor(model => model.Sareferrals.comprehensive, new SelectListItem[] { new SelectListItem() { Text = "--Select--", Value = "" }, new SelectListItem() { Text = "Yes", Value = "Yes" }, new SelectListItem() { Text = "No", Value = "No" }, }, new { @class = "form-control", @id = "inscomprehensive" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-5">Nil Dip</label>
+                                                            <div class="col-sm-5">
+                                                                @Html.DropDownListFor(model => model.Sareferrals.nilldip, new SelectListItem[] { new SelectListItem() { Text = "--Select--", Value = "" }, new SelectListItem() { Text = "Yes", Value = "Yes" }, new SelectListItem() { Text = "No", Value = "No" }, }, new { @class = "form-control", @id = "insnildip" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-5">HAA / Non HAA</label>
+                                                            <div class="col-sm-5">
+                                                                @Html.DropDownListFor(model => model.Sareferrals.haanonhaa, new SelectListItem[] { new SelectListItem() { Text = "--Select--", Value = "" }, new SelectListItem() { Text = "Yes", Value = "Yes" }, new SelectListItem() { Text = "No", Value = "No" }, }, new { @class = "form-control", @id = "inshaa" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <div class="checkbox ">
+                                                    <label>
+                                                        @Html.CheckBoxFor(m => m.Sareferrals.new_car, new { @id = "referealnewCar", @class = "resetcheckBox", @onchange = "valueChanged('referealnewCar')" })
+                                                        New Car
+                                                    </label>
+                                                </div>
+                                                <div class="animated  bounceInRight referealnewCarDiv" style="display:none;" id="referealnewCarDiv">
+
+                                                    <div class="form-horizontal ">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-5">Intrested Model</label>
+                                                            <div class="col-sm-5">
+                                                                @Html.DropDownListFor(m => m.Sareferrals.intrestedmodel, new SelectList(Model.roModels, "id", "model"), "--Select--", new { @class = "form-control selectpicker", @id = "carmodel", @onchange = "getVariants();" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-5"> Variant</label>
+                                                            <div class="col-sm-5">
+                                                                @Html.DropDownListFor(m => m.Sareferrals.intrestedvariant, Enumerable.Empty<SelectListItem>(), new { @class = "form-control selectpicker", @id = "carvariant", @onchange = "selectfuelType()" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-5">Fuel Type</label>
+                                                            <div class="col-sm-5">
+                                                                @Html.DropDownListFor(m => m.Sareferrals.fueltype, Enumerable.Empty<SelectListItem>(), "--Select--", new { @class = "form-control ", @id = "carfuel" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-5">Intrested Colour</label>
+                                                            <div class="col-sm-5">
+                                                                @Html.TextBoxFor(model => model.Sareferrals.intrestedcolor, new { @class = "form-control onlyAlphabetOnly", @id = "carcolor" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-5">Exchange</label>
+                                                            <div class="col-sm-5">
+                                                                @Html.DropDownListFor(model => model.Sareferrals.exchange, new SelectListItem[] { new SelectListItem() { Text = "--Select--", Value = "" }, new SelectListItem() { Text = "Yes", Value = "Yes" }, new SelectListItem() { Text = "No", Value = "No" }, }, new { @class = "form-control", @id = "carexchange" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-5">Prefered Outlet</label>
+                                                            <div class="col-sm-5">
+                                                                @Html.DropDownListFor(model => model.Sareferrals.preferedoutlet, new SelectList(Model.allworkshopList, "workshopName", "workshopName"), "--Select--", new { @class = "form-control", @id = "caroutlet" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <div class="checkbox ">
+                                                    <label>
+                                                        @Html.CheckBoxFor(m => m.Sareferrals.otherservice, new { @id = "referealOtherservice", @class = "resetcheckBox", @onchange = "valueChanged('referealOtherservice')" })
+                                                        Other Service
+                                                    </label>
+                                                </div>
+                                                <div class="animated  bounceInRight referealOtherserviceDiv" style="display:none;" id="referealOtherserviceDiv">
+
+                                                    <div class="form-horizontal ">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-5">Other Service Types</label>
+                                                            <div class="col-sm-5">
+                                                                @Html.DropDownListFor(model => model.Sareferrals.otherservicetype, new SelectListItem[]
+                 { new SelectListItem() { Text = "--Select--", Value = "" }, new SelectListItem()
+                                                                { Text = "Running Repair", Value = "Running Repair" },
+                                                                    new SelectListItem() { Text = "Paid Service", Value = "Paid Service" },
+                                                                    new SelectListItem() { Text = "Free Service", Value = "Free Service" },
+                                                                    new SelectListItem() { Text = "Accidental Repair", Value = "Accidental Repair" },
+                                                                    new SelectListItem() { Text = "RF Accidental", Value = "RF Accidental" },
+                                                                    new SelectListItem() { Text = "RF Mechanical", Value = "RF Mechanical" },
+                                                                    new SelectListItem() { Text = "RF Mechanical", Value = "RF Mechanical" },
+                                                                    new SelectListItem() { Text = "UC Free Service", Value = "UC Free Service" },
+                                                                    new SelectListItem() { Text = "Accessaries", Value = "Accessaries" },
+                                                                    new SelectListItem() { Text = "PDI", Value = "PDI" },
+                                                                    new SelectListItem() { Text = "Outreach Camp", Value = "Outreach Camp" },
+                 }, new { @class = "form-control", @id = "otherServicetypes" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-5">Current Mileage</label>
+                                                            <div class="col-sm-5">
+
+                                                                @Html.TextBoxFor(model => model.Sareferrals.othercurrentmileage, new { @class = "form-control ", @maxlength = "5", @id = "othercurrentmileage" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row" id="">
+                                    <div class="col-md-12">
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        @Html.CheckBoxFor(m => m.Sareferrals.rsa, new { @id = "referealRSA", @class = "resetcheckBox", @onchange = "valueChanged('referealRSA')" })
+
+                                                        RSA
+                                                    </label>
+                                                </div>
+                                                <div class="animated  bounceInRight referealRSADiv" style="display:none;" id="referealRSADiv">
+                                                    <div class="form-horizontal ">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-5">RSA Coverage</label>
+                                                            <div class="col-sm-5">
+                                                                @Html.DropDownListFor(model => model.Sareferrals.rsacoverage, new SelectList(Model.rsacoverageLists, "coverage", "coverage"), "--Select--", new { @class = "form-control", @id = "rsacoverage" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-5">RSA Converted</label>
+                                                            <div class="col-sm-5">
+                                                                @Html.DropDownListFor(model => model.Sareferrals.rsaconverted, new SelectListItem[] { new SelectListItem() { Text = "--Select--", Value = "" }, new SelectListItem() { Text = "Yes", Value = "Yes" }, new SelectListItem() { Text = "No", Value = "No" }, }, new { @class = "form-control", @id = "rsaconverted" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        @Html.CheckBoxFor(m => m.Sareferrals.ew, new { @id = "referealEW", @class = "resetcheckBox", @onchange = "valueChanged('referealEW')" })
+                                                        EW
+                                                    </label>
+                                                </div>
+                                                <div class="animated  bounceInRight referealEWDiv" style="display:none;" id="referealEWDiv">
+                                                    <div class="form-horizontal ">
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-5">EW Coverage</label>
+                                                            <div class="col-sm-5">
+                                                                @Html.DropDownListFor(model => model.Sareferrals.ewcoverage, new SelectList(Model.ewcoverageLists, "coverage", "coverage"), "--Select--", new { @class = "form-control", @id = "ewcoverage" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-5">EW Converted</label>
+                                                            <div class="col-sm-5">
+                                                                @Html.DropDownListFor(model => model.Sareferrals.ewconverted, new SelectListItem[] { new SelectListItem() { Text = "--Select--", Value = "" }, new SelectListItem() { Text = "Yes", Value = "Yes" }, new SelectListItem() { Text = "No", Value = "No" }, }, new { @class = "form-control", @id = "ewconverted" })
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+
+
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <div class="checkbox ">
+                                                    <label>
+                                                        @Html.CheckBoxFor(m => m.Sareferrals.referred_other, new { @id = "referealOther", @class = "resetcheckBox", @onchange = "valueChanged('referealOther')" })
+                                                        Other
+                                                    </label>
+                                                </div>
+                                                <div class="animated  bounceInRight referealOtherDiv" style="display:none;" id="referealOtherDiv">
+
+                                                    <div class="form-horizontal ">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-5">Customer Name</label>
+                                                            <div class="col-sm-5">
+                                                                @Html.TextBoxFor(model => model.Sareferrals.customer_name, new { @class = "form-control ", @id = "othercustomername", @Value = Model.cust.customerName, @title = Model.cust.customerName })
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-5">Mobile Number</label>
+                                                            <div class="col-sm-5">
+                                                                @Html.TextBoxFor(model => model.Sareferrals.mobile_number, new { @class = "form-control ", @id = "othercustmobNum", @Value = phoneNumber })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        @*<div class="col-md-4">
+                                                <div class="form-group">
+                                                    <div class="checkbox ">
+                                                        <label>
+                                                            @Html.CheckBoxFor(m => m.Sareferrals.self_referred, new { @id = "referealself", @class = "resetcheckBox" })
+                                                            Self
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>*@
+                                    </div>
+
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label for="">Referral Remarks</label>
+                                            @Html.TextAreaFor(model => model.Sareferrals.referral_remarks, new { @class = "form-control characterLimit", @rows = "2", @id = "refferalRemarks" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pull-right">
+                                        <br /><br />
+                                        <button type="button" class="btn btn-danger" id="referalReset">RESET ALL</button>
+                                        <button type="submit" class="btn btn-success" name="btnreferalsubmit" id="btnreferalsubmit">Submit</button>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <!-----------INTERACTIONH HISTORY--------->
+        <div class="row-fluid">
+            <div class="col-md-12  panelsm">
+                <div class="panel panel-primary">
+                    <div class="panel-heading " align="center" style="background-color:#1797be;" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne3">
+                        <img src="@Request.ApplicationPath/public/images/INTERACTION.png" style="width:17px">&nbsp;<b>INTERACTION HISTORY</b>
+                    </div>
+                    <div id="collapseOne3" class="panel-collapse collapse in">
+                        <div class="panel-body panelsm">
+                            <div class="panel with-nav-tabs">
+                                <div class="panel-heading clearfix panelsm">
+                                    <div>
+                                        <ul class="nav nav-tabs">
+                                            <!--  <li class="expand"><a href="#tab1primary" data-toggle="tab" onclick="callHistoryByVehicle();">PREVIOUS COMMENTS</a></li> -->
+                                            <li class="expand"><a href="#tab2primary" data-toggle="tab" onclick="callHistoryByVehicle('SMR');">SERVICE</a></li>
+                                            <li class="expand"><a href="#tab2primary" data-toggle="tab" onclick="callHistoryByVehicle('INS');">INSURANCE</a></li>
+                                            <li class="expand"><a href="#tab2primary" data-toggle="tab" onclick="callHistoryByVehicle('PSF');">PSF</a></li>
+                                            <li class="expand"><a href="#tab3primary" data-toggle="tab" onclick="smsHistoryOfUser();">SMS</a></li>
+                                            <li class="expand"><a href="#tab4primary" data-toggle="tab" onclick="emailHistoryOfVehicle();" s>E-Mail</a></li>
+                                            <li class="expand"><a href="#tab5primary" data-toggle="tab" onclick="complaintsOFVehicle();">COMPLAINTS</a></li>
+                                            <li class="expand"><a href="#tab7primary" data-toggle="tab" onclick="AssignmentHistoryOfCustomer('service');">SMR ASSIGNMENT HISTORY</a></li>
+                                            <li class="expand"><a href="#tabreferal" data-toggle="tab" onclick="gerreferalsOFVehicle();">REFERRAL</a></li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="panel-body panelsm">
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade" id="tab2primary">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <table width="100%" class="table table-striped table-bordered table-hove" id="dispositionHistory">
+                                                            <thead style="overflow:hidden;">
+                                                                <tr>
+                                                                    <th style="text-align:center">AssignID</th>
+                                                                    <th style="text-align:center">JobCard Number</th>
+                                                                    <th style="text-align:center">Call Date</th>
+                                                                    <th style="text-align:center">Call Time</th>
+                                                                    <th style="text-align:center">CRE</th>
+                                                                    <th style="text-align:center">Campaign</th>
+                                                                    <th style="text-align:center" id="serviceType" class="callMadeCs">ServiceType</th>
+                                                                    <th style="text-align:center">Secondary Disposition</th>
+                                                                    <th style="text-align:center">Details</th>
+                                                                    <th style="text-align:center; width:50px;">CRE Remarks</th>
+                                                                    <th style="text-align:center">Feedback</th>
+                                                                    <th style="text-align:center" id="thcallMadeType" class="callMadeCs">CallMade Type</th>
+                                                                    <th style="text-align:center">IsCallinitiated?</th>
+                                                                    <th style="text-align:center">DailedNo</th>
+                                                                    <th style="text-align:center">Recording</th>
+                                                                    <th style="text-align:center">Download</th>
+                                                                    @*<th style="text-align:center">Call Type</th>*@
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="dispoHistBody" style="font-weight: 100; color:black;font-weight:600"></tbody>
+
+                                                        </table>
+                                                        <span id="tblException" style="font-size:12pt;color:red;"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="tab3primary">
+                                            <div class="row table-responsive">
+                                                <div class="col-sm-12">
+                                                    <table class="table table-bordered table-responsive" id="sms_history">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>DATE</th>
+                                                                <th>TIME</th>
+                                                                <th>SOURCE AUTO/CRE ID</th>
+                                                                <th>SCENARIO</th>
+                                                                <th>PHONE NO.</th>
+                                                                <th>MSG TYPE</th>
+                                                                <th>MESSAGE</th>
+                                                                <th>STATUS</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="tab4primary">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group table-responsive">
+                                                        <table class="table table-bordered table-responsive table-user-information" id="email_history" style="overflow: auto;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>DATE</th>
+                                                                    <th>TIME</th>
+                                                                    <th>AUTO/CRE ID</th>
+                                                                    <th>FROM EMAIL&nbsp;ID</th>
+                                                                    <th>TO EMAIL&nbsp;ID</th>
+                                                                    <th>CC EMAIL&nbsp;ID</th>
+                                                                    <th>EMAIL&nbsp;TYPE</th>
+                                                                    <th>EMAIL&nbsp;SUBJECT</th>
+                                                                    <th>EMAIL&nbsp;CONTENT</th>
+                                                                    <th>REASON</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody></tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="tab5primary">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group table-responsive">
+                                                        <table class="table table-bordered table-striped table-hover" id="complaint_history">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>COMPLAINT No.</th>
+                                                                    <th>ISSUE DATE</th>
+                                                                    <th>SOURCE</th>
+                                                                    <th>FUNCTION</th>
+                                                                    <th>CATEGORY</th>
+                                                                    <th>STATUS</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody></tbody>
+                                                        </table>
+                                                        <span id="tblcomplaintHstry" style="font-size:12pt;color:red;"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="tab6primary">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group table-responsive">
+                                                        <table class="table  table-striped table-bordered tblIns table-hover" id="insurance_history">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Send SMS</th>
+                                                                    <th>Send Email</th>
+                                                                    <th>Quotation Date</th>
+                                                                    <th>CRE Name</th>
+                                                                    <th>Insurance Co.</th>
+                                                                    <th>IDV</th>
+                                                                    <th>Rate %</th>
+                                                                    <th>NCB %</th>
+                                                                    <th>NCB (Rs.)</th>
+                                                                    <th>Disc %</th>
+                                                                    <th>Disc (Rs.)</th>
+                                                                    <th>OD Premium</th>
+                                                                    <th>Add-On Premium</th>
+                                                                    <th>Liablity Premium</th>
+                                                                    <th>Other Charges</th>
+                                                                    <th>Package Premium</th>
+                                                                    <th>Gross Premium</th>
+                                                                    <th>Comment</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody></tbody>
+                                                        </table>
+                                                        <span id="tblINSQutnhstryException" style="font-size:12pt;color:red;"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane fade" id="tab7primary">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group table-responsive">
+                                                        <table class="table  table-striped table-bordered tblIns table-hover" id="assignment_smr_history">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>ASSIGNED ID</th>
+                                                                    <th>ASSIGNED DATE</th>
+                                                                    <th>ASSIGNED BY</th>
+                                                                    <th>ASSIGNED TO</th>
+                                                                    <th>STATUS</th>
+                                                                    <th>Service Type</th>
+                                                                    <th>LAST DISPOSITION</th>
+                                                                    <th>RE-ASSIGNED DONE?</th>
+                                                                    <th>RE-ASSIGNMENT HISTORY</th>
+                                                                    <th>Reason For Drop</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody></tbody>
+
+                                                        </table>
+                                                        <span id="tbsmrhstryException" style="font-size:12pt;color:red;"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane fade" id="tab8primary">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group table-responsive">
+                                                        <table class="table table-bordered table-responsive table-user-information" id="tbl_fe_interactions">
+                                                            <thead style="text-transform:uppercase">
+                                                                <tr>
+                                                                    <th>ASSIGNED&nbsp;ID</th>
+                                                                    <th>cre&nbsp;name</th>
+                                                                    <th>dse&nbsp;name</th>
+                                                                    <th>action&nbsp;date&nbsp;time</th>
+                                                                    <th>appointment&nbsp;type</th>
+                                                                    <th>attempt&nbsp;status</th>
+                                                                    <th>disposition</th>
+                                                                    <th>details</th>
+                                                                    <th>REMARKS/COMMENTS</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody></tbody>
+
+                                                        </table>
+                                                    </div>
+                                                    <span id="tblExceptionFE" style="font-size:14px;color:red;"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="tab9primary">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group table-responsive">
+                                                        <table class="table table-bordered table-responsive table-user-information" id="tbl_policydrop_interactions">
+                                                            <thead style="text-transform:uppercase">
+                                                                <tr>
+                                                                    <th>ID</th>
+                                                                    <th>cre&nbsp;name</th>
+                                                                    <th>dse&nbsp;name</th>
+                                                                    <th>call&nbsp;date</th>
+                                                                    <th>appointment&nbsp;date</th>
+                                                                    <th>appointment&nbsp;time</th>
+                                                                    <th>location</th>
+                                                                    <th>cre&nbsp;remakrs</th>
+                                                                    <th>customer&nbsp;remarks</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody></tbody>
+
+                                                        </table>
+                                                    </div>
+                                                    <span id="tblExceptionPolicyDrop" style="font-size:14px;color:red;"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane fade" id="tabreferal">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group table-responsive">
+                                                        <table class="table table-bordered table-striped table-hover" id="tblreferal">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Date</th>
+                                                                    <th>Time</th>
+                                                                    <th>User</th>
+                                                                    <th>Insurance</th>
+                                                                    <th>New Car</th>
+                                                                    <th>EW</th>
+                                                                    <th>RSA</th>
+                                                                    <th>Other Service</th>
+                                                                    <th>Other</th>
+                                                                    <th>Remarks</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody></tbody>
+                                                        </table>
+                                                        <span id="tblreferalHstry" style="font-size:12pt;color:red;"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+
+<!-- Document Upload part-->
+<div class="row">
+    <div class="col-lg-12 panelsm">
+        <div class="panel panel-primary">
+            <div class="panel-heading" id="docPanel" data-toggle="collapse" onclick="getDocuments();" data-parent="#accordion" data-target="#collapseOne4" align="center" style="background-color:#1797be;">
+                <img src="~/public/images/docUpload.png" style="width:17px">&nbsp;<b>DOCUMENT UPLOAD HISTORY</b>
+            </div>
+            <div id="collapseOne4" class="panel-collapse collapse">
+                <div class="panel-body panelsm">
+                    <div class="row animated  bounceInRight">
+                        <div class="col-lg-12">
+                            <div class="form-group table-responsive">
+                                <table class="table table-bordered table-responsive table-user-information" id="tblDocument">
+                                    <thead>
+                                        <tr>
+                                            <th>DEPT</th>
+                                            <th>USER</th>
+                                            <th>UPLOAD DATE TIME</th>
+                                            <th>DOCUMENT NAME</th>
+                                            <th>LINK</th>
+                                            <th>WHATSAPP</th>
+                                            <th>EMAIL</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            @using (Ajax.BeginForm("uploadDocument", "CallLogging", null, new AjaxOptions { OnSuccess = "fileSuccess", OnFailure = "fileFailure", HttpMethod = "POST" }, new { @enctype = "multipart/form-data" }))
+                            {
+
+                                <div class="panel-heading">Upload New document</div>
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label for="customerName">Tag to Dept<i style="color:red">*</i>:</label>
+                                        @Html.DropDownListFor(m => m.docHistory.deptName, new List<SelectListItem> {
+                                                    new SelectListItem{Text="Service",Value="Service" },
+                                                    new SelectListItem{Text="Insurance",Value="Insurance"},
+                                                    new SelectListItem{Text="PSF",Value="PSF"}
+                                                }, "select", new { @class = "form-control", required = "required", @id = "deptName" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label for="customerName">Document Name<i style="color:red">*</i>:</label>
+                                        @Html.TextBoxFor(m => m.docHistory.documentName, "", new { @class = "form-control", @required = "required", @id = "documentName", @autocomplete = "off" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label for=""><i style="color:red">*Maximum 3 files allowed to upload</i></label>
+                                        @Html.TextBoxFor(m => m.docHistory.fileList, "", new { @type = "file", @required = "required", @multiple = "multiple", onchange = "NumOfFile(this)", @autocomplete = "off", @id = "fileList", @accept = "image/gif,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel, image/jpeg, image/png,application/pdf", })
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <input type="submit" value="UPLOAD" id="btnSubmit" />
+                                        <label for=""><i style="color:red">*Allowed File Formats ['docx','png','xlsx','xls','jpg','jpeg','pdf']</i></label>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="addBtn" role="dialog">
+    <div class="modal-dialog modal-lg">
+        @using (Ajax.BeginForm("customerSave", "customerUpdate", new AjaxOptions { OnSuccess = "custSaveSuccess", OnFailure = "custSaveFailure", HttpMethod = "POST" }))
+        {
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header" style="padding:1px;text-align:center;color:red;">
+                    <button type="button" class="close" data-dismiss="modal"><img src="~/public/images/close1.png"></button>
+                    <h5 class="modal-title">UPDATE CUSTOMER INFORMATION</h5>
+                </div>
+
+                <div class="modal-body mbheight">
+                    <div class="row">
+                        <div class="col-sm-12" style="margin-top: 5px;">
+                            <div class="col-sm-3">
+                                <label><b>Owner:</b></label>
+                                @Html.TextBoxFor(model => model.cust.customerName, new { @Value = Model.cust.customerName, @class = "form-control textOnlyAccepted", @id = "customerNameEdit", @readonly = "readonly" })
+                                <br />
+                            </div>
+
+                            <div class="col-sm-3">
+                                <label><b>User/Driver:</b></label>
+                                @Html.TextBoxFor(model => model.cust.userDriver, new { @Value = Model.cust.userDriver, @class = "form-control textOnlyAccepted", @id = "driverNameEdit" })
+                                <br />
+                            </div>
+                            <div class="col-sm-3">
+                                <label><b>DND</b></label><br />
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(model => model.cust.doNotDisturb, true, new { @id = "dndcheckbox1" })YES
+                                </label>
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(model => model.cust.doNotDisturb, false, new { @id = "dndcheckbox2" })NO
+                                </label>
+                            </div>
+                            @*@if (Session["DealerCode"].ToString() == "INDUS" && ViewBag.insupulicyDueDate != null)
+                                {
+                                    <div class="col-sm-3">
+                                        <label><b>Policy Due Date:</b></label>
+                                        @Html.TextBoxFor(model => model.callinteraction.insuranceassignedinteraction.policyDueDate, new { @Value = ViewBag.insupulicyDueDate, @class = "form-control datepicker", @id = "policueditDuedate", @readonly = "readonly" })
+                                        <br />
+                                    </div>
+                                }*@
+                        </div>
+                        <b />
+                        <hr />
+                        <div class="col-sm-12" style="margin-top: 5px;">
+                            <div class="col-sm-3">
+                                <label><b>Preferred Email:</b></label>
+                                @if (Model.cust.emails.FirstOrDefault(m => m.isPreferredEmail == true) != null)
+                                {
+                                    @Html.DropDownListFor(m => m.prefferedEmail, new SelectList(Model.cust.emails, "email_Id", "emailAddress", Model.cust.emails.FirstOrDefault(m => m.isPreferredEmail == true).emailAddress), new { @class = "form-control", @id = "email" })
+                                }
+                                else
+                                {
+                                    @Html.DropDownListFor(m => m.prefferedEmail, new SelectList(Model.cust.emails, "email_Id", "emailAddress"), "--Select--", new { @class = "form-control", @id = "email" })
+                                }
+                            </div>
+                            <div class="col-sm-1">
+                                <label></label>
+                                <button type="button" class="btn btn-success oeditEmailmodal" data-toggle="modal" data-target="#driver_modal4" style="margin-top: 5px;">Add</button>
+                            </div>
+                            <div class="col-sm-3">
+                                <label><b>Date OF Birth:</b></label>
+                                @Html.TextBoxFor(model => model.cust.dob, new { @class = "datepicMYDropDown form-control", @id = "dob", @Value = Model.cust.dob, @readonly = "readonly" })
+                            </div>
+                            <div class="col-md-3">
+                                <label><b>Date of Anniversary</b></label>
+                                @Html.TextBoxFor(model => model.cust.anniversary_date, new { @class = "datepicMYDropDown form-control", @id = "anniversary_date", @Value = Model.cust.anniversary_date, @readonly = "readonly" })
+                            </div>
+                            <div class="col-md-2" style="Display:none">
+                                <label><b>Pref Workshop</b></label>
+                                @Html.DropDownList("preff_workshop", new SelectList(Model.allworkshopList, "id", "workshopName"), "--Select--", new { @class = "form-control", @id = "preff_workshop" })
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="col-sm-12" style="margin-top: 5px;">
+                            <h5 style="color:Red;"><b>MANAGE PREFERENCES</b></h5>
+                            <div class="col-sm-3">
+                                <label><b>Preferred Contact #:</b></label>
+
+                                @Html.DropDownListFor(m => m.prefferedPhone, new SelectList(Model.custPhoneList, "phone_Id", "phoneNumber"), new { @class = "form-control", @id = "preffered_contact_num" })
+
+                            </div>
+                            <div class="col-sm-2">
+                                <label></label>
+                                <span class="input-group-btn">
+
+                                    <button type="button" style="margin-top:5px;" class="btn btn-success" id="tanniversary_edit" data-toggle="modal" data-target="#myModalAddPhone">Add</button>
+                                    @if ((Session["DealerCode"].ToString() != "RISHABHFOURWHEELS" && Session["DealerCode"].ToString() != "KATARIATRUCKING"))
+                                    {
+                                        <button type="button" style="margin-top:5px;" id="deleteNum" class="btn btn-danger" data-toggle="modal" data-target="#myModalUpdatePhone">Del</button>
+                                        }
+                                </span>
+                            </div>
+                            <div class="col-md-3">
+                                <label><b>Preferred Mode of Contact:</b></label>
+                                <div class="col-sm-12" id="modeOfContact">
+                                    @Html.DropDownListFor(model => model.cust.mode_of_contact, new SelectListItem[] {
+                                               new SelectListItem() { Text = "Email", Value = "Email" },
+                                               new SelectListItem() { Text = "Phone", Value = "Phone" },
+                                               new SelectListItem() { Text = "SMS", Value = "SMS" }
+                               }, new { @class = "form-control selectpicker", @id = "preffered_mode_contact", @multiple = "multiple" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label><b>Preferred Day to Contact:</b></label>
+                                <div class="col-sm-12" id="prefferedWeek">
+                                    @Html.DropDownListFor(model => model.cust.preferred_day, new SelectListItem[] {
+                             new SelectListItem() { Text = "Sunday", Value = "Sunday" },
+                             new SelectListItem() { Text = "Monday", Value = "Monday" },
+                             new SelectListItem() { Text = "Tuesday", Value = "Tuesday" },
+                             new SelectListItem() { Text = "Wednesday", Value = "Wednesday" },
+                             new SelectListItem() { Text = "Thursday", Value = "Thursday" },
+                             new SelectListItem() { Text = "Friday", Value = "Friday" },
+                             new SelectListItem() { Text = "Saturday", Value = "Saturday" }
+                             }, new { @class = "form-control selectpicker", @id = "preffered_day_contact", @multiple = "multiple" })
+
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <hr>
+                        <div class="col-sm-12" style="margin-top: 5px;">
+                            <div class="col-sm-3">
+                                <label><b>Preferred Time Of Contact(Start Time):</b></label>
+                                @Html.TextBoxFor(model => model.cust.preferred_time_start, new { @class = "form-control single-input timepicker_7", id = "dateStarttime", @Value = Model.cust.preferred_time_start, @readonly = "true" })
+                            </div>
+                            <div class="col-md-3">
+                                <label><b>Preferred Time Of Contact(End Time):</b></label>
+                                @Html.TextBoxFor(model => model.cust.preferred_time_end, new { @class = "form-control single-input timepicker_7", id = "dateEndtime", @Value = Model.cust.preferred_time_end, @readonly = "true" })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <input type="submit" id="pn_save" class="btn btn-success" value="Save" />
+
+                </div>
+
+            </div>
+        }
+    </div>
+</div>
+
+<div class="modal fade" id="AddressUpdatePopup" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <label>Add New Address</label>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" style="padding-left: 0px;padding-right:0px; border-style: solid; border-color: #64aeef; margin-bottom: 7px;">
+                        <div class="col-md-6" style="margin-bottom: 7px;">
+                            <label>Update Address: </label>
+                            <textarea id="newAddress" class="form-control paddr_line1 characterLimit" rows="3" placeholder="Please enter Company Name/Flat No &amp; Building name."></textarea>
+                        </div>
+                        <div class="col-md-2">
+                            <label>State</label><br>
+                            @Html.DropDownList("pstateId", Model.citystatesList, "--Select--", new { @class = "form-control paddr_line5", @style = "", @id = "pstateId", @onchange = "getCityByStateSelection('pstateId','paddrrCity');" })
+                        </div>
+                        <div class="col-md-2">
+                            <label>City</label>
+                            <select class="form-control paddr_line4" id="paddrrCity"></select>
+                        </div>
+                        <div class="col-md-2">
+                            <label>PinCode</label>
+                            <input type="text" class="form-control paddr_line6 numberOnly" id="ppincode" maxlength="6" rows="1" value="0" placeholder="Please enter PinCode">
+                        </div>
+                        <div class="col-md-2">
+                            <label>Is Primary</label>
+                            <input type="checkbox" id="IsPrimary" name="checkBoxPrimary" value="checkBoxPrimary" />
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label>Available Address Details</label>
+                        <div class="table-responsive divscroll">
+                            <table id="allAddress" style="border-style:solid;border-color: #64aeef;" class="table table-striped table-bordered dt-responsive nowrap table-fixed" cellspacing="0" border="2">
+                                <thead class="makefixed">
+                                    <tr style="font-size: small;">
+                                        <th>Preffered</th>
+                                        <th>Address</th>
+                                        <th>City</th>
+                                        <th>Pincode</th>
+                                        <th>Update On</th>
+                                        <th>Updated By</th>
+                                        @if (Session["UserRole"].ToString() == "CREManager")
+                                        {
+                                            <th>Delete</th>
+                                        }
+
+                                    </tr>
+                                </thead>
+                                <tbody style="font-size: smaller; color:black" id="popUpBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary paddr_submit" data-dismiss="modal" onclick="updateNewAddress();">Add</button>
+                <button type="button" class="btn btn-primary paddr_submit" onclick="reset();">Reset</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel" id="roStatusUpdation" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center" id="gridSystemModalLabel">UPDATE STATUS</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12" style="margin-top: 5px;">
+                        <div class="col-sm-4 col-sm-offset-1">
+                            <label><b>Current Status:</b></label>
+                            <input type="text" id="rocurrentStatus" value="@Model.rosaassignment.rostatus" readonly class="form-control" />
+                            <br />
+                        </div>
+                        <div class="col-sm-4 col-sm-offset-2">
+                            <label><b>Update Status:</b></label>
+                            <select id="roupdateStatus" class="form-control">
+                                <option value="">--Select--</option>
+                                <option value="OPEN">OPEN</option>
+                                <option value="CLOSED">CLOSED</option>
+                                <option value="BILLED">BILLED</option>
+                                <option value="DELIVERED">DELIVERED</option>
+                                <option value="CANCEL">CANCEL</option>
+                            </select>
+                            @*<input type="text" id="roupdateStatus" value="@Model.nextRoStatus" readonly class="form-control" />*@
+                            <br />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" id="btnstatus" onclick="updatePDTandROStatus('true', @Model.rosaassignedId)">Update</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+</div>
+
+<div class="modal fade" role="dialog" id="roPDTUpdation" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center" id="gridSystemModalLabel">UPDATE PDT</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12" style="margin-top: 5px;">
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <label><b>PROMISED DELIVERY DATE And TIME:</b></label>
+                            <input type="text" id="ropdtupdate" class="pdtdatetime form-control" />
+                            <br />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="btnPDT" onclick="updatePDTandROStatus('false', @Model.rosaassignedId)">Update</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+</div>
+
+
+<!-- Email Modal PopUp-->
+<div class="modal fade" id="myModalEmailPopUp" role="dialog">
+    <div class="modal-dialog modal-xs">
+        @using (Ajax.BeginForm("sendEmail", "CallLogging", new AjaxOptions { OnSuccess = "emailSuccess", OnFailure = "emailFailure", HttpMethod = "POST" }))
+        {
+            <!-- Modal content-->
+            <div class="modal-content mbheight">
+                <div class="modal-header" style="text-align:center; background-color: #0288D1;padding:5px;">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" style="color:white;"><b>Sending Email</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" id="custSelectionDiv" style="display:none;">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="dd_email_type">Email Type</label>
+                                @Html.DropDownList("ddl_Email_Type", new SelectList(Model.emailtemplates, "id", "emailType"), "--Select--", new { @class = "form-control", @onchange = "smsTypeChanged(this.id,'email')", @id = "ddl_Email_Type" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="ddl_Email_Location">Location</label>
+                                @Html.DropDownList("ddl_Email_Location", new SelectList(Model.locationList, "name", "name"), "--Select--", new { @class = "form-control", @onchange = "ajaxCallToLoadWorkShopByCity('ddl_Email_Location','ddl_Email_Workshop');", @id = "ddl_Email_Location" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="ddl_Email_Workshop">Workshop</label>
+                                @Html.DropDownList("ddl_Email_Workshop", Enumerable.Empty<SelectListItem>(), "--Select--", new { @class = "form-control", @onchange = "locationChnaged(this.id,'email');", @id = "ddl_Email_Workshop" })
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row" style="padding:10px;">
+                        <label for="comment">SUBJECT:</label>
+                        @Html.HiddenFor(m => m.email.EmailTo, new { @id = "hdEmail_To" })
+                        @Html.HiddenFor(m => m.email.UploadedUser, new { @id = "hduploadedUser" })
+                        @Html.HiddenFor(m => m.email.EmailFor, new { @id = "hEmailFor" })
+                        @Html.TextBoxFor(m => m.email.Subject, "", new { @class = "form-control", @id = "emailSubject", @style = "font-weight:normal;", @autocomplete = "off" })
+                        @*<input type="text" class="form-control" id="emailSubject" style="font-weight:normal;">*@
+                    </div>
+                    <div class="row" style="padding:10px;">
+                        <label for="comment">BODY:</label>
+                        @Html.TextAreaFor(m => m.email.Body, new { @class = "form-control", @rows = "6", @id = "emailtemplate", @style = "font-weight:normal;" })
+                    </div>
+                    <div id="attachPanel">
+                        <img src="~/public/images/docUpload.png" style="width:17px" />
+                        <label>&nbsp;Attahced Docs:</label>
+                        @Html.TextBoxFor(m => m.email.Attachments, new { @id = "attachmentHidden", @type = "hidden" })
+                        <div class="row" id="attachedDocs" style='border:thin solid black;margin:0px;'>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-xs-6">
+                                <label>Email Id</label><br>
+                                @Html.DropDownListFor(m => m.email.EmailFrom, Enumerable.Empty<SelectListItem>(), "--Select--", new { @class = "form-control", @onchange = "manageEmailIds('emailCredentialIds', 'emailPasswords', 'emailPasswordDiv');", @id = "emailCredentialIds", @style = "font-weight:normal;" })
+                            </div>
+
+                            <div class="col-xs-6" id="emailPasswordDiv" style="display:block;">
+                                <label>Password</label><br>
+                                @Html.TextBoxFor(m => m.email.Password, new { @type = "password", @class = "form-control", @id = "emailPasswords", @autocomplete = "new-password" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" value="Send" id="btnEmailSubmit" class="btn btn-primary" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div class="modal fade" id="smsPopuId" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="text-align:center;background-color: #106A86;color: #fff;">
+                <button type="button" class="close" data-dismiss="modal"><img src="~/public/images/close1.png"></button>
+                <h4 class="modal-title"><b>SMS OPTIONS</b></h4>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group" style="padding: 5px 17px;">
+                        @if (Session["DealerCode"].ToString() == "HARPREETFORD" || Session["DealerCode"].ToString() == "HANSHYUNDAI" || Session["DealerCode"].ToString() == "GALAXYTOYOTA" || Session["DealerCode"].ToString() == "TOYOTADEMO")
+                        {
+                            @Html.RadioButton("TypeOfMsg", "SMS", new { @id = "smsRadio", @onclick = "typeOfMsg(this);" }) @:&nbsp;SMS&nbsp;&nbsp;&nbsp;
+                            @Html.RadioButton("TypeOfMsg", "WhatsApp", new { @id = "wtsAppRadio", @onclick = "typeOfMsg(this);" })@:&nbsp;Whatsapp InfoBip&nbsp;&nbsp;&nbsp;
+                            @Html.RadioButton("TypeOfMsg", "WhatsAppNormal", new { @id = "wtsAppRadioNormal", @onclick = "typeOfMsg(this);" })@:&nbsp;WhatsApp-Normal
+                        }
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="comment">SMS Type:</label>
+                            @if (Session["DealerCode"].ToString() == "HARPREETFORD" || Session["DealerCode"].ToString() == "HANSHYUNDAI" || Session["DealerCode"].ToString() == "GALAXYTOYOTA" || Session["DealerCode"].ToString() == "TOYOTADEMO")
+                            {
+                                @Html.DropDownList("ddl_SMSType", Enumerable.Empty<SelectListItem>(), "--Select--", new { @class = "form-control", @style = "text-transform:capitalize;", @id = "ddl_SMSType", @onchange = "getSMSTemplate(this.id);" })
+                            }
+                            else
+                            {
+                                @Html.DropDownList("ddl_SMSType", new SelectList(Model.smstemplates, "smsId", "smsType"), "--Select--", new { @class = "form-control", @onchange = "smsTypeChanged(this.id,'sms')", @id = "ddl_SMSType" })
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="sel1">Location</label>
+                            @Html.DropDownList("ddl_location", new SelectList(Model.locationList, "name", "name"), "--Select--", new { @class = "form-control", @onchange = "ajaxCallToLoadWorkShopByCity('ddl_location','ddl_workshop');", @id = "ddl_location" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="sel1">Workshop</label>
+                            @if (Session["DealerCode"].ToString() == "HARPREETFORD" || Session["DealerCode"].ToString() == "HANSHYUNDAI" || Session["DealerCode"].ToString() == "GALAXYTOYOTA" || Session["DealerCode"].ToString() == "TOYOTADEMO")
+                            {
+                                @Html.DropDownList("ddl_workshop", Enumerable.Empty<SelectListItem>(), "--Select--", new { @class = "form-control", @onchange = "workshopChanged(this.id);", @id = "ddl_workshop" })
+                            }
+                            else
+                            {
+                                @Html.DropDownList("ddl_workshop", Enumerable.Empty<SelectListItem>(), "--Select--", new { @class = "form-control", @onchange = "locationChnaged(this.id,'sms');", @id = "ddl_workshop" })
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 animated bounceInDown" id="div_campSpecial" style="display:none;">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Offer-1</label>
+                            <input type="text" id="Offer1" name="Offer1" class="form-control offerCntr" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Offer-2</label>
+                            <input type="text" id="Offer2" name="Offer2" class="form-control offerCntr" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Offer-3</label>
+                            <input type="text" id="Offer3" name="Offer3" class="form-control offerCntr" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Offer-4</label>
+                            <input type="text" id="Offer4" name="Offer4" class="form-control offerCntr" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Offer-5</label>
+                            <input type="text" id="Offer5" name="Offer5" class="form-control offerCntr" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Offer-6</label>
+                            <input type="text" id="Offer6" name="Offer6" class="form-control offerCntr" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 animated bounceInDown" id="dateTimeDiv" style="display:none">
+                    <div class="col-md-3 animated bounceInLeft" id="div_date" style="display:none;">
+                        <div class="form-group">
+                            <label>Select Date</label>
+                            <input type="text" id="bookingDate" placeholder="Booking Date" name="bookingDate" class="form-control datePickerFilterTo" readonly />
+                        </div>
+                    </div>
+                    <div class="col-md-3 animated bounceInLeft" id="div_dateFrom" style="display:none;">
+                        <div class="form-group">
+                            <label>Select Date</label>
+                            <input type="text" id="bookingDatFrom" placeholder="Offer From Date" name="bookingDatFrom" class="form-control datePicker" readonly />
+                        </div>
+                    </div>
+                    <div class="col-md-3 animated bounceInLeft" id="div_offerEndDate" style="display:none;">
+                        <div class="form-group">
+                            <label>Select Date</label>
+                            <input type="text" id="bookingDateTo" placeholder="Offer End Date" name="bookingDateTo" class="form-control datePicker" readonly />
+                        </div>
+                    </div>
+                    <div class="col-md-3 animated bounceInLeft" id="div_bTime">
+                        <div class="form-group">
+                            <label>Select Time</label>
+                            <input type="text" id="bookingTime" placeholder="Booking Time" name="bookingTime" class="form-control timepicker_7" readonly />
+                        </div>
+                    </div>
+                    <div class="col-md-3 animated bounceInLeft" style="display:none;" id="div_campName">
+                        <div class="form-group">
+                            <label>Campaign Name</label>
+                            <input type="text" id="txtCampName" name="txtCampName" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-3 animated bounceInLeft" style="display:none;" id="div_amount">
+                        <div class="form-group">
+                            <label>Amount</label>
+                            <input type="number" min="0" id="txtAmount" name="txtAmt" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 animated bounceInRight" style="display:none;" id="infoBip_btn">
+                    <div class="form-group" style="margin-left:15px">
+                        <button type="button" id="wtsappTemplate" name="wtsappTemplate" onclick="getTemplateForWhatsapp();" class="btn btn-sm btn-info">Get Template</button><br />
+                        <label for="wtsappTemplate" style="color:red;font-size:9pt;font-family:Consolas">First click on <i>Get Template</i> before sending...</label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="comment">SMS Template:</label>
+                            <textarea class="form-control" rows="5" id="smstemplate"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                @if (Session["DealerCode"].ToString() == "HARPREETFORD" || Session["DealerCode"].ToString() == "HANSHYUNDAI" || Session["DealerCode"].ToString() == "GALAXYTOYOTA" || Session["DealerCode"].ToString() == "TOYOTADEMO")
+                {
+
+
+                    <button type="button" id="sendMsg" class="btn btn-default" data-dismiss="modal" disabled="disabled" onclick="sendMessage();"><img src='~/public/images/sms_logo.jpg' style="width: 20px;">&nbsp;Send</button>
+                    <button type="button" id="btn_whatsapp" style="display:none;" class="btn btn-default whatsapp" onclick="OpenWhatsApp(this)" data-dismiss="modal"><img src='~/public/images/whatsapp_logo.png' style="width: 20px;">&nbsp;Message</button>
+                }
+                else
+                {
+                    <button type="button" id="smsSendbtn" class="btn btn-default smsSendType" data-dismiss="modal" onclick="sendSMS();"><img src='~/public/images/sms_logo.jpg' style="width: 20px;">&nbsp;Text</button>
+                    <button type="button" id="whatsapp" class="btn btn-default whatsapp" onclick="OpenWhatsApp(this)" data-dismiss="modal"><img src='~/public/images/whatsapp_logo.png' style="width: 20px;">&nbsp;Message</button>
+                }
+                @*<a href="#" class="btn btn-default" target="_blank" id="whatsapp"><img src='~/public/images/whatsapp_logo.png' style="width: 20px;">&nbsp;Message</a>*@
+                @*<lable style="display:none;" id="buttonview">Please Wait...</lable>
+                    <i class="fa fa-phone fa-mobile-phone fa-"></i>*@
+            </div>
+        </div>
+    </div>
+</div>
+@using (Ajax.BeginForm("Saves", "customerUpdate", new AjaxOptions { OnSuccess = "onPopopSucces", OnFailure = "onPopopFailure", HttpMethod = "POST" }))
+{
+    @Html.TextBoxFor(m => m.submittedBtnName, new { @id = "custSubBtn", @type = "hidden" })
+
+    <div class="modal fade" id="AddNewAddressPopup" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><img src="~/public/images/close1.png"></button>
+                        <h4 class="modal-title"><b style="text-align:center; color:Red;">Add New Address</b></h4>
+                    </div>
+                    <div class="modal-body mbheight" style="color:black;">
+                        @Html.TextBoxFor(m => m.addressesAdd.ddlId, new { @Value = "permanentAddress,AddressMSSId", @type = "hidden" })
+                        <div class="row" id="AddAddressDiv">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="comments"><b>Add Address1</b></label><span style="color:red"> *</span>
+                                    @Html.TextAreaFor(m => m.addressesAdd.addressLine1, new { @class = "form-control characterLimit", @rows = "1", @id = "AddAddress1All" })
+                                    @*<textarea class="form-control characterLimit" rows="1" id="AddAddress1All" name="address1New"></textarea>*@
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="comments"><b>Add Address2<b></label>
+                                    @Html.TextAreaFor(m => m.addressesAdd.addressLine2, new { @class = "form-control characterLimit", @rows = "1", @id = "AddAddress2All" })
+                                    @*<textarea class="form-control characterLimit" rows="1" id="AddAddress2All" name="address2New"></textarea>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label><b>State</b></label>
+                                    @Html.DropDownListFor(m => m.addressesAdd.state, Model.citystatesList, "--Select--", new { @class = "form-control", @id = "AddAddrMMSState", @onchange = "getCityByStateSelection('AddAddrMMSState','cityInputPopup3');" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label><b>City</b></label>
+                                    @Html.DropDownListFor(m => m.addressesAdd.city, Enumerable.Empty<SelectListItem>(), "--Select--", new { @class = "form-control", @id = "cityInputPopup3" })
+                                    @*<select class="form-control" name="cityNew" placeholder="City" id="cityInputPopup3"></select>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="comments"><b>PinCode</b></label>
+                                    @Html.TextBoxFor(m => m.addressesAdd.pincode, new { @class = "form-control numberOnly", @value = "0", @id = "PinCode1MMS", @maxlength = "6" })
+                                    @*<input type="text" class="form-control numberOnly" name="pincodeNew" value="0" id="PinCode1MMS" maxlength="6" />*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-success" name="submit" value="SaveAddress" id="AddAddrMMSSaveMe" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="driver_modal4" role="dialog">
+        <div class="modal-dialog modal-xs">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span style="color:red;background-color:white;border-radius:50%;">x</span></button>
+                    <h4 class="modal-title">ADD EMAIL</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-4">
+
+                            @Html.TextBoxFor(m => m.emailAdd.ddlId, new { @Value = "email,ddl_email", @type = "hidden", @id = "emailId" })
+                            @Html.TextBoxFor(model => model.emailAdd.emailAddress, new { @class = "form-control email", @maxlength = "60", @min = "5", @max = "60", @id = "myEmailNum" })
+                            @* <input type="text" name="myEmailNum" class="form-control email" maxlength="60" min="5" max="60" id="myEmailNum">*@
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-success" name="submit" value="SaveEmail" id="saveEmailCust" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModalAddPhone" role="dialog">
+        <div class="modal-dialog modal-xs">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><img src="~/public/images/close1.png"></button>
+                    <h4 class="modal-title">ADD PHONE NUMBER</h4>
+                </div>
+
+                @Html.TextBoxFor(m => m.phoneAdd.ddlId, new { @Value = "preffered_contact_num,ddl_phone_no", @type = "hidden" })
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-xs-4">
+                                <label>New Phone No.</label><br>
+                                @Html.TextBoxFor(model => model.phoneAdd.phoneNumber, new { @class = "form-control numberOnly", @maxlength = "12", @min = "10", @max = "12", @id = "myPhoneNum" })<br />
+                                <span id="phErro" style="color:red;font-size:10pt;"></span>
+                                @*   <input type="text" name="myPhoneNum" class="form-control numberOnly" maxlength="10" min="10" max="10" id="myPhoneNum">*@
+                            </div>
+                            <div class="col-xs-8">
+                                <label>Remarks/Reason for adding</label><br>
+                                @Html.TextAreaFor(model => model.phoneAdd.remarks, new { @class = "form-control characterLimit", @id = "myPhoneRemark" })
+                                @*  <textarea name="myPhoneRemark" class="form-control characterLimit" id="myPhoneRemark"></textarea>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-default" name="submit" value="SavePhone" id="savePhoneCust" />
+                    @*<button type="button" class="btn btn-default" data-dismiss="modal" id="savePhoneCust">SAVE</button>*@
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- remarks on delete or preference change -->
+
+    <div class="modal fade" id="myModalUpdatePhone" role="dialog">
+        <div class="modal-dialog modal-xs">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header" style="padding:1px;text-align:center;color:red;">
+                    <button type="button" class="close" data-dismiss="modal"><img src="~/public/images/close1.png"></button>
+                    <h5 class="modal-title">DELETE CONTACT</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+
+                            <div class="col-xs-8">
+                                <label>Remarks/Reason for updation</label><br>
+                                @Html.TextAreaFor(model => model.phoneAdd.remarks, new { @class = "form-control characterLimit", @id = "myPhnRemark" })
+                                @*<textarea name="myPhnRemark" class="form-control characterLimit" id="myPhnRemark"></textarea>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="dltPhoneCust" name="submit" value="DeletePhone">Delete</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+}
+@*<select class="form-control" name="insuranceCompanyQuotated" id="insuranceCompanyId"></select>*@
+
+@section scripts
+   {
+    @Scripts.Render("~/bundles/CallLoggingJS")
+<script>
+    var variants = [];
+    var sainteractionData;
+
+    $(document).ready(function () {
+                                        sainteractionData = '@Html.Raw(Json.Encode( Model.Sainteraction))';
+
+          var rodateDate = '@Convert.ToDateTime(Model.rosaassignment.rodate).ToString("yyyy-MM-dd")';
+            $(".pdtdatetime").datepicker({
+              autoclose: true,
+            dateFormat: 'yy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+            minDate: rodateDate
+            });
+        $('body').on('focus', ".datepicker_recurring_start", function () {
+            $(this).datepicker(
+                {
+                    autoclose: true,
+                    dateFormat: 'yy-mm-dd',
+                    changeMonth: true,
+                    changeYear: true,
+                })
+        });
+
+            disableroStatusDropdownOptions('@rostatusDisable');
+        getpartsMenu();
+        if (sainteractionData != 'null') {
+            bindValues();
+        }
+            var rostatuscheck = '@Model.rosaassignment.rostatus';
+            hidePDT(rostatuscheck);
+        });
+
+        function referalSave(res) {
+            if (res.success == true) {
+
+                clearReferals();
+                Lobibox.notify('success', {
+                    msg: 'Refferals Saved successfully!'
+                });
+                gerreferalsOFVehicle();
+            }
+            else if (res.success == false) {
+                Lobibox.notify('warning', {
+                    msg: res.error
+                });
+            }
+            $('#mainLoader').fadeOut('slow');
+        }
+
+        function referalFailure(res) {
+            Lobibox.notify('warning', {
+                msg: 'something went Wrong'
+            });
+            $('#mainLoader').fadeOut('slow');
+        }
+        function getpartsMenu() {
+            var reson = $('#reasonforpendingRO').val();
+            if (reson == "Parts not available" || reson == "Additional Work - Parts awaited") {
+                $('#reasonforpendingRODiv').show();
+                if (sainteractionData == 'null') {
+                    $('#AddButton').trigger('click');
+
+                }
+            }
+            else {
+                $('#reasonforpendingRODiv').hide();
+
+            }
+        }
+
+        function valueChanged(id) {
+            if ($('#' + id).is(":checked"))
+                $("#" + id + "Div").show();
+            else
+                $("#" + id + "Div").hide();
+        }
+
+        function gerreferalsOFVehicle() {
+            var dataTableReferals = $('#tblreferal').DataTable({
+                "destroy": true,
+                "ajax": {
+                    url: siteRoot + "/SACallLogging/getReferaltHistoryofVehicle/",
+                    "type": "POST",
+                    "datatype": "json",
+                    data: {},
+                },
+                "columns": [
+                    {
+                        "data": "calldate", render: function (data, type, row) {
+                            return parseJsonDateTime(data)
+                        }
+                    },
+                    { "data": "calltime", "name": "calltime" },
+                    { "data": "saname", "name": "saname" },
+                    {
+                        "data": "insurance", render: function (data, type, row) {
+                            if (data == true) {
+                                return "Yes";
+                            }
+                            else {
+                                return "No"
+                            }
+                        }
+                    }, {
+                        "data": "new_car", render: function (data, type, row) {
+                            if (data == true) {
+                                return "Yes";
+                            }
+                            else {
+                                return "No"
+                            }
+                        }
+                    },
+                    {
+                        "data": "ew", render: function (data, type, row) {
+                            if (data == true) {
+                                return "Yes";
+                            }
+                            else {
+                                return "No"
+                            }
+                        }
+                    },
+                    {
+                        "data": "rsa", render: function (data, type, row) {
+                            if (data == true) {
+                                return "Yes";
+                            }
+                            else {
+                                return "No"
+                            }
+                        }
+                    },
+                    {
+                        "data": "otherservice", render: function (data, type, row) {
+                            if (data == true) {
+                                return "Yes";
+                            }
+                            else {
+                                return "No"
+                            }
+                        }
+                    },
+                    {
+                        "data": "referred_other", render: function (data, type, row) {
+                            if (data == true) {
+                                return "Yes";
+                            }
+                            else {
+                                return "No"
+                            }
+                        }
+                    },
+                    { "data": "referral_remarks", "name": "referral_remarks" }
+                ],
+                responsive: true,
+                "initComplete": function (data) {
+                    $('#tblreferalHstry').text(data.json.exception);
+                },
+                "processing": "true",
+                "bFilter": false,
+                "bLengthChange": false,
+                "sorting": "false",
+                "paging": "true",
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                },
+                order: [],
+                pageLength: 5
+            });
+        }
+
+        $("#btnreferalsubmit").click(function () {
+            if ($("#form0 input:checkbox:checked").length == 0) {
+                Lobibox.notify('warning', {
+                    msg: 'Please Check Any One Option'
+                });
+                return false;
+            }
+
+
+
+
+            if ($(":checkbox[name='Sareferrals.insurance']").is(":checked")) {
+                var policyexpirydate = $('#inspolicyexpirydate').val();
+                var lastdiv = $('#inslastdiv').val();
+                var inscmpny = $('#inscompany').val();
+                var lastncb = $('#inslastncb').val();
+                var comprhnsv = $('#inscomprehensive').val();
+                var nildip = $('#insnildip').val();
+                var haa = $('#inshaa').val();
+                if (policyexpirydate == "") {
+                    Lobibox.notify('warning', {
+                        msg: 'Please Enter Policy Expiry Detail'
+                    });
+                    return false;
+                }
+                if (lastdiv == "") {
+                    Lobibox.notify('warning', {
+                        msg: 'Please Enter Last Div'
+                    });
+                    return false;
+                }
+                if (inscmpny == "") {
+                    Lobibox.notify('warning', {
+                        msg: 'Please Enter Insurance Company'
+                    });
+                    return false;
+                }
+                if (lastncb == "") {
+                    Lobibox.notify('warning', {
+                        msg: 'Please Enter Last NCB'
+                    });
+                    return false;
+                }
+                if (comprhnsv == "") {
+                    Lobibox.notify('warning', {
+                        msg: 'Please Enter Comprehensive'
+                    });
+                    return false;
+                }
+                if (nildip == "") {
+                    Lobibox.notify('warning', {
+                        msg: 'Please Enter NilDip'
+                    });
+                    return false;
+                }
+                if (haa == "") {
+                    Lobibox.notify('warning', {
+                        msg: 'Please Enter HAA / Non HAA'
+                    });
+                    return false;
+                }
+            }
+            else {
+                $('#inscomprehensive').prop('selectedIndex', 0);
+                $('#insnildip').prop('selectedIndex', 0);
+                $('#inshaa').prop('selectedIndex', 0);
+            }
+            if ($(":checkbox[name='Sareferrals.new_car']").is(":checked")) {
+                var model = $('#carmodel').val();
+                var variant = $('#carvariant').val();
+                var fuel = $('#carfuel').val();
+                var color = $('#carcolor').val();
+                var exchange = $('#carexchange').val();
+                var outlet = $('#caroutlet').val();
+                if (model == "") {
+                    Lobibox.notify('warning', {
+                        msg: 'Please Enter Model'
+                    });
+                    return false;
+                }
+                if (variant == "") {
+                    Lobibox.notify('warning', {
+                        msg: 'Please Enter Variant'
+                    });
+                    return false;
+                }
+                if (fuel == "") {
+                    Lobibox.notify('warning', {
+                        msg: 'Please Enter Fuel Type'
+                    });
+                    return false;
+                }
+                if (exchange == "") {
+                    Lobibox.notify('warning', {
+                        msg: 'Please Enter Exchange Value'
+                    });
+                    return false;
+                }
+                if (outlet == "") {
+                    Lobibox.notify('warning', {
+                        msg: 'Please Enter Outlet'
+                    });
+                    return false;
+                }
+            }
+            else {
+                $('#carmodel').prop('selectedIndex', 0);
+                $('#carmodel').multiselect('refresh');
+
+
+                $("#carvariant").empty();
+                $("#carvariant").addClass('selectpicker');
+                $('#carvariant').multiselect('rebuild');
+                $('#carfuel').prop('selectedIndex', 0);
+
+                $('#carcolor').val("");
+                $('#carexchange').prop('selectedIndex', 0);
+                $('#caroutlet').prop('selectedIndex', 0);
+            }
+
+
+            if ($(":checkbox[name='Sareferrals.otherservice']").is(":checked")) {
+                var otherServicetypes = $('#otherServicetypes').val();
+                var othercurrentmileage = $('#othercurrentmileage').val();
+
+                if (otherServicetypes == "") {
+                    Lobibox.notify('warning', {
+                        msg: 'Please Enter Service Types'
+                    });
+                    return false;
+                }
+                if (othercurrentmileage == "") {
+                    Lobibox.notify('warning', {
+                        msg: 'Please Enter Current Mileage'
+                    });
+                    return false;
+                }
+
+            }
+            else {
+                $('#otherServicetypes').prop('selectedIndex', 0);
+                $('#othercurrentmileage').val('');
+
+
+            }
+
+
+            if ($(":checkbox[name='Sareferrals.rsa']").is(":checked")) {
+                var rsaCoverage = $('#rsacoverage').val();
+                var rsaconverted = $('#rsaconverted').val();
+
+                if (rsaCoverage == "") {
+                    Lobibox.notify('warning', {
+                        msg: 'Please Enter RSA Coverage'
+                    });
+                    return false;
+                }
+
+                if (rsaconverted == "") {
+                    Lobibox.notify('warning', {
+                        msg: 'Please Select RSA Converted'
+                    });
+                    return false;
+                }
+            }
+            else {
+                $('#rsacoverage').prop('selectedIndex', 0);
+                $('#rsaconverted').prop('selectedIndex', 0);
+            }
+            if ($(":checkbox[name='Sareferrals.ew']").is(":checked")) {
+                var ewCoverage = $('#ewcoverage').val();
+                var ewconverted = $('#ewconverted').val();
+                if (ewCoverage == "") {
+                    Lobibox.notify('warning', {
+                        msg: 'Please Enter EW Coverage'
+                    });
+                    return false;
+                }
+                if (ewconverted == "") {
+                    Lobibox.notify('warning', {
+                        msg: 'Please Select EW Converted'
+                    });
+                    return false;
+                }
+            }
+            else {
+                $('#ewcoverage').prop('selectedIndex', 0);
+                $('#ewconverted').prop('selectedIndex', 0);
+
+            }
+
+            if ($(":checkbox[name='Sareferrals.referred_other']").is(":checked")) {
+                var customerName = $('#othercustomername').val();
+                var mobileNumber = $('#othercustmobNum').val();
+
+                if (customerName == "") {
+                    Lobibox.notify('warning', {
+                        msg: 'Please Enter Customer Name'
+                    });
+                    return false;
+                }
+                if (mobileNumber == "") {
+                    Lobibox.notify('warning', {
+                        msg: 'Please Enter Mobile Number'
+                    });
+                    return false;
+                }
+
+            }
+            else {
+
+            }
+
+
+        });
+
+        $("#referalReset").click(function () {
+            clearReferals();
+        });
+        function clearReferals() {
+
+            $('#inscomprehensive').prop('selectedIndex', 0);
+            $('#insnildip').prop('selectedIndex', 0);
+            $('#inshaa').prop('selectedIndex', 0);
+
+
+            $('#carmodel').prop('selectedIndex', 0);
+            $('#carmodel').multiselect('refresh');
+
+
+            $("#carvariant").empty();
+            $("#carvariant").addClass('selectpicker');
+            $('#carvariant').multiselect('rebuild');
+            $('#carfuel').prop('selectedIndex', 0);
+
+            $('#carcolor').val("");
+            $('#carexchange').prop('selectedIndex', 0);
+            $('#caroutlet').prop('selectedIndex', 0);
+
+            $('#ewcoverage').prop('selectedIndex', 0);
+            $('#ewconverted').prop('selectedIndex', 0);
+            $('#rsacoverage').prop('selectedIndex', 0);
+            $('#rsaconverted').prop('selectedIndex', 0);
+
+            $('#otherServicetypes').prop('selectedIndex', 0);
+            $('#othercurrentmileage').val('');
+
+            $('#refferalRemarks').val("");
+
+            $("#referealInsuranceDiv").hide();
+            $("#referealRSADiv").hide();
+            $("#referealEWDiv").hide();
+            $("#referealnewCarDiv").hide();
+            $("#referealOtherDiv").hide();
+            $("#referealOtherserviceDiv").hide();
+
+            $("input:checkbox[class=resetcheckBox]").prop('checked', false);
+        }
+
+        function updatePDTandROStatus(isStatus, roId) {
+            var PDT = $('#ropdtupdate').val();
+            var roStatus = $('#roupdateStatus').val();
+            if (isStatus == "true" && roStatus == "") {
+                Lobibox.notify('warning', {
+                    msg: 'Please Select RO Status'
+                });
+                return false;
+            }
+            $("#btnPDT").prop("disabled", true);
+            $("#btnstatus").prop("disabled", true);
+
+            $.ajax({
+                type: 'POST',
+                url: siteRoot + '/SACallLogging/updateRoassignmentsattusandPDT/',
+                datatype: 'json',
+                data: { roId: roId, roStatus: roStatus, isStatus: isStatus, PDT: PDT },
+                cache: false,
+                success: function (res) {
+
+                    if (res.success == true) {
+
+                        if (isStatus == "false") {
+                            $('#tcktpdtstatus').text(PDT);
+                            $('#roPDTUpdation').modal('hide');
+                        }
+                        if (isStatus == "true") {
+                            $('#tickStatus').text(roStatus);
+                            $('#rocurrentStatus').val(roStatus);
+                            disableroStatusDropdownOptions(roStatus);
+                            hidePDT(roStatus);
+                            $('#roStatusUpdation').modal('hide');
+                        }
+                        $("#btnstatus").prop("disabled", false);
+                        $("#btnPDT").prop("disabled", false);
+
+                        Lobibox.notify('success', {
+                            msg: res.exception
+                        });
+                    }
+                    else if (res.success == false) {
+                        Lobibox.notify('warning', {
+                            msg: res.exception
+                        });
+                        $("#btnPDT").prop("disabled", false);
+                        $("#btnstatus").prop("disabled", false);
+
+                    }
+
+                }
+            });
+        }
+
+        function getVariants() {
+            var modelID = $('#carmodel').val();
+
+            $.ajax({
+                type: 'POST',
+                url: siteRoot + '/SACallLogging/getmodelvariantandfueltype/',
+                datatype: 'json',
+                data: { modelID: modelID },
+                cache: false,
+                success: function (res) {
+
+                    if (res.success == true) {
+                        variants = res.variants;
+
+                        if (res.variants != null) {
+                            $('#carvariant').empty();
+                            $('#carfuel').empty();
+                            var dropdown = document.getElementById("carvariant");
+                            var dropdowndiesel = document.getElementById("carfuel");
+                            dropdown[0] = new Option('--Select--', '');
+                            dropdowndiesel[0] = new Option('--Select--', '');
+
+                            for (var i = 0; i < res.variants.length; i++) {
+                                dropdown[dropdown.length] = new Option(res.variants[i].variant, res.variants[i].variant);
+                                $("#carvariant").addClass('selectpicker');
+                                $('#carvariant').multiselect('rebuild');
+                            }
+                            for (var i = 0; i < res.fueltype.length; i++) {
+                                dropdowndiesel[dropdowndiesel.length] = new Option(res.fueltype[i], res.fueltype[i]);
+                            }
+                        }
+
+                    }
+                    else if (res.success == false) {
+                        Lobibox.notify('warning', {
+                            msg: res.exception
+                        });
+
+                    }
+
+                }
+            });
+        }
+
+        function selectfuelType() {
+            var varnt = $('#carvariant').val();
+
+            var selectfueltype = variants.filter(m => m.variant == varnt);
+            $('#carfuel').val(selectfueltype[0].fueltype).attr("selected", "selected");
+
+        }
+
+        $("#btnrosubmit").click(function () {
+            clearReferals();
+            var reson = $('#reasonforpendingRO').val();
+            if (reson == "")
+            {
+                Lobibox.notify('warning', {
+                    msg: 'Please Select Pending RO Reasons.'
+                });
+                return false;
+            }
+        });
+
+        function hidePDT(status)
+        {
+            if (status == "CANCEL" || status == "DELIVERED") {
+                $('#popupPdtstatus').hide();
+            }
+            else {
+                $('#popupPdtstatus').show();
+
+            }
+        }
+        function disableroStatusDropdownOptions(rostatusDisable) {
+            if (rostatusDisable != "") {
+                var options = ["OPEN", "CLOSED", "BILLED", "DELIVERED", "CANCEL"];
+                var index = options.indexOf(rostatusDisable);
+                options.splice(index + 1, options.length);
+
+                $.each(options, function (k, v) {
+                    $('#roupdateStatus  option[value=' + v + ']').prop('disabled', true);
+                });
+
+            }
+
+            }
+
+    /*** Dynamic Controll Creations ***/
+    $("#AddButton").click(function () {
+        tc = parseInt($("#totalContacts").val());
+        tc = tc + 1;
+        if (tc > 5) {
+            tc = tc - 1;
+           return false;
+        }
+        $("#totalContacts").val(tc)
+        if (tc == 1) {
+              var tabledetails =    '<tr>'+
+                '<td> <input type="text" class="form-control col-lg-4" name="sainteraction.partname" id="partname" /></td >' +
+                '<td><input type="text" class = "form-control col-lg-4" name="sainteraction.partnumber" id="partnumber" /></td>' +
+                '<td><input type="text" class = "form-control datepicker_recurring_start col-lg-4" readonly name="sainteraction.requestdate" id="requestdate" /></td>' +
+                '<td><input type="text" class = "form-control col-lg-4 datepicker_recurring_start" readonly name="sainteraction.orderdate" id="orderdate" /></td>' +
+                '<td><input type="text" class="form-control col-lg-4 datepicker_recurring_start" readonly name="sainteraction.etd" id="etd" /></td>' +
+                '</tr >'
+            $("#tblpartsdetails tbody").append(tabledetails)
+        }
+        else
+        {
+
+            var validationCount = tc - 1;
+            if (validationCount == 1) {
+                var partname = $('#partname').val();
+                var partnumber = $('#partnumber').val();
+                var requestdate = $('#requestdate').val();
+                var orderdate = $('#orderdate').val();
+                var etd = $('#etd').val();
+
+                if (partname == "" || partnumber == "" || requestdate == "" || orderdate == "" || etd == "") {
+                    tc = tc - 1;
+                    $("#totalContacts").val(tc)
+
+                    Lobibox.notify('warning', {
+                        msg: 'Please Enter Parts Details.'
+                    });
+                    return false;
+                }
+            }
+            else {
+                var partname = $('#partname' + validationCount).val();
+                var partnumber = $('#partnumber' + validationCount).val();
+                var requestdate = $('#requestdate' + validationCount).val();
+                var orderdate = $('#orderdate' + validationCount).val();
+                var etd = $('#etd' + validationCount).val();
+
+                if (partname == "" || partnumber == "" || requestdate == "" || orderdate == "" || etd == "") {
+                    tc = tc - 1;
+                    $("#totalContacts").val(tc)
+
+                    Lobibox.notify('warning', {
+                        msg: 'Please Enter Parts Details.'
+                    });
+                    return false;
+                }
+            }
+               var tabledetails =   '<tr id="tblrowparts' + tc + '">' +
+                   '<td><input type="text" class = "form-control col-lg-4" name="sainteraction.partname' + tc + '" id="partname'+tc+'" /></td>' +
+                   '<td><input type="text" class = "form-control col-lg-4" name="sainteraction.partnumber' + tc + '"  id="partnumber' + tc +'"  /></td>' +
+                   '<td><input type="text" class = "form-control col-lg-4 datepicker_recurring_start " readonly name="sainteraction.requestdate' + tc + '"   id="requestdate' + tc +'" /></td>' +
+                   '<td><input type="text" class = "form-control col-lg-4 datepicker_recurring_start " readonly name="sainteraction.orderdate' + tc + '" id="orderdate' + tc +'"  /></td>' +
+                   '<td><input type="text" class="form-control col-lg-4 datepicker_recurring_start " readonly name="sainteraction.etd' + tc + '"  id="etd' + tc +'" /></td>'+
+                '</tr >'
+            $("#tblpartsdetails tbody").append(tabledetails)
+        }
+        });
+
+    function removetablerow() {
+        tc = parseInt($("#totalContacts").val());
+        if (tc == 1) {
+            return false;
+        }
+        $("#tblrowparts" + tc).remove();
+        tc = tc - 1;
+        $("#totalContacts").val(tc)
+
+    }
+
+    function bindValues() {
+        var sainteractionData = '@Html.Raw(Json.Encode( Model.Sainteraction))';
+        sainteractionData = JSON.parse(sainteractionData);
+        var totalrecord = sainteractionData.totalParts;
+        if (sainteractionData != null && sainteractionData != "")
+        {
+            for (i = 1; i <= totalrecord; i++) {
+                if (i == 1) {
+                     var tabledetails=   '<tr>'+
+                         '<td><input type="text" class="form-control col-lg-4" name="sainteraction.partname" value="' + sainteractionData["partname"] + '" id="partname"/></td >'+
+                         '<td> <input type="text" class="form-control col-lg-4" name="sainteraction.partnumber" value="' + sainteractionData["partnumber"] + '" id="partnumber"/></td >'+
+                         '<td> <input type="text" class="form-control datepicker_recurring_start col-lg-4" readonly name="sainteraction.requestdate"  value="' + parseJsonDateTime(sainteractionData["requestdate"]) + '" id="requestdate" /></td >' +
+                         '<td> <input type="text" class="form-control col-lg-4 datepicker_recurring_start" readonly name="sainteraction.orderdate"  value="' + parseJsonDateTime(sainteractionData["orderdate"]) +'"  id="orderdate" /></td > ' +
+                         '<td> <input type="text" class="form-control col-lg-4 datepicker_recurring_start" readonly name="sainteraction.etd"  value="' + parseJsonDateTime(sainteractionData["etd"]) + '" id="etd" /></td >'+
+                        '</tr>'
+                    $("#tblpartsdetails tbody").append(tabledetails);
+                }
+                else {
+
+                       var tabledetails =   '<tr id = "tblrowparts' + i + '">'+
+                           '<td><input type="text" name="sainteraction.partname' + i + '"   value="' + sainteractionData["partname" + i] + '"  id="partname'+i+'" class = "form-control col-lg-4"/></td>'+
+                           '<td> <input type="text" class="form-control col-lg-4" name="sainteraction.partnumber' + i + '" value="' + sainteractionData["partnumber" + i] + '"   id="partnumber' + i +'" /></td>'+
+                           '<td> <input type="text" class="form-control col-lg-4 datepicker_recurring_start " readonly name="sainteraction.requestdate' + i + '"  value="' + parseJsonDateTime(sainteractionData["requestdate" + i]) + '"   id="requestdate' + i +'" /></td>'+
+                           '<td> <input type="text" class="form-control col-lg-4  datepicker_recurring_start" readonly name="sainteraction.orderdate' + i + '"   value="' + parseJsonDateTime(sainteractionData["orderdate" + i]) + '"   id="orderdate' + i +'" /></td>'+
+                           '<td> <input type="text" class="form-control col-lg-4 datepicker_recurring_start" readonly name="sainteraction.etd' + i + '"    value="' + parseJsonDateTime(sainteractionData["etd" + i]) + '"   id="etd' + i +'" /></td >'+
+                        '</tr> '
+                        $("#tblpartsdetails tbody").append(tabledetails)
+
+                }
+
+                $("#totalContacts").val(i)
+            }
+        }
+    }
+    /*** End Controll Creations ***/
+</script>
+}
+
+

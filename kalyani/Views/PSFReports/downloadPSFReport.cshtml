@@ -1,0 +1,697 @@
+﻿
+@{
+    ViewBag.Title = "downloadPSFReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .scroll {
+        width: 20px;
+        height: 12px;
+        overflow: auto;
+        margin: 0 10px;
+    }
+
+    .scroll4::-webkit-scrollbar {
+        width: 10px;
+        height: 6px;
+    }
+
+    .scroll4::-webkit-scrollbar-thumb {
+        background: #666;
+        border-radius: 20px;
+    }
+
+    .scroll4::-webkit-scrollbar-track {
+        background: #ddd;
+        border-radius: 20px;
+    }
+
+    .panel-heading {
+        cursor: pointer;
+    }
+
+    div#container {
+        height: 400px;
+        width: 400px;
+        border: 2px solid #000;
+        overflow: scroll;
+    }
+
+    .accordion-toggle:after {
+        font-family: 'FontAwesome';
+        content: "\f077";
+        float: right;
+        color: inherit;
+    }
+
+    .panel-heading.collapsed .accordion-toggle:after {
+        content: "\f078";
+    }
+
+    .box-body {
+        padding: 0px;
+    }
+
+    hr {
+        margin-top: 0px;
+        margin-bottom: 0px;
+        border: 0;
+    }
+
+    #slideOut {
+        position: fixed;
+        width: 230px;
+        height: 800px;
+        top: 147px;
+        right: -230px;
+        /* Animation  */
+        transition-property: all;
+        transition-duration: .5s;
+        transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+        z-index: 999;
+    }
+
+    .showSlideOut {
+        right: 0px !important;
+    }
+
+    .slideOutTab {
+        margin-top: 50px;
+        position: absolute;
+        left: -40px;
+        height: 200px;
+        width: 40px;
+        -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+        background: #F2AB34;
+        border-radius: 15px 0px 0px 15px
+    }
+
+        .slideOutTab div {
+            text-align: center;
+            position: relative;
+            right: 70px;
+            top: 90px;
+            background: #F2AB34;
+            width: 180px;
+            -webkit-transform: rotate(270deg);
+            -moz-transform: rotate(270deg);
+            -o-transform: rotate(270deg);
+            writing-mode: lr-tb;
+        }
+
+
+    h2 {
+        font-size: 18px;
+    }
+
+    .dbbgcolor1 {
+        background-color: #03a9f4;
+    }
+
+    .dbbgcolor2 {
+        background-color: #ffc107;
+    }
+
+    .dbbgcolor3 {
+        background-color: #d559ea;
+    }
+
+    .dbbgcolor4 {
+        background-color: #ff5652;
+    }
+
+    .dbbgcolor5 {
+        background-color: #69afff;
+    }
+
+    .dbbgcolor6 {
+        background-color: #4edec1;
+    }
+
+    .dbbgcolor7 {
+        background-color: #ffc107;
+    }
+
+    .dbbgcolor8 {
+        background-color: #d559ea;
+    }
+
+    .dbbgcolor9 {
+        background-color: #ff5652;
+    }
+
+    ul.multiselect-container.dropdown-menu {
+        height: 121px;
+        overflow: auto;
+    }
+
+    .tile-stats span {
+        margin-top: 5px;
+        font-size: 12px;
+    }
+
+    .boxes {
+        margin: 6px;
+    }
+
+    .x_title h2 {
+        float: none;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    #myTab {
+        margin-bottom: 0px;
+    }
+
+        #myTab > li {
+            /* width: 110px;
+        word-wrap: break-word;*/
+            border-bottom: 2px solid #fff;
+        }
+
+    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        padding: 3px;
+        line-height: 1;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+        color: #000 !important;
+        font-size: 13px;
+        background-color: #fff;
+    }
+
+    .dataTables_length,
+    .dataTables_filter,
+    .dataTables_info {
+        font-size: 12px;
+    }
+
+    /*tbody,th{
+      text-align: center;
+    }*/
+
+
+    .nav-tabs > li > a:hover {
+        border-color: #b14b4b #b93131 #b33;
+        color: #000;
+    }
+
+    .donloadClass {
+        text-align: center;
+        position: relative;
+        margin-top: 38px;
+        margin-left: 0px;
+        font-size: medium;
+    }
+
+    .html5buttons {
+        display: none;
+    }
+</style>
+
+<div class="panel panel-primary">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-3 col-md-3 col-sm-12 col-xs-12 psfmodalclick" data-toggle="modal" data-target="#myModalpsffilters" data-id="1">
+                <div class="panel panel-primary" style="text-align: center; cursor:pointer">
+                    <div class="panel-heading">PSF Call History</div>
+                    <div class="panel-body" style="height: 88px;">
+                        <h2>PSF CRE Call History Logs</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-md-3 col-sm-12 col-xs-12 psfmodalclick" data-toggle="modal" data-target="#myModalpsffilters" data-id="2">
+                <div class="panel panel-primary" style="text-align: center; cursor:pointer">
+                    <div class="panel-heading">PSF Call History</div>
+                    <div class="panel-body" style="height: 88px;">
+                        <h2>PSF Complaint Manager Call History Logs</h2>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-3 col-md-3 col-sm-12 col-xs-12 psfmodalclick" data-toggle="modal" data-target="#myModalpsffilters" data-id="3">
+                <div class="panel panel-primary" style="text-align: center; cursor:pointer">
+                    <div class="panel-heading">PSF Call History</div>
+                    <div class="panel-body" style="height: 88px;">
+                        <h2>PSF RM Call History Logs</h2>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-3 col-md-3 col-sm-12 col-xs-12 psfmodalclick" data-toggle="modal" data-target="#myModalpsffilters" data-id="4">
+                <div class="panel panel-primary" style="text-align: center; cursor:pointer">
+                    <div class="panel-heading">Data Availability Summary </div>
+                    <div class="panel-body" style="height: 88px;">
+                        <h2>Data Availability Report  </h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-md-3 col-sm-12 col-xs-12 psfmodalclick" data-toggle="modal" data-target="#myModalpsffilters" data-id="5">
+                <div class="panel panel-primary" style="text-align: center; cursor:pointer">
+                    <div class="panel-heading">VIN Assignment</div>
+                    <div class="panel-body" style="height: 88px;">
+                        <h2>VIN Assignment Summary Report</h2>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-3 col-md-3 col-sm-12 col-xs-12 psfmodalclick" data-toggle="modal" data-target="#myModalpsffilters" data-id="6">
+                <div class="panel panel-primary" style="text-align: center; cursor:pointer">
+                    <div class="panel-heading">Complaint Resolved</div>
+                    <div class="panel-body" style="height: 88px;">
+                        <h2>Complaint Resolved Counts</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-md-3 col-sm-12 col-xs-12 psfmodalclick" data-toggle="modal" data-target="#myModalpsffilters" data-id="7">
+                <div class="panel panel-primary" style="text-align: center; cursor:pointer">
+                    <div class="panel-heading">Complaint Resolved</div>
+                    <div class="panel-body" style="height: 88px;">
+                        <h2>Complaint Resolved Details</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-md-3 col-sm-12 col-xs-12 psfmodalclick" data-toggle="modal" data-target="#myModalpsffilters" data-id="8">
+                <div class="panel panel-primary" style="text-align: center; cursor:pointer">
+                    <div class="panel-heading">Unresolved Complaint</div>
+                    <div class="panel-body" style="height: 88px;">
+                        <h2>Unresolved Complaint Counts</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-md-3 col-sm-12 col-xs-12 psfmodalclick" data-toggle="modal" data-target="#myModalpsffilters" data-id="9">
+                <div class="panel panel-primary" style="text-align: center; cursor:pointer">
+                    <div class="panel-heading">Unresolved Complaint</div>
+                    <div class="panel-body" style="height: 88px;">
+                        <h2>Unresolved Complaint Details</h2>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-3 col-md-3 col-sm-12 col-xs-12 psfmodalclick" data-toggle="modal" data-target="#myModalpsffilters" data-id="10">
+                <div class="panel panel-primary" style="text-align: center; cursor:pointer">
+                    <div class="panel-heading">Service Rating Report</div>
+                    <div class="panel-body" style="height: 88px;">
+                        <h2>Service Rating Report-Workshop Wise</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Model popup window Start -->
+<div class="modal fade" id="myModalpsffilters" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="text-align:center;background-color: #106A86;color: #fff;">
+                <button type="button" class="close" data-dismiss="modal" style="opacity:2;"><img src="~/public/images/close1.png" /></button>
+                <h4 class="modal-title" id="psfmodaltitle"></h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="psgbucketID" id="psgbucketID" value="" />
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div id="calldateDiv" style="display:none;">
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label id="lblcallfromDate">CallDate From</label>
+                                    <input id="psfcallfromDate" required readonly type="text" class="datepickerfrom form-control input-sm DataSumdatedisable ">
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label id="lblcalltoDate">CallDate To</label>
+                                    <input id="psfcalltoDate" required readonly type="text" class="datepickerto form-control input-sm DataSumdatedisable">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="locationDiv" style="display:none;">
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label>Location Name</label>
+                                    @Html.DropDownList("psfworkshop", new SelectList(ViewBag.ddlWorkshop, "workshopId", "workshopName"), new { @class = "form-control selectpickerAll", @multiple = "multiple", @id = "psfworkshop" })
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="billdateDiv" style="display:none;">
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label>BillDate From</label>
+                                    <input id="billdateFrom" readonly type="text" class="datepickerbillfrom form-control VinSumdatedisable ">
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label>BillDate To</label>
+                                    <input id="billdateTo" readonly type="text" class="datepickerbillto form-control VinSumdatedisable">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="creDivS" style="display:none;">
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label> CRE</label>
+                                    @Html.DropDownList("psfcre", new SelectList(ViewBag.ddlcres, "id", "creName"), new { @class = "form-control selectpickerAll", @multiple = "multiple", @id = "psfcre" })
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id="campaignDiv" style="display:none;">
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label>Campaign Name</label>
+                                    @Html.DropDownList("psfCampaign", new SelectList(ViewBag.ddlcampaignList, "id", "CampaignName"), new { @class = "form-control selectpickerAll", @multiple = "multiple", @id = "psfCampaign" })
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="ratingwiseDiv" style="display:none;">
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label>Select Type</label>
+                                    <select class="form-control" id="psfratingWise">
+                                        <option value="10">Workshopwise</option>
+                                        <option value="11">CustomerCategorywise</option>
+                                        <option value="12">ServiceTypewise</option>
+                                        <option value="13">SANamewise</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <h5>This report is downloadable upto 31 days</h5>
+
+                <button type="button" class="btn btn-success" onclick="return clearAllPSFFilters(); ">&nbsp;Clear all</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="tblAtulCallhisSMRPSFDatalogs" onclick="return downloadPSFReports();"><i class="fa fa-cloud-download">  &nbsp;&nbsp;Download</i></button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Model popup window End -->
+@section scripts
+{
+    <Script>
+        $(document).ready(function () {
+
+
+            $('#psfcallfromDate').focus(function () {
+                $('#psfcalltoDate').val('');
+                $('#billdateFrom').val('');
+                $('#billdateTo').val('');
+
+            });
+            $('#billdateFrom').focus(function () {
+                $('#psfcallfromDate').val('');
+                $('#psfcalltoDate').val('');
+                $('#billdateTo').val('');
+
+            });
+
+
+            $(".datepickerfrom").datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: 0,
+
+                onSelect: function () {
+                    var datepickerto = $('.datepickerto');
+                    var startDate = $(this).datepicker('getDate');
+                    var minDate = $(this).datepicker('getDate');
+                    var dt2Date = datepickerto.datepicker('getDate');
+                    //difference in days. 86400 seconds in day, 1000 ms in second
+                    var dateDiff = (dt2Date - minDate) / (86400 * 1000);
+
+                    startDate.setDate(startDate.getDate() + 30);
+                    if (dt2Date == null || dateDiff < 0) {
+                        datepickerto.datepicker('setDate', minDate);
+                    }
+                    else if (dateDiff > 30) {
+                        datepickerto.datepicker('setDate', startDate);
+                    }
+                    //sets dt2 maxDate to the last day of 30 days window
+                    datepickerto.datepicker('option', 'maxDate', startDate);
+                    datepickerto.datepicker('option', 'minDate', minDate);
+                }
+            });
+            $('.datepickerto').datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: 0,
+
+            });
+            $(".datepickerbillfrom").datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: 0,
+
+                onSelect: function () {
+                    var datepickerto = $('.datepickerbillto');
+                    var startDate = $(this).datepicker('getDate');
+                    var minDate = $(this).datepicker('getDate');
+                    var dt2Date = datepickerto.datepicker('getDate');
+                    //difference in days. 86400 seconds in day, 1000 ms in second
+                    var dateDiff = (dt2Date - minDate) / (86400 * 1000);
+
+                    startDate.setDate(startDate.getDate() + 30);
+                    if (dt2Date == null || dateDiff < 0) {
+                        datepickerto.datepicker('setDate', minDate);
+                    }
+                    else if (dateDiff > 30) {
+                        datepickerto.datepicker('setDate', startDate);
+                    }
+                    //sets dt2 maxDate to the last day of 30 days window
+                    datepickerto.datepicker('option', 'maxDate', startDate);
+                    datepickerto.datepicker('option', 'minDate', minDate);
+                }
+            });
+            $('.datepickerbillto').datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: 0,
+
+            });
+            $('.selectpickerAll').multiselect({
+
+                allSelectedText: 'All',
+                enableFiltering: true,
+                enableCaseInsensitiveFiltering: true,
+                numberDisplayed: 1,
+                buttonWidth: '140px',
+                maxHeight: 250,
+                includeSelectAllOption: true
+            });
+
+            selectallmultipleDropdown();
+        });
+
+        $(".psfmodalclick").click(function () {
+            var my_id_value = $(this).data('id');
+
+            document.getElementById('lblcallfromDate').innerHTML = 'CallDate From';
+            document.getElementById('lblcalltoDate').innerHTML = 'CallDate To';
+
+            if (my_id_value == "1" || my_id_value == "2" || my_id_value == "3") {
+                document.getElementById("psfmodaltitle").innerHTML = "PSF Call History Logs Filters";
+                $('#calldateDiv').css({ 'display': 'block' });
+                $('#billdateDiv').css({ 'display': 'block' });
+                $('#campaignDiv').css({ 'display': 'block' });
+                $('#creDivS').css({ 'display': 'block' });
+                $('#locationDiv').css({ 'display': 'block' });
+                //$('#assigndateDiv').css({ 'display': 'none' });
+                $('#ratingwiseDiv').css({ 'display': 'none' });
+            }
+
+            else if (my_id_value == "4") {
+                document.getElementById("psfmodaltitle").innerHTML = "PSF Data Availablity Filters";
+
+                $('#calldateDiv').css({ 'display': 'none' });
+                $('#campaignDiv').css({ 'display': 'none' });
+                //$('#assigndateDiv').css({ 'display': 'none' });
+
+                $('#billdateDiv').css({ 'display': 'block' });
+                $('#creDivS').css({ 'display': 'block' });
+                $('#locationDiv').css({ 'display': 'block' });
+                $('#ratingwiseDiv').css({ 'display': 'none' });
+
+
+            }
+            else if (my_id_value == "5") {
+                document.getElementById("psfmodaltitle").innerHTML = "PSF VIN Assignment Filters";
+
+                document.getElementById('lblcallfromDate').innerHTML = 'Assign From Date';
+                document.getElementById('lblcalltoDate').innerHTML = 'Assign To Date';
+                //$('#assigndateDiv').css({ 'display': 'block' });
+                $('#campaignDiv').css({ 'display': 'block' });
+                $('#billdateDiv').css({ 'display': 'block' });
+                $('#creDivS').css({ 'display': 'block' });
+                $('#locationDiv').css({ 'display': 'block' });
+
+                $('#calldateDiv').css({ 'display': 'block' });
+                $('#ratingwiseDiv').css({ 'display': 'none' });
+
+            }
+            else if (my_id_value == "6" || my_id_value == "7" || my_id_value == "8" || my_id_value == "9") {
+
+                if (my_id_value == "6" || my_id_value == "7") {
+                    document.getElementById("psfmodaltitle").innerHTML = "PSF Complaint Resolved Filters";
+                }
+                else if (my_id_value == "8" || my_id_value == "9") {
+                    document.getElementById("psfmodaltitle").innerHTML = "PSF  UnResolved Complaint Filters";
+                }
+
+                //$('#assigndateDiv').css({ 'display': 'none' });
+                $('#campaignDiv').css({ 'display': 'none' });
+                $('#billdateDiv').css({ 'display': 'block' });
+                $('#creDivS').css({ 'display': 'block' });
+                $('#locationDiv').css({ 'display': 'block' });
+
+                $('#calldateDiv').css({ 'display': 'none' });
+                $('#ratingwiseDiv').css({ 'display': 'none' });
+
+            }
+            else if (my_id_value == "10") {
+
+                $('#calldateDiv').css({ 'display': 'none' });
+                $('#campaignDiv').css({ 'display': 'none' });
+                //$('#assigndateDiv').css({ 'display': 'none' });
+
+                $('#billdateDiv').css({ 'display': 'block' });
+                $('#creDivS').css({ 'display': 'block' });
+                $('#locationDiv').css({ 'display': 'block' });
+                $('#ratingwiseDiv').css({ 'display': 'block' });
+
+
+            }
+
+
+
+            $(".modal-body #psgbucketID").val(my_id_value);
+        })
+
+        function selectallmultipleDropdown() {
+            $("#psfworkshop").multiselect('selectAll', false);
+            $("#psfworkshop").multiselect('updateButtonText')
+            $("#psfcre").multiselect('selectAll', false);
+            $("#psfcre").multiselect('updateButtonText')
+            $("#psfCampaign").multiselect('selectAll', false);
+            $("#psfCampaign").multiselect('updateButtonText')
+
+        }
+
+        function clearAllPSFFilters() {
+            selectallmultipleDropdown();
+            $('#psfratingWise').prop('selectedIndex', 0);
+
+            $('#psfcallfromDate').val('');
+            $('#psfcalltoDate').val('');
+            $('#billdateFrom').val('');
+            $('#billdateTo').val('');
+        }
+
+        function downloadPSFReports()
+        {
+            var reportId, reportName;
+            reportId = $('#psgbucketID').val();
+
+            if (reportId == "10") {
+                var reportId = $('#psfratingWise').val();
+                var name = $("#psfratingWise option:selected").text();
+                reportName = "servicerationreport-" + name;
+
+            }
+            else {
+                var name = $("#psfmodaltitle").text();
+                reportName = name.replace(/[\. ,:-]+/g, "")
+
+            }
+            var callfromDate = $('#psfcallfromDate').val();
+            var calltoDate = $('#psfcalltoDate').val();
+            var billdateFrom = $('#billdateFrom').val();
+            var billdateTo = $('#billdateTo').val();
+
+            var workshope_list = $('#psfworkshop option:selected').toArray().map(item => item.value).join();
+            var campaign_list = $('#psfCampaign option:selected').toArray().map(item => item.value).join();
+            var cre_list = $('#psfcre option:selected').toArray().map(item => item.value).join();
+            var connectionId = $.connection.hub.id;
+
+
+            if ((callfromDate === "" || calltoDate == "") && (billdateFrom === "" || billdateTo == "")) {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: "Please Enter  From and To Date."
+                });
+                return false;
+            }
+            var downloadFilterLists = { reportId: reportId, workshopLists: workshope_list, campaignLists: campaign_list, creLists: cre_list, billdateFrom: billdateFrom, billdateTo: billdateTo, callfromDate: callfromDate, calltoDate: calltoDate, reportName: reportName, connectionId: connectionId }
+
+
+            $.when(psfReportDownnloadAjax(downloadFilterLists)).then
+                (function successHandler(res) {
+                    console.log(res);
+                    if (res.success == true) {
+                        window.location = siteRoot + "/PSFReports/DownloadALL/?reportName=" + reportName;
+                        clearAllPSFFilters();
+                    }
+                    else if (res.success == false) {
+                        Lobibox.notify('warning', {
+                            continueDelayOnInactiveTab: true,
+                            msg: res.error
+                        });
+                        return false;
+                    }
+                    else {
+                        console.log(res.error);
+                    }
+
+                },
+                    function errorHandler(res) {
+                        console.log(err);
+                    })
+
+        }
+
+        function psfReportDownnloadAjax(downloadFilterLists) {
+            return $.ajax({
+                url: siteRoot + '/PSFReports/PSFDownloadFilter/',
+                type: "post",
+                data: { PSFdownloadFilters: JSON.stringify(downloadFilterLists) }
+            });
+        }
+    </Script>
+}
+
+
+
+
+

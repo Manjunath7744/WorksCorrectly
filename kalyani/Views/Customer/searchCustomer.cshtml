@@ -1,0 +1,699 @@
+﻿
+@{
+    /**/
+
+    /**/
+
+    ViewBag.Title = "searchCustomer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    AjaxOptions Taboptions = new AjaxOptions();
+    Taboptions.OnSuccess = "TabSuccess";
+    Taboptions.OnFailure = "TabFailure";
+    Taboptions.HttpMethod = "POST";
+
+    string userRole1 = "";
+
+    if (Session["UserRole1"] != null)
+    {
+        userRole1 = Session["UserRole1"].ToString();
+    }
+}
+
+
+
+<style>
+    @@media only screen and (max-width: 768px) {
+        /* For mobile phones: */
+        .dataTables_filter {
+            float: left;
+        }
+    }
+</style>
+@*Session["UserRole"].ToString() == "CRE" && Convert.ToInt32(Session["UserRole1"]) == 2*@
+
+<div class="row">
+    <input type="hidden" id="assignId" value="0">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <b>Customer Search</b>@Html.ActionLink("Back", "Insurance", "CREInsurance", null, new { @class = "fa fa-arrow-left btn btn-danger btn-l pull-right" })
+            </div>
+
+            <div class="panel-body">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-8 ">
+                                <div class="input-group">
+                                    <div class="input-group-btn search-panel ">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                            <span id="search_concept">Filter by</span> <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu" style="background-color:#bfb8b8;">
+                                            <li><a href="#1">Vehicle Register Number</a></li>
+                                            <li><a href="#2">Phone Number</a></li>
+                                            <li><a href="#3">Policy Holder Name</a></li>
+                                            <li><a href="#4">Policy Number </a></li>
+                                            <li><a href="#5">Chassis Number </a></li>
+                                        </ul>
+                                    </div>
+                                    <input type="text" id="patternVal" class="form-control" placeholder="Filter by Vehicle Register Number" />
+                                    <input type="hidden" id="patternId" value="1" />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" id="searchCust" type="submit" onclick="bindsearcResults()"><span class="glyphicon glyphicon-search"></span></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default" id="tblDiv" style="display:block">
+                    <div class="panel-body">
+                        <div class="dataTable_wrapper">
+                            <table class="table table-striped table-bordered table-hover" id="customerSearchDataTable" width="100%">
+                                <thead style="text-align:center;">
+                                    <tr>
+                                        <th>Customer Name</th>
+                                        <th>Phone Number</th>
+                                        <th>Reg Number</th>
+                                        <th>Frame No</th>
+                                        <th>Model</th>
+                                        <th>Variant</th>
+                                        <th>Policy Expiry Date</th>
+                                        <th>Assigned CRE</th>
+                                        <th>Assign</th>
+                                        <th>360 Degree Profile</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align:center;"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <span class="code" id="tblException" style="font-size:11pt;font-weight:bold;"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*
+        <div class="row">
+            <input type="hidden" id="txtisuniquesupercreid" value=@ViewBag.uniquesupcre />
+
+            <input type="hidden" id="assignId" value="0">
+            <div class="col-lg-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading"><b>Customer Search</b></div>
+                    <div class="panel-body">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Search Pattern</label>
+                                            <input type="text" id="patternVal" class="form-control" data-column-index="0" placeholder="Search by RegNo/VinNo/PhoneNo " />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" id="policyPatern_div">
+                                        <div class="form-group">
+                                            <label>Search Pattern Policy Number</label>
+                                            <input type="text" id="patternPolicyNum" class="form-control" data-column-index="0" placeholder="Search by Policy Number" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" id="custNamePatern_div">
+                                        <div class="form-group">
+                                            <label>Search Pattern Customer Name</label>
+                                            <input type="text" id="patternCustName" class="form-control" data-column-index="0" placeholder="Search by Customer Name" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>&nbsp;</label>
+                                            <button type="submit" id="searchCust" class="btn btn-primary start btn-block" onclick="getFilteredData()">
+                                                <i class="fa fa-search"></i>
+                                                <span>Search</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default" id="tblDiv" style="display:none">
+                            <div class="panel-body">
+                                <div class="dataTable_wrapper">
+                                    @if ((ViewBag.uniquesupcre == 1) || (Session["LoginUser"].ToString() != "PSFComMgr" && Session["LoginUser"].ToString() != "PSF" && ViewBag.SearchPage != "PSF" && Session["LoginUser"].ToString() != "POSTSALESComMgr" && Session["LoginUser"].ToString() != "POSTSALES" && ViewBag.SearchPage != "POSTSALES"))
+                                    {
+                                        <div id="custDetail_div">
+                                            <table class="table table-striped table-bordered table-hover" id="customerSearchTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Customer Name</th>
+                                                        <th>Vehicle RegNo.</th>
+                                                        <th>Chassis No</th>
+                                                        <th>Phone Number</th>
+                                                        <th>Model</th>
+                                                        <th>Variant</th>
+                                                        @if (Session["UserRole"].ToString() == "CREManager" || Session["UserRole"].ToString() == "Admin" || Session["UserRole"].ToString() == "RM" || Session["UserRole"].ToString() == "WM")
+                                                        {
+                                                            if (Session["LoginUser"].ToString() == "Service")
+                                                            {
+                                                                <th id="vehdates">Next Service Date</th>
+                                                            }
+                                                            else
+                                                            {
+                                                                <th id="vehdates">Due Date</th>
+                                                            }
+                                                            <th>Assigned CRE</th>
+                                                            <th>Add/Change Assignment</th>
+                                                            <th>360 Degree Profile</th>
+                                                        }
+                                                        else
+                                                        {
+                                                            if ((ViewBag.uniquesupcre == 1) || (Session["LoginUser"].ToString() == "Service"))
+                                                            {
+                                                                <th id="vehdates">Next Service Date</th>
+                                                                <th>Service</th>
+                                                            }
+                                                            else
+                                                            {
+                                                                <th id="vehdates">Due Date</th>
+                                                                <th class="insExtra">Insurance</th>
+                                                            }
+                                                        }
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+
+                                        <div id="policyNum_div">
+                                            <table class="table table-striped table-bordered table-hover" id="custSearchByPolicy">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Chassis&nbsp;No</th>
+                                                        <th>Vehicle&nbsp;RegNum</th>
+                                                        <th>Customer&nbsp;Name</th>
+                                                        <th>Phone&nbsp;Number</th>
+                                                        <th>Assigned&nbsp;CRE</th>
+                                                        <th>Policy&nbsp;Due&nbsp;Date</th>
+                                                        <th>Renewal&nbsp;Type</th>
+                                                        <th>Last&nbsp;Policynumber</th>
+                                                        <th>Last&nbsp;Insurance&nbsp;CompanyName</th>
+                                                        <th>Insurance</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+
+                                    }
+                                    else if (Session["UserRole1"] != null && Session["UserRole1"].ToString() == "4" || ViewBag.SearchPage == "PSF")
+                                    {
+                                        <table class="table table-striped table-bordered table-hover" id="tblSearchResPSF">
+                                            <thead>
+                                                <tr>
+                                                    <th>Customer Name</th>
+                                                    <th>Customer Phone</th>
+                                                    <th>Vehicle RegNo</th>
+                                                    <th>Chassis No</th>
+                                                    <th>Bill Date</th>
+                                                    <th>JobCardNo</th>
+                                                    <th>AssignTo</th>
+                                                    <th>Escalation To</th>
+                                                    <th>Escalation Last Dispo</th>
+                                                    <th>LastDisposition</th>
+                                                    <th>Campaign</th>
+                                                    <th>Disposition</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    }
+                                    else if (Session["UserRole1"] != null && Session["UserRole1"].ToString() == "5" || ViewBag.SearchPage == "POSTSALES")
+                                    {
+                                        <table class="table table-striped table-bordered table-hover" id="tblSearchResPostSales">
+                                            <thead>
+                                                <tr>
+                                                    <th>Customer Name</th>
+                                                    <th>Customer Phone</th>
+                                                    <th>Vehicle RegNo</th>
+                                                    <th>Chassis No</th>
+                                                    <th>Sale Date</th>
+                                                    <th>AssignTo</th>
+                                                    <th>Escalation To</th>
+                                                    <th>Escalation Last Dispo</th>
+                                                    <th>LastDisposition</th>
+                                                    <th>Campaign</th>
+                                                    <th>Disposition</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }*@
+<!-- Modal popup for manual assignment -->
+<div>
+    <div class="modal fade" id="manualAssignmentDiv" role="dialog">
+        <div class="modal-dialog modal-xs">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header" style="padding:1px;text-align:center;color:red;">
+                    <button type="button" class="close crossBtnCorner" data-dismiss="modal"><img src="~/public/images/close1.png"></button>
+                    <label>Assign CRE</label><br>
+
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label id="lblworkshop" style="display:none">Workshop</label>
+                            <label id="lbllocation" style="display:none">Location</label>
+
+                            <select class=" filter form-control selectpicker" id="workshopBycre" onchange="getCRE(this.value)"></select>
+                        </div>
+                        <div class="col-md-4">
+
+                            <label>Cre Name</label>
+                            <select class=" filter form-control" id="manualCREId" @*onchange="getCampaignBycreId(this.value)"*@>
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+
+                            <label>Campaign</label>
+                            <select class=" filter form-control" id="manualCampaign">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal" id="manualAssign">Submit</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+
+    <script>
+        var custmerId;
+        var vehicleId;
+
+        var SearchFor = '@ViewBag.SearchPage';
+        var input = document.getElementById("patternVal");
+        var searchBy = "";
+        var givenAccess = '@ViewBag.givenAccess';
+
+
+        $(document).ready(function ()
+        {
+            $('.search-panel .dropdown-menu').find('a').click(function (e) {
+                e.preventDefault();
+                var serachByValuesID = $(this).attr("href").replace("#", "");
+                var SearchByValues = $(this).text();
+                $('#patternVal').attr('placeholder', 'Filter By ' + SearchByValues);
+                $('#patternId').val(serachByValuesID);
+
+            });
+
+            $('#customerSearchDataTable').DataTable({
+                responsive: true,
+                "destroy": true,
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": true,
+                "ordering": false,
+                "info": true,
+                "searching": false,
+                "bLengthChange": false,
+
+            });
+        });
+
+
+        input.addEventListener("keyup", function (event) {
+            $('#searchCust').attr('onclick', "bindsearcResults()");
+          if (event.keyCode === 13) {
+            event.preventDefault();
+              document.getElementById("searchCust").click();
+          }
+        });
+
+
+        function bindsearcResults()
+        {
+                var role = '@Session["UserRole"].ToString()';
+
+            searchpattern = $('#patternVal').val().trim();
+            searchtype = $('#patternId').val().trim();
+            if (searchpattern == "" || searchpattern.length == "0") {
+
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please enter valid Search Pattern'
+                });
+
+                return false;
+
+            }
+
+            $('#mainLoader').css({ 'display': 'block' });
+            var tablesearchCust = $('#customerSearchDataTable').dataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/Customer/searchCustomerDetails/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { searchtype: searchtype, searchpattern: searchpattern},
+                    "error": function (xhr, error, thrown) { console.log(xhr, error, thrown); }
+                },
+                "columns": [
+                    { "data": "customerName", "name": "customerName" },
+                    { "data": "phoneNumber", "name": "phoneNumber"},
+
+                    //{
+                    //    "data": "phoneNumber", "render": function (data, type, row) {
+                    //        return singlephoneMasking(data);
+                    //    }
+                    //},
+                    { "data": "vehicleRegNo", "name": "vehicleRegNo" },
+                    { "data": "chassisNo", "name": "chassisNo" },
+                    { "data": "model", "name": "model" },
+                    { "data": "variant", "name": "variant" },
+                    {
+                        "data": "policyDueDate", "render": function (data, type, row) {
+                            return reverDate(data);
+                        }
+                    },
+                    { "data": "ins_assignedcre", "name": "ins_assignedcre" },
+                    {
+                        "data": "assignment", "render": function (data, type, row) {
+                            return `<span id="popUpAssign"  onclick="assignManually(${row.cid},${row.vehicle_id},${row.ins_assignId},'${row.assignSearch}')"><i class="fa fa-sign-out" data-toggel="tooltip" title="Manual Assignment" style="font-size:30px;color:#DD4B39;"></i></span>`;
+                        }
+                    },
+                    {
+                         "data": "Action", "render": function (data, type, row)
+
+                        {
+                            if (row.finaldispoId == "35") {
+                                return `<span style='color:red;font-size:13pt'>Vehicle is Blocked</span>`;
+                            }
+                            else if (role != "CRE" && row.userControl == "Hdd") {
+                                return `<a href="${siteRoot}/Home/redirectToCallLogging/Hdd%2cI%2c${row.cid}%2c${row.vehicle_id}"><i class="fa fa-id-card-o" data-toggel="tooltip" title="Insurance Disposition" style="font-size:30px;color:#DD4B39;"></i></a>`;
+                            }
+                            else if (row.userControl == "Shw") {
+                                return `<a href="${siteRoot}/Home/redirectToCallLogging/Shw%2cI%2c${row.cid}%2c${row.vehicle_id}"><i class="fa fa-pencil-square" data-toggel="tooltip" title="Insurance Disposition" style="font-size:30px;color:#DD4B39;"></i></a>`;
+
+                            }
+                            else {
+                                return `<a href="${siteRoot}/Home/redirectToCallLogging/Hdd%2cI%2c${row.cid}%2c${row.vehicle_id}"><i class="fa fa-id-card-o" data-toggel="tooltip" title="Insurance Disposition" style="font-size:30px;color:#DD4B39;"></i></a>`;
+                            }
+                        }
+                    },
+                ],
+                responsive: screen.width < 500 ? true : false,
+                columnDefs: [
+                    { className: 'compact' }
+                ],
+                "initComplete": function (data) {
+                    if (role == "CREManager") {
+                        tablesearchCust.api().columns(8).visible(true);
+
+                    }
+                    else {
+                tablesearchCust.api().columns(8).visible(false);
+                    }
+                    $('#mainLoader').css({ 'display': 'none' });
+                    //console.log(+data.json.filterls); $('#tblException').text(data.json.error);
+
+                },
+                "processing": "true",
+                "serverSide": false,
+                "scrollY": "300",
+                "scrollX": "300",
+                "searching": false,
+                "paging": true,
+                "ordering": false,
+                "info": true,
+                "bLengthChange": false,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                    $('td', nRow).attr('nowrap', 'nowrap');
+                    return nRow;
+                }
+            });
+        }
+
+        @*function assignManually(custId, vehieId,insassignedId, allowChangeAssignment)
+        {
+            if (allowChangeAssignment == "Yes")
+            {
+                $('#txtcustId').val(custId);
+                $('#txtvehicleId').val(vehieId);
+                $('#assggnedId').val(insassignedId);
+                custmerId = custId;
+                vehicleId = vehieId;
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("getCREofCREManager")',
+                    datatype: 'json',
+                    data: { customerId: custId, vehicleId: vehicleId },
+                    cache: false,
+                    success: function (response) {
+                        if (response != null) {
+                            $('#manualCREId').empty();
+                            $("#manualCREId").html("");
+                            $("#manualCREId").append($('<option></option>').val("0").html("--Select--"));
+                            $.each(response, function (index, value) {
+                                $("#manualCREId").append(
+                                    $('<option></option>').val(value.id).html(value.name));
+                            });
+                            getCRE();
+                            $('#manualCREId').addClass('selectpicker');
+                            //$('#manualCREId').multiselect('rebuild');
+
+                            $('#manualAssignmentDiv').modal('show');
+                        }
+                    },
+                    error: function (ex) {
+                        alert(ex);
+                    }
+                });
+            }
+            else {
+                Lobibox.notify('warning', {
+	            continueDelayOnInactiveTab: true,
+	            msg: "Call assigned to different Manager."
+	        });
+		  return false;
+            }
+        }*@
+
+        function assignManually(custId, vehieId, insassignedId, allowChangeAssignment) {
+
+            //var status = $(ele).attr('data-assign');
+            if (allowChangeAssignment == "Yes") {
+                custmerId = custId;
+                vehicleId = vehieId;
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("getCREofCREManager")',
+                    datatype: 'json',
+                    data: { customerId: custId, vehicleId: vehicleId},
+                    cache: false,
+                    success: function (res) {
+                        if (res.role == "insurance") {
+                            $('#assignId').val(insassignedId);
+                            $('#lbllocation').css({ 'display': 'block' });
+                            $('#lblworkshop').css({ 'display': 'none' });
+                        }
+                        else {
+                            $('#assignId').val(smrassignedId);
+                            $('#lblworkshop').css({ 'display': 'block' });
+                            $('#lbllocation').css({ 'display': 'none' });
+                        }
+
+                        if (res != null) {
+                           // ('#workshopBycre').removeClass('selectpicker');
+                            $('#workshopBycre').empty();
+
+                            var dropdown = document.getElementById("workshopBycre");
+                            dropdown[dropdown.length] = new Option("--SELECT--", "0");
+                            console.log(res.workshopsList)
+                            for (var i = 0; i < res.workshopsList.length; i++) {
+                                console.log(res.workshopsList[i].name)
+                                dropdown[dropdown.length] = new Option(res.workshopsList[i].name, res.workshopsList[i].id);
+                            }
+                            $('#manualCampaign').empty();
+
+                            var dropdownCampaign = document.getElementById("manualCampaign");
+                            dropdownCampaign[dropdownCampaign.length] = new Option("--SELECT--", "0");
+                            for (var i = 0; i < res.campaignList.length; i++) {
+                                dropdownCampaign[dropdownCampaign.length] = new Option(res.campaignList[i].CampaignName, res.campaignList[i].id);
+                            }
+                            $('#workshopBycre').addClass('selectpicker');
+                            $('#workshopBycre').multiselect('rebuild');
+                            $('#manualAssignmentDiv').modal('show');
+                        }
+                    },
+                    error: function (ex) {
+                        alert(ex);
+                    }
+                });
+            }
+            else {
+                Lobibox.notify("warning", {
+                    msg:"mismatch in workshop"
+                });
+            }
+
+
+
+        }
+
+
+//$('#manualAssign').click(function ()
+//        {
+//    creId = $('#manualCREId').val();
+//    var assignId = $('#assggnedId').val();
+//    var custmerId = $('#txtcustId').val();
+//    var vehicleId = $('#txtvehicleId').val();
+//    if (creId == "0") {
+//        Lobibox.notify('warning', {
+//            continueDelayOnInactiveTab: true,
+//            msg: "Please Select CRE."
+//        });
+//        return false;
+//    }
+//                $.ajax({
+//                    type: 'POST',
+//                    url: siteRoot+"/Customer/assignCallManually",
+//                    datatype: 'json',
+//                    data: { custmerId: custmerId, vehicleId: vehicleId,creId: creId, assignId: assignId},
+//                                cache: false,
+//                    success: function (res) {
+//                        if (res.success == true)
+//                        {
+//                            Lobibox.notify('success', {
+//			                        continueDelayOnInactiveTab: true,
+//			                        msg: 'Assignment Done'
+//                                });
+//                        }
+//                        if (res.success == false) {
+
+//	        		            Lobibox.notify('success', {
+//			                        continueDelayOnInactiveTab: true,
+//                                    msg: res.exception
+//                                });
+//	        	            }
+
+//                    },
+//                    error: function (ex) {
+//                        alert(ex);
+//                    }
+//                });
+//});
+        $('#manualAssign').click(function() {
+	var credentialId = $("#manualCREId").val();
+	 if(credentialId == '0') {
+		  Lobibox.notify('warning', {
+	            continueDelayOnInactiveTab: true,
+	            msg: "Select CRE"
+	        });
+		  return false;
+	  }
+    var urlLink = siteRoot+"/Customer/assignCallManually";
+
+   locID=$('#workshopBycre').val();
+    creId = $('#manualCREId').val();
+    var assignId= $('#assignId').val();
+    var campId = $('#manualCampaign').val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("assignCallManually")',
+                    datatype: 'json',
+                    data: { custmerId: custmerId, vehicleId: vehicleId, locID: locID, creId: creId, assignId: assignId, campId: campId},
+                                cache: false,
+                    success: function (res) {
+                        if (res.success == true) {
+
+	        		            Lobibox.notify('success', {
+			                        continueDelayOnInactiveTab: true,
+			                        msg: 'Assignment Done'
+                                });
+                            getFilteredData(searchBy);
+                        }
+                        if (res.success == false) {
+
+	        		            Lobibox.notify('success', {
+			                        continueDelayOnInactiveTab: true,
+                                    msg: res.exception
+                                });
+                            getFilteredData(searchBy);
+	        	            }
+
+                    },
+                    error: function (ex) {
+                        alert(ex);
+                    }
+                });
+
+
+
+});
+
+
+        function getCRE(workshpId) {
+              $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("getCREManager")',
+                    data: {workshpId:workshpId},
+                    datatype: 'json',
+                    cache: false,
+                    success: function (response) {
+                            if (response != null) {
+                                console.log(response.cres)
+                                $("#manualCREId").empty();
+                                $("#manualCREId").append($('<option></option>').val("0").html("--Select--"));
+                                $.each(response.cres, function (index, value) {
+                                $("#manualCREId").append(
+                                    $('<option></option>').val(value.creId).html(value.creName));
+                                });
+
+                            }
+                    },
+                    error: function (ex) {
+                        alert(ex);
+                    }
+              });
+
+        }
+
+
+    </script>
+
+}

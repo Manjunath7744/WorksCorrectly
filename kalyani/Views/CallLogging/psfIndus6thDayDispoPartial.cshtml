@@ -1,0 +1,686 @@
+﻿@model AutoSherpa_project.Models.ViewModels.CallLoggingViewModel
+@using AutoSherpa_project.Models
+
+@{
+    List<calldispositiondata> callDispo = new List<calldispositiondata>();
+}
+
+<style type="text/css">
+    .Icon-Container {
+        position: absolute;
+        left: 30px;
+    }
+
+    .Icon-Container-NonTech {
+        transform: translateY(21px) translateX(-9px);
+    }
+
+    .nonTechDivForIcon {
+        margin-top: -18px;
+    }
+</style>
+
+
+@Html.TextBoxFor(m => m.PsfCreBucketId, new { @type="hidden"})
+@*<div class="panel panel-primary">
+    <div class="panel-heading" align="center" ; style="background-color:#1797be;">
+        <img src="~/public/images/INTERACTION HISTORY.png" style="width:17px" />&nbsp;<b>
+            @if (ViewBag.typeOfPSF == 4)
+            {
+                @:PSF DISPOSITION FORM 6Th Day
+            }
+            else
+            {
+                @:PSF DISPOSITION FORM 15Th Day
+            }
+        </b>
+    </div>*@
+
+<div class="panel-body container">
+    <div class="row">
+        <div id="isContacted" class="animated  bounceInRight">
+            <label for=""><b>Did you talk to the customer?</b></label>
+            <br>
+            <div class="radio-inline">
+                <label>
+                    @Html.RadioButtonFor(m => m.indusPsfInteraction.isContacted, "Yes", new { @Value = "Yes" })
+                    @*<input type="radio" name="isContacted" value="PSF Yes" id="">*@
+                    Yes
+                </label>
+            </div>
+            <div class="radio-inline">
+                <label>
+                    @Html.RadioButtonFor(m => m.indusPsfInteraction.isContacted, "No", new { @Value = "No" })
+                    @*<input type="radio" name="isContacted" value="PSF No" id="">*@
+                    No
+                </label>
+            </div>
+        </div>
+        <div style="display:none;" class="animated  bounceInRight" id="NotSpeachDiv">
+            <br>
+            <label for=""><b>Choose reason for not being able to talk to customer:</b></label>
+            <br>
+            <div class="radio">
+                <label>
+                    @Html.RadioButtonFor(m => m.indusPsfInteraction.PSFDisposition, "Ringing No response")
+                    @*<input type="radio" name="disposition" value="Ringing No response">*@
+                    Ringing No response
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    @Html.RadioButtonFor(m => m.indusPsfInteraction.PSFDisposition, "Wrong Number")
+                    @*<input type="radio" name="disposition" value="Wrong Number">*@
+                    Wrong Number
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    @Html.RadioButtonFor(m => m.indusPsfInteraction.PSFDisposition, "Busy")
+                    @*<input type="radio" name="disposition" value="Busy">*@
+                    Busy
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    @Html.RadioButtonFor(m => m.indusPsfInteraction.PSFDisposition, "Switched Off / Unreachable")
+                    @*<input type="radio" name="disposition" value="Switched Off / Unreachable">*@
+                    Switched Off / Unreachable
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    @Html.RadioButtonFor(m => m.indusPsfInteraction.PSFDisposition, "Invalid Number")
+                    @*<input type="radio" name="disposition" value="Invalid Number">*@
+                    Invalid Number
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    @Html.RadioButtonFor(m => m.indusPsfInteraction.PSFDisposition, "Other")
+                    @*<input type="radio" name="disposition" value="NoOther" id="NOOthersCheck">*@
+                    Other
+                </label>
+            </div>
+            <div class="row animated  bounceInRight" style="display:none;" id="NoOthers">
+                <div class="col-md-3">
+                    <label><b>Please Specify</b></label>
+                    @if (ViewBag.typeOfDispo == "Service")
+                    {
+                        @Html.TextAreaFor(m => m.srdisposition.other, new { @class = "form-control NoOthersText1 characterLimit", @rows = "1" })
+                    }
+                    else if (ViewBag.typeOfDispo == "insurance")
+                    {
+                        @Html.TextAreaFor(m => m.insudisposition.other, new { @class = "form-control NoOthersText1 characterLimit", @rows = "1" })
+                    }
+                    else if (ViewBag.typeOfDispo == "PSF")
+                    {
+                        @Html.TextAreaFor(m => m.indusPsfInteraction.nonContactOtherReason, new { @id = "NoOthersText1", @class = "form-control NoOthersText1 characterLimit", @rows = "1" })
+                    }
+
+                    @*<textarea type="text" class="form-control NoOthersText1 characterLimit" rows="1" name="other"></textarea>*@
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label>CRE Remarks</label>
+                    @Html.TextAreaFor(m => m.listingForm.commentsList[1], new { @class = "form-control characterLimit followLater" })
+                </div>
+                <div class="col-md-3">
+                    <label>Customer Remarks</label>
+                    @Html.TextAreaFor(m => m.listingForm.remarksList[1], new { @class = "form-control characterLimit followLater" })
+                </div>
+            </div>
+            <div class="pull-right">
+                <button type="button" class="btn btn-info" id="didUTalk" style="background-color:#1797BE">Back</button>
+                <button type="submit" class="btn btn-info" name="typeOfsubmit" style="background-color:#1797BE" id="nonContactValidation6PSF" value="nonContact">Submit</button>
+            </div>
+        </div>
+
+        <div style="display:none;" class="row animated  bounceInRight" id="YesContactedDiv">
+            <br />
+
+            @if (ViewBag.isResolved == true)
+            {
+                @*<div id="divResolved" class="animate bounceInRight">
+                <div class="row">*@
+                <div class="col-md-12">
+                    <p class="p-2">
+                        <b>Namaskar! I am </b><i>@Model.wyzuser.userName</i>
+                        <b>We want to take your feedback on the performance of your </b>@Model.vehi.model, @Model.vehi.vehicleRegNo
+                    </p>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.indusPsfInteraction.whatCustSaid, "ConfirmStatus", new { @class = "used" })
+                            Confirm status of Issue Resolution
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.indusPsfInteraction.whatCustSaid, "FollowUp Later", new { @Value = "FollowUp Later" })
+                            @*<input type="radio" name="disposition" value="Call Me Later" id="GoodMorningNo">*@
+                            FollowUp Later
+                        </label>
+                    </div>
+                </div>
+                @*</div>
+                </div>*@
+            }
+            else
+            {
+                <div class="col-md-12">
+                    @*<p>Good Morning/Good Afternoon, I am <b> @Model.wyzuser.userName</b> from <b>@Model.wyzuser.dealerName</b>. Am I speaking to @Model.cust.customerName?</p>
+                    <p>Thank you for choosing our <b>@Model.wyzuser.dealerName</b> for servicing of your <b>@Model.vehi.model</b></p>
+                    <p>Can I talk to you for few minutes to take few feedback about the vehicle service.</p>
+                    <p>What did the Customer Say?</p>*@
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.indusPsfInteraction.whatCustSaid, "Feedback Given", new { @Value = "Feedback Given" })
+                            @*<input type="radio" name="disposition" value="PSF_Yes" id="GoodMorningYes">*@
+                            Feedback Given
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.indusPsfInteraction.whatCustSaid, "FollowUp Later", new { @Value = "FollowUp Later" })
+                            @*<input type="radio" name="disposition" value="Call Me Later" id="GoodMorningNo">*@
+                            FollowUp Later
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.indusPsfInteraction.whatCustSaid, "No Feedback", new { @Value = "No Feedback" })
+                            @*<input type="radio" name="disposition" value="Call Me Later" id="GoodMorningNo">*@
+                            No Feedback
+                        </label>
+                    </div>
+                </div>
+            }
+
+        </div>
+
+        @if (ViewBag.isResolved == true)
+        {
+            <div id="divResolveAction" class="animated  bounceInRight" style="display:none;">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12">
+                        <div class="form-group">
+                            <label class="text-bold">Reason</label>
+                            @Html.DropDownListFor(m => m.indusPsfInteraction.modeOfService, new List<SelectListItem> {
+                                    new SelectListItem{Value="Dissatisfied with PSF",Text="Pending" },
+                                    new SelectListItem{Value="ResolutionConfirmed",Text="Resolved" },
+                                    new SelectListItem{Value="No Resolution - Closed",Text="Closed - No Resolution" }
+                                }, "--Select--", new { @id = "resolvedReason", @class = "form-control", onclick = "getFinalRatingDiv() " })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-12 col-sm-12" style="display:none;" id="resolvedRatingId">
+                            <label>How would you rate your overall Service Experience with the service centre based on your recent visit ? (Final Rating)</label><br />
+                            @Html.RadioButtonFor(m => m.indusPsfInteraction.finalrating, "Excellent", new { @id = "excellentID" }) Excellent <br />
+                            @Html.RadioButtonFor(m => m.indusPsfInteraction.finalrating, "Very Good", new { @id = "vgoodID" }) Very Good<br />
+                            @Html.RadioButtonFor(m => m.indusPsfInteraction.finalrating, "Good", new { @id = "goodID" }) Good<br />
+                            @Html.RadioButtonFor(m => m.indusPsfInteraction.finalrating, "Average", new {@id = "avgID" }) Average<br />
+                            @Html.RadioButtonFor(m => m.indusPsfInteraction.finalrating, "Poor", new { @id = "poorID" }) Poor<br />
+                            @Html.RadioButtonFor(m => m.indusPsfInteraction.finalrating, "No Rating", new {@id = "noRatingID" }) No Rating<br />
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3 col-sm-12">
+                        <label>CRE Remarks</label>
+                        @Html.TextAreaFor(m => m.listingForm.commentsList[0], new { @class = "form-control characterLimit ResRemarks" })
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <label>Customer Remarks</label>
+                        @Html.TextAreaFor(m => m.listingForm.remarksList[0], new { @class = "form-control characterLimit ResRemarks" })
+                    </div>
+                    <div class="col-md-3 col-md-offset-3 col-sm-12" style="margin-top: 43px;">
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-info" id="bkResolved" style="background-color:#1797BE">Back</button>
+                            <button type="submit" class="btn btn-info" name="typeOfsubmit" style="background-color:#1797BE" id="btnResolvedValid" value="ResolvedReason">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div id="noFeedDiv" class="row animated bounceInRight" style="display:none">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>CRE Remarks</label>
+                        @Html.TextAreaFor(m => m.listingForm.commentsList[0], new { @class = "form-control characterLimit followLater" })
+                    </div>
+                    <div class="col-md-3">
+                        <label>Customer Remarks</label>
+                        @Html.TextAreaFor(m => m.listingForm.remarksList[0], new { @class = "form-control characterLimit followLater" })
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <input type="button" value="Back" id="feedback" onclick="backFromCallMeLater();" class="btn btn-sm btn-info" />
+                    <button type="submit" class="btn btn-sm btn-info" name="NoFeedSub" id="NoFeedSubmit" value="NOFeedBack">Submit</button>
+                </div>
+            </div>
+            <div class="row" id="complaintManager">
+                <div class="col-md-3 col-lg-offset-6 animated  bounceInRight" style="display:none" id="complaintManagerDiv">
+                    <div class="inline">
+                        Complaint Manager:@Html.DropDownListFor(m => m.indusPsfInteraction.complaintMgr_id, new SelectList(ViewBag.complaintCre, "id", "name"), "--Select--", new { @class = "form-control", @id = "complaintDDL" })
+                    </div>
+                </div>
+            </div>
+
+            <div id="feedGivenDiv" class="container animated bounceInRight" style="display:none">
+                <div id="feedGivenOptions">
+                    <b>How is the vehicle after the service done?</b>
+                    <div class="row" @*id="feedGivenOptions"*@>
+                        @if (Session["DealerCode"].ToString() == "SPEEDAUTO")
+                        {
+                            <div class="col-md-3">
+                                @Html.RadioButtonFor(m => m.indusPsfInteraction.vehicleAfterService, "Good") Satisfied
+                            </div>
+                            <div class="col-md-3">
+                                @Html.RadioButtonFor(m => m.indusPsfInteraction.vehicleAfterService, "Bad") Dissatisfied
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-3">
+                                @Html.RadioButtonFor(m => m.indusPsfInteraction.vehicleAfterService, "Good") Good
+                            </div>
+                            <div class="col-md-3">
+                                @Html.RadioButtonFor(m => m.indusPsfInteraction.vehicleAfterService, "Bad") Bad
+                            </div>
+                        }
+
+
+                        <div class="col-md-3" id="feedbackDiv" style="display:none;">
+                            @*<button id="btnFeedBack" type="button" onclick="backToMain()" class="btn btn-sm btn-success">Back</button>*@
+                        </div>
+                    </div>
+                </div>
+                <div id="custSay" style="display:none;" class="animated  bounceInRight">
+                    <div id="afterFeedDiv" style="display:none;" class="animated  bounceInRight">
+                        <div class="container animated  bounceInRight" id="badDiv" style="display:none;padding: 13px;">
+                            <div class="row">
+                                <div class="col-md-6" id="techDiv">
+                                    @Html.CheckBoxFor(m => m.indusPsfInteraction.isTechnical, new { @id = "hdTech", @Value = false, @class = "badOption" }) Technical
+                                </div>
+                                <div class="col-md-6" id="nonTechDiv">
+                                    @Html.CheckBoxFor(m => m.indusPsfInteraction.nonTechnincal, new { @id = "hdNonTech", @Value = false, @class = "badOption" }) Non Technical
+                                </div>
+                            </div>
+                            <div class="row">
+                                @Html.TextBoxFor(m => m.listingForm.selectedTechnical, new { @type = "hidden", @id = "txtTechQs" })
+                                @Html.TextBoxFor(m => m.listingForm.selectedNonTechnical, new { @type = "hidden", @id = "txtNonTechQs" })
+                                @if (Model.techQuestions != null && Model.nonTechQuestion != null)
+                                {
+                                    <div class="col-md-6 animated bounceInRight" style="padding: 9px 38px;" id="techQsDiv">
+                                        @for (int i = 0; i < Model.techQuestions.Count; i++)
+                                        {
+                                            if (Model.techQuestions[0].id == Model.techQuestions[i].mainDispositionId)
+                                            {
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                <div id="techMainDiv_@Model.techQuestions[i].id">
+                                                    @{callDispo = Model.techQuestions.Where(m => m.mainDispositionId == Model.techQuestions[i].id).ToList();}
+                                                    <div class="Icon-Container"><i class="fa fa-plus-circle techPlus" style="display:none;" id="techOpen_@Model.techQuestions[i].id" data-id="@Model.techQuestions[i].id" onclick="expandQsIcon(this,'Tech','open')"></i><i style="display:none" class="fa fa-minus-circle techMinus" id="techClose_@Model.techQuestions[i].id" data-id="@Model.techQuestions[i].id" onclick="expandQsIcon(this, 'Tech', 'close')"></i></div>&nbsp;
+                                                    <input type="checkbox" class="techMainQS" value="@Model.techQuestions[i].id" onclick="expandChildQs(this)" disabled="disabled" id="ckTechMain_@Model.techQuestions[i].id" />@Model.techQuestions[i].disposition
+                                                    <div style="margin-left:35px" class="collapse subchildsQs" id="subTechDiv_@Model.techQuestions[i].id">
+                                                        @foreach (var techSub in callDispo)
+                                                        {
+                                                            <input type="checkbox" class="techSubQsCk techSubQs_@Model.techQuestions[i].id" data-parentQsId="@Model.techQuestions[i].id" disabled="disabled" onclick="recordTechQS(this)" value="@techSub.id" id="ckSubTech_@techSub.id" />@techSub.disposition<br />
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                    <div class="col-md-6 animated bounceInRight" style="padding: 9px 38px;position:static;" id="nontechQsDiv">
+                                        @for (int i = 0; i < Model.nonTechQuestion.Count; i++)
+                                        {
+                                            if (Model.nonTechQuestion[0].id == Model.nonTechQuestion[i].mainDispositionId)
+                                            {
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                <div id="nontechMainDiv_@Model.nonTechQuestion[i].id" class="nonTechForIcon">
+                                                    @{callDispo = Model.nonTechQuestion.Where(m => m.mainDispositionId == Model.nonTechQuestion[i].id).ToList();}
+                                                    <div style=" width:2px;" class="Icon-Container-NonTech"><i class="fa fa-plus-circle nontechPlus" style="display:none;" id="nontechOpen_@Model.nonTechQuestion[i].id" data-id="@Model.nonTechQuestion[i].id" onclick="expandQsIcon(this,'nonTech','open')"></i><i style="display:none" class="fa fa-minus-circle nontechMinus" id="nontechClose_@Model.nonTechQuestion[i].id" data-id="@Model.nonTechQuestion[i].id" onclick="expandQsIcon(this, 'nonTech', 'close')"></i></div>&nbsp;
+                                                    <input type="checkbox" class="nontechMainQS" value="@Model.nonTechQuestion[i].id" onclick="expandNonChildQs(this)" disabled="disabled" id="cknonTechMain_@Model.nonTechQuestion[i].id" />@Model.nonTechQuestion[i].disposition
+                                                    <div style="margin-left:35px" class="collapse subnonchildsQs" id="subnonTechDiv_@Model.nonTechQuestion[i].id">
+                                                        @foreach (var techSub in callDispo)
+                                                        {
+                                                            <input type="checkbox" class="nontechCK nontechSubQs_@Model.nonTechQuestion[i].id" data-parentQsId="@Model.nonTechQuestion[i].id" onclick="recordNonTechQS(this)" value="@techSub.id" id="ckSubTech_@techSub.id" />@techSub.disposition<br />
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pull-right" id="mainButtonsDiv">
+                        <button type="button" class="btn btn-sm btn-info mr-5" onclick="backtoFeed()" id="btnFeedBack">Back</button>
+                        <button type="button" class="btn btn-sm btn-info" id="btnFeedNext" onclick="nextToFeedback();">Next</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="afterVehSay" class="animated bounceInRight" style="display:none;">
+                @*newly added start*@
+                <div class="form-group">
+                    @if (Session["DealerCode"].ToString() == "KATARIA")
+                    {
+                        <div class="col-md-12 row animated  bounceInRight">
+                            <label>Capture Lead : Is there an Upsell Opportunity.</label>
+                            <br>
+
+                            <div class="radio-inline">
+                                <label>
+                                    @Html.RadioButtonFor(m => m.listingForm.LeadYes, "Capture Lead Yes", new { value = "Capture Lead Yes", @id = "LeadYesID" })
+                                    @*<input type="radio" name="LeadYes" value="Capture Lead Yes" id="LeadYesID">*@
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="radio-inline">
+                                <label>
+                                    @Html.RadioButtonFor(m => m.listingForm.LeadYes, "Capture Lead No", new { value = "Capture Lead No", @id = "LeadNoID" })
+                                    @*<input type="radio" name="LeadYes" value="Capture Lead No" id="LeadNoID">*@
+                                    No
+                                </label>
+                            </div>
+                            <div class="row" style="display: none;" id="LeadDiv">
+                                <div class="col-md-6">
+
+                                    @for (int i = 0; i < Model.tags.Count; i++)
+                                    {
+
+                                        <div class="checkbox">
+                                            <label>
+                                                @Html.HiddenFor(m => m.listingForm.upsellleads[i].upsellId, new { Value = Model.tags[i].upsellLeadId, @id = "valueselectSBHidden" + Model.tags[i].upsellLeadId })
+                                                @Html.CheckBox("ckUpsell", false, new { @Value = Model.tags[i].upsellLeadId, @upsell_index = 0, @id = "valueselectSB" + Model.tags[i].upsellLeadId, @class = "myOutCheckbox upsellLeadSelectDivSB", @onClick = "loadLeadBasedOnUserLocation('valueselectSB" + Model.tags[i].upsellLeadId + "','LeadSB" + Model.tags[i].upsellLeadId + "')" })
+                                                @Model.tags[i].upsellType
+                                            </label>
+                                        </div>
+                                        <div class="row" style="display: none;" id="upsellLeadSelectSB_@Model.tags[i].upsellLeadId">
+
+                                            <div class="col-md-12">
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="">Workshop </label><br />
+                                                        @Html.DropDownList("uplocaAs", new SelectList(Model.allworkshopList, "workshopName", "workshopName", Model.wyzuser.workshop.workshopName), new { @class = "form-control selectpicker" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="">Tag to</label>
+                                                    @Html.DropDownListFor(m => m.listingForm.upsellleads[i].taggedTo, Enumerable.Empty<SelectListItem>(), new { @id = "LeadSB" + Model.tags[i].upsellLeadId, @class = "form-control" })
+                                                    @*<select class="form-control" name="upsellLead[@i].taggedTo" id="LeadSB@da.getUpsellLeadId()">
+                                                        <option>Select</option>
+                                                    </select>*@
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="comments">Remarks</label>
+                                                    @Html.TextAreaFor(m => m.listingForm.upsellleads[i].upsellComments, new { @class = "form-control", @rows = "1", @id = "upsellRemarks" + Model.tags[i].upsellLeadId })
+                                                    @*<textarea class="form-control" rows="1" name="upsellLead[@i].upsellComments"></textarea>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            @*newly added end*@
+            <div class="form-group">
+                <label>Was the vehicle delivered as per the promised delivery time?</label><br />
+                @Html.RadioButtonFor(m => m.indusPsfInteraction.promiseddeliveryTime, "Yes", new { @class = "sa" })Yes
+                @Html.RadioButtonFor(m => m.indusPsfInteraction.promiseddeliveryTime, "No", new { @class = "sa", @checked = "checked" })No
+            </div>
+
+            <div class="form-group">
+                <label>Were all the demanded repairs completed  as requested by you?</label><br />
+                @Html.RadioButtonFor(m => m.indusPsfInteraction.demandedrepairsCompleted, "Yes", new { @class = "sa" })Yes
+                @Html.RadioButtonFor(m => m.indusPsfInteraction.demandedrepairsCompleted, "No", new { @class = "sa", @checked = "checked" })No
+            </div>
+
+            <div class="form-group">
+                <label>Did the Service Advisor explain and show you the escalation sticker?</label><br />
+                @Html.RadioButtonFor(m => m.indusPsfInteraction.SAescalationSticker, "Yes", new { @class = "sa", @checked = "checked" })Yes
+                @Html.RadioButtonFor(m => m.indusPsfInteraction.SAescalationSticker, "No", new { @class = "sa" })No
+            </div>
+            @*<div class="form-group">
+                <label>Did the Service Advisor collect the Instant Feedback Card from you  while delivering the vehicle ?</label><br />
+                @Html.RadioButtonFor(m => m.indusPsfInteraction.SAInstantFeedBack, "Yes", new { @class = "sa", @checked = "checked" })Yes
+                @Html.RadioButtonFor(m => m.indusPsfInteraction.SAInstantFeedBack, "No", new { @class = "sa" })No
+            </div>*@
+            @*<div class="form-group">
+                <label>Was the vehicle delivered as per the promised delivery time?</label><br />
+                @Html.RadioButtonFor(m => m.indusPsfInteraction.promiseddeliveryTime, "Yes", new { @class = "sa" })Yes
+                @Html.RadioButtonFor(m => m.indusPsfInteraction.promiseddeliveryTime, "No", new { @class = "sa", @checked = "checked" })No
+            </div>*@
+            <div class="form-group">
+                <label>Were you Satisfied  with the  washing quality of your car ?</label><br />
+                @Html.RadioButtonFor(m => m.indusPsfInteraction.washingQuality, "Yes", new { @class = "sa" })Yes
+                @Html.RadioButtonFor(m => m.indusPsfInteraction.washingQuality, "No", new { @class = "sa", @checked = "checked" })No
+            </div>
+            <div class="form-group">
+                <label>Was the work done on the  vehicle  and service charges, explained  at the time of   vehicle  delivery?</label><br />
+                @Html.RadioButtonFor(m => m.indusPsfInteraction.vehicleserviceCharges, "Yes", new { @class = "sa" })Yes
+                @Html.RadioButtonFor(m => m.indusPsfInteraction.vehicleserviceCharges, "No", new { @class = "sa", @checked = "checked" })No
+            </div>
+            <div class="form-group">
+                <label>Did you receive a call from the service advisor enquiring about the quality of service?</label><br />
+                @Html.RadioButtonFor(m => m.indusPsfInteraction.qos, "Yes", new { @class = "sa", @checked = "checked" })Yes
+                @Html.RadioButtonFor(m => m.indusPsfInteraction.qos, "No", new { @class = "sa" })No
+            </div>
+
+            @if (Session["DealerCode"].ToString() == "KATARIA")
+            {
+                <div class="form-group">
+                    <label>How did you schedule your visit to workshop for Servicing of your vehicle?</label><br />
+                    <div class="radio-inline">
+                        @Html.RadioButtonFor(m => m.indusPsfInteraction.VisitType, "Went yourself", new { @class = "sa", @checked = "checked" })Went yourself
+                    </div>
+                    <div class="radio-inline">
+                        @Html.RadioButtonFor(m => m.indusPsfInteraction.VisitType, "Pick up & Drop", new { @class = "sa" })Pick up & Drop
+                    </div>
+                    <div class="radio-inline">
+                        @Html.RadioButtonFor(m => m.indusPsfInteraction.VisitType, "Pick up Only", new { @class = "sa" })Pick up Only
+                    </div>
+                    <div class="radio-inline">
+                        @Html.RadioButtonFor(m => m.indusPsfInteraction.VisitType, "Drop Only", new { @class = "sa" })Drop Only
+                    </div>
+                </div>
+            }
+
+            <div class="form-group">
+                <label>How would you rate your overall Service Experience with the service centre based on your recent visit:</label><br />
+                @Html.RadioButtonFor(m => m.indusPsfInteraction.overallServiceExperience, "Excellent", new { @class = "sa" })Excellent <br />
+                @Html.RadioButtonFor(m => m.indusPsfInteraction.overallServiceExperience, "Very Good", new { @class = "sa" })Very Good<br />
+                @Html.RadioButtonFor(m => m.indusPsfInteraction.overallServiceExperience, "Good", new { @class = "sa" })Good<br />
+                @Html.RadioButtonFor(m => m.indusPsfInteraction.overallServiceExperience, "Average", new { @class = "sa" }) Average<br />
+                @if (Session["DealerCode"].ToString() == "SPEEDAUTO")
+                {
+                    <span>
+                        @Html.RadioButtonFor(m => m.indusPsfInteraction.overallServiceExperience, "Poor", new { @class = "sa" })Dissatisfied<br />
+                    </span>
+                }
+                else
+                {
+                    <span>
+                        @Html.RadioButtonFor(m => m.indusPsfInteraction.overallServiceExperience, "Poor", new { @class = "sa" })Poor <br />
+                    </span>
+                }
+                @Html.RadioButtonFor(m => m.indusPsfInteraction.overallServiceExperience, "No Rating", new { @class = "sa" })No Rating<br />
+
+
+
+            </div>
+            @*@if (Session["DealerCode"].ToString() == "KATARIA")
+            {
+                <div class="form-group">
+                    <label>Overall Customer Satisfaction</label><br />
+                    @Html.RadioButtonFor(m => m.indusPsfInteraction.overallcustsatisfaction, "SatisfiedKAT", new { @class = "sa" })Satisfied <br />
+                    @Html.RadioButtonFor(m => m.indusPsfInteraction.overallcustsatisfaction, "DissatisfiedKAT", new { @class = "sa" })Dissatisfied<br />
+
+                </div>
+            }*@
+            <div class="form-group">
+                <label>
+                    Are you satisfied with the quality  of your Service Advisor and please do rate your Service Advisor on a scale of 10.<br />
+                    considering 10 as excellent.9 as good and 1-8 as unacceptable
+                </label><br />
+                <div class="radio-inline">
+                    @Html.DropDownListFor(m => m.indusPsfInteraction.rateSA, new List<SelectListItem>(){
+                     new SelectListItem{Value="1",Text="1"},
+                     new SelectListItem{Value="2",Text="2"},
+                     new SelectListItem{Value="3",Text="3"},
+                     new SelectListItem{Value="4",Text="4"},
+                     new SelectListItem{Value="5",Text="5"},
+                     new SelectListItem{Value="6",Text="6"},
+                     new SelectListItem{Value="7",Text="7"},
+                     new SelectListItem{Value="8",Text="8"},
+                     new SelectListItem{Value="9",Text="9"},
+                     new SelectListItem{Value="10",Text="10"},
+                   }, "--Select--", new { @class = "form-control", @id = "SAQuality" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <label>CRE Remarks</label>
+                    @Html.TextAreaFor(m => m.listingForm.commentsList[3], new { @class = "form-control characterLimit finalRemarks" })
+                </div>
+                <div class="col-md-3">
+                    <label>Customer Remarks</label>
+                    @Html.TextAreaFor(m => m.listingForm.remarksList[3], new { @class = "form-control characterLimit finalRemarks" })
+                </div>
+                <div class="pull-right" style="margin:41px 200px 0px 0px">
+                    <button type="button" id="goToFeed" class="btn btn-sm btn-info" style="margin-right:5px;">Back</button>
+                    <input type="submit" value="Submit" id="feedFinalSubmit" class="btn btn-info btn-sm" />
+                </div>
+            </div>
+        </div>
+                }
+
+                <div id="followUpDiv" class="animated  bounceInRight" style="display:none">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>FollowUp Date</label>
+                            @Html.TextBoxFor(m => m.indusPsfInteraction.FollowUpdate, new { @class = "form-control datePickerrangeto followLater", @autocomplete = "off" })
+                        </div>
+                        <div class="col-md-3">
+                            <label>FollowUp Time</label>
+                            @Html.TextBoxFor(m => m.indusPsfInteraction.FollowUptime, new { @class = "form-control timepicker_7 followLater", @autocomplete = "off" })
+                        </div>
+                        <div class="col-md-3">
+                            <label>CRE Remarks</label>
+                            @Html.TextAreaFor(m => m.listingForm.commentsList[2], new { @class = "form-control characterLimit followLater" })
+                        </div>
+                        <div class="col-md-3">
+                            <label>Customer Remarks</label>
+                            @Html.TextAreaFor(m => m.listingForm.remarksList[2], new { @class = "form-control characterLimit followLater" })
+                        </div>
+                        <div class="pull-right" style="margin-top:5px;">
+                            <input type="button" value="Back" id="feedback" onclick="backFromCallMeLater();" class="btn btn-sm btn-info" />
+                            <input type="submit" value="Submit" id="followUpSubmit" class="btn btn-sm btn-info" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+</div><!--panel Body End-->
+@*</div>*@
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+@*<script src="~/public/javascripts/indusPsf6thDay.js"></script>*@
+<script src="~/public/CallLogFiles/indusPsf6thDay.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var psfType = '@ViewBag.typeOfPSF';
+
+        if (psfType == "4") {
+            $('#interHeading').text('PSF 6TH DISPOSITION FORM');
+        }
+        else {
+            $('#interHeading').text('PSF Complaint DISPOSITION FORM');
+        }
+
+        $('#imgInter').attr('src', siteRoot + "/public/images/INTERACTION HISTORY.png");
+    });
+
+    $('#bkResolved').click(function () {
+        $('.ResRemarks').val('');
+        $('#resolvedReason').val('');
+        $('#divResolveAction').hide();
+        $('#isContacted').show();
+        $("input:radio[name='indusPsfInteraction.whatCustSaid']").each(function (i) {
+            this.checked = false;
+        });
+
+    });
+
+    $('#btnResolvedValid').click(function () {
+        if ($('#resolvedReason').val() == "" || $('#resolvedReason').val() == null) {
+            Lobibox.notify('warning', {
+                continueDelayOnInactiveTab: true,
+                msg: 'Please select any one from reason.'
+            });
+            return false;
+        }
+
+        if ($('#resolvedReason').val() == "ResolutionConfirmed") {
+            let exVal = document.getElementById('excellentID').checked;
+            let vgVal = document.getElementById('vgoodID').checked;
+            let gVal = document.getElementById('goodID').checked;
+            let avgVal = document.getElementById('avgID').checked;
+            let poorVal = document.getElementById('poorID').checked;
+            let noRatlVal = document.getElementById('noRatingID').checked;
+            if ((exVal == false) && (vgVal == false) && (gVal == false) && (avgVal == false) && (poorVal == false) && (noRatlVal == false) ){
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please rate.'
+                });
+                return false;
+            }
+        }
+    });
+
+    function getFinalRatingDiv() {
+        var fieldValue = $('#resolvedReason').val();
+        if (fieldValue == "ResolutionConfirmed") {
+            $('#resolvedRatingId').css({ 'display': 'block' });
+        }
+        else {
+            $('#resolvedRatingId').css({ 'display': 'none' });
+        }
+    }
+</script>
+
+@*<script type="text/javascript">
+        $("input[type='checkbox']").on('change', function () {
+
+            if ($(this).attr('id') == "CheckedwithDMS") {
+                $('#ckWithDMS').val($(this).attr('id'));
+            }
+            else {
+                $('#valueselectSBHidden').val($(this).attr('value'));
+            }
+
+        });
+    </script>*@
+@*<script src="@routes.Assets.at("javascripts/psf3rdDisposition.js")" type="text/javascript"></script>*@

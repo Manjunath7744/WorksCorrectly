@@ -1,0 +1,164 @@
+﻿
+@{
+    ViewBag.Title = "changeAssignAccess";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Event List
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-secondary">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label>Role</label>
+                            <select id="Roles" class="form-control" onchange="getWyzuserData(this.value)">
+                                <option value="">--Select--</option>
+                                <option value="CREManager">CREManager</option>
+                                <option value="Admin">Admin</option>
+                                <option value="WM Advisor">WM</option>
+                                <option value="RM Advisor">RM</option>
+                            </select>
+                        </div>
+                        @*<div class="col-md-2">
+                            <label>Given Access</label>
+                            <br />
+                            True @Html.RadioButton("givenAccess", "True", new { @id="givenAccessTrue"})
+                            False @Html.RadioButton("givenAccess","False",new { @id="givenAccessFalse"})
+                        </div>
+                        <div class="col-md-2">
+                            <br />
+                            <input type="button" name="submit" id="submit" value="Submit" class="form-control btn btn-primary btn-sm" onclick="submit()"/>
+                        </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-secondary">
+                <div class="panel-body">
+                    <table id="wyzuserTable" class="table table-bordered" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Username</th>
+                                <th>Role</th>
+                                <th>Insurance Role</th>
+                                <th>Search&nbsp;And&nbsp;Assign&nbsp;Access</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+        })
+
+        function clearSelection() {
+            $("#Roles").val("");
+            $("input[name='givenAccess']").prop("checked", false);
+        }
+
+        function getWyzuserData(ele) {
+            if (ele!= "") {
+                $("#wyzuserTable").DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/SuperAdmin/getWyzuserData/",
+                    "type": 'get',
+                    "data": {value:ele},
+                    "dataType":'json'
+                },
+                "columns": [
+                    { "data": "id", "name": "id" },
+                    { "data": "userName", "name": "userName" },
+                    { "data": "role", "name": "role" },
+                    { "data": "insuranceRole", "name": "insuranceRole" },
+                    {
+                                    "data": "searchAssignAccess", render: function (data, type, row) {
+                                        //debugger;
+                            if (row.searchAssignAccess == 1) {
+                                return `<input type="checkbox" class="checkSearchAssign" value="on" onclick="setSearchAssignment(this.value,${row.id});" checked/>`
+                            } else if (row.searchAssignAccess == 0) {
+                                return `<input type="checkbox" class="checkSearchAssign" value="off" onclick="setSearchAssignment(this.value,${row.id});" />`
+                            }
+                                        
+                        }
+                    }
+                ],
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": true,
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                    },
+                    "initComplete": function (settings, json) {
+                        //$(".checkSearchAssign").val();
+                  }
+            });
+            }
+        }
+        //function getWyzuserData(ele) {
+        //    if (ele != "") {
+        //        $.ajax({
+        //            url: siteRoot + "/SuperAdmin/getWyzuserData/",
+        //        type: 'get',
+        //        dataType: 'json',
+        //        data: { value: ele },
+        //        success: function (res) {
+        //            if (res.success) {
+        //                if (res.data == true) {
+        //                    $("#givenAccessTrue").prop("checked",true)
+        //                } else {
+        //                    $("#givenAccessFalse").prop("checked",true)
+        //                }
+        //            } else {
+        //                Lobibox.notify("warning", {
+        //                    msg:  res.exception
+        //                });
+        //            }
+        //        }
+        //    });
+        //    }
+        //}
+
+        function setSearchAssignment(value,id) {
+            $.ajax({
+                url: siteRoot + "/SuperAdmin/setSearchAssignment/",
+                type: 'post',
+                dataType: 'json',
+                data: { id: id,value:value},
+                success: function (res) {
+                    if (res.success) {
+                        clearSelection();
+                        Lobibox.notify('info', {
+                            msg: 'The given access is changed successfully'
+                        });
+                    } else {
+                        Lobibox_notify('warning', {
+                            msg: res.exception
+                        });
+                    }
+                }
+            });
+        }
+    </script>
+    }

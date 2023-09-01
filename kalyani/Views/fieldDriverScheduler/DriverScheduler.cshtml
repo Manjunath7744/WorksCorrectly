@@ -1,0 +1,803 @@
+﻿
+@{
+    ViewBag.Title = "DriverScheduler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .ColorGreen {
+        background-color: green;
+    }
+
+    .ColorRed {
+        background-color: red;
+    }
+
+    .example-table {
+        border-collapse: collapse;
+    }
+
+        .example-table th,
+        .example-table td {
+            background-color: #fff;
+            border: 1px solid black;
+            padding: 0px;
+        }
+
+    .schis th,
+    .schis td {
+        border: 1px solid black;
+    }
+</style>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="col-md-6">
+
+            <div class="row">
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.TextBox("appointmentScheduled", "From Date", new { @class = "form-control datepicker", @id = "dateis", @readonly = "readonly", @title = "From Date" })
+                        @* <input type="text" class="form-control " title="From Date" placeholder="From Date" name="appointmentScheduled" id="dateis" readonly required="required">*@
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.TextBox("dateTois", "To Date", new { @class = "form-control range1datepicker", @id = "dateTois", @readonly = "readonly", @title = "To Date" })
+                        @*<input type="text" class="form-control " title="To Date" placeholder="To Date" name="" id="dateTois" readonly required="required">*@
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    @Html.DropDownList("ddlworkshops", new SelectList(ViewBag.ddlworkshops, "workshopid", "name"), "--Select--", new { @class = "form-control selectLoop", @id = "fieldLocation", @onchange = "updateTheScheduledLocation()" })
+                </div>
+
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.DropDownList("status", new List<SelectListItem>{
+                                                    new SelectListItem{ Text="--Select Status --", Value = "0" },
+                                                     new SelectListItem{ Text="Assigned", Value = "1" },
+                                                      new SelectListItem{ Text="UnAssigned", Value = "2" },
+                                                      new SelectListItem{ Text="All", Value = "0" },
+                            }, new { @class = "form-control", @id = "status" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <select class="form-control multiSelectClass" id="lastDispo" multiple>
+                            <option value="3">NewBooking</option>
+                            <option value="41">Confirmed</option>
+                            <option value="4">Callmelater</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="form-control btn btn-info" id="" onclick="ajaxCallForData();">view</button>
+                </div>
+
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading" style="padding:inherit;">Appointment Data</div>
+                <!-- /.panel-heading -->
+                <div class="panel-body" style="overflow-x:auto;">
+                    <div class="dataTable_wrapper">
+                        <table border="1" class="table  table-hover table-responsive example-table" cellpadding="1" cellspacing="1" id="schFieldEx">
+                            <thead>
+                                <tr>
+                                    <th>Action</th>
+                                    <th>SMS</th>
+                                    <th>RegNo.</th>
+                                    <th>Apt.Date</th>
+                                    <th>Apt.Time</th>
+                                    <th>Address</th>
+                                    <th>Assigned</th>
+                                    <th>Driver</th>
+                                    <th>ScheduleTime</th>
+                                    <th>CustomerName</th>
+                                    <th>Type</th>
+                                    <th>Model</th>
+                                    <th>Ph.Number</th>
+                                    <th>ChassiNo</th>
+                                    <th>CRE</th>
+                                    <th>CRERemarks</th>
+                                    <th>Last Disposition</th>
+                                    <th>TypeOfPickUp</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+                <div id="buttons1"></div>
+                <!-- /.panel-body -->
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input type="text" class="form-control datepickerchange" id="changeserviceBookingDate" onchange="ajaxAssignBtnBkreview('workshop','changeserviceBookingDate');" readonly>
+                    </div>
+                </div>
+                <div class="col-md-3" style="display:none">
+                    <select class="form-control" title="Select City" id="city" name="schLocation">
+                        <option value='0'>--Select City--</option>
+                        @*@for (sa < -locationList)
+                            {
+
+                                <option value="@sa.getName()">@sa.getName()</option>
+
+                            }*@
+                    </select>
+
+                </div>
+                <div class="col-md-3">
+                    @Html.DropDownList("workshopId", new SelectList(ViewBag.ddlworkshops, "workshopid", "name"), "--Select--", new { @class = "form-control selectLoop", @id = "workshop", @onchange = "ajaxAssignBtnBkreview('workshop','changeserviceBookingDate');" })
+                    @*<select class="form-control" id="workshop" name="workshopId" onchange="ajaxAssignBtnBkreview('workshop','changeserviceBookingDate');">
+                                    @for (sa < -workshopList)
+                        {
+
+                            <option value="@sa.getId()">@sa.getWorkshopName()</option>
+
+                        }
+
+                                </select>*@
+                </div>
+
+
+
+
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading" style="padding:inherit;"> Driver Allocation</div>
+                <div class="panel-body">
+
+
+                    <div>
+                        <input type="hidden" id="tempValue" value="0">
+                        <input type="hidden" id="tempIncreValue" value="0">
+                        <input type="hidden" name="time_From" id="startValue" value="0">
+                        <input type="hidden" name="time_To" id="endValue" value="0">
+                        <input type="hidden" name="driverId" id="driverValue" value="0">
+
+
+
+
+                    </div>
+                    <table border="1" class="table table-striped table-hover table-responsive schis" cellspacing="0" id="tableID" style="cursor: pointer;">
+                        <thead>
+
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <button type="button" id="allcateSubmit" class="btn btn-primary pull-right" data-dismiss="modal" onclick="ajaxFieldSchedule()">Submit</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <span class="code" id="tblException" style="font-size:11pt;font-weight:bold;"></span>
+    </div>
+</div>
+<div class="modal fade" id="smsInsModal" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:500px;">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="padding: 5px; text-align: center;">
+                <button type="button" class="close" data-dismiss="modal">
+                    <img src="~/public/images/close1.png" />
+                </button>
+                <h4 class="modal-title"><b>SEND SMS</b></h4>
+            </div>
+            <div class="modal-body" style="padding: 5px;">
+                <div class="form-group">
+                    <input type="hidden" id="insVehId" />
+                    <input type="hidden" id="smsrequestReference" />
+                    <input type="hidden" id="serviceBookedID" />
+                    <input type="hidden" id="ddlsmsTypes" />
+
+                    <select class="form-control" title="SMSTYPE" id="smstype" onchange="getSMSbyAndSMSType();">
+                        <option value="0">--Select  --</option>
+                        <option value="28">Customer</option>
+                        <option value="6">Driver</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="comment">SMS Template:</label>
+                    <textarea class="form-control" rows="5" id="smstemplate"></textarea>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="smsSendbtn" onclick="sendSMS()" class="btn btn-default smsSendType" data-dismiss="modal">
+                    <img src="~/public/images/sms_logo.jpg" style="width: 20px;" />&nbsp;SEND
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<script src="~/public/javascripts/driverAllocation.js"></script>
+
+@section scripts
+{
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.2.3/jquery-confirm.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.2.3/jquery-confirm.min.js"></script>
+
+    <script>
+        function getSMSbyAndSMSType() {
+            var vehicleId = $('#insVehId').val();
+            var locId = $('#fieldLocation').val();
+            var smstypeid = $('#smstype').val();
+            var selectedOptions = $('#smstype option:selected').text();
+            $("#ddlsmsTypes").val(selectedOptions);
+            var typeOfDispo = "insurance";
+
+            $.ajax({
+                type: 'POST',
+                url: siteRoot + "/fieldDriverScheduler/getSMSTemplateMessage/",
+                datatype: 'json',
+                async: false,
+                cache: false,
+                data: { smsId: smstypeid, locId: locId, vehicleId: vehicleId, typeOfDispo: typeOfDispo },
+                success: function (res) {
+                    if (res.success == true) {
+                        $('#smstemplate').empty();
+
+                        $('#smstemplate').val(res.sms);
+                    }
+                    else {
+                        Lobibox.notify('info', {
+                            continueDelayOnInactiveTab: true,
+                            msg: res.error
+                        });
+                    }
+                },
+                error: function (ex) {
+                    alert(ex);
+                }
+            });
+        }
+
+        function smsIdSetModal(custId, vehId, serviceBookedId) {
+
+            $('#smstemplate').val("");
+            //var selectedOptions = document.getElementById('smstype').selectedOptions;
+            //for (var i = 0; i < selectedOptions.length; i++) {
+            //    selectedOptions[i].selected = false;
+            //}
+
+            $("#insVehId").val(vehId);
+            $("#smsrequestReference").val(custId);
+            $("#serviceBookedID").val(serviceBookedId);
+
+
+
+        }
+
+        $(document).ready(function () {
+            $('#schFieldEx').DataTable({
+
+            });
+        });
+
+        function ajaxCallForData() {
+            var dateIs = $('#dateis').val();
+            var cityIs = $('#fieldLocation').val();
+            var statusIs = $('#status').val();
+            var dateIsTo = $('#dateTois').val();
+            var lastDispo;
+            var y = document.getElementById("lastDispo");
+            var k = 0;
+            for (var a = 0; a < y.options.length; a++) {
+                if (y.options[a].selected == true) {
+                    if (k == 0)
+                        lastDispo = y.options[a].value;
+                    else
+                        lastDispo = lastDispo
+                            + "," + y.options[a].value;
+
+                    console.log(lastDispo);
+                    k++;
+                }
+            }
+            if (dateIs == 'From Date' || cityIs == '' || dateIsTo == 'To Date') {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please provide all values'
+                });
+                return false;
+            }
+            else {
+                $('#schFieldEx').DataTable({
+                    "destroy": true,
+                    "ajax": {
+                        "url": siteRoot + "/fieldDriverScheduler/getdriverservicebookedDetails/",
+                        "type": "POST",
+                        "datatype": "json",
+                        "data": { fromDateNew: dateIs, toDateNew: dateIsTo, cityIs: cityIs, statusIs: statusIs, lastDispo: lastDispo }
+                    },
+
+                    "columns": [
+                        {
+                            "data": "Action", render: function (data, type, row) {
+                                return `<input type='radio'/ class = 'chcktbl'/ name='callId[]'/value="${row.serviceBookedId}">`
+                            }
+                        },
+                        {
+                            "data": "driverName", render: function (data, type, row) {
+                                //if (data != null) {
+                                return `<a data-toggle='modal' data-target='#smsInsModal' onclick=smsIdSetModal(${row.customer_Id},${row.vehicle_vehicle_id},${row.serviceBookedId});><i class='fa fa-envelope' aria-hidden='true' data-toggel='tooltip' style='font-size:15px;color:red;'></i></a>`
+                                //}
+                                //else {
+                                //    return `<span data-toggle='modal'><i class='fa fa-envelope' aria-hidden='true' data-toggel='tooltip' style='font-size:15px;color:grey;'></i></span>`
+
+                                //}
+                            }
+                        },
+                        { "data": "vehregNo", "name": "vehregNo" },
+                        {
+                            "data": "sheduleddate", "render": function (data, type, row) {
+                                return data.split(' ')[0];
+                            }
+                        },
+                        { "data": "scheduledtime", "name": "scheduledtime" },
+                        { "data": "serviceBookingAddress", "name": "serviceBookingAddress" },
+                        {
+                            "data": "pickupDate", "render": function (data, type, row) {
+                                if (data != null) {
+                                    return "Yes";
+                                }
+                                else {
+                                    return "No";
+                                }
+                            }
+                        },
+                        {
+                            "data": { pickupDate: "pickupDate", driverName: "driverName" }, "render": function (data, type, row) {
+                                if (data.pickupDate != null) {
+                                    return data.driverName;
+                                }
+                                else {
+                                    return "-";
+                                }
+                            }
+                        }, {
+                            "data": { pickupDate: "pickupDate", timeFrom: "timeFrom", timeTo: "timeTo" }, "render": function (data, type, row) {
+                                if (data.pickupDate != null) {
+                                    var res = data.pickupDate + " " + data.timeFrom + "To" + data.timeTo;
+                                    return res;
+                                }
+                                else {
+                                    return "-";
+                                }
+                            }
+                        },
+
+                        { "data": "customerName", "name": "customerName" },
+                        { "data": "serviceType", "name": "serviceType" },
+                        { "data": "model", "name": "model" },
+                        { "data": "phoneNumber", "name": "phoneNumber" },
+                        { "data": "creName", "name": "creName" },
+                        { "data": "chassisno", "name": "chassisno" },
+                        { "data": "creremarks", "name": "creremarks" },
+                        { "data": "lastDisposition", "name": "lastDisposition" },
+                        { "data": "typeOfPickup", "name": "typeOfPickup" }
+
+                    ],
+                    //responsive: true,
+                    "initComplete": function (data) {
+                        $('#tblException').text(data.json.exceptin);
+                        // filtercountDisplay();
+
+                    },
+                    dom: 'frtipB',
+                    buttons: [
+                        'copyHtml5',
+                        {
+                            extend: 'csvHtml5',
+                            exportOptions: {
+                                columns: [2, 9, 12, 11, 10, 5, 14, 15, 3, 4, 6, 7, 8, 17, 16, 13]
+                            }
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            exportOptions: {
+                                columns: [2, 9, 12, 11, 10, 5, 14, 15, 3, 4, 6, 7, 8, 17, 16, 13]
+                            }
+                        },
+                    ],
+                    "bDestroy": true,
+                    "processing": true,
+                    "serverSide": false,
+                    "scrollY": 400,
+                    "scrollX": true,
+                    "paging": true,
+                    "searching": true,
+                    "ordering": true,
+                    "order": []
+                });
+
+
+
+            }
+        }
+        function ajaxFieldSchedule() {
+
+            var selected_camps = new Array();
+            $("input[name='callId[]']:checked").each(function (i) {
+                selected_camps.push($(this).val());
+            });
+
+            var startTime = $('#startValue').val();
+            var formTime = $('#endValue').val();
+            var agentId = $('#driverValue').val();
+            var dateIs = $('#changeserviceBookingDate').val();
+            console.log(" totalsize " + selected_camps.length);
+
+            if (selected_camps.length == '0' || startTime == '0' || formTime == '0') {
+
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please select the data before scheduling'
+                });
+
+                return false;
+
+            } else {
+
+
+                var urlLink = siteRoot + "/fieldDriverScheduler/assignDriver/"
+                $('#mainLoader').css({ 'display': 'block' });
+
+                $.ajax({
+                    type: 'POST',
+                    url: urlLink,
+                    async: 'true',
+                    datatype: 'json',
+                    data: { selected_camps: selected_camps, startTime: startTime, formTime: formTime, agentId: agentId, dateIs: dateIs },
+                    cache: false,
+                    success: function (res) {
+                        if (res.success == true) {
+                            $('#mainLoader').css({ 'display': 'none' });
+
+                            $.unblockUI();
+                            Lobibox.notify('success', {
+                                msg: 'Appointment Booked successfully.'
+                            });
+                            ajaxCallForData();
+                            $("#tempValue").val("0");
+                            $("#tempIncreValue").val("0");
+                            $("#startValue").val("0");
+                            $("#endValue").val("0");
+                            $("#driverValue").val("0");
+                            ajaxAssignBtnBkreview('workshop', 'changeserviceBookingDate');
+                        }
+                        else {
+                            $.unblockUI();
+                            Lobibox.notify('warning', {
+                                msg: 'Driver Not sheduled...'
+                            });
+                        }
+
+                    },
+                    error: function () {
+
+                    }
+                });
+            }
+
+        }
+
+        function ajaxAssignBtnBkreview(workshop, dateis) {
+            //alert("AssignBtnBkreview");
+                    $('#mainLoader').css({ 'display': 'block' });
+
+
+            //var mcallInOut = $("input[name$='InOutCallName']").val();
+
+            var mcallInOut = $("input[name='InOutCallName']:checked").val();
+
+            if (mcallInOut === "InCall") {
+                workshop = "workshopIn";
+                dateis = "date123456";
+
+            }
+            console.log(mcallInOut);
+            console.log(workshop);
+            console.log(dateis);
+
+            var newdates = $('#changeserviceBookingDate').val();
+            //alert(newdates);
+            if (newdates != "") {
+                $('#newbookingdate').html(newdates);
+                $('#' + dateis).val(newdates);
+            } else {
+                var newDateSB = $('#' + dateis).val();
+
+                $('#newbookingdate').html(newDateSB);
+                $('#changeserviceBookingDate').val(newDateSB);
+            }
+
+
+            var scheduleDate = document.getElementById(dateis).value;
+            var workshopId = document.getElementById(workshop).value;
+            if (workshopId != "" && scheduleDate!="")
+            {
+                var urlPath = siteRoot + "/fieldDriverScheduler/driverListScheduleByWorkshopId/";
+                $.ajax({
+                    type: 'POST',
+                    url: urlPath,
+                    datatype: 'json',
+                    data: { workshopId: workshopId, scheduleDate: scheduleDate },
+                    cache: false,
+                    success: function (dataDriver) {
+
+                        var data = dataDriver.DriverList;
+                        var timeslot = dataDriver.timeSlot;
+
+                        $('#tableID').empty();
+
+                        var table = document.getElementById("tableID");
+                        var header = table.createTHead();
+                        var row = header.insertRow(0);
+
+
+                        for (var i = data.length - 1; i >= 0; i--) {
+                            var cell = row.insertCell(0);
+                            cell.outerHTML = "<th id=" + data[i].id + ">" + data[i].userName + "</th>";
+                        }
+
+                        var cell = row.insertCell(0);
+                        cell.outerHTML = "<th>Time slot</th>";
+
+                        for (var j = 0; j < timeslot.length - 1; j++) {
+                            tr = $('<tr/>');
+                            tr.append('<td id=' + timeslot[0].timeRange + ' At ' + timeslot[j].timeRange + '>' + timeslot[j].timeRange + '</td>');
+                            for (var k = 0; k < data.length; k++) {
+
+                                var blockedTime = data[k].listTime;
+                                if (blockedTime != null || blockedTime > 0) {
+
+                                    var result = inArray(timeslot[j].startTime, blockedTime)
+
+                                    if (result) {
+                                        result = true
+                                        console.log("Time is result: " + result);
+
+                                    }
+                                }
+                                //console.log("Time is result: "+result);
+                                if (result) {
+                                    tr.append('<td id=' + timeslot[j].timeRange + ' class="ColorRed"></td>');
+                                    result = false;
+
+                                } else {
+
+                                    tr.append('<td id=' + timeslot[j].timeRange + '></td>');
+                                }
+
+                            }
+                            $('#tableID').append(tr);
+
+                            $.fn.dataTable.ext.errMode = 'none';
+                            $($.fn.dataTable.tables(true)).DataTable()
+                                .columns.adjust();
+                            $('#tableID').dataTable({
+
+                                "fixedHeader": true,
+                                "scrollX": true,
+                                "scrollY": 460,
+
+                                "paging": false,
+                                "searching": false,
+                                "ordering": false,
+                                "bInfo": false
+                            });
+                        }
+
+                        var firsftSelect;
+                        if (table != null) {
+                            for (var i = 1; i < table.rows.length; i++) {
+                                for (var j = 1; j < table.rows[i].cells.length; j++) {
+                                    //table.rows[i].cells[j].id= table.rows[0].cells[j].innerText +" At " + table.rows[i].cells[0].innerText;
+                                    //console.log("class name : "+table.rows[i].cells[j].className )
+                                    var blockedclass = table.rows[i].cells[j].className;
+
+                                    if (blockedclass == "ColorRed") { } else {
+                                        table.rows[i].cells[j].onclick = function () {
+                                            //alert('clicked one ');
+                                            tableText(this);
+
+
+                                        };
+                                    }
+
+                                }
+                            }
+                        }
+                        $('#mainLoader').css({ 'display': 'none' });
+                    }
+                });
+            }
+            else
+            {
+                Lobibox.notify('info', {
+                                    continueDelayOnInactiveTab: true,
+                                    msg: 'Please Select Schedule date and Location'
+                                });
+                                $('#mainLoader').css({ 'display': 'none' });
+
+            }
+        }
+
+        //finding matching data with array
+        function inArray(needle, haystack) {
+            var count = haystack.length;
+            for (var i = 0; i < count; i++) {
+                console.log("blocked Time" + haystack[i].TotalHours)
+                console.log("Time slot", needle.TotalHours)
+                if (haystack[i].TotalHours === needle.TotalHours) {
+                    var times = haystack[i];
+                    var blockd = needle;
+                    return true;
+                }
+                //else
+                //{
+                //    return false;
+
+                //}
+            }
+            return false;
+        }
+
+
+
+        function sendSMS() {
+            var vehID = $("#insVehId").val();
+            var custId = $("#smsrequestReference").val();
+            var smstemplate = $('#smstemplate').val();
+            var smstypeid = $('#smstype').val();
+            var bookedId = $("#serviceBookedID").val();
+            var smsto = $("#ddlsmsTypes").val();
+            // smstemplate = smstemplate.replace(/[\\\#()$~'"*<>{}]/g, ' ');
+
+            if ($('#smstemplate').val() !== "" && vehID !== 0 && custId !== 0) {
+
+                try {
+                    $.ajax({
+                        type: 'POST',
+                        url: siteRoot + "/fieldDriverScheduler/sendSMS/",
+                        datatype: 'json',
+                        cache: false,
+                        data: { vehID: vehID, custId: custId, smstemplate: smstemplate, smsId: smstypeid, bookedId: bookedId, smsto: smsto },
+                        success: function (res) {
+                            if (res.success == true) {
+                                Lobibox.notify('info', {
+                                    continueDelayOnInactiveTab: true,
+                                    msg: 'Response Recorded Successfully'
+                                });
+                            }
+                            else {
+                                Lobibox.notify('Warning', {
+                                    continueDelayOnInactiveTab: true,
+                                    msg: res.error
+                                });
+                                //alert(res.error);
+                            }
+                        },
+                        error: function (ex) {
+                            alert("Sesrervver Error");
+                        }
+                    });
+                }
+                catch (err) {
+                    alert(err);
+                }
+
+
+            }
+            else {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Make sure phone no, SMS Type and Workshop is selected'
+                });
+            }
+
+        }
+
+
+
+    </script>
+    <script type="text/javascript">
+        $('#chckHead').click(function () {
+
+            if (this.checked == false) {
+
+                $('.chcktbl:checked').attr('checked', false);
+            }
+            else {
+                $('.chcktbl:not(:checked)').attr('checked', true);
+
+            }
+        });
+
+    </script>
+    <script>
+
+
+        function updateTheScheduledLocation() {
+            var selectedVal = $("#fieldLocation").val();
+            console.log("selectedVal " + selectedVal);
+            $("#city").val(selectedVal);
+            $("#workshop").val(selectedVal);
+            var afterselectedVal = $("#city").val();
+            console.log("afterselectedVal " + afterselectedVal);
+            var afterselectedVal = $("#city").val();
+            var scheduleDate = document.getElementById("changeserviceBookingDate").value;
+            if (scheduleDate != "") {
+                // ajaxCallForSchedular();
+                ajaxAssignBtnBkreview('workshop', 'changeserviceBookingDate');
+            }
+
+        }
+
+        $(document).ready(function () {
+            $('.datepicker').datepicker({
+
+                autoclose: true,
+                dateFormat: 'yy-mm-dd',
+
+                onSelect: function (date) {
+                    $('.range1datepicker').datepicker("destroy");
+                    $('.range1datepicker').datepicker({
+                        autoclose: true,
+                        dateFormat: 'yy-mm-dd',
+                        minDate: $('.datepicker').datepicker('getDate')
+                    });
+                    var dt1 = $('.datepicker').datepicker('getDate');
+                    var dt2 = $('.range1datepicker').datepicker('getDate');
+                    if (dt2 <= dt1) {
+                        var minDate = $('#dt2').datepicker('option', 'minDate');
+                        $('.range1datepicker').datepicker('setDate', null);
+                    }
+                }
+
+
+
+            });
+            $(".datepickerchange").datepicker({
+                dateFormat: 'yy-mm-dd',
+                maxDate: "+30d",
+                minDate: 0,
+
+            });
+
+            $('.multiSelectClass').multiselect({
+                includeSelectAllOption: true,
+                enableFiltering: true,
+                buttonWidth: '100px'
+
+            });
+            $('.multiSelectTop').multiselect({
+                includeSelectAllOption: true,
+                enableFiltering: true,
+                buttonWidth: '190px',
+                maxHeight: 150,
+                dropUp: true
+
+            });
+
+        });
+
+    </script>
+}

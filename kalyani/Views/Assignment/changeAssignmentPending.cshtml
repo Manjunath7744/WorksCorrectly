@@ -1,0 +1,883 @@
+﻿
+@{
+    ViewBag.Title = "changeAssignmentPending";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Change Assignment</div>
+    <div class="panel-body">
+        <div class="row filterDiv">
+            <div class="col-md-2">
+                <label>Module Type:<sup class="text-danger" style="font-size: larger;font-weight: bold;">*</sup></label>
+                <div class="form-group">
+                    <select class="form-control" onchange="changeBasedOnModule();" id="moduleName">
+                        <option value="">--Select--</option>
+                        @*@if (Session["UserRole"].ToString() == "Admin")
+                            {
+                                <option value="Campaign">Service</option>
+                                <option value="PSF">PSF</option>
+                                <option value="Insurance">Insurance</option>
+                            }*@
+                        @if (Session["LoginUser"].ToString() == "Service")
+                        {
+                            <option value="Campaign">Service</option>
+                            <option value="PSF">PSF</option>
+                        }
+                        @if (Session["LoginUser"].ToString() == "Insurance")
+                        {
+                            <option value="Insurance">Insurance</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label>Agent Name :<sup class="text-danger" style="font-size: larger;font-weight: bold;">*</sup> </label>
+                <div class="form-group">
+                    @Html.DropDownList("creList", (MultiSelectList)new SelectList(ViewBag.ddlCreList, "id", "name"), new { @multiple = "multiple", @class = "selectpicker show-tick form-control", @id = "crename", @data_live_search = "true", @data_hide_disabled = "true", @data_virtual_scroll = "false" })
+                    <button type="submit" id="agentName" name="agentName"  onclick="getWorkshops()"><i class="fa fa-search"></i></button>
+
+                    @*<input type="button" id="agentName" name="agentName" value="get workshops" onclick="getWorkshops();" />*@
+                </div>
+            </div>
+            <div class="col-md-2" id="workshopDiv">
+                <div class="form-group">
+                    <label>Workshops : </label>
+                    <select id="workshopLoc" class="form-control selectpicker" data-column-index="4" multiple>
+                    </select>
+                    @*@Html.DropDownList("location", new SelectList(ViewBag.location, "id", "name"), "--Select--", new { @class = "form-control selectpicker", @data_field = "location", @id = "location" })*@
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label id='labelFromDate'>Uploaded From Date : </label>
+                    <input type="text" class="form-control datepicker" id="assignFromDate" readonly />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label id='labelToDate'>Uploaded To Date : </label>
+                    <input type="text" class="form-control range1datepicker" id="assignToDate" readonly>
+                </div>
+            </div>
+            @*@if (Session["UserRole"].ToString() == "Admin")
+                {
+                    <div class="col-md-2" id="dispostionDiv_admin" style="display:block">
+                        <label>Disposition Status :<sup class="text-danger">*</sup> </label>
+                        <div class="form-group">
+                            <select class="form-control multiSelectClass" id="all_dispositions_admin" onchange="displayfolowupdate();">
+                                <option value="">--Select--</option>
+                                <option value="100">Transfer All Calls</option>
+                                <option value="0">Not yet called</option>
+                                <option value="3">Book My Service</option>
+                                <option value="25">Book Appointment</option>
+                                <option value="4">Call me later</option>
+                                <option value="5">Service Not Required</option>
+                                <option value="26">Renewal Not Required</option>
+                                <option value="6">Ringing No response</option>
+                                <option value="7">Busy</option>
+                                <option value="8">Switched Off / Unreachable</option>
+                                <option value="43">Wrong Number</option>
+                            </select>
+                        </div>
+                    </div>
+                }
+                else
+                {*@
+            <div class="col-md-2" id="dispostionDiv_SMR" style="display:block">
+                <label>Disposition Status :<sup class="text-danger" style="font-size: larger;font-weight: bold;">*</sup> </label>
+                <div class="form-group">
+                    <select class="form-control multiSelectClass" id="all_dispositions_smr" onchange="displayfolowupdate();">
+                        <option value="">--Select--</option>
+                        <option value="100">Transfer All Calls</option>
+                        <option value="0">Not yet called</option>
+                        <option value="3">Book My Service</option>
+                        <option value="4">Call me later</option>
+                        <option value="5,6,7,8,9,43">Non Contact</option>
+                        <option value="99">Non-FsPms</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-2" id="dispostionDiv_INS" style="display:none">
+                <label>Disposition Status :<sup class="text-danger" style="font-size: larger;font-weight: bold;">*</sup> </label>
+                <div class="form-group">
+                    <select class="form-control multiSelectClass" id="all_dispositions_ins" onchange="displayfolowupdate();">
+                        <option value="">--Select--</option>
+                        <option value="100">Transfer All Calls</option>
+                        <option value="0">Not yet called</option>
+                        <option value="25">Book Appointment</option>
+                        <option value="26">Renewal Not Required</option>
+                        <option value="4">Call me later</option>
+                        <option value="5,6,7,8,9,43">Non Contact</option>
+                    </select>
+                </div>
+            </div>
+            @*}*@
+
+            @*<div class="col-md-2" id="locationDiv" style="display:none">
+                    <label>Location : </label>
+                    <div class="form-group">
+                        @Html.DropDownList("location", new SelectList(ViewBag.location, "id", "name"), "--Select--", new { @class = "form-control ", @data_field = "location", @id = "location" })
+                    </div>
+                </div>*@
+        </div>
+        <div class="row filterDiv">
+            <div class="col-md-2">
+                <label>Campaign Name:</label>
+                <div class="form-group">
+                    <select class="form-control selectpicker" id="campaignNameSelected" multiple></select>
+                </div>
+            </div>
+            <div class="col-md-2" id="renewalTypeDiv" style="display:none">
+                <label>Renewal Type : </label>
+                <div class="form-group">
+                    @Html.DropDownList("renewalType", new SelectList(ViewBag.renewalType, "id", "name"), new { @class = "form-control multiSelectClass", @multiple = "multiple", @data_field = "renewalTypelist", @id = "renewalTypelist" })
+                </div>
+            </div>
+            <div class="col-md-2" id="serviceTypeDiv" style="display:none">
+                <label>Service Type : </label>
+                <div class="form-group">
+                    @Html.DropDownList("servicetypelist", new SelectList(ViewBag.serviceType, "id", "name"), new { @class = "form-control multiSelectClass", @multiple = "multiple", @data_field = "servicetypelist", @id = "servicetypelist" })
+                </div>
+            </div>
+            <div class="col-md-2" id="folloupfromdateDiv" style="display:none">
+                <label>FollowUp From Date :</label>
+
+                <div class="form-group">
+                    @Html.TextBox("folowupfromdateis", "", new { @class = "form-control datepicker", @id = "folowupfromdateis", @readonly = "readonly", @title = "From Date" })
+                </div>
+            </div>
+            <div class="col-md-2" id="follouptodateDiv" style="display:none">
+                <label>FollowUp To Date : </label>
+                <div class="form-group">
+                    @Html.TextBox("followuptodateTois", "", new { @class = "form-control range1datepicker", @id = "followuptodateTois", @readonly = "readonly", @title = "To Date" })
+                </div>
+            </div>
+            <div class="col-md-2">
+                <br />
+                <button type="button" class="btn btn-info" id="clearAllId" onclick="clearFilter();">Clear All</button>
+                <button type="button" class="btn btn-info" id="ViewAlltblBox" onclick="ajaxAssignDataList(1)">View</button>
+            </div>
+        </div>
+        <div id="selectChangeAssg" class="row assignDiv" style="display:none">
+            <div class="row" id="backDiv" style="display:none;margin-left: 0px;">
+                <div class="col-md-offset-10">
+                    <button type="button" id="btnback" onclick="goBack();" class="btn btn-sm btn-primary"><i class="fa fa-backward">&nbsp;Edit Filters</i></button>
+                </div>
+
+                <div class="col-md-2">
+                    <label>Assign To</label>
+                    <div class="form-group">
+                        <select class="form-control selectpicker" id="userlist" name="userId" multiple required></select>
+                    </div>
+                </div>
+                <div class="col-md-2" style="display:block;">
+                    <label>Assign No. Of Calls</label>
+                    <div class="form-group">
+                        <input type="text" placeholder="enter a number" class="form-control" id="assignedNumberOfCalls" onkeyup="checkAssign(this);" min="0">
+                        Total Calls: <span id="totalCalls" style="font-weight:bold;"></span><br />
+                        Selected Calls: <span id="callSelected" style="font-weight:bold">0</span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <br />
+                    <button type="button" class="btn btn-info" onclick="ajaxAssignDataList(2);">Change Assignment</button>
+                </div>
+                @*<div class="col-md-2">
+                        <br />
+                        @Html.ActionLink("changeUpload", "changeUpload")
+                    </div>*@
+            </div>
+        </div>
+    </div>
+
+    <div class="row assignDivTbl" id="selectAllDIv" style="display:none">
+        <div class="col-md-12 table-responsive">
+            <table id="tblChangeAssign" class="table table-bordered ">
+                <thead>
+                    <tr>
+                        <th style="width: 100px;"> <input type="checkbox" id="chckHead" /> Select All</th>
+                        <th>User Name</th>
+                        <th>Customer Name</th>
+                        <th>Mobile Number</th>
+                        <th>Vehicle RegNo.</th>
+                        @*<th>Last Disposition</th>*@
+                        <th>Campaign</th>
+                        <th>Workshop Name</th>
+                        @*<th style="display:none;"></th>*@
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <span id="tblException" style="font-size:12pt;color:red"></span>
+    </div>
+
+</div>
+</div>
+
+@section scripts{
+
+    <script type="text/javascript">
+        var dictCRE_selected = {}, isAllSelected = false, totalFilterCount;
+        $(document).ready(function () {
+
+            $('.datepicker').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                autoclose: true,
+                dateFormat: 'yy-mm-dd',
+
+                onSelect: function (date) {
+                    $('.range1datepicker').datepicker("destroy");
+                    $('.range1datepicker').datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        autoclose: true,
+                        dateFormat: 'yy-mm-dd',
+                        minDate: $('.datepicker').datepicker('getDate')
+                    });
+                    var dt1 = $('.datepicker').datepicker('getDate');
+                    var dt2 = $('.range1datepicker').datepicker('getDate');
+                    if (dt2 <= dt1) {
+                        var minDate = $('#dt2').datepicker('option', 'minDate');
+                        $('.range1datepicker').datepicker('setDate', null);
+                    }
+                }
+            });
+            $(".datepickerchange").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'yy-mm-dd',
+                maxDate: "+30d",
+                minDate: 0,
+
+            });
+
+
+            $('.multiSelectClass').multiselect({
+                includeSelectAllOption: true,
+                enableFiltering: true,
+                buttonWidth: '190px'
+
+            });
+            $('.multiSelectTop').multiselect({
+                includeSelectAllOption: true,
+                enableFiltering: true,
+                buttonWidth: '190px',
+                maxHeight: 150,
+                dropUp: true
+
+            });
+
+            $('.range1datepicker').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                autoclose: true,
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                minDate: new Date()
+            });
+
+            $('.datePickerFilterFromChange').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                autoclose: true,
+                dateFormat: 'yy-mm-dd',
+                maxDate: new Date(),
+                onSelect: function (date) {
+                    $('.range1datepicker').datepicker("destroy");
+                    $('.range1datepicker').datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        autoclose: true,
+                        dateFormat: 'yy-mm-dd',
+                        minDate: $('.datePickerFilterFromChange').datepicker('getDate')
+                    });
+                    var dt1 = $('.datePickerFilterFromChange').datepicker('getDate');
+                    var dt2 = $('.range1datepicker').datepicker('getDate');
+                    if (dt2 <= dt1) {
+                        var minDate = $('#dt2').datepicker('option', 'minDate');
+                        $('.range1datepicker').datepicker('setDate', null);
+                    }
+                }
+            })
+
+        });
+
+         //By Nisarga Start
+        function getWorkshops() {
+            $("#workshopLoc").empty();
+            $("#workshopLoc").multiselect('refresh');
+            var Name = $("#crename").val();
+            var agentName = Name.join(',');
+            if (agentName != null) {
+                $('#mainLoader').css({ 'display': 'block' });
+                $.ajax({
+                    url: siteRoot + "/Assignment/getWorkshop/",
+                    type: 'get',
+                    dataType: 'json',
+                    data: { value: agentName },
+                    success: function (res) {
+                        for (i = 0; i < res.data.length; i++) {
+                            $("#workshopLoc").append('<option value="'+ res.data[i].id +'">'+res.data[i].name+'</option>');
+                        }
+                        $("#workshopLoc").multiselect('rebuild');
+                        $('#mainLoader').css({ 'display': 'none' });
+                    }
+                });
+            }
+        }
+        //By Nisarga End
+
+
+        function displayfolowupdate() {
+
+            var dispoId = $('#all_dispositions_smr').val();
+            var dispoInsId = $('#all_dispositions_ins').val();
+            if (dispoId == "4" || dispoInsId == "4") {
+                $('#folloupfromdateDiv').css({ 'display': 'block' });
+                $('#follouptodateDiv').css({ 'display': 'block' });
+            }
+            else {
+                $('#folloupfromdateDiv').css({ 'display': 'none' });
+                $('#follouptodateDiv').css({ 'display': 'none' });
+            }
+        }
+
+        function changeBasedOnModule() {
+            var moduleName = $('#moduleName').val();
+            if (moduleName === "") {
+                $('.assignDiv').css({ 'display': 'none' });
+                $('.assignDivTbl').css({ 'display': 'none' });
+            }
+            if (moduleName === "Campaign") {
+                $('#serviceTypeDiv').css({ 'display': 'block' });
+            }
+            if (moduleName === "PSF") {
+                $('#serviceTypeDiv').css({ 'display': 'none' });
+            }
+            if (moduleName == 'Insurance') {
+                document.getElementById('labelFromDate').innerHTML = 'Expiry From Date : ';
+                document.getElementById('labelToDate').innerHTML = 'Expiry To Date : ';
+                $('#serviceTypeDiv').css({ 'display': 'none' });
+                $('#renewalTypeDiv').css({ 'display': 'block' });
+            }
+            else {
+                $('#renewalTypeDiv').css({ 'display': 'none' });
+                document.getElementById('labelFromDate').innerHTML = 'Uploaded From Date : ';
+                document.getElementById('labelToDate').innerHTML = 'Uploaded To Date : ';
+            }
+            creAndCampaignBasedOnModule();
+        }
+
+        function creAndCampaignBasedOnModule() {
+            var sel = document.getElementById('moduleName').value;
+                $('#selectAllDIv').hide();
+                $('#selectChangeAssg').hide();
+                if (sel == 'Insurance') {
+                    $('#dispostionDiv_INS').show();
+                    $('#dispostionDiv_SMR').hide();
+                }
+                else {
+                    $('#dispostionDiv_SMR').show();
+                    $('#dispostionDiv_INS').hide();
+            }
+
+
+            var urlLink = siteRoot + "/Assignment/listCampaignAndCRE/";
+            $.ajax({
+                type: 'POST',
+                url: urlLink,
+                datatype: 'json',
+                data: { moduleType: sel },
+                cache: false,
+                success: function (res) {
+                    if (res.success === true) {
+                        if (res != null) {
+                            $('#crename').empty();
+                            $('#campaignNameSelected').empty();
+                        }
+                        var dropdown = document.getElementById("campaignNameSelected");
+                        for (var i = 0; i < res.campaign.length; i++) {
+                            dropdown[dropdown.length] = new Option(res.campaign[i].campaignName, res.campaign[i].id);
+                            $("#campaignNameSelected").addClass('selectpicker');
+                            $('#campaignNameSelected').multiselect('rebuild');
+                        }
+
+                        var dropdown1 = document.getElementById("crename");
+                        for (var i = 0; i < res.cres.length; i++) {
+                            dropdown1[dropdown1.length] = new Option(res.cres[i].userName, res.cres[i].id);
+                        }
+                        $("#crename").addClass('selectpicker');
+                        $('#crename').multiselect('rebuild');
+
+                        var dropdown2 = document.getElementById("userlist");
+                        $("#crename").append('<option value="'+""+'">' + "--Select--" + '</option>');
+                        for (var i = 0; i < res.cres.length; i++) {
+                            dropdown2[dropdown2.length] = new Option(res.cres[i].userName, res.cres[i].id);
+                        }
+                        $("#userlist").addClass('selectpicker');
+                        $('#userlist').multiselect('rebuild');
+                    }
+                    else {
+                        Lobibox.notify('warning', {
+                            continueDelayOnInactiveTab: true,
+                            msg: res.error
+                        });
+                    }
+                }, error(error) {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Something went wrong'
+                    });
+                }
+            });
+                $('option', $('#all_dispositions_smr')).each(function (element) {
+                    $(this).removeAttr('selected').prop('selected', false);
+                });
+                $("#all_dispositions_smr").multiselect('refresh');
+
+                $('option', $('#all_dispositions_ins')).each(function (element) {
+                    $(this).removeAttr('selected').prop('selected', false);
+                });
+                $("#all_dispositions_ins").multiselect('refresh');
+            //}
+
+            $('option', $('#campaignNameSelected')).each(function (element) {
+                $(this).removeAttr('selected').prop('selected', false);
+            });
+            $("#campaignNameSelected").multiselect('refresh');
+
+
+            $("#assignFromDate").val('');
+            $("#assignToDate").val('');
+        }
+
+
+        //clear function
+        function clearFilter() {
+            var badaf=$("#crename").empty();
+            var asada= $("#crename").multiselect("deselectAll", false).multiselect("refresh");
+
+
+            $("#servicetypelist").multiselect("deselectAll", false).multiselect("refresh");
+
+            $('#userlist').empty();
+            $('#userlist').multiselect('refresh');
+
+            dictCRE_selected = {}
+            $("#moduleName option:selected").each(function () {
+                $(this).removeAttr("selected");
+            });
+            $("#workshopLoc").multiselect("deselectAll", false).multiselect("refresh")
+                $('option', $('#all_dispositions_smr')).each(function (element) {
+                    $(this).removeAttr('selected').prop('selected', false);
+                });
+                $("#all_dispositions_smr").multiselect('refresh');
+
+
+                $('option', $('#all_dispositions_ins')).each(function (element) {
+                    $(this).removeAttr('selected').prop('selected', false);
+                });
+                $("#all_dispositions_ins").multiselect('refresh');
+            //}
+
+            $('option', $('#campaignNameSelected')).each(function (element) {
+                $(this).removeAttr('selected').prop('selected', false);
+            });
+            $("#campaignNameSelected").multiselect('refresh');
+            $('#chckHead').removeAttr('checked');
+
+            $("#assignFromDate").val('');
+            $("#assignToDate").val('');
+
+            $("#servicetypelist").multiselect("deselectAll", false).multiselect('refresh');
+            $("#folowupfromdateis").val("");
+            $("#followuptodateTois").val("");
+        }
+
+        //Function of back button
+        function goBack() {
+            $('#backDiv').css({ 'display': 'none' });
+            $('.filterDiv').css({ 'pointer-events': 'auto', 'opacity': '1.0' });
+            $('.assignDiv').css({ 'display': 'none' });
+            $('.assignDivTbl').css({ 'display': 'none' });
+            $('#callSelected').text('');
+            $('#totalCalls').text('');
+            $('#tblChangeAssign').empty();
+            clearFilter();
+        }
+
+
+        //*************** Assign Starts *********************
+
+        $("#assignedNumberOfCalls").keyup(function () {
+    this.value = this.value.replace(/[^0-9\.]/g,'');
+});
+
+        //checkBox...all select
+        $('#chckHead').on('click', function () {
+            if ($(this).is(':checked') == true) {
+                var ckLength = $('.chcktbl').length;
+                $('.chcktbl:checkbox').prop('checked', true);
+                $('#assignedNumberOfCalls').attr('readonly', 'readonly');
+                isAllSelected = true;
+                $('#callSelected').text(totalFilterCount);
+            }
+            else {
+                $('input.chcktbl').prop('checked', false);
+                $('#assignedNumberOfCalls').removeAttr('readonly', 'readonly');
+                $('#assignedNumberOfCalls').val('');
+                isAllSelected = false;
+                dictCRE_selected = {};
+                $('#callSelected').text('0');
+            }
+        });
+
+        function checkAssign(ele) {
+            var num = $(ele).val();
+
+            if (num > totalFilterCount) {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Max call can only assign'
+                });
+                $(ele).val(totalFilterCount);
+            }
+
+            if (num == "" || num == "0") {
+                //$('.chcktbl:checkbox').prop('checked', false);
+                $('.chcktbl:checkbox').prop('disabled', false);
+                dictCRE_selected = {};
+                isAllSelected = false;
+                $('#chckHead').prop('disabled', false);
+                if (num == "0") {
+                    $(ele).val('');
+                    $('#callSelected').text('0');
+                }
+            }
+            else {
+                //$('.chcktbl:checkbox').prop('checked', false);
+                $('.chcktbl:checkbox').prop('disabled', true);
+                dictCRE_selected = {};
+                isAllSelected = false;
+                $('#chckHead').prop('disabled', true);
+                $('#callSelected').text(num);
+                //$(ele).attr('readonly', 'readonly');
+            }
+        }
+
+        function ckClick(ele) {
+            if (ele.checked === true) {
+                if (dictCRE_selected[$(ele).val().split(',')[0]] == undefined) {
+                    dictCRE_selected[$(ele).val().split(',')[0]] = $(ele).val();
+                }
+            }
+            else {
+                delete dictCRE_selected[$(ele).val().split(',')[0]]
+            }
+
+            if (Object.keys(dictCRE_selected).length != 0) {
+                $('#assignedNumberOfCalls').attr('readonly', 'readonly');
+            }
+            else {
+                $('#assignedNumberOfCalls').removeAttr('readonly', 'readonly');
+            }
+
+            $('#callSelected').text(Object.keys(dictCRE_selected).length);
+
+            if ($('input.chcktbl').length == $("input[name='callId']:checked").length) {
+                $('#chckHead').prop('checked', true);
+            }
+            else {
+                $('#chckHead').prop('checked', false);
+            }
+        }
+
+
+
+
+
+        function ajaxAssignDataList(callFor)
+        {
+            var dispoId = $('#all_dispositions_smr').val();;
+            var folowupfromdate = $('#folowupfromdateis').val();
+            var followuptodateTo = $('#followuptodateTois').val();
+            var workshop = $("#workshopLoc").val();
+            var workshopNames = $('#workshop option:selected').toArray().map(item => item.value).join();
+            var moduleName = $('#moduleName').val();
+            var fromdate = $('#assignFromDate').val();
+            var campSelecType = $('#moduleName').val();
+            var todate = $('#assignToDate').val();
+            var cre = $("#crename").val();
+            var dispo = '';
+            var selected_camp = "";
+            var numOfAssign = $('#assignedNumberOfCalls').val();
+            var selected_cre_list = "";
+           
+                if (moduleName == 'Insurance') {
+                    dispo = $("#all_dispositions_ins").val();
+                }
+                else {
+                    dispo = $("#all_dispositions_smr").val();
+                }
+
+            if (moduleName === "" && dispo === "" && cre === null) {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please provide all values (*).'
+                });
+                return false;
+            }
+            if (moduleName === "") {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please Select Module Type (*).'
+                });
+                return false;
+            }
+            if (cre === null) {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please Select Agent Names (*).'
+                });
+                return false;
+            }
+            if (dispo === "") {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please Select Disposition Type (*).'
+                });
+                return false;
+            }
+       
+            if ((fromdate != "" && todate === "") || (fromdate === "" && todate != "")) {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please Select From and To date .'
+                });
+                return false;
+            }
+            //else if ((dispoId == "4") && (folowupfromdate == "" || followuptodateTo==""))
+            //{
+            //        Lobibox.notify('warning', {
+            //        continueDelayOnInactiveTab: true,
+            //        msg: 'Please FollowUp From and To Date all values (*).'
+            //    });
+            //}
+            else {
+
+                if (callFor == 2)//assign
+                {
+
+                    var selected_cmpArray = [];
+                    for (var key in dictCRE_selected)
+                    {
+                        selected_cmpArray.push(dictCRE_selected[key]);
+                    }
+                    selected_camp = selected_cmpArray.join(',');
+
+                    selected_cre_list = $('#userlist option:selected').toArray().map(item => item.value).join();
+
+                    if (selected_cmpArray.length <= 0)
+                    {
+                        if (numOfAssign === "")
+                        {
+                            if (isAllSelected == false && selected_cmpArray.length <= 0) {
+                                Lobibox.notify('warning', {
+                                    continueDelayOnInactiveTab: true,
+                                    msg: 'Please Select CRE Record'
+                                });
+                                return false;
+                            }
+                        }
+                        if (selected_cre_list === "")
+                        {
+                            Lobibox.notify('warning', {
+                                continueDelayOnInactiveTab: true,
+                                msg: 'Please Select CRE to assign'
+                            });
+                            return false;
+                        }
+                    }
+                }
+
+
+                if (callFor == 1 || isAllSelected == true || numOfAssign != "" || selected_cmpArray.length > 0)
+                {
+                    var selected_cres = "";
+                    var selected_dispositions = "";
+                    var selected_servicetypelist = "";
+                    var campSelec = "";
+
+                    var moduleName = document.getElementById("moduleName").value;
+                    $("#selectAllDIv").show();
+                    $("#selectChangeAssg").show();
+
+
+                    selected_cres = $('#crename option:selected').toArray().map(item => item.value).join();
+                    campSelec = $('#campaignNameSelected option:selected').toArray().map(item => item.value).join();
+
+                    if (moduleName == 'Insurance')
+                    {
+                        selected_dispositions = $('#all_dispositions_ins option:selected').toArray().map(item => item.value).join();
+                    }
+                    else
+                    {
+                        selected_dispositions = $('#all_dispositions_smr option:selected').toArray().map(item => item.value).join();
+                    }
+                    
+                    if (moduleName == 'Campaign')
+                    {
+                        selected_servicetypelist = $('#servicetypelist option:selected').toArray().map(item => item.value).join();
+                    }
+                    else if (moduleName == 'Insurance')
+                    {
+                        selected_servicetypelist = $('#renewalTypelist option:selected').toArray().map(item => item.value).join();
+                    }
+                }
+
+
+                if (callFor == 1)//get assign list
+                {
+                    var urlLink = siteRoot + "/Assignment/changeAssignmentAction/";
+                   
+                    $('#mainLoader').css({ 'display': 'block' });
+                    $('#tblChangeAssign').dataTable({
+                        "destroy": true,
+                        "ajax": {
+                            'type': 'POST',
+                            'url': urlLink,
+                            'data': {
+                                campSelecType: moduleName,
+                                campSelec: campSelec,
+                                fromdate: fromdate,
+                                todate: todate,
+                                selected_cres: selected_cres,
+                                selected_dispositions: selected_dispositions,
+                                workshopNames: workshopNames,
+                                selected_servicetypelist: selected_servicetypelist,
+                                folowupfromdate: folowupfromdate,
+                                followuptodateTo:followuptodateTo
+                            }
+                        },
+                        "columns": [
+                            {
+                                "data": "Select", render: function (data, type, row) {
+                                    if (selected_cres)
+                                        if (dictCRE_selected[row.id] == undefined) {
+                                            return `<input type="checkbox" class="chcktbl" onclick="ckClick(this)" name="callId" value="${row.id},${row.campaign_id},${row.servicebookedId},${row.nextServiceTypeId}"/>`;
+                                        }
+                                        else {
+                                            return `<input type="checkbox" class="chcktbl" onclick="ckClick(this)" name="callId" value="${row.id},${row.campaign_id},${row.servicebookedId},${row.nextServiceTypeId}" checked/>`;
+                                        }
+
+                                }
+                            },
+                            { "data": "CreName", "name": "CreName" },
+                            { "data": "customer_name", "name": "customer_name" },
+                            { "data": "Mobile_number", "name": "Mobile_number" },
+                            { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                            {
+                                "data": "renewalType", "name": "renewalType"
+                            },
+                            //{
+                            //    "data": "", render: function (data, type, row) {
+                            //        return `<input type="text" name="campId" value="${data}" style="display:none;"/>`;
+                            //    }
+                            //},
+                            { "data": "workshopname", "name": "workshopname" }
+
+                        ],
+                        "processing": "true",
+                        "serverSide": true,
+                        "scrollX": "true",
+                        "scrollY": "300",
+                        "paging": true,
+                        "searching": false,
+                        "language": {
+                            "processing": "Loading Please Wait.....!"
+                        },
+                        columnDefs: [{
+                            targets: "_all",
+                            orderable: false
+                        }],
+                        "initComplete": function (data) {
+                            console.log(+data.json.filterls); $('#tblException').text(data.json.exception);
+                            $('#totalCalls').text(data.json.recordsTotal);
+                            totalFilterCount = data.json.recordsTotal;
+                            $('#mainLoader').css({ 'display': 'none' });
+                        }
+                    });
+
+                    $('#backDiv').css({ 'display': 'block' });
+                    $('.filterDiv').css({ 'pointer-events': 'none', 'opacity': '0.4' });
+                    $('.assignDiv').css({ 'display': 'block' });
+                    $('.assignDivTbl').css({ 'display': 'block' });
+                }
+                else if (callFor == 2) {//when u click assign
+                   
+                    var filtData = JSON.stringify({
+                        campSelec: campSelec,
+                        fromdate: fromdate,
+                        todate: todate,
+                        selected_cres: selected_cres,
+                        selected_dispositions: selected_dispositions,
+                        workshopNames: workshopNames,
+                        selected_servicetypelist: selected_servicetypelist,
+                        folowupfromdate: folowupfromdate,
+                                followuptodateTo:followuptodateTo
+                    })
+
+
+                    $('#mainLoader').css({ 'display': 'block' });
+                    $.ajax({
+                        type: 'POST',
+                        url: siteRoot + '/Assignment/callAssignmentForAdmin/',
+                        data: {
+                            campSelecType: moduleName,
+                            filtData: filtData,
+                            selected_cre_list: selected_cre_list,
+                            selected_camp: selected_camp,
+                            isAllSelected: isAllSelected,
+                            numOfAssign: numOfAssign,
+                            selected_servicetypelist: selected_servicetypelist,
+                            folowupfromdate: folowupfromdate,
+                                followuptodateTo:followuptodateTo
+                        },
+                        cache: false,
+                        success: function (res) {
+                            if (res.success == true) {
+                                goBack();
+                                $('#mainLoader').fadeOut('slow');
+                                Lobibox.notify('success', {
+                                    msg: 'Changed Successfully.'
+                                });
+                                $('#tblChangeAssign').empty();
+                                $('#assignedNumberOfCalls').val('');
+                                $('#callSelected').text('');
+                                $('#totalCalls').text('');
+                            }
+                            else {
+                                $('#mainLoader').fadeOut('slow');
+                                Lobibox.notify('warning', {
+                                    msg: res.error
+                                });
+                            }
+                        }, error(error) {
+                            $('#mainLoader').fadeOut('slow');
+                            Lobibox.notify('warning', {
+                                msg: 'something went wrong.'
+                            });
+                        },
+                        timeout: 591111 // timeout 9.85185 minutes
+                    });
+                }
+            }
+        }
+    </script>
+
+}

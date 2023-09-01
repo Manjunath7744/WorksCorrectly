@@ -1,0 +1,242 @@
+﻿@model AutoSherpa_project.Models.ViewModels.CallLoggingViewModel
+<input type="hidden" id="psfType" value="@ViewBag.typeOfPSF" />
+<style>
+    body {
+        counter-reset: my-sec-counter;
+    }
+
+    .countQus::before {
+        counter-increment: my-sec-counter;
+        content: " " counter(my-sec-counter) ". ";
+    }
+</style>
+
+<input type="hidden" value="@ViewBag.totalMandatoryQustn" id="txttotalpostservicemandatroryQuestions">
+@Html.HiddenFor(m => m.indusPsfInteraction.psfFormat, new { @Value = Model.postsalespsfQuestionType })
+@Html.HiddenFor(m => m.indusPsfInteraction.psfCampaign, new { @Value = @Session["psfDayType"].ToString() })
+<div class="panel-body">
+    <div class="col-md-12">
+        <div class="form-group">
+            <div id="postservicewelcomeDiv" class="animated  bounceInRight">
+                <label for=""><b>Did You talk to the Customer?</b></label>
+                <br>
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.indusPsfInteraction.isContacted, "Yes", new { @class = "used", @id = "" })
+                        Yes
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.indusPsfInteraction.isContacted, "No", new { @id = "" })
+                        No
+                    </label>
+                </div>
+            </div>
+
+            <div style="display:none;" class="animated  bounceInRight" id="postservicenoSpeechDiv">
+                <br>
+                <label for=""><b>Choose reason for not being able to talk to customer:</b></label>
+                <br>
+                <div class="radio">
+                    <label>
+                        @Html.RadioButtonFor(m => m.indusPsfInteraction.PSFDisposition, "Ringing No response", new { @id = "", @class = "reason_for_not_talking" })
+                        Ringing No response
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        @Html.RadioButtonFor(m => m.indusPsfInteraction.PSFDisposition, "Busy", new { @id = "", @class = "reason_for_not_talking" })
+                        Busy
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        @Html.RadioButtonFor(m => m.indusPsfInteraction.PSFDisposition, "Switched Off / Unreachable", new { @id = "", @class = "reason_for_not_talking" })
+                        Switched Off / Unreachable
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        @Html.RadioButtonFor(m => m.indusPsfInteraction.PSFDisposition, "Invalid Number", new { @id = "", @class = "reason_for_not_talking" })
+                        Invalid Number
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        @Html.RadioButtonFor(m => m.indusPsfInteraction.PSFDisposition, "NoOther", new { @id = "NOOthersCheck", @class = "reason_for_not_talking" })
+                        Other
+                    </label>
+                </div>
+
+                <div class="row animated  bounceInRight" style="display:none;" id="postservicefeedbackOtherDivShow">
+                    <div class="col-md-4">
+                        <label><b>Please Specify</b></label>
+                        @Html.TextAreaFor(m => m.indusPsfInteraction.nonContactOtherReason, new { @class = "form-control OtherComments characterLimit", @id = "txtpsfservicenoncontactotherreason", @rows = "1" })
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-info" name="" id="btnnoncontactpostservicesubmits" value="">Submit</button>
+                </div>
+            </div>
+
+
+            <div id="postserviceYesDiv" class="animated  bounceInRight" style="display:none">
+                <label for=""><b>What Did the Customer Say ?</b></label>
+                <br>
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.indusPsfInteraction.whatCustSaid, "FEEDBACK", new { @class = "", @id = "rdofeedback" })
+                        FEEDBACK
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.indusPsfInteraction.whatCustSaid, "Call Me Later", new { @id = "rdofollowupltr", @class = "" })
+                        FOLLOWUP LATER
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.indusPsfInteraction.whatCustSaid, "NO FEEDBACK", new { @id = "rdocallmeltr", @class = "" })
+                        NO FEEDBACK
+                    </label>
+                </div>
+            </div>
+        </div>
+        <br />
+
+        <div class="row animated  bounceInRight" id="postservicefeedbackyesDiv" style="display:none;">
+            @if (Model.induspostservicefollowupquestions != null && Model.induspostservicefollowupquestions.Count > 0)
+            {
+                @*@Html.TextBoxFor(m => m.indusPsfInteraction.psfquestions_id, new { @type = "hidden" })*@
+                foreach (var questions in Model.induspostservicefollowupquestions)
+                {
+
+                    <div style="display:block;margin-bottom:14px;" class="col-md-12  animated fadeInUp">
+                        <div class="col-sm-12">
+                            <label class="countQus"> </label>
+                            <span class="text-bold text-light-black">
+                                @questions.question@if (questions.qs_mandatory == true)
+                                {<span style="color:red;font-size:15pt;">*</span>}
+                            </span>
+                        </div>
+
+                        <div style="" class="col-sm-12 animated  bounceInRight " id="postserviceQuestions.@questions.binding_var">
+
+                            @if (questions.display_type == "drop-down")
+                            {
+                                <select class="form-control text-bold cntrl cntrl_@questions.question_no" id="postservice.@questions.question_no" name="IndusPSFInteraction.@questions.binding_var">
+                                    <option value="">--Select-- </option>
+                                    @if ((questions.DDLOptionValueList != null && questions.DDLOptionValueList.Count > 0) && (questions.DDLOptionTextList != null && questions.DDLOptionTextList.Count > 0))
+                                    {
+                                        foreach (var opt in questions.dictionaryDDLQuestionList)
+                                        {
+                                            if (opt.Key == questions.defaultvalues)
+                                            {
+                                                <option value="@opt.Value" selected>@opt.Key </option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@opt.Value">@opt.Key </option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            }
+
+                            else if (questions.display_type == "radio-button")
+                            {
+                                if ((questions.RadioValueList != null && questions.RadioValueList.Count > 0) && (questions.RadioTextList != null && questions.RadioTextList.Count > 0))
+                                {
+                                    <div class="radio-inline">
+
+                                        @foreach (var rd in questions.dictionaryRDOQuestionList)
+                                        {
+                                            if (questions.defaultvalues == rd.Key)
+                                            {
+                                                <label style="padding: 4px 6px;">&nbsp;&nbsp;<input id="rd_@questions.question_no" checked="checked" class="rdomandatory_@questions.qs_mandatory.ToString() cntrl cntrl_ qs_@questions.question_no" name="IndusPSFInteraction.@questions.binding_var" type="radio" value="@rd.Value">@rd.Key</label>
+                                            }
+                                            else
+                                            {
+                                                <label style="padding: 4px 6px;">&nbsp;&nbsp;<input id="rd_@questions.question_no" class="rdomandatory_@questions.qs_mandatory.ToString() cntrl cntrl_ qs_@questions.question_no" name="IndusPSFInteraction.@questions.binding_var" type="radio" value="@rd.Value">@rd.Key</label>
+                                            }
+                                        }
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+                <div class="col-md-12">
+                    <div class="row pull-right">
+                        <button type="submit" class="btn btn-info" id="btnpostservicefeedbackSubmit">Submit</button>
+                    </div>
+                </div>
+            }
+
+        </div>
+
+        @*-------Call me later div------*@
+        <div style="display:none;" class="row animated  bounceInRight" id="postservicecalmelaterDiv">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="followUpDate">Call Back Date</label>
+                    @Html.TextBoxFor(m => m.indusPsfInteraction.FollowUpdate, new { @id = "txtpostservicecallbackdate", @class = "datepickerPlus30Days datePickerrangeto form-control", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="followUpTime">Call Back Time</label>
+                    @Html.TextBoxFor(m => m.indusPsfInteraction.FollowUptime, new { @id = "txtpostservcecallbacktime", @class = "single-input form-control timepicker_7", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="pull-right">
+                <button type="submit" class="btn btn-info" name="" id="btnsubmitpostservicefollowuplater">Submit</button>
+            </div>
+
+        </div>
+        <div style="display:none;" class="row animated  bounceInRight" id="postservicenoFeedbacks">
+            <div class="pull-right" id="">
+                <button type="submit" class="btn btn-info" name="" id="btnpostservicesnofeedbacksubmit">Submit</button>
+            </div>
+
+        </div>
+
+        <div style="display:none;" class="row animated  bounceInRight" id="postservicesRemarksDiv">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="followUpTime">Customer Remarks</label>
+                            @Html.TextAreaFor(m => m.indusPsfInteraction.customerFeedBack, new { @class = "form-control characterLimit", @id = "txtspsfCustremarks" })
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="followUpTime">CRE Remarks</label>
+                            @Html.TextAreaFor(m => m.indusPsfInteraction.creRemarks, new { @class = "form-control characterLimit", @id = "txtspsfcreRemarks" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--panel Body End-->
+<!---panel Body End--->
+
+@Scripts.Render("~/public/javascripts/jquery-3.2.1.min.js")
+@Scripts.Render("~/public/CallLogFiles/induspsf15thday.js")
+<script>
+    $(document).ready(function ()
+{
+            var psfType = '@ViewBag.typeOfPSF';
+
+            if (psfType == "2") {
+        $('#interHeading').text('POST SALES 2ND DAY DISPOSITION FORM');
+            }
+            else if (psfType == "15") {
+                $('#interHeading').text('POST SALES 15TH DAY DISPOSITION FORM');
+            }
+        });
+</script>

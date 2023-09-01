@@ -1,0 +1,550 @@
+﻿@model  AutoSherpa_project.Models.smstemplate
+@{
+    ViewBag.Title = "addSMSTemplate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+
+    .myButton {
+        background-color: #7892c2;
+        border-radius: 6px;
+        border: 1px solid #4e6096;
+        display: inline-block;
+        cursor: pointer;
+        color: #ffffff;
+        font-family: Arial;
+        font-size: 15px;
+        font-weight: bold;
+        padding: 1px 24px;
+        text-decoration: none;
+        margin-top: 10px;
+    }
+
+        .myButton:hover {
+            background-color: #476e9e;
+        }
+
+        .myButton:active {
+            position: relative;
+            top: 1px;
+        }
+</style>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Add/Edit SMS Template<button style="background-color:red;float:right;height:30px;width:100px;margin-top:-5px;" onclick="clearsmstemplatecontrols();" title="CLEAR FILTER">CLEAR FILTER</button>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm("saveSMSTemplate", "superAdmin", FormMethod.Post))
+        {
+            <div class="">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Deliver Type</label>
+
+                        <div class="form-group">
+                            @Html.DropDownListFor(m => m.deliveryType, new SelectList(new List<SelectListItem> {
+                                 new SelectListItem() {Text = "--Select--", Value=""},
+                                 new SelectListItem() {Text = "Manual", Value="Manual"},
+                                 new SelectListItem() {Text = "Auto", Value="Auto"},
+                                 new SelectListItem() {Text = "Both", Value="Both"}}, "Value", "Text", Model.deliveryType), new { @class = "form-control", @id = "deliverType" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Module Type</label>
+                            @Html.DropDownListFor(m => m.moduletype, new SelectList(ViewBag.moduleTypes, "moduleId", "moduleName"), "--Select--", new { @class = "form-control filter", @id = "moduleId" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>SMS Type</label>
+                            @Html.TextBoxFor(m => m.smsType, new { @class = "form-control", @id = "smsType" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <label>SMS API</label>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.smsAPI, new { @class = "form-control", @id = "smsAPI" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Location</label>
+                            @Html.DropDownListFor(m => m.locationId, new SelectList(ViewBag.workshopLists, "id", "workshopName"), "--Select--", new { @class = "form-control filter", @id = "smsLocation" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>SMS Codes</label>
+                        <div class="form-group">
+                            <div id="btnlistsDiv" class="Container "></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>SMS Templates</label>
+                        <div class="form-group">
+                            @Html.TextAreaFor(m => m.smsTemplate1, new { @class = "form-control", @id = "smstemplatebody", @style = "height: 150px;" })
+                        </div>
+                    </div>
+                </div>
+                @Html.HiddenFor(m => m.smsId, new { @class = "form-control", @id = "smsId" })
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <input type="submit" id="btntemplatesubmit" class="btn btn-success pull-right" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <br />
+        <div class="panel panel-primary tab-pane" id="creTableDiv">
+            <div class="row">
+            <div class="col-md-12">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Module Type</label>
+                    @Html.DropDownList("filtermoduleId", new SelectList(ViewBag.moduleTypes, "moduleId", "moduleName"), "--Select--", new { @class = "form-control", @id = "filtermoduleId", @onchange = "getCreTableData();" })
+                </div>
+            </div>
+            </div>
+            </div>
+            <div class="panel-body inf-content">
+
+                <div class="dataTable_wrapper">
+
+                    <table class="table table-striped table-bordered table-hover" style="width:100%" id="tblsmsTemplate">
+                        <thead>
+                            <tr>
+                                <th>View</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                                <th>Activate SMS</th>
+                                <th>Activate Whatsapp</th>
+                                <th>Module Type</th>
+                                <th>SMS Type</th>
+                                <th>Delivery Type</th>
+                                <th>SMS API</th>
+                                <th>SMS Template</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <span class="code" id="tblException" style="font-size:11pt;font-weight:bold;"></span>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- Modal HTML -->
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header flex-column">
+                <div class="icon-box">
+                    <i class="material-icons">&#xE5CD;</i>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+                </div>
+                <h4 class="modal-title w-100">Are you sure?</h4>
+            </div>
+            <div class="modal-body">
+                <p id="confirmMeasage"></p>
+                <input type="hidden" id="txtsmsID" />
+                <input type="hidden" id="txtactionType" />
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <input type="submit" id="btnsmstempupdate" value="" onclick="callactionSMSTemplate()">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="smscheckModal" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header flex-column">
+                <div class="icon-box">
+                    <i class="material-icons">&#xE5CD;</i>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+                </div>
+                <h4 class="modal-title w-100">SMS Template</h4>
+            </div>
+            <div class="modal-body">
+                <textarea id="txtareasmstemplatemsg" style=" height:150px" class="form-control"></textarea>
+                @*@Html.DropDownList("ddlcustomerId", new SelectList(ViewBag.customerLists, "id", "customerName"), new { @class = "form-control selectpicker", @multiple = "multiple", @id = "ddlcustomerId" })*@
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    @if (ViewBag.saveResult != null && ViewBag.saveError == false)
+    {
+        <script type="text/javascript">
+        Lobibox.notify('info', {
+            delay: 4 * 700,
+            msg: '@ViewBag.saveResult'
+        });
+        </script>
+    }
+
+    @if (ViewBag.saveResult != null && ViewBag.saveError == true)
+    {
+        <script type="text/javascript">
+        Lobibox.notify('info', {
+            delay: 4 * 7000,
+            msg: '@ViewBag.saveResult'
+        });
+        </script>
+    }
+    <script>
+            $(document).ready(function () {
+                var msgparamLists = @Html.Raw(Json.Encode(@ViewBag.msgParameteres));
+
+                for (i = 0; i < msgparamLists.length; i++) {
+                    var buttons = $('<input/>').attr({ type: 'button', name: msgparamLists[i].messageParameter1, value: msgparamLists[i].detail, class: 'myButton', onclick:'getmsgParamCodes(this.value,this.name)' });
+
+                    $("#btnlistsDiv").append(buttons);
+                    $("#btnlistsDiv").append('&nbsp;&nbsp;');
+
+                }
+                getCreTableData();
+            });
+        function getCreTableData() {
+            var filtermoduleId = $('#filtermoduleId').val();
+                var tblsmsTemplate = $("#tblsmsTemplate").DataTable({
+                    "destroy": true,
+                    "ajax": {
+                        "url": siteRoot + "/superAdmin/displaySMSTemplate/",
+                        "type": 'post',
+                        "data": { moduleType: filtermoduleId},
+                        "dataType": 'json',
+                    },
+                    "columns": [
+                        {
+                            "data": "smsId", render: function (data, type, row) {
+                                var typre = 'dele';
+                                return ' <a href="#" style="color:blue;"   onclick=viewTemplate(' + row.smsId +')>View</a>';
+                            }
+                        },
+                        {
+                            "data": "smsId", render: function (data, type, row) {
+                                var typre = 'dele';
+                                return ' <a href="#" style="color:red;"   onclick=confirmDeletesmstemplate(' + row.smsId + ',"deletetemplate")>Delete</a>';
+                            }
+                        },
+                        {
+                            "data": "smsId", render: function (data, type, row) {
+                                //return '<a href="@Url.Action("addSMSTemplate", "superAdmin")?id=' + row.smsId + '" class="editAsset">Edit</a>';
+                                //return ' <a href=' + siteRoot + '/superAdmin/addSMSTemplate?smsId=' + row.smsId + '>Edit</a>';
+                                return ' <a href="#"  onclick=confirmDeletesmstemplate(' + row.smsId + ',"edittemplate")>Edit</a>';
+
+                            }
+                        },
+                        {
+                            "data": "smsId", render: function (data, type, row) {
+                                if (row.inActive == true) {
+                                    return ' <a href="#" style="color:green;"  onclick=confirmDeletesmstemplate(' + row.smsId + ',"activatesmstemplate")>Activate</a>';
+                                }
+                                else {
+                                    return ' <a href="#" style="color:red;"  onclick=confirmDeletesmstemplate(' + row.smsId + ',"deactivatesmstemplate")>Deactivate</a>';
+                                }
+                            }
+                        },
+                        {
+                            "data": "smsId", render: function (data, type, row) {
+                                if (row.isWhatsapp == true) {
+                                    return ' <a href="#" style="color:red;"  onclick=confirmDeletesmstemplate(' + row.smsId + ',"deactivatewtstemplate")>Deactivate</a>';
+                                }
+                                else {
+                                    return ' <a href="#" style="color:green;"  onclick=confirmDeletesmstemplate(' + row.smsId + ',"activatewtstemplate")>Activate</a>';
+                                }
+                            }
+                        },
+                        {
+                            "data": "moduletype", render: function (data, type) {
+                                if (data == "1")
+                                {
+                                    return "service";
+                                }
+                                if (data == "2")
+                                {
+                                    return "insurance";
+                                }
+                                if (data == "3")
+                                {
+                                    return "service_insurance";
+                                }
+                                if (data == "4")
+                                {
+                                    return "psf";
+                                }
+                                if (data == "5")
+                                {
+                                    return "All";
+                                }
+                                else
+                                {
+                                    return data;
+                                }
+                            }
+                        },
+                        { "data": "smsType", "name": "smsType" },
+                        { "data": "deliveryType", "name": "deliveryType" },
+                        { "data": "smsAPI", "name": "smsAPI" },
+                        { "data": "smsTemplate1", "name": "smsTemplate1" }
+                    ],
+                    "processing": "true",
+                    "serverSide": false,
+                    "scrollX": "true",
+                    "scrollY": "700",
+                    "paging": true,
+                    "searching": true,
+                    "language": {
+                        "processing": "Loading Please Wait.....!"
+                    },
+                    "initComplete": function (data) {
+                        $('#tblException').text(data.json.exception);
+
+                    }
+                });
+            }
+            function confirmDeletesmstemplate(smsID, confirmType) {
+                $('#confirmMeasage').text('');
+                $("#btnsmstempupdate").removeClass();
+                $('#txtsmsID').val(smsID);
+                $('#txtactionType').val(confirmType);
+
+                if (confirmType == "deletetemplate") {
+                    $('#btnsmstempupdate').val("Delete");
+                    $('#btnsmstempupdate').addClass("btn btn-danger");
+                    $('#confirmMeasage').text('Do you really want to delete these records? This process cannot be undone.');
+                }
+                else if (confirmType == "edittemplate") {
+                    $('#btnsmstempupdate').val("Edit");
+                    $('#btnsmstempupdate').addClass("btn btn-primary");
+                    $('#confirmMeasage').text('Do you really want to Edit these records?');
+                }
+                else if (confirmType == "activatesmstemplate") {
+                    $('#btnsmstempupdate').val("Activate SMS");
+                    $('#btnsmstempupdate').addClass("btn btn-success");
+                    $('#confirmMeasage').text('Do you really want to Activate these SMSTemplate?');
+                }
+                else if (confirmType == "deactivatesmstemplate") {
+                    $('#btnsmstempupdate').val("Deactivate SMS");
+                    $('#btnsmstempupdate').addClass("btn btn-danger");
+                    $('#confirmMeasage').text('Do you really want to Dectivate these SMSTemplate?');
+                }
+                else if (confirmType == "deactivatewtstemplate") {
+                    $('#btnsmstempupdate').val("Deactivate Whatsapp");
+                    $('#btnsmstempupdate').addClass("btn btn-danger");
+                    $('#confirmMeasage').text('Do you really want to Deactivate Whatsapp?');
+                }
+                else if (confirmType == "activatewtstemplate") {
+                    $('#btnsmstempupdate').val("Activate Whatsapp");
+                    $('#btnsmstempupdate').addClass("btn btn-success");
+                    $('#confirmMeasage').text('Do you really want to Activate  Whatsapp?');
+                }
+
+                $('#myModal').modal('show');
+
+            };
+            function getmsgParamCodes(value,name) {
+                var msg= name + "({" + value + "})";
+                $('#smstemplatebody').insertAtCaret(msg);
+
+                $('#smstemplatebody').focus();
+            }
+        jQuery.fn.extend({
+            insertAtCaret: function (myValue) {
+                return this.each(function (i) {
+                    if (document.selection) {
+                        //For browsers like Internet Explorer
+                        this.focus();
+                        var sel = document.selection.createRange();
+                        sel.text = myValue;
+                        this.focus();
+                    }
+                    else if (this.selectionStart || this.selectionStart == '0') {
+                        //For browsers like Firefox and Webkit based
+                        var startPos = this.selectionStart;
+                        var endPos = this.selectionEnd;
+                        var scrollTop = this.scrollTop;
+                        this.value = this.value.substring(0, startPos) + myValue + this.value.substring(endPos, this.value.length);
+                        this.focus();
+                        this.selectionStart = startPos + myValue.length;
+                        this.selectionEnd = startPos + myValue.length;
+                        this.scrollTop = scrollTop;
+                    } else {
+                        this.value += myValue;
+                        this.focus();
+                    }
+                });
+            }
+        });
+
+
+            function callactionSMSTemplate() {
+                var smsID = $('#txtsmsID').val();
+                var actionType = $('#txtactionType').val();
+
+                if (smsID != "" && actionType !== "") {
+                    $('#myModal').modal('hide');
+                  //  $('#mainLoader').css({ 'display': 'block' });
+
+                    $.ajax({
+                        url: siteRoot + "/superAdmin/actionSMSTemplate/",
+                        async: false,
+                        type: 'get',
+                        dataType: 'json',
+                        data: { smsID: smsID, actionType: actionType },
+                        success: function (res) {
+                            if (res.success == true) {
+                                if (actionType == "edittemplate") {
+                                    $("#deliverType option[value=" + res.message.deliveryType + "]").attr('selected', true);
+                                    $("#moduleId option[value=" + res.message.moduletype + "]").attr('selected', true);
+                                   $("#smsLocation option[value=" + res.message.locationId + "]").attr('selected', true);
+                                    $('#smsType').val(res.message.smsType);
+                                    $('#smsAPI').val(res.message.smsAPI);
+                                    $('#smstemplatebody').val(res.message.smsTemplate1);
+                                    $('#smsId').val(res.message.smsId);
+
+                                }
+                                else {
+                                    Lobibox.notify('success', {
+                                        msg: res.message
+                                    });
+                                }
+
+                                getCreTableData();
+                            }
+                            else if (res.success == false) {
+                                Lobibox.notify('warning', {
+                                    msg: res.message
+                                });                        }
+                            $('#mainLoader').css({ 'display': 'none' });
+                        }
+                    });
+
+                }
+                else {
+                    Lobibox.notify('warning', {
+                        msg: 'Please Select SMS Template'
+                    });
+                }
+            }
+
+
+        function viewTemplate(smsId) {
+
+
+                $('#myModal').modal('hide');
+                //  $('#mainLoader').css({ 'display': 'block' });
+
+                $.ajax({
+                    url: siteRoot + "/superAdmin/getSMSTemplate/",
+                    type: 'post',
+                    dataType: 'json',
+                    data: { smsID: smsId},
+                    success: function (res) {
+                        if (res.success == true) {
+
+                            $('#txtareasmstemplatemsg').val(res.message);
+                            $('#smscheckModal').modal('show');
+
+                        }
+                        else if (res.success == false) {
+                            Lobibox.notify('warning', {
+                                msg: res.message
+                            });
+                        }
+                        $('#mainLoader').css({ 'display': 'none' });
+                    }
+                });
+
+
+
+
+        }
+
+        function clearsmstemplatecontrols() {
+            $('#deliverType').prop("selectedIndex", 0);
+            $('#moduleId').prop("selectedIndex", 0);
+            $('#smsLocation').prop("selectedIndex", 0);
+            $('#smsType').val('');
+            $('#smsAPI').val('');
+            $('#smstemplatebody').val('');
+            $('#smsId').val('');
+        }
+
+        $('#btntemplatesubmit').click(function () {
+
+
+            var deliverType = $('#deliverType').val();
+            var moduleId = $('#moduleId').val();
+            var smsLocation = $('#smsLocation').val();
+            var smsType = $('#smsType').val();
+            var smsAPI = $('#smsAPI').val();
+            var smstemplatebody = $('#smstemplatebody').val();
+            if (deliverType == "") {
+                Lobibox.notify('warning', {
+                    msg: 'Please Enter Delivery Type'
+                });
+                return false;
+            }
+            else if (moduleId == "") {
+                Lobibox.notify('warning', {
+                    msg: 'Please Enter Module Type'
+                });
+                return false;
+            }
+            else if (smsType == "") {
+                Lobibox.notify('warning', {
+                    msg: 'Please Enter SMS Type'
+                });
+                return false;
+            }
+            else if (smsAPI == "") {
+                Lobibox.notify('warning', {
+                    msg: 'Please Enter SMS API'
+                });
+                return false;
+            }
+
+            else if (smsLocation == "") {
+                Lobibox.notify('warning', {
+                    msg: 'Please Enter Workshop'
+                });
+                return false;
+            }
+            else if (smstemplatebody == "") {
+                Lobibox.notify('warning', {
+                    msg: 'Please Enter SMS Template'
+                });
+                return false;
+            }
+            $('#mainLoader').css({ 'display': 'block' });
+
+        });
+    </script>
+}

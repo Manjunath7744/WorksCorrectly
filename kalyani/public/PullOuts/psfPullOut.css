@@ -1,0 +1,283 @@
+﻿.psfMainContent {
+    width: 90%;
+    height: 90%;
+    margin: 0;
+}
+
+@media only screen and (max-width: 768px) {
+    #PsfPullModal {
+        top: 0%;
+        width: 106%;
+        margin-left: -16px;
+        margin-right: -20px;
+    }
+
+    .frmobile-card {
+        display: flex;
+        max-width: 100%;
+        /* min-width: 90%; */
+        max-height: 79px;
+        min-height: 62x;
+        overflow: scroll;
+        overflow-x: scroll;
+    }
+
+    .main-content .jCard{
+        text-align: -webkit-center;
+        letter-spacing: 0.7px;
+        font-size: 9pt;
+    }
+
+    .main-content-selected .jCard {
+        text-align: -webkit-center;
+        letter-spacing: 0.7px;
+        font-size: 9pt;
+    }
+
+    .pcontent {
+        font-size: 12.5pt;
+        /*border-bottom: 2px solid gray;*/
+    }
+
+    .pfooter {
+        color: #fff;
+        font-family: monospace;
+        font-size: 10pt;
+    }
+
+    .pcontent span{
+        font-size:12pt;
+    }
+
+    .main-content-selected {
+        margin-right: 0;
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+    }
+    
+    .main-content {
+        margin-right: 0;
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+    }
+    .rigth-panel {
+        width: 100% !important;
+        border: 1px solid gray;
+        padding: 20px 0px 20px 0px !important;
+    }
+
+    .qusans-sub {
+        margin-left: 45px !important;
+    }
+}
+
+
+.main-content {
+    position: relative;
+    background-color: #f1f1f1;
+    font-size: 10.5pt;
+    color: purple;
+    padding: 5px 10px 5px 10px;
+    cursor: pointer;
+    margin-right: 0px;
+    margin-top: 65px;
+    margin-bottom: 5px;
+    margin-left: 15px;
+}
+
+
+.main-content-selected {
+    position: relative;
+    background-color: #ffffff;
+    font-size: 10.5pt;
+    color: #2c5e7a;
+    /* margin: 66px 4px; */
+    padding: 5px 10px 5px 10px;
+    cursor: pointer;
+    margin-right: -17px;
+    margin-top: 65px;
+    margin-bottom: 5px;
+    margin-left: 15px;
+}
+
+.main-content-selected span {
+    position: absolute;
+    background-color: green;
+    width: 6px;
+    height: 100%;
+    left: 0px;
+    transform: translateY(-5px);
+}
+
+.main-content span {
+    position: absolute;
+    background-color: red;
+    width: 6px;
+    height: 100%;
+    left: 0px;
+    transform: translateY(-5px);
+}
+
+.left-panel {
+    margin:auto;
+    padding-left:0px;
+}
+
+.rigth-panel {
+    background-color: #fff;
+    min-height: 250px;
+    max-height: 560px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 83%;
+    padding: 20px 0px 20px 20px;
+}
+
+/*.main-content:hover {
+        
+        font-weight: 100;
+        cursor: pointer;
+        color: #001080;
+    }*/
+.pcontent {
+    color: rebeccapurple;
+    font-family: serif;
+    font-size: 12pt;
+    border-bottom: 2px solid gray;
+    /*border-top:2px solid gray;*/
+}
+
+.pfooter {
+    color: #43768f;
+    font-family: monospace;
+    font-size: 9.5pt;
+}
+
+
+#divDetailsOverView{
+    padding:5px 10px 5px 10px;
+}
+
+#divDetailsOverView div{
+    padding:7px 2px 7px 2px;
+}
+
+.qusans {
+    font-weight: 600;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 1px solid #dcddde;
+    font-size:14px;
+}
+
+.custom-label {
+    font-weight: 600;
+    font-size: 16px;
+    font-family: serif;
+}
+
+.qusans-sub {
+    font-weight: 500;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: 2px 0px 2px 0px;
+    font-size: 14px;
+    border: 1px medium red;
+}
+
+.qusansbad {
+    font-weight: 600;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 1px solid #dcddde;
+    font-size: 14px;
+}
+
+.qusansbad::before {
+    content: '';
+    position: absolute;
+    top: 38%;
+    left: 3px;
+    width: 10px;
+    height: 10px;
+    background-color: #c1c1c1;
+    /* transform: translate(-50%,-50%); */
+    border-radius: 30%;
+}
+
+.feedbad {
+    padding: 3px 10px 3px 10px;
+    background-color: #2c5e7a;
+    color: #fbfbfb;
+    border-radius: 20%;
+    /* text-shadow: 0px 2px 2px #f3eded; */
+    font-weight: bold;
+    font-family: "Roboto", sans-serif;
+}
+@media only screen and (max-width: 768px) {
+    #PostsalesPullModal {
+        top: 0%;
+        width: 106%;
+        margin-left: -16px;
+        margin-right: -20px;
+    }
+
+    .frmobile-card {
+        display: flex;
+        max-width: 100%;
+        /* min-width: 90%; */
+        max-height: 79px;
+        min-height: 62x;
+        overflow: scroll;
+        overflow-x: scroll;
+    }
+
+    .main-content .psales {
+        text-align: -webkit-center;
+        letter-spacing: 0.7px;
+        font-size: 9pt;
+    }
+
+    .main-content-selected .psales {
+        text-align: -webkit-center;
+        letter-spacing: 0.7px;
+        font-size: 9pt;
+    }
+
+    .pcontent {
+        font-size: 12.5pt;
+        /*border-bottom: 2px solid gray;*/
+    }
+
+    .pfooter {
+        color: #fff;
+        font-family: monospace;
+        font-size: 10pt;
+    }
+
+    .pcontent span {
+        font-size: 12pt;
+    }
+
+    .main-content-selected {
+        margin-right: 0;
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .main-content {
+        margin-right: 0;
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .rigth-panel {
+        width: 100% !important;
+        border: 1px solid gray;
+        padding: 20px 0px 20px 0px !important;
+    }
+
+    .qusans-sub {
+        margin-left: 45px !important;
+    }
+}

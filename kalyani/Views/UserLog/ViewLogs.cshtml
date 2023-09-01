@@ -1,0 +1,650 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ViewLogs</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" type="image/png" href="~/public/images/favicon1.ico">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>AutoSherpaCRM</title>
+    @Styles.Render("~/Content/css")
+
+    <style>
+        .ribben {
+            width: 100%;
+            min-height: 66px;
+            max-height: 150px;
+            background-color: #cbcbd2;
+        }
+
+        .fileMOd:hover {
+            visibility: visible;
+        }
+    </style>
+</head>
+<body>
+    <div class="ribben">
+        <div class="pull-left">
+            <span style="font-size: 35pt;color: #ea0e0e;font-weight: 600;">AUTO</span>
+            <span style=" font-size: 32pt;color: #503e5a;font-family: monospace;font-weight:550;">Sherpas</span>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <b>Api Logs</b>
+                    </div>
+                    <div class="panel-body">
+                        <a href="/CustomerLogs/2020-05-20-Gsmapi.txt" id="mainLink" @*style="display:none;"*@ download>Hello123</a>
+                        @*<div class="panel panel-default">*@
+                        <div class="col-lg-2">
+                            <input type="text" id="gsmDate" placeholder="GSM Date" class="form-control datePicker" />
+                        </div>
+                        <div class="col-lg-1">
+                            <span id="gsmLinkView" href="" class="btn btn-success btn-sm clSpan"><i class="fa fa-eye"> View</i></span>
+                        </div>
+                        <div class="col-lg-1">
+                            <span id="gsmLinkDownload" href="" class="btn btn-success btn-sm clSpan"><i class="fa fa-download"> Download</i></span>
+                        </div>
+                        <div class="col-lg-1">
+                            <span id="gsmLinkDownloadAll" href="" class="btn btn-success btn-sm clSpan"><i class="fa fa-long-arrow-down"> Download All</i></span>
+                        </div>
+                        <div class="col-lg-2" style="margin-left: 30px;">
+                            <input type="text" id="appDate" placeholder="App Date" class="form-control datePicker" />
+                        </div>
+                        <div class="col-lg-1">
+                            <span id="appLinkView" href="" class="btn btn-success btn-sm clSpan"><i class="fa fa-eye"> View</i></span>
+                        </div>
+                        <div class="col-lg-1">
+                            <span id="appLinkDownload" href="" class="btn btn-success btn-sm clSpan"><i class="fa fa-download"> Download</i></span>
+                        </div>
+                        <div class="col-lg-1">
+                            <span id="appLinkDownloadAll" href="" class="btn btn-success btn-sm clSpan"><i class="fa fa-long-arrow-down"> Download All</i></span>
+                        </div>
+                        <div class="col-lg-12" style="margin-top:20px;">
+                            <button id="btnLogs" onclick="loadLogs('All');" class="btn btn-primary">View User Log Details</button>
+                            <span id="cntrOperation" style="font-size:13pt;color:purple;font-family:Consolas"></span>
+                        </div>
+                        @*<div class="col-lg-12 fileMOd" style="margin-top:20px;visibility:hidden">
+                                <button id="btnLogs" onclick="renameFile();" class="btn btn-primary">Rename files</button>
+                            </div>*@
+                        <div class="row">
+                            <div class="col-lg-6 fileMOd" style="margin-top:20px;visibility:visible">
+                                <input type="text" id="delLen" class="form-control" name="delLength" /> <button id="btnLogs" onclick="deleteBody();" class="btn btn-primary">Delete files</button>
+                            </div>
+                            <div class="col-lg-6" style="margin-top:20px;visibility:visible">
+                                <input type="password" class="form-control" id="txtMaster" name="txtmaster" /><button id="btnLogs" onclick="getAuthenticate();" class="btn btn-primary">Open Master Panel</button>
+                            </div>
+                            <div class="col-lg-6" style="margin-top:20px;visibility:visible">
+                                <input type="password" class="form-control" id="txtMaster" name="txtmaster" /><button id="btnLogs" onclick="getAuthenticate();" class="btn btn-primary">Open Master Panel</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="text" id="fireUrl" placeholder="FireBaseUrl" class="form-control" />
+                            </div>
+                            <div class="col-md-6">
+                                <span id="dataSynch">No of Data Synchronized</span>
+                                <span id="synDataCount"></span>
+                            </div>
+                            <div class="col-md-12">
+                                <span id="dataSynch">Data Synchronized</span>
+                                <span id="synData"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="button" class="btn btn-primary btn-sm" id="synchFireBase" value="Synch Data" onclick="synchFireData()" />
+                            </div>
+                            <div class="col-md-4">
+                                <input type="button" class="btn btn-primary btn-sm" id="synchFireBaseDetails" value="Get FireBase Details" onclick="getSynchDetails()" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <label><b>File Operations:</b></label><br />
+        <div class="row">
+            <div class="col-md-3">
+                <label style="font-weight:800;">File Name: </label>
+                <span style="padding:10px 20px 10px 15px;border:solid blue 2px" id="removedFileName"></span><br />
+            </div>
+            <div class="col-md-3">
+                <label style="font-weight:800;">Removed Count: </label>
+                <span style="padding:10px 20px 10px 15px;border:solid blue 2px" id="rmCount"></span><br />
+            </div>
+            <div class="col-md-3">
+                <label style="font-weight:800;">Removed Length </label>
+                <span style="padding:10px 20px 10px 15px;border:solid blue 2px" id="rmLen"></span><br />
+            </div>
+        </div>
+        <div class="panel panel-primary" id="logDiv" style="display:none;">
+            <div class="panel-heading">
+                <b>User Logs</b>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Filter By DateTime(Form)</label>
+                            <input type="text" id="filDateTimeFrom" autocomplete="off" class="form-control datetimePickerUser" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Filter By DateTime(To)</label>
+                            <input type="text" id="filDateTimeTo" autocomplete="off" class="form-control datetimePickerUser" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Get Typer</label>
+                            <input type="text" id="inspects" autocomplete="off" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label><i class="fa fa-address-book"></i></label>
+                            <button id="filtLogs" onclick="loadLogs('Date');" class="btn btn-primary btn-sm">Filter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <table id="tblLogs" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>User Id</th>
+                                <th>User Name</th>
+                                <th>Manager Name</th>
+                                <th>Dealer Code</th>
+                                <th>LogIn DateTime</th>
+                                <th>LogOut DateTime</th>
+                                <th>Host Address</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <span style="font-size:12pt;color:red" id="exception"></span>
+        </div>
+
+
+        <div class="panel panel-primary" style="margin-top:40px;">
+            <div class="panel-heading">
+                <b>Master Pannel</b>
+            </div>
+            <div id="masterPannel" class="panel-body collapse">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="text-bold">UniqueId</label>
+                            <input type="text" id="txtUniq" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="text-bold">Clear</label>
+                            <button class="btn btn-sm btn-danger" onclick="$('#txtUniq').val('');">Clear </button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="text-bold">View</label>
+                            <button class="btn btn-sm btn-success" onclick="getDetails()">Get Details</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <span id="SpdataReg" style="border:solid red 2px;font-size:14pt; padding:10px 5px 0px 5px;"></span>
+                        <span id="Spdata" style="padding:10px 8px 10px 8px;"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    <script>
+        var startDate = "2020-05-17";
+        var siteRoot = '@Request.ApplicationPath';
+        if (siteRoot === '/') {
+            siteRoot = "";
+        }
+        $(document).ready(function () {
+            $(".datePicker").datepicker({
+                autoclose: true,
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true
+            });
+
+            $('.datetimePickerUser').datetimepicker({
+                format: 'Y-m-d H:i:s',
+                formatTime: 'H:i:s'
+            });
+
+        });
+        function parseJsonDateTime(datetime) {
+
+            //var curData = datetime;
+            if (datetime === null || datetime === undefined) {
+                return "";
+            }
+
+            if (datetime != null && datetime.includes("/") && datetime.includes("/").length == 2) {
+                return datetime.split('/')[2] + "-" + datetime.split('/')[1] + "-" + datetime.split('/')[0];
+            }
+            else if (datetime != null && datetime.includes("-") && datetime.includes("-").length == 2) {
+                return datetime.split('-')[2] + "-" + datetime.split('-')[1] + "-" + datetime.split('-')[0];
+            }
+            else {
+                var ConDate = "";
+                if (datetime != null) {
+                    ConDate = new Date(parseInt(datetime.substr(6)));
+                    var date = "", month = "", year = "";
+
+                    if ((parseInt(ConDate.getMonth()) + 1) < 10) {
+                        month = '-0' + (parseInt(ConDate.getMonth()) + 1);
+                    }
+                    else {
+                        month = '-' + (parseInt(ConDate.getMonth()) + 1);
+                    }
+
+                    if (ConDate.getDate() < 10) {
+                        date = '0' + ConDate.getDate();
+                    }
+                    else {
+                        date = ConDate.getDate();
+                    }
+                    var time = ConDate.toLocaleTimeString('it-IT');
+                    return date + month + "-" + ConDate.getFullYear() + " " + time;
+                }
+                else {
+                    return ConDate;
+                }
+            }
+        }
+
+
+        function loadLogs(datetime) {
+
+            var from = "", to = "";
+            if (datetime == "All") {
+
+            }
+            else if ($('#inspects').val() != "")
+            {
+                datetime = "inspect";
+            }
+            else {
+                from = $('#filDateTimeFrom').val();
+                to = $('#filDateTimeTo').val();
+            }
+
+            $('#logDiv').show();
+            $('#tblLogs').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/UserLog/loadUserData/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { from: from, to: to, filterOn: datetime }
+                },
+                "columns": [
+                    { "data": "wyzuserId", "name": "wyzuserId" },
+                    { "data": "username", "name": "username" },
+
+                    { "data": "managername", "name": "managername" },
+                    { "data": "dealerCode", "name": "dealerCode" },
+                    {
+                        "data": "loginDateTime", render: function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    {
+                        "data": "logoutDateTime", render: function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "hostaddress", "name": "hostaddress" }
+                ],
+                "initComplete": function (data) {
+                    $('#exception').text(data.json.exception);
+                },
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": false,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                },
+            });
+        }
+
+        function validateSel(type, operation) {
+
+            if (operation == "test") {
+                if (type == "gsm") {
+                    if ($('#gsmDate').val() == "") {
+                        alert('Please select date');
+                        $('#gsmDate').focus();
+                        return 'false';
+                    }
+                }
+                else if (type == "app") {
+                    if ($('#appDate').val() == "") {
+                        alert('Please select date');
+                        $('#appDate').focus();
+                        return 'false';
+                    }
+                }
+            }
+            else {
+                if (type == "gsm") {
+
+                        return $('#gsmDate').val();
+                }
+                else if (type == "app") {
+
+                        return $('#appDate').val();
+
+                }
+            }
+        }
+
+        function formUrl(date,type) {
+
+            if (type = "gsm") {
+                return siteRoot + '/CustomerLogs/' + date + '-Gsmapi.txt';
+            }
+            else {
+                return siteRoot + '/CustomerLogs/' + date + '-Apkapi.txt';
+            }
+        }
+
+        function managerLink(type, operation) {
+            if (type == 'gsm') {
+                if (operation === 'download') {
+                    var link = formUrl(validateSel('gsm', 'get'), 'gsm');
+                    $('#mainLink').attr('href', link);
+                    $('#mainLink').text('href', link);
+                    //$('#mainLink').attr('download');
+                    $('#mainLink').trigger('click');
+
+                    //----------------------
+                    //$('#mainLink').attr('href', '#');
+                    //$('#mainLink').removeAttr('download');
+                }
+            }
+            else {
+                if (operation === 'download') {
+                    var link = formUrl(validateSel('app', 'get'), 'gsm');
+                    $('#mainLink').attr('href', link);
+                    $('#mainLink').val('href', link);
+                    $('#mainLink').attr('download', 'download');
+                    $('#mainLink').trigger('click');
+
+                    //----------------------
+                    //$('#mainLink').attr('href', '#');
+                    //$('#mainLink').removeAttr('download');
+                }
+            }
+
+        }
+        $('span.clSpan').click(function () {
+
+            var id = $(this).attr('id');
+            switch (id) {
+                case "gsmLinkView":
+                    if (validateSel('gsm', 'test') != 'false') {
+                        window.open(formUrl(validateSel('gsm', 'get'),'gsm'), '_blank');
+                    }
+                    break;
+                case "gsmLinkDownload":
+                    if (validateSel('gsm', 'test') != 'false') {
+                        managerLink('gsm', 'download');
+                    }
+                    break;
+                case "gsmLinkDownloadAll":
+                    break;
+                case "appLinkView":
+                    if (validateSel('app', 'test') != 'false') {
+                        window.open(formUrl(validateSel('app', 'get'), 'app'), '_blank');
+                    }
+                    break;
+                case "appLinkDownload":
+                    break;
+                case "appLinkDownloadAll":
+                    break;
+
+            }
+        });
+
+
+        function renameFile() {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("renameAndroFiles")',
+                datatype: 'json',
+                data: {},
+                cache: false,
+                success: function (res) {
+                    if (res.success == true) {
+                        alert(res.filesRenamed);
+                    }
+                    else {
+                        alert(res.error);
+                    }
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            });
+        }
+
+        function changeExtension() {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("changeExte")',
+                datatype: 'json',
+                data: {},
+                cache: false,
+                success: function (res) {
+                    if (res.success == true) {
+                        alert(res.filesRenamed);
+                    }
+                    else {
+                        alert(res.error);
+                    }
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            });
+        }
+
+        @*function deleteBody() {
+
+            var len = $('#delLen').val();
+
+            if (len != "") {
+                $('#cntrOperation').text('Control is Running.....');
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("deleteBody")',
+                    datatype: 'json',
+                    data: { length:len },
+                    cache: false,
+                    success: function (res) {
+                        if (res.success == true) {
+                            $('#cntrOperation').text('Control is Back.....');
+                            $('#removedFileName').text(res.filesremoved);
+                            $('#rmCount').text(res.rmCount);
+                            $('#rmLen').text(res.rmFileSize);
+                        }
+                        else {
+                            alert(res.error);
+                        }
+                    },
+                    error: function (error) {
+                        alert(error);
+                    },
+                    timeout: 991111 
+                });
+            }
+            else {
+                alert('please enter lenth');
+            }
+        }*@
+
+        @*function getAuthenticate() {
+            var pass = $('#txtMaster').val();
+
+            if (pass != "") {
+                $('#cntrOperation').text('Control is Running.....');
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("getAuthenticate")',
+                    datatype: 'json',
+                    data: { pass: pass },
+                    cache: false,
+                    success: function (res) {
+                        $('#cntrOperation').text('Control is Back.....');
+                        if (res.success == true) {
+                            alert('Opened');
+                            $('#masterPannel').slideDown();
+                        }
+                        else {
+                            alert("Authentication Failed");
+                        }
+                    },
+                    error: function (error) {
+                        alert(error);
+                    }
+                });
+            }
+            else {
+                alert('please enter Key');
+            }
+        }*@
+
+        function getDetails() {
+            var id = $('#txtUniq').val();
+
+            if (id != "") {
+                $('#cntrOperation').text('Control is Running.....');
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("getDetails")',
+                    datatype: 'json',
+                    data: { id: id },
+                    cache: false,
+                    success: function (res) {
+                        $('#cntrOperation').text('Control is Back.....');
+                        if (res.success == true) {
+                            $('#Spdata').text(res.data);
+                            $('#SpdataReg').text(res.regNo);
+                        }
+                        else {
+                            alert(res.error);
+                        }
+                    },
+                    error: function (error) {
+                        alert(error);
+                    }
+                });
+            }
+            else {
+                alert('please enter Key');
+            }
+        }
+    </script>
+
+    <script>
+        function synchFireData() {
+            var id = $('#fireUrl').val();
+
+            if (id != "") {
+                $('#cntrOperation').text('Control is Running.....');
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("synchFireBaseData")',
+                    datatype: 'json',
+                    data: { fireBaseLink: id },
+                    cache: false,
+                    success: function (res) {
+                        $('#cntrOperation').text('Control is Back.....');
+                        //if (res.success == true) {
+                        //    $('#Spdata').text(res.data);
+                        //    $('#SpdataReg').text(res.regNo);
+                        //}
+                        //else {
+                        //    alert(res.error);
+                        //}
+                    },
+                    error: function (error) {
+                        alert(error);
+                    }
+                });
+            }
+            else {
+                alert('please enter Key');
+            }
+        }
+
+        function getSynchDetails() {
+            var id = $('#fireUrl').val();
+
+            if (id != "") {
+                $('#cntrOperation').text('Control is Running.....');
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("getSynchDetails")',
+                    datatype: 'json',
+                    data: { syndhStatus: id },
+                    cache: false,
+                    success: function (res) {
+                       // $('#cntrOperation').text('Control is Back.....');
+                        //if (res.success == true) {
+                        //    $('#Spdata').text(res.data);
+                        //    $('#SpdataReg').text(res.regNo);
+                        //}
+                        //else {
+                        //    alert(res.error);
+                        //}
+                        $('#synDataCount').text(res.count);
+                        $('#synData').text(res.data);
+                    },
+                    error: function (error) {
+                        alert(error);
+                    }
+                });
+            }
+            else {
+                alert('please enter Key');
+            }
+        }
+    </script>
+</body>
+</html>

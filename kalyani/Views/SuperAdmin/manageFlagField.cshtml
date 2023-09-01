@@ -1,0 +1,544 @@
+﻿@model AutoSherpa_project.Models.dealer
+@{
+    ViewBag.Title = "manageFlagField";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+}
+<style>
+    .disabled {
+        opacity: 0.4;
+        pointer-events: none;
+    }
+</style>
+<div class="container-fluide">
+    <input type="hidden" id="hdnrole" value="@Session["UserRole"].ToString()" />
+    <div class="row">
+        <div class="col-lg-12 panelsm">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <b>Admin Controller</b>
+                </div>
+                <div class="panel-body panelsm">
+                    <div class="panel panel-default">
+                        <ul class="nav nav-tabs">
+
+                            <li class="active bucket" id="li-managedaylimit" data-bucket="1">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#managedaylimit" role="tab" aria-controls="profile" aria-selected="false">Manage Day Limits<strong><span id="pendFollow" style="color:darkblue"></span></strong></a>
+                            </li>
+                            <li class="bucket" id="li-manageFiled" data-bucket="2">
+                                <a class="nav-link active" id="manageFiled-tab" data-toggle="tab" href="#manageFiled" role="tab" aria-controls="home" aria-selected="true">Manage Flag Fields<strong><span id="scheduleCounts" style="color:black;"></span></strong></a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="Tabs">
+                            <div class="panel panel-default" style="border-top: #fff;">
+                                <div class="panel-body">
+
+                                </div>
+                            </div>
+                            <div class="panel panel-default tab-pane fade active in" id="managedaylimit" role="tabpanel" aria-labelledby="managedaylimit-tab">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="panel panel-success">
+                                            <div class="panel-heading">
+                                                <b>Service Booking Day Limit</b>
+                                            </div>
+                                            <div class="panel-body">
+
+                                                <div class="row">
+                                                    <div class="col-md-3 ">
+                                                        @Html.Label("Service Followup DayLimit")
+                                                        @Html.TextBoxFor(m => m.followupdaylimit, new { @class = "form-control numberOnly", @id = "followupdaylimit" })
+                                                    </div>
+                                                    <div class="col-md-2" style="margin-top:30px;margin-bottom:20px;">
+                                                        <button type="button" class="btn btn-sm btn-primary" id="followupdaylimitdiv" onclick="updateDetails('followupdaylimit')">Update</button>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        @Html.Label("Service BookingDay Limit")
+                                                        @Html.TextBoxFor(m => m.bookingDayLimit, new { @class = "form-control", @id = "bookingdaylimit" })
+                                                    </div>
+                                                    <div class="col-md-2" style="margin-top:30px;margin-bottom:20px;">
+                                                        <button type="button" class="btn btn-sm btn-primary" id="bookingdaylimitdiv" onclick="updateDetails('bookingdaylimit')">Update</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <div class="panel panel-info">
+                                            <div class="panel-heading">
+                                                <b>Insurance Booking Day Limit</b>
+                                            </div>
+                                            <div class="panel-body">
+
+                                                <div class="row">
+
+
+                                                    <div class="col-md-3">
+                                                        @Html.Label("Insurance Followup DayLimit")
+                                                        @Html.TextBoxFor(m => m.insfollowupdaylimit, new { @class = "form-control numberOnly", @id = "insfollowupdaylimit" })
+                                                    </div>
+                                                    <div class="col-md-2" style="margin-top:30px;margin-bottom:20px;">
+                                                        <button type="button" class="btn btn-sm btn-primary" id="followupdaylimitdiv" onclick="updateDetails('insfollowupdaylimit')">Update</button>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        @Html.Label("Insurance BookingDay Limit")
+                                                        @Html.TextBoxFor(m => m.insbookingDayLimit, new { @class = "form-control", @id = "insbookingdaylimit" })
+                                                    </div>
+                                                    <div class="col-md-2" style="margin-top:30px;margin-bottom:20px;">
+                                                        <button type="button" class="btn btn-sm btn-primary" id="bookingdaylimitdiv" onclick="updateDetails('insbookingdaylimit')">Update</button>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="tab-pane fade" id="manageFiled" role="tabpanel" aria-labelledby="manageFiled-tab">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="panel panel-primary">
+                                            @*<div class="panel-heading">
+                                                    <b id="pnlHead">Manage Flags and Fields</b>
+                                                </div>*@
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        @Html.Label("SMR User Control")
+                                                        @Html.DropDownListFor(model => model.userControl, new[] { new SelectListItem() { Text = "True", Value = "true" }, new SelectListItem() { Text = "False", Value = "false" } }, new { @class = "form-control", @id = "usercontrol" })
+                                                    </div>
+                                                    <div class="col-md-2" style="margin-top:30px;margin-bottom:20px;">
+                                                        <button type="button" class="btn btn-sm btn-primary" id="usercontroldiv" onclick="updateDetails('usercontrol')">Update</button>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        @Html.Label("SMR Super Control")
+                                                        @Html.DropDownListFor(model => model.superControl, new[] { new SelectListItem() { Text = "True", Value = "true" }, new SelectListItem() { Text = "False", Value = "false" } }, new { @class = "form-control", @id = "superControl" })
+                                                    </div>
+                                                    <div class="col-md-2" style="margin-top:30px;margin-bottom:20px;">
+                                                        <button type="button" class="btn btn-sm btn-primary" id="supercontroldiv" onclick="updateDetails('superControl')">Update</button>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        @Html.Label("INS User Control")
+                                                        @Html.DropDownListFor(model => model.INSuserControl, new[] { new SelectListItem() { Text = "True", Value = "true" }, new SelectListItem() { Text = "False", Value = "false" } }, new { @class = "form-control", @id = "INSusercontrol" })
+                                                    </div>
+                                                    <div class="col-md-2" style="margin-top:30px;margin-bottom:20px;">
+                                                        <button type="button" class="btn btn-sm btn-primary" id="usercontroldiv" onclick="updateDetails('INSusercontrol')">Update</button>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        @Html.Label("SMR Super Control")
+                                                        @Html.DropDownListFor(model => model.INSsuperControl, new[] { new SelectListItem() { Text = "True", Value = "true" }, new SelectListItem() { Text = "False", Value = "false" } }, new { @class = "form-control", @id = "INSsuperControl" })
+                                                    </div>
+                                                    <div class="col-md-2" style="margin-top:30px;margin-bottom:20px;">
+                                                        <button type="button" class="btn btn-sm btn-primary" id="supercontroldiv" onclick="updateDetails('INSsuperControl')">Update</button>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        @Html.Label("Assignment Interval")
+                                                        @Html.TextBoxFor(m => m.assignmentinterval, new { @class = "form-control", @id = "assignmentinterval" })
+                                                    </div>
+                                                    <div class="col-md-2" style="margin-top:30px;margin-bottom:20px;">
+                                                        <button type="button" class="btn btn-sm btn-primary" id="assignmentintervaldiv" onclick="updateDetails('assignmentinterval')">Update</button>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        @Html.Label("IsField Executive")
+                                                        @Html.DropDownListFor(model => model.isfieldexecutive, new[] { new SelectListItem() { Text = "True", Value = "true" }, new SelectListItem() { Text = "False", Value = "false" } }, new { @class = "form-control", @id = "isfieldexecutive" })
+                                                    </div>
+                                                    <div class="col-md-2" style="margin-top:30px;margin-bottom:20px;">
+                                                        <button type="button" class="btn btn-sm btn-primary" id="isfieldexecutivediv" onclick="updateDetails('isfieldexecutive')">Update</button>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        @Html.Label("IsPolicyDrop Executive")
+                                                        @Html.DropDownListFor(model => model.ispolicydropexecutive, new[] { new SelectListItem() { Text = "True", Value = "true" }, new SelectListItem() { Text = "False", Value = "false" } }, new { @class = "form-control", @id = "ispolicydropexecutive" })
+                                                    </div>
+                                                    <div class="col-md-2" style="margin-top:30px;margin-bottom:20px;">
+                                                        <button type="button" class="btn btn-sm btn-primary" id="ispolicydropexecutivediv" onclick="updateDetails('ispolicydropexecutive')">Update</button>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        @Html.Label("IndusService UserName")
+                                                        @Html.TextBoxFor(m => m.indusServiceUserName, new { @class = "form-control onlyAlphabetOnly", @id = "indusserviceusername" })
+                                                    </div>
+                                                    <div class="col-md-2" style="margin-top:30px;margin-bottom:20px;">
+                                                        <button type="button" class="btn btn-sm btn-primary" id="indusserviceusernamediv" onclick="updateDetails('indusserviceusername')">Update</button>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        @Html.Label("IndusService Password")
+                                                        @Html.TextBoxFor(m => m.indusServicePassword, new { @class = "form-control", @id = "indusservicepassword" })
+                                                    </div>
+                                                    <div class="col-md-2" style="margin-top:30px;margin-bottom:20px;">
+                                                        <button type="button" class="btn btn-sm btn-primary" id="indusservicepassworddiv" onclick="updateDetails('indusservicepassword')">Update</button>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        @Html.Label("IndusBase Url")
+                                                        @Html.TextBoxFor(m => m.indusBaseURL, new { @class = "form-control", @id = "indusbaseurl" })
+                                                    </div>
+                                                    <div class="col-md-2" style="margin-top:30px;margin-bottom:20px;">
+                                                        <button type="button" class="btn btn-sm btn-primary" id="indusbaseurldiv" onclick="updateDetails('indusbaseurl')">Update</button>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        @Html.Label("PSFTrigger Status")
+                                                        @Html.DropDownListFor(model => model.PSFTriggerStatus, new[] { new SelectListItem() { Text = "True", Value = "true" }, new SelectListItem() { Text = "False", Value = "false" } }, new { @class = "form-control", @id = "psftriggerstatus" })
+                                                    </div>
+                                                    <div class="col-md-2" style="margin-top:30px;margin-bottom:20px;">
+                                                        <button type="button" class="btn btn-sm btn-primary" id="psftriggerstatusdiv" onclick="updateDetails('psftriggerstatus')">Update</button>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        @Html.Label("OpsguruUrl")
+                                                        @Html.TextBoxFor(m => m.opsguruUrl, new { @class = "form-control", @id = "opsguruurl" })
+                                                    </div>
+                                                    <div class="col-md-2" style="margin-top:30px;margin-bottom:20px;">
+                                                        <button type="button" class="btn btn-sm btn-primary" id="opsguruurldiv" onclick="updateDetails('opsguruurl')">Update</button>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        @Html.Label("Add Logo")
+                                                        <input type="file" id="logopath" name="logopath" accept="image/x-png,image/gif,image/jpeg"  class = "form-control" />
+                                                    </div>
+                                                    <div class="col-md-2" style="margin-top:30px;margin-bottom:20px;">
+                                                        <button type="button" class="btn btn-sm btn-primary" id="usercontroldiv" onclick="updateDetails('userLogo')">Update</button>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        @Html.Label("Authorization Key")
+                                                        @Html.TextBoxFor(model => model.authorizationkey, new { @class = "form-control", @id = "txtauthKey" })
+                                                    </div>
+                                                    <div class="col-md-2" style="margin-top:30px;margin-bottom:20px;">
+                                                        <button type="button" class="btn btn-sm btn-primary" id="usercontroldiv" onclick="updateDetails('authorizationkey')">Update</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <span class="code" id="tblException" style="font-size:11pt;font-weight:bold;"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+
+        $(document).ready(function () {
+
+
+            var role = $('#hdnrole').val();
+            if (role != "SuperAdmin") {
+                $("#li-manageFiled").addClass('disabled');
+            }
+        });
+
+
+        function updateDetails(values) {
+            var value;
+            if (values == "usercontrol") {
+                value = $('#usercontrol').val();
+                if (value == "") {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Please Enter User Control.'
+                    });
+                    return false;
+                }
+            }
+            if (values == "INSusercontrol") {
+                value = $('#INSusercontrol').val();
+                if (value == "") {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Please Enter INS User Control.'
+                    });
+                    return false;
+                }
+            }
+            else if (values == "superControl") {
+                value = $('#superControl').val();
+                if (value == "") {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Please Enter Super Control.'
+                    });
+                    return false;
+                }
+            }
+            else if (values == "INSsuperControl") {
+                value = $('#INSsuperControl').val();
+                if (value == "") {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Please Enter INS Super Control.'
+                    });
+                    return false;
+                }
+            }
+            else if (values == "followupdaylimit") {
+                value = $('#followupdaylimit').val();
+                if (value == "") {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Please Enter Service Followup Limit.'
+                    });
+                    return false;
+                }
+            }
+            else if (values == "opsguruurl") {
+                value = $('#opsguruurl').val();
+                if (value == "") {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Please Enter Opsguru URL.'
+                    });
+                    return false;
+                }
+            }
+            else if (values == "assignmentinterval") {
+                value = $('#assignmentinterval').val();
+                if (value == "") {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Please Enter Assignment Interval.'
+                    });
+                    return false;
+                }
+            }
+            else if (values == "isfieldexecutive") {
+                value = $('#isfieldexecutive').val();
+                if (value == "") {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Please Select Field Executive.'
+                    });
+                    return false;
+                }
+            }
+            else if (values == "ispolicydropexecutive") {
+                value = $('#ispolicydropexecutive').val();
+                if (value == "") {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Please Select Policydrop.'
+                    });
+                    return false;
+                }
+            }
+            else if (values == "infobipbaseurl") {
+                value = $('#infobipbaseurl').val();
+                if (value == "") {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Please Enter InfoBip URL.'
+                    });
+                    return false;
+                }
+            }
+            else if (values == "infobipkey") {
+                value = $('#infobipkey').val();
+                if (value == "") {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Please Enter InfoBip Key.'
+                    });
+                    return false;
+                }
+            }
+            else if (values == "infobipusername") {
+                value = $('#infobipusername').val();
+                if (value == "") {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Please Enter InfoBip Username.'
+                    });
+                    return false;
+                }
+            }
+            else if (values == "infobippassword") {
+                value = $('#infobippassword').val();
+                if (value == "") {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Please Enter InfoBip Password.'
+                    });
+                    return false;
+                }
+            }
+            else if (values == "indusserviceusername") {
+                value = $('#indusserviceusername').val();
+                if (value == "") {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Please Enter Service Username.'
+                    });
+                    return false;
+                }
+            }
+            else if (values == "indusservicepassword") {
+                value = $('#indusservicepassword').val();
+                if (value == "") {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Please Enter Service Password.'
+                    });
+                    return false;
+                }
+            }
+            else if (values == "indusbaseurl") {
+                value = $('#indusbaseurl').val();
+                if (value == "") {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Please Enter Indus Base URL.'
+                    });
+                    return false;
+                }
+            }
+            else if (values == "psftriggerstatus") {
+                value = $('#psftriggerstatus').val();
+                if (value == "") {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Please Enter PSF Trigger Status.'
+                    });
+                    return false;
+                }
+            }
+            else if (values == "bookingdaylimit") {
+                value = $('#bookingdaylimit').val();
+                if (value == "") {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Please Enter Service Booking Day Limit.'
+                    });
+                    return false;
+                }
+            }
+            else if (values == "insbookingdaylimit") {
+                value = $('#insbookingdaylimit').val();
+                if (value == "") {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Please Enter Insurance Booking Day Limit.'
+                    });
+                    return false;
+                }
+            }
+            else if (values == "insfollowupdaylimit") {
+                value = $('#insfollowupdaylimit').val();
+                if (value == "") {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Please Enter Insurance Followup Limit.'
+                    });
+                    return false;
+                }
+            }
+            else if (values == "userLogo") {
+                value = $('#logopath').val();
+                if (value == "") {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Please Select Logo Path.'
+                    });
+                    return false;
+                }
+            }
+            else if (values == "authorizationkey") {
+                value = $('#txtauthKey').val();
+                if (value == "") {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Please Enter Authorization Key.'
+                    });
+                    return false;
+                }
+            }
+            else {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Wrong Attempt.'
+                });
+                return false;
+            }
+            var formData = new FormData();
+            formData.append("colName", JSON.stringify(values));
+            formData.append("colValues", JSON.stringify(value));
+
+            var totalFiles = document.getElementById('logopath').files.length;
+            for (var i = 0; i < totalFiles; i++) {
+                var file = document.getElementById('logopath').files[i];
+                formData.append("httpPostedFileBase", file);
+            }
+            $('#mainLoader').fadeIn('slow');
+
+            $.ajax({
+                type: 'POST',
+                url: siteRoot + "/SuperAdmin/updateDetails",
+                datatype: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (res) {
+                    if (res.success == true) {
+
+                        $('#mainLoader').fadeOut('slow');
+
+                        Lobibox.notify('success', {
+                            continueDelayOnInactiveTab: true,
+                            msg: 'Updated Successfully.'
+                        });
+
+                    }
+                    else {
+                        $('#mainLoader').fadeOut('slow');
+
+                        Lobibox.notify('warning', {
+                            continueDelayOnInactiveTab: true,
+                            msg: res.exception
+                        });
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                    $('#mainLoader').fadeOut('slow');
+                }
+            });
+
+        }
+
+
+        $('.numberOnly').keypress(function (e) {
+
+            if (isNaN(this.value + "" + "." + String.fromCharCode(e.charCode))) {
+                return false;
+            }
+
+        });
+        $(".onlyAlphabetOnly").keypress(function (a) {
+            var b = a.charCode;
+            b >= 65 && b <= 120 || 32 == b || 0 == b || a.preventDefault()
+        });
+    </script>
+}

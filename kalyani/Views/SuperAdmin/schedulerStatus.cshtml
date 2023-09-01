@@ -1,0 +1,300 @@
+﻿
+@{
+    ViewBag.Title = "schedulerStatus";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Scheduler Status
+                <button type="button" style="float:right;height:30px;width:100px;margin-top:-5px;" title="Add Scheduler" class="btn btn-success" data-toggle="modal" data-target="#addschedulerpopupModal">Add</button>
+            </div>
+            <div class="panel-body">
+                <table id="tblScheduler" class="table table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>schedulerName</th>
+                            <th>Status</th>
+                            <th>LastRun</th>
+                            <th>Action</th>
+                            <th>Deactivate</th>
+                            <th>Report</th>
+
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+
+                </table>
+                <span id="tblException"></span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addschedulerpopupModal" tabindex="-1" role="dialog" aria-labelledby="addschedulerpopupModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Add Scheduler</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Scheduler Name</label>
+                            <input type="text" class="form-control" id="txtschedulerName">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" onclick="schedulerAction(0,'save')">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="downloadreportModal" tabindex="-1" role="dialog" aria-labelledby="downloadreportModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Download Filter</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">From Date</label>
+                            <input type="text" class="form-control datepickerfrom" required id="txtfefilterToDate">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">To Date</label>
+                            <input type="text" class="form-control datepickerto" required id="txtfefilterFromDate">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Status</label>
+                            <select id="ddlfesynchStatus" class="form-control">
+                                <option value="true">Synched</option>
+                                <option value="false">Not Synched</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="schedulerAction(0,'downloadfereport')">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+
+    <script>
+
+        $(document).ready(function () {
+            getschedulerDetails();
+
+
+            $(".datepickerfrom").datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: 0,
+
+                onSelect: function () {
+                    var datepickerto = $('.datepickerto');
+                    var startDate = $(this).datepicker('getDate');
+                    var minDate = $(this).datepicker('getDate');
+                    var dt2Date = datepickerto.datepicker('getDate');
+                    //difference in days. 86400 seconds in day, 1000 ms in second
+                    var dateDiff = (dt2Date - minDate) / (86400 * 1000);
+
+                    startDate.setDate(startDate.getDate() + 30);
+                    if (dt2Date == null || dateDiff < 0) {
+                        datepickerto.datepicker('setDate', minDate);
+                    }
+                    else if (dateDiff > 30) {
+                        datepickerto.datepicker('setDate', startDate);
+                    }
+                    //sets dt2 maxDate to the last day of 30 days window
+                    datepickerto.datepicker('option', 'maxDate', startDate);
+                    datepickerto.datepicker('option', 'minDate', minDate);
+                }
+            });
+            $('.datepickerto').datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: 0,
+
+            });
+
+
+        });
+
+        function getschedulerDetails() {
+
+            $('#tblScheduler').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/SuperAdmin/getSchedulerDetails/",
+                    "type": 'post',
+                    "datatype": 'json',
+                    "data": {}
+                },
+                "columns": [
+
+                    { "data": "scheduler_name", "name": "scheduler_name" },
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            if (row.isActive == true) {
+                                if (row.IsItRunning == true) {
+                                    return `<label style="color:blue;" >Running..</button>`;
+                                }
+                                else {
+                                    return `<label style="color:red;" >Stoped.</button>`;
+                                }
+                            }
+                            else {
+                                return "-";
+                            }
+                        }
+                    },
+                    {
+                        "data": "LastRun", "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            if (row.isActive == true) {
+                                return `<button class="btn btn-info" onclick="schedulerAction(${row.id},'refresh')"; >Refresh</button>`;
+                            }
+                            else {
+                                return "-";
+                            }
+                        }
+                    },
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            if (row.isActive == true) {
+                                return `<button class="btn btn-danger" onclick="schedulerAction(${row.id},'deactivate')"; >Deactivate</button>`;
+                            }
+                            else {
+                                return `<button class="btn btn-success" onclick="schedulerAction(${row.id},'activate')"; >Activate</button>`;
+                            }
+                        }
+                    },
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            if (row.isActive == true && row.scheduler_name == "fe-push") {
+                                return `<button type="button" class="btn btn-info"  data-toggle="modal" data-target="#downloadreportModal">Download</button>`;
+
+                            }
+                            else {
+                                return "-";
+                            }
+                        }
+                    }
+
+
+                ],
+                "processing": "true",
+                "paging": "true",
+                "scrollX": "300",
+                "scrollY": "500",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                },
+                "initComplete": function (data) {
+                    $('#tblException').text(data.json.exception);
+                }
+            });
+        }
+
+
+        function schedulerAction(schedulerId, action) {
+            var schedulerName = $('#txtschedulerName').val();
+            var filterFromDate = $('#txtfefilterFromDate').val();
+            var filterToDate = $('#txtfefilterToDate').val();
+            var ispushed = $('#ddlfesynchStatus').val();
+
+            if ((action == "downloadfereport") && (filterFromDate == '' || filterToDate == '')) {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please Provide Date Filter.'
+                });
+                return false;
+            }
+            $('#mainLoader').css({ 'display': 'block' });
+
+            $.ajax({
+                type: 'POST',
+                url: siteRoot + "/SuperAdmin/scheduleractionChanges",
+                datatype: 'json',
+                cache: false,
+                data: { action: action, schedulerId: schedulerId, schedulerName: schedulerName, filterFromDate: filterFromDate, filterToDate: filterToDate, ispushed: ispushed },
+                success: function (res) {
+                    if (res.success == true) {
+                        getschedulerDetails();
+                        $('#txtschedulerName').val('');
+                        $('#addschedulerpopupModal').modal('hide');
+                        $('#downloadreportModal').modal('hide');
+                        if (action == "downloadfereport") {
+                            $('#txtfefilterFromDate').val('');
+                            $('#txtfefilterToDate').val('');
+                            $('#ddlfesynchStatus').val('true');
+                            if (res.totalReports > 0) {
+                                window.location = siteRoot + "/PSFReports/DownloadALL/?reportName=feSynchReport";
+                            }
+                            else {
+                                Lobibox.notify('warning', {
+                                    continueDelayOnInactiveTab: true,
+                                    msg: 'No Record Found.'
+                                });
+                                $('#mainLoader').css({ 'display': 'none' });
+
+                                return false;
+                            }
+                        }
+                        Lobibox.notify('success', {
+                            continueDelayOnInactiveTab: true,
+                            msg: 'Action Completed'
+                        });
+                        $('#mainLoader').css({ 'display': 'none' });
+
+                    }
+                    else if (res.success == false) {
+                        Lobibox.notify('warning', {
+                            continueDelayOnInactiveTab: true,
+                            msg: res.exception
+                        });
+                        $('#mainLoader').css({ 'display': 'none' });
+
+                    }
+                }
+
+            });
+        }
+
+
+
+    </script>
+}
+

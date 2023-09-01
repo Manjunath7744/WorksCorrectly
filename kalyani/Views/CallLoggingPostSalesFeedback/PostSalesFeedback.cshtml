@@ -1,0 +1,530 @@
+﻿@model AutoSherpa_project.Models.ViewModels.CallLoggingViewModel
+  
+<input type="hidden" id="psfType" value="@ViewBag.typeOfPSF" />
+<style>
+    body {
+        counter-reset: my-sec-counter;
+    }
+
+    .countQus::before {
+        counter-increment: my-sec-counter;
+        content: " " counter(my-sec-counter) ". ";
+    }
+</style>
+
+<input type="hidden" value="@ViewBag.totalMandatoryQustn" id="txtmndqustn">
+<input type="hidden" value="@Model.postsalespsfQuestionType" id="txtqustnType">
+@Html.HiddenFor(m => m.postsalesdispositions.psfformat, new { @Value = Model.postsalespsfQuestionType })
+@Html.HiddenFor(m => m.postsalesdispositions.campaignid, new { @Value = @Session["PostSalesFeedbackDayType"].ToString() })
+<div class="panel-body">
+    <div class="col-md-12">
+        <div class="form-group">
+            <div id="postsaleswelcomeDiv" class="animated  bounceInRight">
+                <label for=""><b>Did You talk to the Customer?</b></label>
+                <br>
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.postsalesdispositions.isContacted, "Yes", new { @class = "used", @id = "" })
+                        Yes
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.postsalesdispositions.isContacted, "No", new { @id = "" })
+                        No
+                    </label>
+                </div>
+            </div>
+
+            <div style="display:none;" class="animated  bounceInRight" id="postsalesnospeechDiv">
+                <br>
+                <label for=""><b>Choose reason for not being able to talk to customer:</b></label>
+                <br>
+                <div class="radio">
+                    <label>
+                        @Html.RadioButtonFor(m => m.postsalesdispositions.PSFDispositon, "Ringing No response", new { @id = "", @class = "reason_for_not_talking" })
+                        Ringing No response
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        @Html.RadioButtonFor(m => m.postsalesdispositions.PSFDispositon, "Busy", new { @id = "", @class = "reason_for_not_talking" })
+                        Busy
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        @Html.RadioButtonFor(m => m.postsalesdispositions.PSFDispositon, "Switched Off / Unreachable", new { @id = "", @class = "reason_for_not_talking" })
+                        Switched Off / Unreachable
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        @Html.RadioButtonFor(m => m.postsalesdispositions.PSFDispositon, "Invalid Number", new { @id = "", @class = "reason_for_not_talking" })
+                        Invalid Number
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        @Html.RadioButtonFor(m => m.postsalesdispositions.PSFDispositon, "NoOther", new { @id = "NOOthersCheck", @class = "reason_for_not_talking" })
+                        Other
+                    </label>
+                </div>
+
+                <div class="row animated  bounceInRight" style="display:none;" id="postservicefeedbackOtherDivShow">
+                    <div class="col-md-4">
+                        <label><b>Please Specify</b></label>
+                        @Html.TextAreaFor(m => m.postsalesdispositions.OtherComments, new { @class = "form-control OtherComments characterLimit", @id = "txtnoncontactotherreason", @rows = "1" })
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-info" name="" id="btnnoncontactpostsalesbmt" value="">Submit</button>
+                </div>
+            </div>
+
+            @if (ViewBag.isResolved == true)
+            {
+                <div id="postsalesyesDiv" class="animated  bounceInRight" style="display:none">
+                    <label for=""><b>What Did the Customer Say ?</b></label>
+                    <br>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.postsalesdispositions.whatcustsays, "Complaint Resolution Status", new { @class = "", @id = "rdoresolutionstatus" })
+                            FEEDBACK
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.postsalesdispositions.whatcustsays, "Call Me Later", new { @id = "rdocmplntfollowupltr", @class = "" })
+                            FOLLOWUP LATER
+                        </label>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div id="postsalesyesDiv" class="animated  bounceInRight" style="display:none">
+                    <label for=""><b>What Did the Customer Say ?</b></label>
+                    <br>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.postsalesdispositions.whatcustsays, "FEEDBACK", new { @class = "", @id = "rdofeedback" })
+                            FEEDBACK
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.postsalesdispositions.whatcustsays, "Call Me Later", new { @id = "rdofollowupltr", @class = "" })
+                            FOLLOWUP LATER
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.postsalesdispositions.whatcustsays, "NO FEEDBACK", new { @id = "rdocallmeltr", @class = "" })
+                            NO FEEDBACK
+                        </label>
+                    </div>
+                </div>
+            }
+        </div>
+        <br />
+
+        <div class="row animated  bounceInRight" id="postsalesfeedbackyesDiv" style="display:none;">
+            @if (Model.postsalesfollowupquestionLists != null && Model.postsalesfollowupquestionLists.Count > 0)
+            {
+                @Html.TextBoxFor(m => m.postsalesdispositions.psfquestions_id, new { @type = "hidden" })
+                foreach (var questions in Model.postsalesfollowupquestionLists)
+                {
+
+                    <div style="display:block;margin-bottom:14px;" class="col-md-12  animated fadeInUp">
+                        <div class="col-sm-12">
+                            <label class="countQus"> </label>
+
+                            @if (questions.qs_mandatory == true)
+                            {
+                                <span style="color:red" class="text-bold text-light-black">@questions.question</span>
+                            }
+                            else
+                            {
+                                <span class="text-bold text-light-black">@questions.question</span>
+                            }
+                        </div>
+
+                        <div style="" class="col-sm-12 animated  bounceInRight " id="questionyesno_callcen_@questions.binding_var">
+
+                            @if (questions.display_type == "drop-down")
+                            {
+                                <div class="col-md-3">
+                                    <select class="form-control text-bold cntrl cntrl_@questions.question_no" id="postsalesddl_@questions.question_no" name="postsalesdispositions.@questions.binding_var" onchange="FindworkshopByDistrict()">
+                                        <option value="">--Select-- </option>
+                                        @if ((questions.DDLOptionValueList != null && questions.DDLOptionValueList.Count > 0) && (questions.DDLOptionTextList != null && questions.DDLOptionTextList.Count > 0))
+                                        {
+                                            foreach (var opt in questions.dictionaryDDLQuestionList)
+                                            {
+                                                if (opt.Key == questions.defaultvalues)
+                                                {
+                                                    <option value="@opt.Value" selected>@opt.Key </option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@opt.Value">@opt.Key </option>
+                                                }
+                                            }
+                                        }
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3" id="workshopdropdiv">
+                                    <div>
+                                        <select class="form-control" id="workshopdrop" name="postsalesdispositions.q26" onchange="getfilters(this)" ;></select>
+                                    </div>
+                                </div>
+                            }
+
+                            else if (questions.display_type == "radio-button")
+                            {
+                                if ((questions.RadioValueList != null && questions.RadioValueList.Count > 0) && (questions.RadioTextList != null && questions.RadioTextList.Count > 0))
+                                {
+                                    <div class="radio-inline">
+
+                                        @foreach (var rd in questions.dictionaryRDOQuestionList)
+                                        {
+                                            if (questions.defaultvalues == rd.Key)
+                                            {
+                                                <label style="padding: 4px 6px;">&nbsp;&nbsp;<input id="postsalerdo_@questions.question_no" checked="checked" class="rdomandatory_@questions.qs_mandatory.ToString() cntrl cntrl_ qs_@questions.question_no" name="postsalesdispositions.@questions.binding_var" type="radio" value="@rd.Value">@rd.Key</label>
+                                            }
+                                            else
+                                            {
+                                                <label style="padding: 4px 6px;">&nbsp;&nbsp;<input id="postsalerdo_@questions.question_no" class="rdomandatory_@questions.qs_mandatory.ToString() cntrl cntrl_ qs_@questions.question_no" name="postsalesdispositions.@questions.binding_var" type="radio" value="@rd.Value">@rd.Key</label>
+                                            }
+                                        }
+                                    </div>
+                                }
+                            }
+                            else if (questions.display_type == "textbox")
+                            {
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control text-bold cntrl cntrl_@questions.question_no" id="postsalestxt_@questions.question_no" name="postsalesdispositions.@questions.binding_var">
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+                <div class="col-md-12">
+                    <div class="row pull-right">
+                        <button type="submit" class="btn btn-info" id="btnfeedbacksubmit">Submit</button>
+                    </div>
+                </div>
+            }
+            @*@if (Model.postsalesfollowupquestionLists != null && Model.postsalesfollowupquestionLists.Count > 0)
+                {
+                    @Html.TextBoxFor(m => m.postsalesdispositions.psfquestions_id, new { @type = "hidden" })
+                    foreach (var psfQs in Model.postsalesfollowupquestionLists)
+                    {
+                        <div style="display:block;margin-bottom:14px;" class="col-md-12 @psfQs.SectionName animated fadeInUp">
+                            <div class="col-md-9 col-sm-12">
+                                <label class="countQus"> </label>
+                                @if (psfQs.qs_mandatory == true)
+                                {
+                                    <span class="mand_qs_@psfQs.SectionName" style="font-weight:800;font-family:Calibri;color:red" data-qsNo="@psfQs.question_no">@psfQs.question<sup style="color:red;font-size:15pt;">*</sup></span>
+                                }
+                                else
+                                {
+                                    <span class="text-bold text-light-black">@psfQs.question</span>
+                                }
+
+                            </div>
+                            <div class="col-lg-9 col-sm-12">
+                                @if (psfQs.display_type == "drop-down")
+                                {
+                                    if (psfQs.IsDDLNumeric == true)
+                                    {
+                                        if (psfQs.qs_mandatory == true)
+                                        {
+                                            <select class="form-control text-bold cntrl cntrl_@psfQs.SectionName qs_@psfQs.question_no" id="sel_@psfQs.question_no" onchange="javascript: if (this.value < 9) $('#complaintReceived').val('No').trigger('change'); else $('#complaintReceived').val('No').trigger('change'); " name="postsalesdispositions.@psfQs.binding_var">
+                                                <option value="">--Select--</option>
+                                                @for (int i = psfQs.ddlmax; i >= psfQs.ddlmin; i--)
+                                                {
+                                                    <option value="@i">@i</option>
+                                                }
+                                            </select>
+                                        }
+                                        else
+                                        {
+                                            <select class="form-control text-bold cntrl cntrl_@psfQs.SectionName qs_@psfQs.question_no" id="sel_@psfQs.question_no" name="postsalesdispositions.@psfQs.binding_var">
+                                                <option value="">--Select--</option>
+                                                @for (int i = psfQs.ddlmax; i >= psfQs.ddlmin; i--)
+                                                {
+                                                    <option value="@i">@i</option>
+                                                }
+                                            </select>
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        <select class="form-control text-bold cntrl cntrl_@psfQs.SectionName qs_@psfQs.question_no" id="sel_@psfQs.question_no" name="postsalesdispositions.@psfQs.binding_var">
+                                            <option value="">--Select-- </option>
+                                            @if (psfQs.DDLOptionList != null && psfQs.DDLOptionList.Count > 0)
+                                            {
+                                                foreach (var opt in psfQs.DDLOptionList)
+                                                {
+                                                    <option value="@opt">@opt </option>
+                                                }
+                                            }
+                                        </select>
+                                    }
+                                }
+                                else if (psfQs.display_type == "radio-button")
+                                {
+                                    if (psfQs.RadioList != null && psfQs.RadioList.Count > 0)
+                                    {
+                                        if (psfQs.qs_mandatory == true)
+                                        {
+                                            foreach (var rd in psfQs.RadioList)
+                                            {
+                                                if (psfQs.defaultVaues == rd)
+                                                {
+                                                    <div class="radio-inline">
+                                                        <label style="padding: 4px 6px;">&nbsp;&nbsp;<input id="rd_@psfQs.question_no" checked="checked" class="rdomandatory cntrl cntrl_@psfQs.SectionName qs_@psfQs.question_no" name="postsalesdispositions.@psfQs.binding_var" type="radio" value="@rd">@rd</label>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="radio-inline">
+                                                        <label style="padding: 4px 6px;">&nbsp;&nbsp;<input id="rd_@psfQs.question_no" class="rdomandatory cntrl cntrl_@psfQs.SectionName qs_@psfQs.question_no" name="postsalesdispositions.@psfQs.binding_var" type="radio" value="@rd">@rd</label>
+                                                    </div>
+                                                }
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            foreach (var rd in psfQs.RadioList)
+                                            {
+                                                if (psfQs.defaultVaues == rd)
+                                                {
+
+                                                    <div class="radio-inline">
+                                                        <label style="padding: 4px 6px;">&nbsp;&nbsp;<input id="rd_@psfQs.question_no" class="cntrl cntrl_@psfQs.SectionName qs_@psfQs.question_no" checked="checked" name="postsalesdispositions.@psfQs.binding_var" type="radio" value="@rd">@rd</label>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+
+                                                    <div class="radio-inline">
+                                                        <label style="padding: 4px 6px;">&nbsp;&nbsp;<input id="rd_@psfQs.question_no" class="cntrl cntrl_@psfQs.SectionName qs_@psfQs.question_no" name="postsalesdispositions.@psfQs.binding_var" type="radio" value="@rd">@rd</label>
+                                                    </div>
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <div class="col-md-12">
+                        <div class="pull-right">
+                            <button type="submit" class="btn btn-info" id="btnfeedbacksubmit">Submit</button>
+                        </div>
+                    </div>
+
+                }*@
+
+        </div>
+
+        @*-------Call me later div------*@
+        <div style="display:none;" class="row animated  bounceInRight" id="postsalescalmelaterDiv">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="followUpDate">Call Back Date</label>
+                    @Html.TextBoxFor(m => m.postsalesdispositions.postsalesFollowUpDate, new { @id = "txtpostsalescallbackdate", @class = "datepickerPlus30Days datePickerrangeto form-control", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="followUpTime">Call Back Time</label>
+                    @Html.TextBoxFor(m => m.postsalesdispositions.postsalesFollowUpTime, new { @id = "txtpostsalecallbacktime", @class = "single-input form-control timepicker_7", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="pull-right" id="">
+                <button type="submit" class="btn btn-info" name="" id="btnsubmitpostsalesfollowuplater">Submit</button>
+            </div>
+
+        </div>
+        <div style="display:none;" class="row animated  bounceInRight" id="postsalesnofeedbackDiv">
+            <div class="pull-right" id="">
+                <button type="submit" class="btn btn-info" name="" id="btnpostsalenofeedbacksubmit">Submit</button>
+            </div>
+
+        </div>
+        <div id="postsalesthankcallDiv" class="animated  bounceInRight" style="display:none;">
+            <label for=""><b>Complaint Resolved?</b></label>
+            <br />
+            <div class="radio-inline">
+                <label>
+                    @Html.RadioButtonFor(m => m.postsalesdispositions.isresolvedorpending, "Resolved", new { @class = "", @id = "" })
+                    Resolved
+                </label>
+            </div>
+            <br />
+            <div class="radio-inline">
+                <label>
+                    @Html.RadioButtonFor(m => m.postsalesdispositions.isresolvedorpending, "Pending", new { @id = "" })
+                    Pending
+                </label>
+            </div>
+            <div class="pull-right" id="">
+                <button type="submit" class="btn btn-info" name="" id="btnpostsalescomplaintresolvedsubmit">Submit</button>
+            </div>
+        </div>
+        <div id="postsalesinterdptmntleadfeedbckDiv" class="animated  bounceInRight">
+            <div class="radio-inline">
+                @*@Html.HiddenFor(m => m.postsalesdispositions.interdepfeedback, new { @id = "txtinterdepfeedback" })*@
+                <label class="form-check-label"><input type="checkbox" id="chkinterfedback" class="form-check-input" onclick="checkintdepfeedback()" />&nbsp;&nbsp;<b>Inter Department Lead FeedBack</b> </label>
+            </div>
+        </div>
+        <div id="postsalesinsurancelocDiv" class="animated  bounceInRight" style="display:none;">
+            <div class="radio-inline">
+                <label>Insurance Location</label>
+                @Html.DropDownListFor(m => m.postsalesdispositions.insurancelocation, new SelectList(ViewBag.ddlWorkshop, "workshopId", "workshopName"), "Select", new { @class = "filter form-control", @id = "workshop", @data_field = "workshop", @onchange = "getfilters(this);" })
+
+            </div>
+        </div>
+
+        <div style="display:none;" class="row animated  bounceInRight" id="postsalesRemarksDiv">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="followUpTime">Customer Remarks</label>
+                            @Html.TextAreaFor(m => m.postsalesdispositions.remarks, new { @class = "form-control characterLimit", @id = "remarks_for_followUpLater" })
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="followUpTime">CRE Remarks</label>
+                            @Html.TextAreaFor(m => m.postsalesdispositions.CREOtherComments, new { @class = "form-control characterLimit", @id = "remarks_for_followUpLater" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--panel Body End-->
+<!---panel Body End--->
+
+@Scripts.Render("~/public/javascripts/jquery-3.2.1.min.js")
+@Scripts.Render("~/public/CallLogFiles/postsales.js")
+<script>
+    $(document).ready(function ()
+{
+            var psfType = '@ViewBag.typeOfPSF';
+
+            if (psfType == "2") {
+        $('#interHeading').text('POST SALES 2ND DAY DISPOSITION FORM');
+            }
+            else if (psfType == "15") {
+                $('#interHeading').text('POST SALES 15TH DAY DISPOSITION FORM');
+            }
+    });
+
+    $("#btnfeedbacksubmit").click(function () {
+        var postsalesDetails = @Html.Raw(Json.Encode(Model.postsalesfollowupquestionLists));
+        const textboxValidations = postsalesDetails.filter(v => v.display_type === "textbox" && v.isActive == true && v.qs_mandatory== true);
+        const radioValidations = postsalesDetails.filter(v => v.display_type === "radio-button" && v.isActive == true && v.qs_mandatory == true);
+        const dropdownValidations = postsalesDetails.filter(v => v.display_type === "drop-down" && v.isActive == true && v.qs_mandatory == true);
+
+        if (textboxValidations.length > 0) {
+
+            for (i = 0; i < textboxValidations.length; i++) {
+                var textboxId = textboxValidations[i].question_no;
+                var textboxValue = $('#postsalestxt_' + textboxId).val();
+                if (textboxValue == "") {
+                    Lobibox.notify('warning', {
+                                continueDelayOnInactiveTab: true,
+                                msg: 'Please select mandatory question(s)*.'
+
+                            });
+                        return false;
+                }
+
+            }
+        
+        }
+        if (dropdownValidations.length > 0) {
+
+            for (i = 0; i < dropdownValidations.length; i++) {
+                var ddlId = dropdownValidations[i].question_no;
+                var ddlValue = $('#postsalesddl_' + ddlId).val();
+                if (ddlValue == "")
+                {
+                    Lobibox.notify('warning', {
+                                continueDelayOnInactiveTab: true,
+                                msg: 'Please select mandatory question(s)*.'
+
+                            });
+                        return false;
+                }
+
+            }
+        
+        }
+        if (radioValidations.length > 0) {
+            var totalmndtryQustn = radioValidations.length;
+            var length = $('.rdomandatory_True:checked').length;
+            if (length < totalmndtryQustn) {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please select mandatory question(s)*.'
+
+                });
+                return false;
+            }        
+        }
+
+
+    });
+
+    //Cascading Dropdown for district
+
+    $(document).ready(function () {
+        $("#workshopdropdiv").hide();
+    });
+   
+
+   function FindworkshopByDistrict() {
+
+
+       var distId = $('#postsalesddl_25,#postsalesddl_16').val();
+       
+       console.log(distId);
+       $("#workshopdrop").html("");
+        $.ajax({
+            url: '@Url.Action("GetWorkshopDropdown")',
+            type: "POST",
+            dataType: "JSON",
+            data: {"districtValue": distId},
+            success: function (response) {
+                console.log(response);
+                if (response.workshopList.length>0) {
+                    $("#workshopdrop").html("");
+                    $.each(response.workshopList, function (index, value) {
+                        $("#workshopdrop").append(
+                            $('<option></option>').val(value.id).html(value.workshopName));
+                        $("#workshopdropdiv").show();
+                    });
+                }
+                else {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'No Workshops found for selected Location .'
+                    });
+                    return false;
+                }
+            }
+       });
+
+    }
+</script>

@@ -1,0 +1,152 @@
+tr.tableVehrow {
+    color: #fff;
+}
+#left {
+    border-color: red;
+}
+#left .handle {
+    background-color: red;
+}
+#right {
+    border-color: #ec2121;
+    border-width: 3px;
+}
+#right .handle {
+    background-color: #ec2121;
+}
+#aright {
+    border-color: #ec2121;
+    border-width: 3px;
+}
+#aright .handle {
+    background-color: #ec2121;
+}
+
+#bright {
+    border-color: #ec2121;
+    border-width: 3px;
+}
+#bright .handle {
+    background-color: #ec2121;
+}
+
+#bottom {
+    border-color: #ec2121;
+}
+#bottom .handle {
+    background-color: #ec2121;
+}
+
+/*
+    tabSlideOUt v2.2
+
+    By  Michael Fielding / www.hawkip.com
+    License: GPL v2.0
+*/
+
+/* Uncomment this to hide tabs and panels when printed.
+@media print {
+    .tabSlideOutPanel, .tabSlideOutTab {
+        display: none;
+    }
+}
+*/
+
+div#right {
+    width: 73%;
+    padding: 8px 0 6px 10px;
+
+}
+div#bright {
+    width: 93%;
+    padding: 9px 0 8px -14px;
+    
+}
+div#aright {
+    width: 71%;
+    padding: 8px 0 6px 10px;
+}
+
+
+a.handle.ui-slideouttab-handle-rounded.ui-slideouttab-handle.ui-slideouttab-handle-reverse {
+    overflow: auto;
+}
+.ui-slideouttab-panel {
+    border: 2px solid grey;
+}
+.ui-slideouttab-handle, .ui-slideouttab-panel {
+    background-color: white;
+    padding: 0.4em;
+    box-sizing: border-box;
+}
+.ui-slideouttab-handle {
+    cursor: pointer;
+    color: white;
+    background-color: grey;
+}
+
+.ui-slideouttab-handle-image {
+    transform: rotate(0);
+}
+
+.ui-slideouttab-right .ui-slideouttab-handle {
+    transform-origin: 0% 0%;
+    transform: rotate(-90deg) translate(-100%,-100%);   
+}
+.ui-slideouttab-right .ui-slideouttab-handle-reverse {
+    transform-origin: 0% 100%;
+    transform: rotate(-90deg);
+}
+.ui-slideouttab-left .ui-slideouttab-handle {
+    transform-origin: 100% 0%;
+    transform: rotate(-90deg);   
+}
+.ui-slideouttab-left .ui-slideouttab-handle-reverse {
+    transform-origin: 100% 100%;
+    transform: rotate(-90deg) translate(100%,100%);   
+}
+
+/* turn font awesome icon in a tab upright */
+.ui-slideouttab-left .ui-slideouttab-handle>.fa-icon, 
+.ui-slideouttab-right .ui-slideouttab-handle>.fa-icon { 
+    transform: rotate(90deg);
+}
+.ui-slideouttab-handle>.fa-icon {
+    margin-left: 0.5em;
+}
+
+.ui-slideouttab-top .ui-slideouttab-handle-rounded,
+.ui-slideouttab-left .ui-slideouttab-handle-rounded {
+    border-radius: 0 0 4px 4px;
+}
+.ui-slideouttab-right .ui-slideouttab-handle-rounded, 
+.ui-slideouttab-bottom .ui-slideouttab-handle-rounded {
+    border-radius: 4px 4px 0 0;
+}
+div#aright{
+bottom:100px;
+}
+
+
+table.table.table-bordered.servicetble {
+    width: 100%;
+}
+
+thead.makefixed {
+    background-color: #1797be;
+	color:#fff;
+}
+table.table.table-bordered.insurancetble {
+    width: 100%;
+}
+table.table.table-bordered.vehicletble {
+    width: 100%;
+}
+i.fa.fa-info-circle {
+    font-size: 30px;
+    color: #27c24c;
+}
+panel-primary>.panel-heading {
+    color: #fff;
+    border-color: #23b7e5;
+}

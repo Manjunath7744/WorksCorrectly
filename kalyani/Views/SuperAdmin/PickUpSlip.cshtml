@@ -1,0 +1,174 @@
+﻿@{
+    ViewBag.Title = "PickUpSlip";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("pickupslipDownload", "SuperAdmin", FormMethod.Post))
+{
+
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <b> Pick-up Slip Download</b>
+        </div>
+        <div class="panel-body">
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <div class="row filterDiv">
+                        @if (Session["UserRole"].ToString() == "Admin")
+                        {
+                            <div class="col-md-1" id="workshopNameDiv">
+                                    <label>Workshop Name</label>
+                                    <div class="form-group">
+                                            @Html.DropDownList("workshopId", (MultiSelectList)new SelectList(ViewBag.workshopNames, "workshopId", "workshopName"), new
+                                       {
+                                           @multiple = "multiple",
+                                           @class = "form-control selectpickerAll",
+                                           @id = "workshopNames",
+                                           @data_field = "workshopName",
+                                           @name = "workshopName"
+                                       })
+                                    </div>
+                            </div>
+                        }
+
+                    <div class="col-md-2" id="followupfromDateDiv">
+                        <div class="form-group">
+                            <label>PickUpSlip Date: </label>
+                            <input type="text" class="filter form-control datepicFollowUpFromDropDown" data-column-index="6" id="pickupfromDate" name="fromDate" placeholder=" Select Date" data-field="followUP_From_date" readonly>
+                        </div>
+                    </div>
+                        @if (Session["UserRole"].ToString() == "Admin")
+                        {
+                    <div class="col-md-1">
+
+                        <label>&nbsp;</label>
+                        <div class="form-group">
+                            <button type="submit" name="PickUpSlipButton" id="btn" class="btn btn-primary" title="DownloadPickUpSlip" style="display:none">
+                                <i class="glyphicon glyphicon-download"></i>&nbsp;Download Pick-up Slip
+                            </button>
+                            <button type="button" name="PickUpSlipButton" id="btnn" onclick="validateForm1()" class="btn btn-primary" title="DownloadPickUpSlip">
+                                <i class="glyphicon glyphicon-download"></i>&nbsp;Download Pick-up Slip
+                            </button>
+                        </div>
+                    </div>
+                        }
+                        else
+                        {
+                    <div class="col-md-1">
+                        <label>&nbsp;</label>
+                        <div class="form-group">
+                            <button type="submit" name="PickUpSlipButton" id="btn" class="btn btn-primary" title="DownloadPickUpSlip" style="display:none">
+                                <i class="glyphicon glyphicon-download"></i>&nbsp;Download Pick-up Slip
+                            </button>
+                            <button type="button" name="PickUpSlipButton" id="btnn" onclick="validateForm2()" class="btn btn-primary" title="DownloadPickUpSlip">
+                                <i class="glyphicon glyphicon-download"></i>&nbsp;Download Pick-up Slip
+                            </button>
+                        </div>
+                    </div>
+                        }
+                        <div class="col-md-1" id="followuptoDateDiv">
+                            @*<label type="h">PickUpSlip To Date: </label>*@
+                            <input type="hidden" class="filter form-control datepicFollowUpToDropDown datepicker" data-column-index="7" id="pickuptoDate" name="followUPtoDate" placeholder="To Followup Date" data-field="followUP_To_Date" onchange="getfilters(this)" readonly>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    @section scripts{
+        <script>
+           
+            $('.datepicker').datepicker({
+                duration: "slow",
+                showOptions: { direction: "up" },
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,//this option for allowing user to select month
+                changeYear: true //this option for allowing user to select from year range
+
+            });
+
+            $('.datepicFollowUpFromDropDown ').datepicker({
+
+                autoclose: true,
+                dateFormat: 'yy-mm-dd',
+                //maxDate: new Date(),
+                onSelect: function (date) {
+                    $('.datepicFollowUpToDropDown').datepicker("destroy");
+                    $('.datepicFollowUpToDropDown').datepicker("destroy");
+                    $('.datepicFollowUpToDropDown').datepicker({
+                        autoclose: true,
+                        dateFormat: 'yy-mm-dd',
+                        minDate: $('.datepicFollowUpFromDropDown ').datepicker('getDate')
+                    });
+                    $(this).trigger('change'); var dt1 = $('.datepicFollowUpFromDropDown ').datepicker('getDate');
+                    var dt2 = $('.datepicFollowUpToDropDown').datepicker('getDate');
+                    if (dt2 <= dt1) {
+                        var minDate = $('#dt2').datepicker('option', 'minDate');
+                        $('.datepicFollowUpToDropDown').datepicker('setDate', null);
+                    }
+                }
+            })
+
+            function validateForm1() {
+                var workshop = $("#workshopNames").val();
+                var date = $("#pickupfromDate").val();
+                if ((date == "" || date == null) && (workshop == "" || workshop == null || workshop == "0")) {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: "Please Select WorkshopName and Date"
+                    });
+                    return false;
+
+                }
+                else if (date == "" || date == null) {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: "Please Select Date"
+                    });
+                    return false;
+
+                }
+                else if (workshop == "" || workshop == null || workshop == "0") {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: "Please Select WorkshopName"
+                    });
+                    return false;
+
+                }
+                else {
+                    var workshop = $("#workshopName").val();
+                   $("#btn").click();
+                }
+            }
+
+            function validateForm2() {
+                var date = $("#pickupfromDate").val();
+
+                if (date == "" || date == null) {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: "Please Select Date"
+                    });
+                    return false;
+
+                }
+                else {
+                    $("#btn").click();
+                }
+            }
+
+            $("#workshopNames").multiselect({
+                includeSelectAllOption: false,
+                onSelectAll: function () {
+                    $("#selectContainer .multiselect-container input[value='Select all']").prop('disabled', false);
+                }
+            });
+        </script>
+    }
+}

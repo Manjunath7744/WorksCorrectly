@@ -1,0 +1,136 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?m2sd6s');
+  src:  url('fonts/icomoon.eot?m2sd6s#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?m2sd6s') format('truetype'),
+    url('fonts/icomoon.woff?m2sd6s') format('woff'),
+    url('fonts/icomoon.svg?m2sd6s#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-sms1:before {
+  content: "\e900";
+}
+.icon-bell:before {
+  content: "\e901";
+}
+.icon-boy-talking:before {
+  content: "\e902";
+}
+.icon-calendar-clock:before {
+  content: "\e903";
+}
+.icon-car:before {
+  content: "\e904";
+}
+.icon-carwheel:before {
+  content: "\e905";
+}
+.icon-email:before {
+  content: "\e906";
+}
+.icon-girl-talking:before {
+  content: "\e907";
+  font-size: large;
+}
+.icon-service2:before {
+  content: "\e908";
+}
+.icon-incoming-call:before {
+  content: "\e909";
+}
+.icon-insurance2:before {
+  content: "\e90a";
+  font-size: large;
+}
+.icon-insuranceB:before {
+  content: "\e90b";
+}
+.icon-outGoing:before {
+  content: "\e90c";
+}
+.icon-report:before {
+  content: "\e90d";
+}
+.icon-serviceR:before {
+  content: "\e90e";
+}
+.icon-set-alarm:before {
+  content: "\e90f";
+   font-size: large;
+}
+.icon-smartphone:before {
+  content: "\e910";
+}
+.icon-sms:before {
+  content: "\e911";
+}
+.icon-sms3:before {
+  content: "\e912";
+}
+.icon-sms2:before {
+  content: "\e913";
+}
+.icon-sms4:before {
+  content: "\e914";
+}
+.icon-sms5:before {
+  content: "\e915";
+  font-size: large;
+}
+.icon-calendar1:before {
+  content: "\e916";
+}
+.icon-calendar2:before {
+  content: "\e917";
+  font-size: large;
+}
+.icon-serviceRemainder:before {
+  content: "\e918";
+}
+.icon-campaign:before {
+  content: "\e919";
+  font-size: large;
+}
+.icon-microphone-(1):before {
+  content: "\e91a";
+}
+.icon-microphone-(2):before {
+  content: "\e91b";
+}
+.icon-microphone:before {
+  content: "\e91c";
+  font-size: large;
+}
+.icon-rec-button:before {
+  content: "\e91d";
+}
+.icon-record:before {
+  content: "\e91e";
+}
+.icon-roaster:before {
+  content: "\e91f";
+}
+.icon-sound-recording:before {
+  content: "\e920";
+}
+.icon-verification:before {
+  content: "\e921";
+  font-size: large;
+}

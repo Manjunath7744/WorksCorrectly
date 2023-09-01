@@ -1,0 +1,901 @@
+﻿
+@{
+    ViewBag.Title = "SMRMTDScoreCard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/public/liveReportCSS/custom.css" rel="stylesheet" />
+<style>
+
+    .scroll {
+        width: 20px;
+        height: 12px;
+        overflow: auto;
+        margin: 0 10px;
+    }
+
+    .scroll4::-webkit-scrollbar {
+        width: 10px;
+        height: 6px;
+    }
+
+    .scroll4::-webkit-scrollbar-thumb {
+        background: #666;
+        border-radius: 20px;
+    }
+
+    .scroll4::-webkit-scrollbar-track {
+        background: #ddd;
+        border-radius: 20px;
+    }
+
+    .panel-heading {
+        cursor: pointer;
+    }
+
+    div#container {
+        height: 400px;
+        width: 400px;
+        border: 2px solid #000;
+        overflow: scroll;
+    }
+
+    .accordion-toggle:after {
+        font-family: 'FontAwesome';
+        content: "\f077";
+        float: right;
+        color: inherit;
+    }
+
+    .panel-heading.collapsed .accordion-toggle:after {
+        content: "\f078";
+    }
+
+    .box-body {
+        padding: 0px;
+    }
+
+    hr {
+        margin-top: 0px;
+        margin-bottom: 0px;
+        border: 0;
+    }
+
+    #slideOut {
+        position: fixed;
+        width: 230px;
+        height: 800px;
+        top: 147px;
+        right: -230px;
+        /* Animation  */
+        transition-property: all;
+        transition-duration: .5s;
+        transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+        z-index: 999;
+    }
+
+
+    /* Display slideOut */
+
+    .showSlideOut {
+        right: 0px !important;
+    }
+
+
+    /* Tab */
+
+    .slideOutTab {
+        margin-top: 50px;
+        position: absolute;
+        left: -40px;
+        height: 200px;
+        width: 40px;
+        -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+        background: #F2AB34;
+        border-radius: 15px 0px 0px 15px
+    }
+
+        .slideOutTab div {
+            text-align: center;
+            position: relative;
+            right: 70px;
+            top: 90px;
+            background: #F2AB34;
+            width: 180px;
+            -webkit-transform: rotate(270deg);
+            -moz-transform: rotate(270deg);
+            -o-transform: rotate(270deg);
+            writing-mode: lr-tb;
+        }
+
+    .modal-content {
+        height: 375px;
+        background-color: white;
+    }
+
+    .modal-body {
+        height: 400px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    .dbbgcolor1 {
+        background-color: #03a9f4;
+    }
+
+    .dbbgcolor2 {
+        background-color: #ffc107;
+    }
+
+    .dbbgcolor3 {
+        background-color: #d559ea;
+    }
+
+    .dbbgcolor4 {
+        background-color: #ff5652;
+    }
+
+    .dbbgcolor5 {
+        background-color: #69afff;
+    }
+
+    .dbbgcolor6 {
+        background-color: #4edec1;
+    }
+
+    .dbbgcolor7 {
+        background-color: #ffc107;
+    }
+
+    .dbbgcolor8 {
+        background-color: #d559ea;
+    }
+
+    .dbbgcolor9 {
+        background-color: #ff5652;
+    }
+
+    ul.multiselect-container.dropdown-menu {
+        height: 121px;
+        overflow: auto;
+    }
+
+    .tile-stats span {
+        margin-top: 5px;
+        font-size: 12px;
+    }
+
+    .boxes {
+        margin: 6px;
+    }
+
+    .x_title h2 {
+        float: none;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    #myTab {
+        margin-bottom: 0px;
+    }
+
+        #myTab > li {
+            /* width: 110px;
+        word-wrap: break-word;*/
+            border-bottom: 2px solid #fff;
+        }
+
+    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        padding: 3px;
+        line-height: 1;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+        color: #000 !important;
+        font-size: 13px;
+        background-color: #fff;
+    }
+
+    .dataTables_length,
+    .dataTables_filter,
+    .dataTables_info {
+        font-size: 12px;
+    }
+
+    /*tbody,th{
+      text-align: center;
+    }*/
+
+    .btn {
+        display: inline-block;
+        /* padding: 0px 4px; */
+        margin-bottom: 0;
+        font-size: 12px;
+    }
+
+    .nav-tabs > li > a:hover {
+        border-color: #b14b4b #b93131 #b33;
+        color: #000;
+    }
+
+    /* div#BoxMTDScorecardCalls{
+        position: relative;
+        margin-top: 18px;
+        margin-left: 10px;
+
+    } */
+    .html5buttons {
+        display: none;
+    }
+</style>
+<div class="row top_tiles" style="color: #fff;">
+    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+        <div class="animated flipInY col-lg-3 col-md-3  col-sm-6 col-xs-6">
+            <div class="tile-stats dbbgcolor1">
+                <div id="gif_BoxMTDScorecardCRE" class="overlay" style="display:none">
+                    <i class="fa fa-refresh fa-spin fa-fw"></i>
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-rocket"></i>
+                </div>
+                <div class="count" style="text-align:center;margin-bottom:10px;" id="BoxMTDScorecardCRE"></div>
+                <b>
+                    <p style="text-align:center">CRE</p>
+                </b>
+            </div>
+        </div>
+        <!-- small box -->
+        <!-- <div class="animated flipInY col-lg-3 col-md-3  col-sm-6 col-xs-6">
+            <div class="tile-stats dbbgcolor2">
+                <div id="gif_BoxMTDScorecardDataAvail" class="overlay" style="display:none">
+                    <i class="fa fa-refresh fa-spin fa-fw"></i>
+                    <span class="sr-only">Loading...</span>
+                </div>
+
+                <div class="icon">
+                    <i class="fa fa-dropbox"></i>
+                </div>
+                <div class="count" style="text-align:center;margin-bottom:10px;" id="BoxMTDScorecardDataAvail"></div>
+                <b>
+                    <p style="text-align:center">Data Avail</p>
+                </b>
+            </div>
+        </div> -->
+        <!-- ./col -->
+        <div class="animated flipInY col-lg-3 col-md-3  col-sm-6 col-xs-6">
+            <!-- small box -->
+            <div class="tile-stats dbbgcolor3">
+                <div id="gif_BoxMTDScorecardCalls" class="overlay" style="display:none">
+                    <i class="fa fa-refresh fa-spin fa-fw"></i>
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-repeat"></i>
+                </div>
+                <div class="count" style="text-align:center;margin-bottom:10px;" id="BoxMTDScorecardCalls"></div>
+                <b>
+                    <p style="text-align:center">Calls</p>
+                </b>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            <!-- small box -->
+            <div class="tile-stats dbbgcolor4">
+                <div id="gif_BoxMTDScorecardCRECalls" class="overlay" style="display:none">
+                    <i class="fa fa-refresh fa-spin fa-fw"></i>
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-exchange"></i>
+                </div>
+                <div class="count" style="text-align:center;margin-bottom:10px;" id="BoxMTDScorecardCRECalls"></div>
+                <b>
+                    <p style="text-align:center">Calls/CRE</p>
+                </b>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            <!-- small box -->
+            <div class="tile-stats dbbgcolor5">
+                <div id="gif_BoxMTDScorecardContact" class="overlay" style="display:none">
+                    <i class="fa fa-refresh fa-spin fa-fw"></i>
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-phone"></i>
+                </div>
+                <div class="count" style="text-align:center;margin-bottom:10px;" id="BoxMTDScorecardContact"></div>
+                <b>
+                    <p style="text-align:center;font-size:11px;">Contacts</p>
+                </b>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-6  col-sm-12 col-xs-12">
+        <!-- ./col  -->
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            <div class="tile-stats dbbgcolor6">
+                <div id="gif_BoxMTDScorecardContactPercent" class="overlay" style="display:none">
+                    <i class="fa fa-refresh fa-spin fa-fw"></i>
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-percent"></i>
+                </div>
+                <div class="count" style="text-align:center;margin-bottom:10px;" id="BoxMTDScorecardContactPercent"></div>
+                <b>
+                    <p style="text-align:center;font-size:14px;">Contact(%)</p>
+                </b>
+            </div>
+        </div>
+        <!-- ./col  -->
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            <div class="tile-stats dbbgcolor7">
+                <div id="gif_BoxMTDScorecardFreshBook" class="overlay" style="display:none">
+                    <i class="fa fa-refresh fa-spin fa-fw"></i>
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-list-alt"></i>
+                </div>
+                <div class="count" style="text-align:center;margin-bottom:10px;" id="BoxMTDScorecardFreshBook"></div>
+                <b>
+                    <p style="text-align:center;font-size:14px;">Fresh Bookings</p>
+                </b>
+            </div>
+        </div>
+        <!-- ./col  -->
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            <div class="tile-stats dbbgcolor8">
+                <div id="gif_BoxMTDScorecardCancelled" class="overlay" style="display:none">
+                    <i class="fa fa-refresh fa-spin fa-fw"></i>
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-times"></i>
+                </div>
+                <div class="count" style="text-align:center;margin-bottom:10px;" id="BoxMTDScorecardCancelled"></div>
+                <b>
+                    <p style="text-align:center;font-size:14px;">Cancelled</p>
+                </b>
+            </div>
+        </div>
+        <!-- ./col  -->
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            <div class="tile-stats dbbgcolor9">
+                <div id="gif_BoxMTDScorecardReschedule" class="overlay" style="display:none">
+                    <i class="fa fa-refresh fa-spin fa-fw"></i>
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-book"></i>
+                </div>
+                <div class="count" style="text-align:center;margin-bottom:10px;" id="BoxMTDScorecardReschedule"></div>
+                <b>
+                    <p style="text-align:center;">Rescheduled_Booking</p>
+                </b>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 text-center" style="padding: 1px;">
+    <button class="btn btn-info btn-xs pull-center" type="submit" onclick="return loadSMRScorecardChartDetails(1); ">&nbsp;Refresh</button>
+
+    <p <button class="btn btn-primary btn-xs pull-right">
+		<a style="text-align: center; cursor:pointer; color:#fff" data-toggle="modal" data-target="#myModal1">Filter Selection</a>
+		</button>
+	</p>
+</div>
+<marquee style="color:red;cursor:pointer" onmouseover="this.stop();" onmouseout="this.start();">*- Initially this dashboard is showing current month data.</marquee>
+<div class="modal fade" id="myModal1" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="text-align:center;background-color: #106A86;color: #fff;">
+                <button type="button" class="close" data-dismiss="modal" style="opacity:2;">
+                    <img src="~/public/images/close1.png" alt="X">
+                </button>
+                <h4 class="modal-title">SMR MTD Data Filter</h4>
+            </div>
+            <div class="modal-header" style="padding: 2px;">
+                <button class="btn btn-info btn-xs pull-right" type="submit" onclick="return loadSMRScorecardChartDetails(1); ">&nbsp;Clear All</button> <br />
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label>CallDate From</label>
+                                <input id="txtRangeFromDate0" readonly type="text" class="datepickerfrom form-control input-sm">
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label>CallDate To</label>
+                                <input id="txtRangeToDate0" readonly type="text" class="datepickerto form-control input-sm">
+                            </div>
+                        </div>
+                        <div class="col-xs-4 crehideshow">
+                            <label>CRE Name</label>
+                            <div class="form-group">
+                                <select class="selectpickerAll form-control" name="LLModel" id="LLModel" multiple>
+                                    @*@for ((k, v) < -modelLL)
+                                    {
+                                        <option value="@k">@v</option>
+                                    }*@
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <label>Campaign Name</label>
+                            <div class="form-group">
+                                <select class="selectpickerAll form-control" name="MTDCampaign" id="MTDCampaign" multiple>
+
+                                    @*@for ((k, v) < -monthLL)
+                                    {
+                                        <option value="@k">@v</option>
+                                    }*@
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <label>WorkshopName </label>
+                            <div class="form-group">
+                                <select class="selectpickerAll form-control" name="MTDWorkshop" id="MTDWorkshop" multiple>
+
+                                    @*@for ((k, v)
+                                    < -workshopMTD)
+                                    {
+                                        <option value="@k">@v</option>
+                                    }*@
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding: 5px;margin-top:60px">
+                    <h5><b style="color:red">Note:- </b> Please Select Date Range Up To One Month</h5>
+                    <div class="row">
+                        <div class="col-xs-4 pull-right">
+                            <div class="form-group">
+                                <button class="btn btn-success" data-dismiss="modal" id="tblDate" onclick="getDateRangeValuesSMRScorecardTable();getResultBasedListSelectionSMRScorecard('Wyzuser_id','','LLModel');getResultBasedListSelectionSMRScorecard('CampaignName','','MTDCampaign');getResultBasedListSelectionSMRScorecard('Location','','MTDWorkshop');getChartSMRScorecardTable();">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="agent_id" value=""></input>
+<input type="hidden" id="user_role" value=""></input>
+
+<div id="show_tblFordCRESMRMTDScorecard" style="display:block">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <b>
+                        CRE MTDScorecard Table
+                    </b>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a id="tblFordCRESMRMTDScorecard_xl"></a>
+                        </li>
+                        <li>
+                            <a class="collapse-link">
+                                <button id="tblFordCRESMRMTDScorecard_toggle" type="button" class="btn btn-primary btn-xs pull-right"
+                                        style="margin-top: 5px;" onclick="callHideShowFunction('tblFordCRESMRMTDScorecard')">
+                                    hide
+                                </button>
+                            </a>
+                        </li>
+                        <li>
+                            <span id="tblFordCRESMRMTDScorecard_stl" style='display: block;'>
+                                <button type="button" class="btn btn-primary btn-xs pull-right"
+                                        style="margin-top: 5px;" onclick="return ugetTableDataFordSMRScorecardTable('tblFordCRESMRMTDScorecard')">
+                                    show
+                                </button>
+                            </span>
+                        </li>
+                    </ul>
+                    <div id="gif_tblFordCRESMRMTDScorecard" class="overlay" style="display:none">
+                        <i class="fa fa-refresh fa-spin fa-fw"></i>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table id="tblFordCRESMRMTDScorecard" class="table table-striped table-bordered table-hover " style="width:100%;margin:0px;">
+                            <thead>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="show_tblFordCampaignSMRMTDScorecard" style="display:block">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <b>
+                        Campaign MTDScorecard Table
+                    </b>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a id="tblFordCampaignSMRMTDScorecard_xl"></a>
+                        </li>
+                        <li>
+                            <a class="collapse-link">
+                                <button id="tblFordCampaignSMRMTDScorecard_toggle" type="button" class="btn btn-primary btn-xs pull-right"
+                                        style="margin-top: 5px;" onclick="callHideShowFunction('tblFordCampaignSMRMTDScorecard')">
+                                    hide
+                                </button>
+                            </a>
+                        </li>
+                        <li>
+                            <span id="tblFordCampaignSMRMTDScorecard_stl" style='display: block;'>
+                                <button type="button" class="btn btn-primary btn-xs pull-right"
+                                        style="margin-top: 5px;" onclick="return ugetTableDataFordSMRScorecardTable('tblFordCampaignSMRMTDScorecard')">
+                                    show
+                                </button>
+                            </span>
+                        </li>
+                    </ul>
+                    <div id="gif_tblFordCampaignSMRMTDScorecard" class="overlay" style="display:none">
+                        <i class="fa fa-refresh fa-spin fa-fw"></i>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table id="tblFordCampaignSMRMTDScorecard" class="table table-striped table-bordered table-hover " style="width:100%;margin:0px;">
+                            <thead>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="show_tblFordIntraDaySMRMTDScorecard" style="display:block">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <b>
+                        IntraDay MTDScorecard Table
+                    </b>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a id="tblFordIntraDaySMRMTDScorecard_xl"></a>
+                        </li>
+                        <li>
+                            <a class="collapse-link">
+                                <button id="tblFordIntraDaySMRMTDScorecard_toggle" type="button" class="btn btn-primary btn-xs pull-right"
+                                        style="margin-top: 5px;" onclick="callHideShowFunction('tblFordIntraDaySMRMTDScorecard')">
+                                    hide
+                                </button>
+                            </a>
+                        </li>
+                        <li>
+                            <span id="tblFordIntraDaySMRMTDScorecard_stl" style='display: block;'>
+                                <button type="button" class="btn btn-primary btn-xs pull-right"
+                                        style="margin-top: 5px;" onclick="return ugetTableDataFordSMRScorecardTable('tblFordIntraDaySMRMTDScorecard')">
+                                    show
+                                </button>
+                            </span>
+                        </li>
+                    </ul>
+                    <div id="gif_tblFordIntraDaySMRMTDScorecard" class="overlay" style="display:none">
+                        <i class="fa fa-refresh fa-spin fa-fw"></i>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table id="tblFordIntraDaySMRMTDScorecard" class="table table-striped table-bordered table-hover " style="width:100%;margin:0px;">
+                            <thead>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  Location -->
+<div id="show_tblFordLocationSMRMTDScorecard" style="display:block">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <b>
+                        Workshop MTDScorecard Table
+                    </b>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a id="tblFordLocationSMRMTDScorecard_xl"></a>
+                        </li>
+                        <li>
+                            <a class="collapse-link">
+                                <button id="tblFordLocationSMRMTDScorecard_toggle" type="button" class="btn btn-primary btn-xs pull-right"
+                                        style="margin-top: 5px;" onclick="callHideShowFunction('tblFordLocationSMRMTDScorecard')">
+                                    hide
+                                </button>
+                            </a>
+                        </li>
+                        <li>
+                            <span id="tblFordLocationSMRMTDScorecard_stl" style='display: block;'>
+                                <button type="button" class="btn btn-primary btn-xs pull-right"
+                                        style="margin-top: 5px;" onclick="return ugetTableDataFordSMRScorecardTable('tblFordLocationSMRMTDScorecard')">
+                                    show
+                                </button>
+                            </span>
+                        </li>
+                    </ul>
+                    <div id="gif_tblFordLocationSMRMTDScorecard" class="overlay" style="display:none">
+                        <i class="fa fa-refresh fa-spin fa-fw"></i>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table id="tblFordLocationSMRMTDScorecard" class="table table-striped table-bordered table-hover " style="width:100%;margin:0px;">
+                            <thead>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Cancelled Bookings   -->
+<div id="show_tblFordCancelledSMRMTDScorecard" style="display:block">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <b>
+                        Booking Cancelled Summary Table
+                    </b>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a id="tblFordCancelledSMRMTDScorecard_xl"></a>
+                        </li>
+                        <li>
+                            <a class="collapse-link">
+                                <button id="tblFordCancelledSMRMTDScorecard_toggle" type="button" class="btn btn-primary btn-xs pull-right"
+                                        style="margin-top: 5px;" onclick="callHideShowFunction('tblFordCancelledSMRMTDScorecard')">
+                                    hide
+                                </button>
+                            </a>
+                        </li>
+                        <li>
+                            <span id="tblFordCancelledSMRMTDScorecard_stl" style='display: block;'>
+                                <button type="button" class="btn btn-primary btn-xs pull-right"
+                                        style="margin-top: 5px;" onclick="return ugetTableDataFordSMRScorecardTable('tblFordCancelledSMRMTDScorecard')">
+                                    show
+                                </button>
+                            </span>
+                        </li>
+                    </ul>
+                    <div id="gif_tblFordCancelledSMRMTDScorecard" class="overlay" style="display:none">
+                        <i class="fa fa-refresh fa-spin fa-fw"></i>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table id="tblFordCancelledSMRMTDScorecard" class="table table-striped table-bordered table-hover " style="width:100%;margin:0px;">
+                            <thead>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+        {
+    @Scripts.Render("~/bundles/liveRptJqury")
+
+
+    <Script>
+
+    $(document).ready(function () {
+        $('.selectpickerAll').multiselect({
+
+            allSelectedText: 'All',
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+            numberDisplayed: 1,
+            buttonWidth: '140px',
+            maxHeight: 250,
+            includeSelectAllOption: true
+
+        });
+        loadSMRScorecardChartDetails(0);
+
+        this.$slideOut = $('#slideOut');
+
+        // Slideout show
+        this.$slideOut.find('.slideOutTab').on('click', function () {
+            $("#slideOut").toggleClass('showSlideOut');
+        });
+    });
+    $(document)
+        .ready(
+            function () {
+
+                var loginperson = "@@username";
+                var username = "@@username";
+                var user_role = "@@user_role";
+                $("#Banus").text("MTD Report")
+                document.getElementById("user_name").innerText = username;
+                document.getElementById("user_name").innerHtml = username;
+                if (user_role === "CRE") {
+                    $('.crehideshow')
+                        .hide();
+                    $('#crehide').hide();
+                    $('#workshophide').hide();
+
+                }
+                $('#hideshow').hide();
+                if (loginperson == "Admin") {
+                    $('#divRegions')
+                        .show();
+                    $('#TLDashboard1')
+                        .hide();
+                    $('#TLDashboard2')
+                        .hide();
+                    $('#TLDashboard3')
+                        .hide();
+                    $('#TLDashboard4')
+                        .hide();
+                    $('#TLDashboard5')
+                        .hide();
+                    $('#AgentDashboard')
+                        .hide();
+                    $(
+                        '#AgentDigiCallDashboard')
+                        .show();
+                    $(
+                        '#AsstManagerDigiCallDashboard')
+                        .show();
+                    $('#TLDashboard')
+                        .hide();
+                    $('.AdminID')
+                        .show();
+                    $('#FeedBackForm')
+                        .show();
+                    $('#ComplaintForm')
+                        .show();
+                    $('#PostUpdate')
+                        .show();
+                    $('#ProcessUpdate')
+                        .show();
+
+                } else if (loginperson == "Supervisor") {
+                    $('#divRegions')
+                        .hide();
+                    if (username === "Senior Director1") {
+                        $(
+                            '#TLDashboard2')
+                            .show();
+                        $(
+                            '#TLDashboard')
+                            .hide();
+                        $(
+                            '#TLDashboard5')
+                            .hide();
+                    } else if (username === "Manager1") {
+                        $(
+                            '#TLDashboard2')
+                            .hide();
+                        $(
+                            '#TLDashboard')
+                            .hide();
+                        $(
+                            '#TLDashboard5')
+                            .show();
+                    } else {
+                        $(
+                            '#TLDashboard2')
+                            .hide();
+                        $(
+                            '#TLDashboard')
+                            .show();
+                        $(
+                            '#TLDashboard5')
+                            .hide();
+                    }
+                    $('#TLDashboard1')
+                        .hide();
+                    $('#TLDashboard3')
+                        .hide();
+                    $('#TLDashboard4')
+                        .hide();
+                    $('#AgentDashboard')
+                        .hide();
+                    $('.AdminID')
+                        .hide();
+                    $('#FeedBackForm')
+                        .show();
+                    $('#ComplaintForm')
+                        .hide();
+                    $('#PostUpdate')
+                        .show();
+                    $('#ProcessUpdate')
+                        .show();
+                } else if (loginperson == "Agent") {
+                    $('#divRegions')
+                        .hide();
+                    $('#TLDashboard1')
+                        .hide();
+                    $('#TLDashboard2')
+                        .hide();
+                    $('#TLDashboard3')
+                        .hide();
+                    $('#TLDashboard4')
+                        .hide();
+                    $('#TLDashboard5')
+                        .hide();
+                    $(
+                        '#AgentDigiCallDashboard')
+                        .show();
+                    $('#TLDashboard')
+                        .hide();
+                    $('.AdminID')
+                        .hide();
+                    $('#FeedBackForm')
+                        .show();
+                    $('#ComplaintForm')
+                        .show();
+                    $('#PostUpdate')
+                        .hide();
+                    $('#ProcessUpdate')
+                        .show();
+                }
+
+            });
+    </Script>
+    <script>
+        function callHideShowFunction(TableId) {
+            var change = document.getElementById(TableId + '_toggle');
+            if (change.innerHTML == "show") {
+                change.innerHTML = "hide";
+            } else {
+                change.innerHTML = "show";
+            }
+        }
+    </script>
+}
+
+
+
+

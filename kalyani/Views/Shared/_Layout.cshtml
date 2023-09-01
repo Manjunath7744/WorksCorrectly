@@ -1,0 +1,937 @@
+﻿<!DOCTYPE html>
+@using AutoSherpa_project.Models
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" type="image/png" href="~/public/images/favicon1.ico">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>AutoSherpaCRM</title>
+    @Styles.Render("~/Content/css")
+    @*@Scripts.Render("~/bundles/modernizr")*@
+
+    <link href="~/Content/loaderStyle.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    @*<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">*@
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css">
+    <style>
+
+        #insurancedatepickermodal .modal-body * {
+            margin: 0 auto;
+        }
+
+        @@media (max-width: 767px) {
+            li a.txt-menu {
+                display: none;
+            }
+        }
+
+        ul.top-menu > li > .logout {
+            color: #f2f2f2;
+            font-size: 14px;
+            border-radius: 4px;
+            -webkit-border-radius: 4px;
+            /*border: 1px solid #4ECDC4 !important;*/
+            padding: 6px 10px;
+            margin-right: 15px;
+            background: #000000;
+            margin-top: 8px;
+        }
+
+        body {
+            padding-top: 0px;
+            padding-bottom: 0px;
+        }
+
+        .card-header:first-child {
+            border-radius: calc(0.5rem - 1px) calc(0.5rem - 1px) 0 0 !important;
+        }
+
+        .card-header {
+            padding: .75rem 1.25rem;
+            margin-bottom: 0;
+            /*color: #fff;
+                    background-color: rgb(62, 60, 60) !important;*/
+            border-bottom: 1px solid rgba(0,0,0,.125);
+        }
+
+        .card {
+            border-radius: 5px !important;
+        }
+
+        .wrapper {
+            height: 100%;
+            position: relative;
+            overflow-x: hidden;
+            overflow-y: hidden;
+        }
+
+        .container-fluid {
+            /*padding: 10px !important;*/
+            padding-left: 14px;
+            padding-top: 10px;
+        }
+
+        .navbar-nav > .user-menu > .dropdown-menu {
+            border-top-right-radius: 0;
+            border-top-left-radius: 0;
+            padding: 1px 0 0 0;
+            border-top-width: 0;
+            width: 162px;
+        }
+
+        .breadcrumb > .active {
+            color: #333;
+        }
+
+        .tborder {
+            border: 1px solid #b0bec5;
+        }
+
+        /*datatable search field*/
+        .dataTables_filter {
+            float: right;
+            text-align: right
+        }
+
+            .dataTables_filter input {
+                margin-left: 0.5em
+            }
+
+        @@media only screen and (max-width: 768px) {
+            /* For mobile phones: */
+            .dataTables_filter {
+                float: left;
+            }
+        }
+    </style>
+    @*<script>
+        function showPasswordNotification() {
+
+            let diffdays = '@Session["DifferenceDays"]';
+
+            console.log(diffdays);
+
+            if (diffdays > 25) {
+                if (diffdays == 26) {
+                    Lobibox_notify('warning', {
+                        delay: 24 * 5000,
+                        msg: 'Your password will expire in 5 days',
+                        onClickUrl: siteRoot + "/Home/changepasswordcre/CRE%2cI%2c"
+                    });
+                } else if (diffdays == 27) {
+                    Lobibox_notify('warning', {
+                        delay: 24 * 5000,
+                        msg: 'Your password will expire in 4 days',
+                        onClickUrl: siteRoot + "/Home/changepasswordcre/CRE%2cI%2c"
+                    });
+                } else if (diffdays == 28) {
+                    Lobibox_notify('warning', {
+                        delay: 24 * 5000,
+                        msg: 'Your password will expire in 3 days',
+                        onClickUrl: siteRoot + "/Home/changepasswordcre/CRE%2cI%2c"
+                    });
+                } else if (diffdays == 29) {
+                    Lobibox_notify('warning', {
+                        delay: 24 * 5000,
+                        msg: 'Your password will expire in 2 days',
+                        onClickUrl: siteRoot + "/Home/changepasswordcre/CRE%2cI%2c"
+                    });
+                } else if (diffdays == 30) {
+                    Lobibox_notify('warning', {
+                        delay: 24 * 5000,
+                        msg: 'Your password will expire today',
+                        onClickUrl: siteRoot + "/Home/changepasswordcre/CRE%2cI%2c"
+                    });
+                }
+
+            }
+        }
+    </script>*@
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <!--onload="showPasswordNotification()-->
+    <div class="loader-container" id="mainLoader" style="display:none;">
+        <div class="loader-main">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    @*sidebar-collapse*@
+    <div class="wrapper">
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="#" class="logo storageclear">
+                <span class="logo-mini"><b>CRM</b></span>
+                <span>
+
+                    <img src="~/public/images/dealercustomerconnectlogoblack2.png" width="200" height="44" style="margin-left: -20px;">
+                </span>
+            </a>
+            <!--  <span class="logo" style="cursor:pointer;">
+
+                <span class="logo-mini"><b>A</b>S</span>
+
+                <span class="logo-lg"><b>Auto</b>SherPa</span>
+            </span>-->
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                @if (Session["pathlog"] != null)
+                {
+                    <div style=" float: left; position: relative; margin: 5px 15px 5px 10px;">
+                        <img style="background: #333; overflow: hidden;width:150%;height:40px;" src="@Url.Content((Session["pathlog"].ToString()))" ALT="align box" ALIGN=CENTER>
+                    </div>}
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+
+                        @if (Session["UserRole"].ToString() != "CREManager")
+                        {
+                            if (Session["UserRole1"] != null && Session["UserRole1"].ToString() != "4")
+                            {
+                                if (Session["LoginUser"].ToString() == "Service")
+                                {
+                                    <li class="dropdown storageclear" data-toggle="tooltip" data-placement="bottom">
+                                        <a class="dropdown-toggle count-info" href="@Url.Action("FollowUpToday","Home",new {@id="service" })">
+                                            <i class="fa fa-wrench"></i><span class="label label-success" id="followUpCountOfToday">0</span>
+                                        </a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="dropdown storageclear" data-toggle="tooltip" data-placement="bottom">
+                                        <a class="dropdown-toggle count-info" href="@Url.Action("FollowUpToday","Home",new {@id="insurance" })">
+                                            <i class="fa icon-insurance2"></i><span class="label label-success" id="followUpCountOfTodayIns">0</span>
+                                        </a>
+                                    </li>
+                                }
+                            }
+                            else
+                            {
+                                <li class="dropdown storageclear" data-toggle="tooltip" data-placement="bottom">
+                                    <a class="dropdown-toggle count-info" href="@Url.Action("psfFutureFollowUpToday","Home")">
+                                        <i class="fa icon-girl-talking"></i><span class="label label-success" id="psffollowUpCountOfToday">0</span>
+                                    </a>
+                                </li>
+                            }
+
+
+                        }
+                        @if (Session["UserRole"].ToString() == "CRE")
+                        {
+                            if (Session["UserRole1"] != null && Session["UserRole1"].ToString() == "1")
+                            {
+                                if (Session["LoginUser"].ToString() == "Service")
+                                {
+                                    <li class="dropdown storageclear" data-toggle="tooltip" data-placement="bottom">
+                                        <a class="dropdown-toggle count-info" href="@Url.Action("mcpispew","mcpispew")">
+                                            <i class="fa icon-incoming-call"></i><span class="label label-success" id=""></span>
+                                        </a>
+                                    </li>
+                                }
+                            }
+                        }
+                        <li style="text-transform:uppercase;"><a href="#" class="txt-menu"><i class="fa fa-user-circle"></i><span class="hidden-xs hidden-sm">@Session["OEM"]<span></span></span></a></li>
+                        <li style="text-transform:uppercase;"><a href="#" class="txt-menu"><i class="fa fa-user fa-fw"></i><span class="hidden-xs hidden-sm">@Session["UserName"]<span></span></span></a></li>
+                        <li style="text-transform:uppercase;"><a href="#" class="txt-menu"><i class="fa fa-user fa-fw"></i><span class="hidden-xs hidden-sm">@Session["firstName"]<span></span></span></a></li>
+                        <li style="text-transform:uppercase;"><a href="#" class="txt-menu"><i class="fa fa-user-circle-o fa-fw"></i><span class="hidden-xs hidden-sm">@Session["DealerName"]<span></span></span></a></li>
+                        <li class="storageclear">
+                            @if (Session["DealerCode"].ToString() != "HANSHYUNDAI" && Session["DealerCode"].ToString() != "HARPREETFORD")
+                            {
+                                <a href="@Url.Action("changepasswordcre", "Home")" class="@IsMenuSelected("CHANGE PASSWORD", "changepasswordcre", "Home")">
+                                    <i class="fa fa-unlock-alt fa-fw"></i>
+                                    <span class="hidden-xs hidden-sm">CHANGE PASSWORD<span></span></span>
+                                </a>
+                            }
+                            @*<a href="changePassowrd">
+
+                                </a>*@
+                        </li>
+                        <li class="storageclear">
+                            <a href="@Url.Action("LogOff","Home")" class="@IsMenuSelected("LOGOUT PASSWORD","LogOff", "Home")" onclick="manageStorage();">
+                                <i class="fa fa-sign-out fa-fw"></i>
+                                <span class="hidden-xs hidden-sm">LOGOUT<span></span></span>
+                            </a>
+                        </li>
+                        @*<li class="storageclear">
+
+                                @Html.ActionLink("LOGOUT", "LogOff", "Home", "", new { @class = "fa fa-sign-out fa-fw" })
+                            </li>*@
+
+                    </ul>
+                </div>
+
+
+            </nav>
+        </header>
+        <aside class="main-sidebar" style="min-height: 300px; max-height: 618px;">
+            <section class="sidebar">
+                <ul class="sidebar-menu" id="navContainer" data-widget="tree"></ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+        <table id="tblfubNote" style="display:none"></table>
+        <table id="tblforfollowuptemp" style="display:none"></table>
+        <table id="tblforfollowuptempinsurance" style="display:none"></table>
+        <table id="tblforfollowuptemppsf" style="display:none"></table>
+
+        <div class="content-wrapper" style="min-height:550px !important;">
+            <div class="content">
+                <div id="divLoader" style="display:none;">
+
+                    <img src="~/Content/ajax-loader2.gif" alt="Loader" />
+
+                </div>
+
+                @RenderBody()
+                @*<hr />
+                    <footer>
+                        <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+                    </footer>*@
+            </div>
+        </div>
+
+
+    </div>
+    @*PROGRESS BAR MODAL*@
+    <div class="modal fade in" id="mod-progress" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <div class="i-circle warning"><i class="fa fa-info"></i></div>
+                        <div id="result" style="font-size: 1.1em; padding-bottom: 5px">
+                            <p id="progressBarParagraph"></p>
+                        </div>
+                        <div style="width: 30%; margin: 0 auto; display:none;">
+                            <div id="progressbar" style="width: 300px; height: 15px"></div>
+                            <br />
+                        </div>
+                        <div id="ProgressStripe" class="progress progress-striped active" style="position:relative; top:10px; width:100%;">
+                            <div id="ProgressMessage" class="progress-bar progress-bar-info" style="width: 100%; border:none;"></div>
+                        </div>
+                        <br />
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    @*@Html.Partial("_LoginPartial")*@
+
+    @Scripts.Render("~/bundles/jquery")
+    @*@Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/master")*@
+    <script src="~/public/javascripts/LiveNotification.js"></script>
+
+    <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="~/public/js/vendor/jquery.ui.widget.js"></script>
+    <script src="~/public/BlueIMPFiles/load-image.all.min.js"></script>
+    <script src="~/public/BlueIMPFiles/tmpl.min.js"></script>
+    <script src="~/public/BlueIMPFiles/canvas-to-blob.min.js"></script>
+    <script src="~/public/BlueIMPFiles/jquery.blueimp-gallery.min.js"></script>
+
+    <script src="~/public/js/jquery.iframe-transport.js"></script>
+    <script src="~/public/js/jquery.fileupload.js"></script>
+    <script src="~/public/js/jquery.fileupload-process.js"></script>
+    <script src="~/public/js/jquery.fileupload-image.js"></script>
+    <script src="~/public/js/jquery.fileupload-audio.js"></script>
+    <script src="~/public/js/jquery.fileupload-video.js"></script>
+    <script src="~/public/js/jquery.fileupload-validate.js"></script>
+    <script src="~/public/js/jquery.fileupload-ui.js"></script>
+    <script src="~/public/js/main.js"></script>
+
+    <script>
+                var siteRoot = '@Request.ApplicationPath';
+                if (siteRoot === '/') {
+                    siteRoot = "";
+                }
+        $(document).ajaxComplete(
+            function (event, xhr, settings) {
+                if (xhr.status == 401) {
+                    Lobibox.notify({
+                        size: 'mini',
+                        rounded: true,
+                        delayIndicator: false,
+                    });
+
+                    Lobibox.notify('warning', {
+                        title: 'SESSION EXPIRED',
+                        msg: 'Page Expired...! Please Login Again.'
+                    });
+
+                    setTimeout(function () {
+                        window.location.href = siteRoot + "/Home/LogInPage";
+                    }, 4000)
+                }
+
+            });
+                var followUpLimitDate = '@Session["followUpDayLimit"].ToString()';
+                        var INSfollowUpLimitDate = '@Session["INSfollowUpDayLimit"].ToString()';
+
+                function daysInMonth(month, year) {
+                    return new Date(year, month, 0).getDate();
+                }
+        var dealerCode = '@Session["DealerCode"].ToString()';
+        var UserRole = '@Session["UserRole"].ToString()';
+        var LoginUser = '@Session["LoginUser"].ToString()';
+        $(document).ready(function () {
+            //$('#Table1').dataTable();
+            $("body").addClass('sidebar-collapse');
+
+            if (UserRole == "CRE") {
+
+                if (LoginUser == "Service") {
+                    ajaxRequestForPopUpNotificationCRE();
+                }
+                else if (LoginUser == "Insurance") {
+                    ajaxRequestForInsurancePopupNotificationCRE();
+                }
+                else if (LoginUser == "PSF" || LoginUser == "PSFComMgr") {
+                    ajaxRequestForPsfPopupNotificationCRE();
+                }
+            }
+
+            var sessionDays = followUpLimitDate.split(',');
+            var followUpDate = sessionDays[0];
+            var BookingDate = sessionDays[1];
+            //for ins
+            var INSsessionDays = INSfollowUpLimitDate.split(',');
+            var INSfollowUpDate = INSsessionDays[0];
+            var INSBookingDate = INSsessionDays[1];
+            var MinBookingDate = '+0d';
+            if (dealerCode == "INDUS") {
+                MinBookingDate='+1d'
+            }
+            $(".datePickerrangeto").datepicker({
+            autoclose: true,
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                minDate: new Date(),
+                maxDate: followUpDate
+            });
+
+            $(".datePickerBooking").datepicker({
+            autoclose: true,
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                minDate: MinBookingDate,
+                maxDate: BookingDate
+            });
+            $(".datePickerFilterTo15days").datepicker({
+                autoclose: true,
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                minDate: new Date(),
+                maxDate: INSBookingDate
+            });
+            $(".datePickerFilterToINSfolowuplater").datepicker({
+                autoclose: true,
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                minDate: new Date(),
+                maxDate: INSfollowUpDate
+            });
+            updateUserNavigations();
+        });
+
+
+
+                $(".datePicker").datepicker({
+        autoclose: true,
+                    dateFormat: 'yy-mm-dd',
+                    changeMonth: true,
+                    changeYear: true
+                });
+
+                $(".datePickerFilterTo").datepicker({
+        autoclose: true,
+                    dateFormat: 'yy-mm-dd',
+                    changeMonth: true,
+                    changeYear: true,
+                    minDate: new Date()
+                });
+
+                $(".datePickerFilterFrom").datepicker({
+        autoclose: true,
+                    dateFormat: 'yy-mm-dd',
+                    changeMonth: true,
+                    changeYear: true,
+                    maxDate: new Date()
+                });
+
+        $(".datePickerDueDateforIndusAddCustomerINS").datepicker({
+            autoclose: true,
+            dateFormat: 'yy-mm-dd',
+            changeMonth: true,
+            changeYear: true
+        });
+
+                $('.datePickerMaster').datepicker({
+
+        autoclose: true,
+                    dateFormat: 'yy-mm-dd',
+                    maxDate: new Date(),
+                    onSelect: function (date) {
+                var targetDateId = $(this).attr('data-targetDateId');
+
+                        //$('#' + targetDateId).removeClass('datepicker');
+
+                        $('#' + targetDateId).datepicker("destroy");
+                        $('#'+targetDateId).datepicker({
+                autoclose: true,
+                            dateFormat: 'yy-mm-dd',
+                            minDate: $('.datePickerFilterFromChange').datepicker('getDate')
+                        });
+
+                //var dt1 = $('.datePickerFilterFromChange').datepicker('getDate');
+                //var dt2 = $('#' + targetDateId).datepicker('getDate');
+                //if (dt2 <= dt1) {
+                //    var minDate = $('#dt2').datepicker('option', 'minDate');
+                //    $('#' + targetDateId).datepicker('setDate', null);
+                //}
+            }
+        })
+
+                $('.selectpicker').multiselect({
+        includeSelectAllOption: true,
+                    enableFiltering: true,
+                    enableCaseInsensitiveFiltering: true,
+                    numberDisplayed: 1,
+                    buttonWidth: '182px',
+                    maxHeight: 250
+
+                });
+
+                $('.datetimePicker').datetimepicker({
+        format: 'Y-m-d H:i:s',
+                    step: 5,
+                    minDate: '+1970/01/01',
+                    minTime: '08:00',
+                    maxTime: '18:00:00',
+                    formatTime: 'H:i:s'
+        });
+
+        $('.datetimePickerAttended').datetimepicker({
+        format: 'Y-m-d H:i:s',
+                    step: 5,
+                    maxDate: new Date(),
+                    minTime: '08:00',
+                    maxTime: '18:00:00',
+                    formatTime: 'H:i:s'
+                });
+
+
+        function reverDate(date) {
+            if (date != null && date != undefined && date != '0' && date.includes('-')) {
+                if (date.includes('am') || date.includes('pm') || date.includes('a.m') || date.includes('p.m') || date.includes('AM') || date.includes('PM') || date.includes('A.M') || date.includes('P.M')) {
+                    date = date.split(' ')[0];
+                }
+
+                date = date.split("-").reverse().join("-");
+
+            }
+            else if (date != null && date != undefined && date != '0' && date.includes('/')) {
+                if (date.includes('am') || date.includes('pm') || date.includes('a.m') || date.includes('p.m' || date.includes('AM') || date.includes('PM') || date.includes('A.M') || date.includes('P.M'))) {
+                    date = date.split(' ')[0];
+                }
+
+                //date = date.split("/").reverse().join("/");
+                date = date.replace(new RegExp('/', 'g'), '-');
+
+            }
+            else {
+                date = "-";
+            }
+
+            return date;
+        }
+
+        function parseJsonDateTime(datetime) {
+
+            //var curData = datetime;
+            if (datetime === null || datetime === undefined) {
+                return "";
+            }
+
+            if (datetime!=null && datetime.includes("/") && datetime.includes("/").length == 2) {
+                return datetime.split('/')[2] + "-" + datetime.split('/')[1] + "-" + datetime.split('/')[0];
+            }
+            else if (datetime != null && datetime.includes("-") && datetime.includes("-").length == 2)
+            {
+                return datetime.split('-')[2] + "-" + datetime.split('-')[1] + "-" + datetime.split('-')[0];
+            }
+            else {
+                var ConDate = "";
+                if (datetime != null) {
+                    ConDate = new Date(parseInt(datetime.substr(6)));
+                    var date = "", month = "", year = "";
+
+                    if ((parseInt(ConDate.getMonth()) + 1) < 10) {
+                        month = '-0' + (parseInt(ConDate.getMonth()) + 1);
+                    }
+                    else {
+                        month = '-' + (parseInt(ConDate.getMonth()) + 1);
+                    }
+
+                    if (ConDate.getDate() < 10) {
+                        date = '0' + ConDate.getDate();
+                    }
+                    else {
+                        date = ConDate.getDate();
+                    }
+                    var hour = ConDate.getHours();
+                    var mins = ConDate.getMinutes();
+
+                    if (hour == 0 && mins == 0) {
+                        return date + month + "-" + ConDate.getFullYear();
+                    }
+                    else {
+                        return date + month + "-" + ConDate.getFullYear() + " " + ConDate.getHours() + ":" + ConDate.getMinutes();
+                    }
+
+                        }
+                        else {
+                            return ConDate;
+                        }
+                    }
+        }
+
+        @*window.onresize = function () {
+            if ((window.outerHeight - window.innerHeight) > 103) {
+                //alert('Docked inspector was opened' + (window.outerHeight - window.innerHeight));
+                //debugger;
+                //if (siteRoot !== "/") {
+                    var inspectedPage = window.location.href.split('/')[(window.location.href.split('/').length - 1)];
+                    var sessionUser = '@Session["UserName"].ToString()';
+                     $.ajax({
+                        type: 'POST',
+                         url: siteRoot + "/UserLog/captureInspectors/",
+                         datatype: 'json',
+                         data: { sessionUser: sessionUser, inspectedPage: inspectedPage },
+                        cache: false,
+                         success: function (res) {
+                             console.log(res.success);
+                        },
+                         error: function (error) {
+                             console.log(error);
+                        }
+                    });
+                //}
+            }
+        }*@
+
+        function updateUserNavigations() {
+            var forms = '@Session["navigations"].ToString()';
+            var OEM = '@Session["OEM"].ToString()';
+            var opsGuruLink = '@Session["OpsGuruLink"]';
+            var role1 = '@Session["UserRole1"].ToString()';
+            var dealerCode = '@Session["DealerCode"].ToString()';
+            //forms = forms.replace(/&quot;/g, '\\');
+            forms = forms.replace(/&quot;/g, '"');
+
+            //console.log("------------Forms data" + forms);
+            //var newforms = forms.slice(1, (forms.length - 1));
+            //newforms = JSON.parse(newforms);
+            //or data = JSON.parse(JSON.stringify(data.trim()));
+            if (forms != "") {
+                forms = JSON.parse(forms);
+            }
+
+
+            if (forms != null && forms != undefined && forms != "" && forms.length>0) {
+                var navContainer = "";
+                var header = forms.filter(m => m.mainform_id == 0);
+                if (header.length > 0) {
+                    for (var i = 0; i < header.length; i++) {
+                        var parentPanel = '<li class="treeview">';
+                        var childPanel = `<ul class="treeview-menu" style="display: none;">`;
+                        var childNavs = forms.filter(m => m.mainform_id == header[i].id);
+                        for (var j = 0; j < childNavs.length; j++) {
+
+                            if (header[i].form_name != "PSF" && header[i].form_name != "OPS-GURU Link" && childNavs[j].form_name != "Search Customer" && header[i].form_name != "Others") {
+                                childPanel = childPanel + `<li>
+                                                         <a href="${siteRoot + "/" + childNavs[j].href_link}">
+                                                             <i class="${childNavs[j].font_icon}"></i><span>${childNavs[j].form_name}</span>
+                                                         </a>
+                                                       </li>`;
+                            }
+                            else if (header[i].form_name == "OPS-GURU Link"){
+                                if (opsGuruLink != "") {
+                                    childPanel = childPanel + `<li>
+                                                         <a href="${opsGuruLink}" target="_black">
+                                                             <i class="${childNavs[j].font_icon}"></i><span>${childNavs[j].form_name}</span>
+                                                         </a>
+                                                       </li>`;
+                                }
+                            }
+
+                            else if (header[i].form_name == "Others") {
+                                childPanel = childPanel + `<li>
+                                                         <a href="${childNavs[j].href_link}"  target="_black">
+                                                             <i class="${childNavs[j].font_icon}"></i><span>${childNavs[j].form_name}</span>
+                                                         </a>
+                                                       </li>`;
+                            }
+
+                            else if (childNavs[j].form_name == "Search Customer")
+                            {
+                                if ((UserRole == "CREManager" || UserRole == "CRE") && role1 == "4") {
+                                    childPanel = childPanel + `<li>
+                                                         <a href="${siteRoot + "/" + childNavs[j].href_link}/4">
+                                                             <i class="${childNavs[j].font_icon}"></i><span>${childNavs[j].form_name}</span>
+                                                         </a>
+                                                       </li>`;
+                                }
+                                else {
+                                    childPanel = childPanel + `<li>
+                                                         <a href="${siteRoot + "/" + childNavs[j].href_link}">
+                                                             <i class="${childNavs[j].font_icon}"></i><span>${childNavs[j].form_name}</span>
+                                                         </a>
+                                                       </li>`;
+                                }
+                            }
+                            else {
+                                if (childNavs[j].form_name == "Day PSF") {
+                                    if (OEM == "MARUTI SUZUKI") {
+                                        childPanel = childPanel + `<li>
+                                                         <a href="${siteRoot + "/" + childNavs[j].href_link}/6">
+                                                             <i class="${childNavs[j].font_icon}"></i><span>6Th ${childNavs[j].form_name}</span>
+                                                         </a>
+                                                       </li><li>
+                                                         <a href="${siteRoot + "/" + childNavs[j].href_link}/30">
+                                                             <i class="${childNavs[j].font_icon}"></i><span>30Th ${childNavs[j].form_name}</span>
+                                                         </a>
+                                                       </li>`;
+                                    }
+                                    else if (dealerCode == 'JDAUTONATION') {
+                                        childPanel = childPanel + `<li>
+                                                         <a href="${siteRoot + "/" + childNavs[j].href_link}/2">
+                                                             <i class="${childNavs[j].font_icon}"></i><span>2Nd ${childNavs[j].form_name}</span>
+                                                         </a>
+                                                       </li><li>
+                                                         <a href="${siteRoot + "/" + childNavs[j].href_link}/9">
+                                                             <i class="${childNavs[j].font_icon}"></i><span>9Th ${childNavs[j].form_name}</span>
+                                                         </a>
+                                                       </li>`;
+                                    }
+
+
+
+                                    else if (OEM == "TATA MOTORS")
+                                    {
+                                        childPanel = childPanel + `<li>
+                                                         <a href="${siteRoot + "/" + childNavs[j].href_link}/2">
+                                                             <i class="${childNavs[j].font_icon}"></i><span>2Nd ${childNavs[j].form_name}</span>
+                                                         </a>
+                                                       </li><li>
+                                                         <a href="${siteRoot + "/" + childNavs[j].href_link}/10">
+                                                             <i class="${childNavs[j].font_icon}"></i><span>10Th ${childNavs[j].form_name}</span>
+                                                         </a>
+                                                       </li>`;
+                                    }
+                                    else {
+                                        childPanel = childPanel + `<li>
+                                                         <a href="${siteRoot + "/" + childNavs[j].href_link}/3">
+                                                             <i class="${childNavs[j].font_icon}"></i><span>3Rd ${childNavs[j].form_name}</span>
+                                                         </a>
+                                                       </li><li>
+                                                         <a href="${siteRoot + "/" + childNavs[j].href_link}/10">
+                                                             <i class="${childNavs[j].font_icon}"></i><span>10Th ${childNavs[j].form_name}</span>
+                                                         </a>
+                                                       </li>`;
+                                    }
+                                }
+                                else {
+                                    childPanel = childPanel + `<li>
+                                                         <a href="${siteRoot + "/" + childNavs[j].href_link}">
+                                                             <i class="${childNavs[j].font_icon}"></i><span>${childNavs[j].form_name}</span>
+                                                         </a>
+                                                       </li>`;
+                                }
+                            }
+                        }
+
+                        if (header[i].form_name == "OPS-GURU Link" && opsGuruLink != "") {
+                            var presentHeader = `<a href="#">
+                                                <i class="${header[i].font_icon}"></i> <span>${header[i].form_name}</span>
+                                                <span class="pull-right-container">
+                                                    <i class="fa fa fa-search fa-angle-left pull-right"></i>
+                                                </span>
+                                            </a>`;
+                            navContainer = navContainer + parentPanel + presentHeader + childPanel + "</ul></li>";
+                        }
+
+                        if (header[i].form_name != "OPS-GURU Link") {
+                            var presentHeader = `<a href="#">
+                                                <i class="${header[i].font_icon}"></i> <span>${header[i].form_name}</span>
+                                                <span class="pull-right-container">
+                                                    <i class="fa fa fa-search fa-angle-left pull-right"></i>
+                                                </span>
+                                            </a>`;
+                            navContainer = navContainer + parentPanel + presentHeader + childPanel + "</ul></li>";
+                        }
+
+                    }
+
+                    $('#navContainer').html(navContainer);
+                }
+                else {
+                    alert("No Header Found");
+                    console.log('No Header Found');
+                }
+            }
+        }
+
+    </script>
+    <script>
+        //$(document).ajaxStart(function () {
+        //    $("#divLoader").show();
+        //});
+        //$(document).ajaxEnd(function () {
+        //    $("#divLoader").show();
+        //});
+        $.widget.bridge('uibutton', $.ui.button);
+
+        //$("li").on("click", function () {
+        //    $("li").removeClass('active');
+        //    $('#').addClass('active');
+        //});
+    </script>
+
+    <script language="javascript" type="text/javascript">
+        //document.onreadystatechange = function () {
+        //    //document.getElementById('rootDiv').style.visibility = "hidden";
+        //    var state = document.readyState
+        //    if (state == 'interactive') {
+        //        //document.getElementById('rootDiv').style.visibility = "hidden";
+        //        document.getElementById('mainLoader').style.visibility = "visible";
+        //    } else if (state == 'complete') {
+        //        setTimeout(function () {
+        //            //document.getElementById('interactive');
+        //            $('#mainLoader').fadeOut('slow');
+        //            //document.getElementById('mainLoader').style.visibility = "hidden";
+        //            //document.getElementById('rootDiv').style.visibility = "visible";
+        //            //$('#rootDiv')
+        //        }, 1000);
+
+        //    }
+        //}
+
+        function manageStorage() {
+
+            console.log("called");
+            var dealerCode = '@Session["DealerCode"].ToString()';
+            if (dealerCode == "ABTMARUTHI") {
+                    if (localStorage.getItem("usertoken") != "") {
+                        var json = '{"token":"' + localStorage.getItem("usertoken") + '","accountStatus":"logout"}';
+                        $.ajax({
+                            url: "https://abt.intalk.io/cc/api/v1/status/edit",
+                            type: "POST",
+                            data: json,
+                            dataType: 'json',
+                            contentType: 'application/json',
+                            success: function (data, textStatus, jqXHR) {
+                                var obj = JSON.parse(JSON.stringify(data))
+                                console.log(obj.message);
+                                localStorage.setItem("usertoken", "")
+                                    window.localStorage.clear();
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                console.log(errorThrown);
+                            }
+                        });
+                    } else {
+                        $("#message").html($("#message").html() + '<br>' + "Already Logged out");
+                    }
+
+            } else {
+               window.localStorage.clear();
+            }
+        }
+
+    </script>
+
+    <script type="text/javascript">
+        function ProgressBarModal(showHide) {
+            //   console.log("called progress modal");
+            // console.log("ProgressBarModal(showHide)" + showHide);
+            if (showHide === 'show') {
+                $('#mod-progress').modal('show');
+                if (arguments.length >= 2) {
+                    $('#progressBarParagraph').text(arguments[1]);
+                } else {
+                    $('#progressBarParagraph').text('U tijeku...');
+                }
+
+                window.progressBarActive = true;
+
+            } else {
+                $('#mod-progress').modal('hide');
+                window.progressBarActive = false;
+            }
+        }
+        $(function () {
+            //console.log("called  modal");
+
+            // Reference the auto-generated proxy for the hub.
+            var progress = $.connection.progressHub;
+            // console.log("progress");
+
+            //console.log(progress);
+
+            // Create a function that the hub can call back to display messages.
+            progress.client.AddProgress = function (message, percentage) {
+                ProgressBarModal("show", message + " " + percentage);
+                $('#ProgressMessage').width(percentage);
+                if (percentage == "100%") {
+                    ProgressBarModal();
+                }
+            };
+
+            $.connection.hub.start().done(function () {
+                //console.log("called start modal");
+
+                var connectionId = $.connection.hub.id;
+                // console.log("connectionId");
+
+                //console.log(connectionId);
+            });
+
+        });
+
+    </script>
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>
+@helper IsMenuSelected(string actionName, string controllerName, string className)
+{
+    /**/
+
+    var conname = ViewContext.RouteData.Values["controller"].ToString().ToLower();
+    var actname = ViewContext.RouteData.Values["action"].ToString().ToLower();
+    if (conname == controllerName.ToLower() && actname == actionName.ToLower())
+    {
+        @className;
+    }
+}

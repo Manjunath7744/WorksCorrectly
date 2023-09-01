@@ -1,0 +1,2162 @@
+2023-08-08 10:01:33.7947|INFO|apkRegLogger|
+
+ -------- AutoSMS Scheduler Started -------------|AT: 0 0 0/4 1/1 * ? *
+2023-08-08 10:01:34.0221|INFO|apkRegLogger|
+
+ -------- Firebase Cron Scheduler Started -------------|AT: 0 0 0/4 1/1 * ? *
+2023-08-08 10:01:34.0281|INFO|apkRegLogger|
+
+ -------- Events Scheduler Started -------------|AT: 0 30 08 ? * *
+2023-08-08 10:01:34.2026|INFO|apkRegLogger|
+ Admin Change Assignment : 08-08-2023 10:01:34 am
+2023-08-08 10:01:34.3153|INFO|apkRegLogger|Naudabao Synch Scheduler Entered08-08-2023 10:01:34 am
+2023-08-08 10:01:34.3831|INFO|apkRegLogger|Naudabao Synch Scheduler Started08-08-2023 10:01:34 am
+2023-08-08 10:01:34.5317|INFO|apkRegLogger|
+
+ -------- knowlaritycallsynch Cron Scheduler Started -------------|AT: 0 0 0/4 1/1 * ? *
+2023-08-08 10:01:34.6863|INFO|apkRegLogger|
+ Event_DailyEventMsgNotification Running  --> DateTime: 08-08-2023 10:01:34 am
+2023-08-08 10:01:38.6547|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 10:01:38 am
+2023-08-08 10:01:38.6956|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 10:01:38 am
+2023-08-08 10:01:39.0696|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 10:01:39 am
+2023-08-08 10:01:39.0945|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 10:01:39 am
+2023-08-08 10:01:39.1134|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:01:39 am
+2023-08-08 10:01:39.1134|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:01:39 am
+2023-08-08 10:01:39.1266|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 10:01:39 am
+2023-08-08 10:01:39.1365|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 10:01:39 am
+2023-08-08 10:01:56.8544|INFO|apkRegLogger|
+
+ -------- Event_DailyEventMsgNotification Scheduler OutBlock -------
+Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+2023-08-08 10:01:56.8544|INFO|apkRegLogger|
+
+ --------individualReport AutoSMS Scheduler Started -------------|AT: 0 0 0/4 1/1 * ? *
+2023-08-08 10:01:56.8733|INFO|apkRegLogger|
+
+ -------- AutoWhatsapp Scheduler Started -------------|AT: 0 0 0/1 1/1 * ? *
+2023-08-08 10:01:56.9272|INFO|apkRegLogger|
+
+ -------- Cron Job MySql To MsSql 0 0,45 0,18 ? * * * : 
+2023-08-08 10:01:56.9322|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 10:01:56 am
+2023-08-08 10:01:56.9482|INFO|apkRegLogger|
+
+ -------- Pulling data from  Autosherpasmysql to IndusMssql -------------AT  : 08-08-2023 10:01:56 am
+2023-08-08 10:02:12.1758|INFO|apkRegLogger|
+
+ --------  Extraction Error Outer ExeptionThe provider did not return a ProviderManifestToken string. -------------: 
+2023-08-08 10:02:12.1845|INFO|apkRegLogger|
+
+ -------- Pulling data from autosherpaMysql to IndusMssql Ended -------------AT  : 08-08-2023 10:02:12 am
+2023-08-08 10:03:34.0415|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:03:34 am
+2023-08-08 10:03:34.0415|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:03:34 am
+2023-08-08 10:04:34.5899|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 10:04:34 am
+2023-08-08 10:04:34.5899|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 10:04:34 am
+2023-08-08 10:05:34.0455|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:05:34 am
+2023-08-08 10:05:34.0694|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:05:34 am
+2023-08-08 10:06:34.3249|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 10:06:34 am
+2023-08-08 10:06:34.3249|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 10:06:34 am
+2023-08-08 10:06:56.9105|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 10:06:56 am
+2023-08-08 10:07:34.0476|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:07:34 am
+2023-08-08 10:07:34.0476|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:07:34 am
+2023-08-08 10:07:34.8814|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 10:07:34 am
+2023-08-08 10:07:34.9861|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 10:07:34 am
+2023-08-08 10:09:34.0443|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:09:34 am
+2023-08-08 10:09:34.0443|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:09:34 am
+2023-08-08 10:10:34.5804|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 10:10:34 am
+2023-08-08 10:10:34.5893|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 10:10:34 am
+2023-08-08 10:11:34.0491|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 10:11:34 am
+2023-08-08 10:11:34.0491|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 10:11:34 am
+2023-08-08 10:11:34.0581|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:11:34 am
+2023-08-08 10:11:34.0581|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:11:34 am
+2023-08-08 10:11:34.3234|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 10:11:34 am
+2023-08-08 10:11:34.3234|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 10:11:34 am
+2023-08-08 10:11:56.9341|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 10:11:56 am
+2023-08-08 10:13:34.0740|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:13:34 am
+2023-08-08 10:13:34.0889|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:13:34 am
+2023-08-08 10:13:34.5846|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 10:13:34 am
+2023-08-08 10:13:34.5916|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 10:13:34 am
+2023-08-08 10:15:34.0572|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:15:34 am
+2023-08-08 10:15:34.0572|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:15:34 am
+2023-08-08 10:16:34.3291|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 10:16:34 am
+2023-08-08 10:16:34.3650|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 10:16:34 am
+2023-08-08 10:16:34.5754|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 10:16:34 am
+2023-08-08 10:16:34.5754|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 10:16:34 am
+2023-08-08 10:16:56.9166|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 10:16:56 am
+2023-08-08 10:17:34.0451|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:17:34 am
+2023-08-08 10:17:34.0579|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:17:34 am
+2023-08-08 10:19:47.1049|INFO|apkRegLogger|
+
+ -------- AutoSMS Scheduler Started -------------|AT: 0 0 0/4 1/1 * ? *
+2023-08-08 10:19:47.2844|INFO|apkRegLogger|
+
+ -------- Firebase Cron Scheduler Started -------------|AT: 0 0 0/4 1/1 * ? *
+2023-08-08 10:19:47.3253|INFO|apkRegLogger|
+
+ -------- Events Scheduler Started -------------|AT: 0 30 08 ? * *
+2023-08-08 10:19:47.3722|INFO|apkRegLogger|Naudabao Synch Scheduler Entered08-08-2023 10:19:47 am
+2023-08-08 10:19:47.3862|INFO|apkRegLogger|Naudabao Synch Scheduler Started08-08-2023 10:19:47 am
+2023-08-08 10:19:47.3862|INFO|apkRegLogger|
+
+ -------- knowlaritycallsynch Cron Scheduler Started -------------|AT: 0 0 0/4 1/1 * ? *
+2023-08-08 10:19:47.4071|INFO|apkRegLogger|
+ Event_DailyEventMsgNotification Running  --> DateTime: 08-08-2023 10:19:47 am
+2023-08-08 10:19:47.4670|INFO|apkRegLogger|
+ Admin Change Assignment : 08-08-2023 10:19:47 am
+2023-08-08 10:19:48.6997|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 10:19:48 am
+2023-08-08 10:19:48.6997|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 10:19:48 am
+2023-08-08 10:19:48.6997|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 10:19:48 am
+2023-08-08 10:19:48.7156|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 10:19:48 am
+2023-08-08 10:19:48.7635|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 10:19:48 am
+2023-08-08 10:19:48.7635|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 10:19:48 am
+2023-08-08 10:19:48.8084|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:19:48 am
+2023-08-08 10:19:48.8373|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:19:48 am
+2023-08-08 10:20:02.8220|INFO|apkRegLogger|
+
+ --------individualReport AutoSMS Scheduler Started -------------|AT: 0 0 0/4 1/1 * ? *
+2023-08-08 10:20:02.9038|INFO|apkRegLogger|
+
+ -------- AutoWhatsapp Scheduler Started -------------|AT: 0 0 0/1 1/1 * ? *
+2023-08-08 10:20:03.0774|INFO|apkRegLogger|
+
+ -------- Cron Job MySql To MsSql 0 0,45 0,18 ? * * * : 
+2023-08-08 10:20:03.0903|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 10:20:03 am
+2023-08-08 10:20:03.1372|INFO|apkRegLogger|
+
+ -------- Pulling data from  Autosherpasmysql to IndusMssql -------------AT  : 08-08-2023 10:20:03 am
+2023-08-08 10:20:03.3387|INFO|apkRegLogger|
+
+ --------  Done-------------
+2023-08-08 10:20:03.3387|INFO|apkRegLogger|
+
+ -------- Pulling data from autosherpaMysql to IndusMssql Ended -------------AT  : 08-08-2023 10:20:03 am
+2023-08-08 10:21:47.3571|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:21:47 am
+2023-08-08 10:21:47.3571|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:21:47 am
+2023-08-08 10:22:47.4077|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 10:22:47 am
+2023-08-08 10:22:47.4446|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 10:22:47 am
+2023-08-08 10:23:47.3460|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:23:47 am
+2023-08-08 10:23:47.3639|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:23:47 am
+2023-08-08 10:24:47.3755|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 10:24:47 am
+2023-08-08 10:24:47.3894|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 10:24:47 am
+2023-08-08 10:25:03.0744|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 10:25:03 am
+2023-08-08 10:25:47.3412|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:25:47 am
+2023-08-08 10:25:47.3412|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:25:47 am
+2023-08-08 10:25:47.4419|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 10:25:47 am
+2023-08-08 10:25:47.4489|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 10:25:47 am
+2023-08-08 10:27:47.3636|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:27:47 am
+2023-08-08 10:27:47.3735|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:27:47 am
+2023-08-08 10:28:47.4187|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 10:28:47 am
+2023-08-08 10:28:47.4187|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 10:28:47 am
+2023-08-08 10:29:47.3328|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:29:47 am
+2023-08-08 10:29:47.3393|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:29:47 am
+2023-08-08 10:29:47.3393|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 10:29:47 am
+2023-08-08 10:29:47.3542|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 10:29:47 am
+2023-08-08 10:29:47.3795|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 10:29:47 am
+2023-08-08 10:29:47.3855|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 10:29:47 am
+2023-08-08 10:30:03.1108|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 10:30:03 am
+2023-08-08 10:31:47.3417|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:31:47 am
+2023-08-08 10:31:47.3417|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:31:47 am
+2023-08-08 10:31:47.4038|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 10:31:47 am
+2023-08-08 10:31:47.4038|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 10:31:47 am
+2023-08-08 10:33:47.3455|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:33:47 am
+2023-08-08 10:33:47.3585|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:33:47 am
+2023-08-08 10:34:47.4170|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 10:34:47 am
+2023-08-08 10:34:47.4668|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 10:34:47 am
+2023-08-08 10:34:47.5306|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 10:34:47 am
+2023-08-08 10:34:47.5476|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 10:34:47 am
+2023-08-08 10:35:03.1289|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 10:35:03 am
+2023-08-08 10:35:47.3400|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:35:47 am
+2023-08-08 10:35:47.3588|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:35:47 am
+2023-08-08 10:37:47.3470|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:37:47 am
+2023-08-08 10:37:47.3569|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:37:47 am
+2023-08-08 10:37:47.4097|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 10:37:47 am
+2023-08-08 10:37:47.4286|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 10:37:47 am
+2023-08-08 10:39:47.3416|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:39:47 am
+2023-08-08 10:39:47.3605|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 10:39:47 am
+2023-08-08 10:39:47.3605|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:39:47 am
+2023-08-08 10:39:47.3605|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 10:39:47 am
+2023-08-08 10:39:47.3884|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 10:39:47 am
+2023-08-08 10:39:47.3884|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 10:39:47 am
+2023-08-08 10:40:03.0625|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 10:40:03 am
+2023-08-08 10:40:47.4177|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 10:40:47 am
+2023-08-08 10:40:47.4177|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 10:40:47 am
+2023-08-08 10:41:47.3392|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:41:47 am
+2023-08-08 10:41:47.3392|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:41:47 am
+2023-08-08 10:43:47.3405|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:43:47 am
+2023-08-08 10:43:47.3405|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:43:47 am
+2023-08-08 10:43:47.4133|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 10:43:47 am
+2023-08-08 10:43:47.4193|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 10:43:47 am
+2023-08-08 10:44:47.4116|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 10:44:47 am
+2023-08-08 10:44:47.4325|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 10:44:47 am
+2023-08-08 10:45:03.0608|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 10:45:03 am
+2023-08-08 10:45:47.3638|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:45:47 am
+2023-08-08 10:45:47.3717|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:45:47 am
+2023-08-08 10:46:47.4097|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 10:46:47 am
+2023-08-08 10:46:47.4167|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 10:46:47 am
+2023-08-08 10:47:47.3396|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:47:47 am
+2023-08-08 10:47:47.3396|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:47:47 am
+2023-08-08 10:49:47.2830|INFO|apkRegLogger|
+ Admin Change Assignment : 08-08-2023 10:49:47 am
+2023-08-08 10:49:47.3607|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:49:47 am
+2023-08-08 10:49:47.3607|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:49:47 am
+2023-08-08 10:49:47.3857|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 10:49:47 am
+2023-08-08 10:49:47.4026|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 10:49:47 am
+2023-08-08 10:49:47.4166|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 10:49:47 am
+2023-08-08 10:49:47.4166|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 10:49:47 am
+2023-08-08 10:49:47.4326|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 10:49:47 am
+2023-08-08 10:49:47.4545|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 10:49:47 am
+2023-08-08 10:50:03.0627|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 10:50:03 am
+2023-08-08 10:51:47.3391|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:51:47 am
+2023-08-08 10:51:47.3391|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:51:47 am
+2023-08-08 10:52:47.4114|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 10:52:47 am
+2023-08-08 10:52:47.4198|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 10:52:47 am
+2023-08-08 10:53:47.3418|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:53:47 am
+2023-08-08 10:53:47.3547|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:53:47 am
+2023-08-08 10:54:47.3757|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 10:54:47 am
+2023-08-08 10:54:47.3757|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 10:54:47 am
+2023-08-08 10:55:03.0577|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 10:55:03 am
+2023-08-08 10:55:47.3397|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:55:47 am
+2023-08-08 10:55:47.3576|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:55:47 am
+2023-08-08 10:55:47.4185|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 10:55:47 am
+2023-08-08 10:55:47.4185|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 10:55:47 am
+2023-08-08 10:57:47.3411|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:57:47 am
+2023-08-08 10:57:47.3411|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:57:47 am
+2023-08-08 10:58:47.4038|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 10:58:47 am
+2023-08-08 10:58:47.4038|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 10:58:47 am
+2023-08-08 10:59:47.3414|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 10:59:47 am
+2023-08-08 10:59:47.3543|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 10:59:47 am
+2023-08-08 10:59:47.3543|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 10:59:47 am
+2023-08-08 10:59:47.3543|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 10:59:47 am
+2023-08-08 10:59:47.3753|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 10:59:47 am
+2023-08-08 10:59:47.3753|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 10:59:47 am
+2023-08-08 11:00:00.0330|INFO|apkRegLogger|
+ Auto Whatsapp Cron Job Started: 08-08-2023 11:00:00 am
+2023-08-08 11:00:03.0600|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 11:00:03 am
+2023-08-08 11:01:47.3553|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:01:47 am
+2023-08-08 11:01:47.3553|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:01:47 am
+2023-08-08 11:01:47.4083|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 11:01:47 am
+2023-08-08 11:01:47.4083|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 11:01:47 am
+2023-08-08 11:03:47.3411|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:03:47 am
+2023-08-08 11:03:47.3411|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:03:47 am
+2023-08-08 11:04:47.3853|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 11:04:47 am
+2023-08-08 11:04:47.3853|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 11:04:47 am
+2023-08-08 11:04:47.4192|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 11:04:47 am
+2023-08-08 11:04:47.4192|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 11:04:47 am
+2023-08-08 11:05:03.0616|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 11:05:03 am
+2023-08-08 11:05:47.3748|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:05:47 am
+2023-08-08 11:05:47.3748|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:05:47 am
+2023-08-08 11:07:47.3415|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:07:47 am
+2023-08-08 11:07:47.3415|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:07:47 am
+2023-08-08 11:07:47.4168|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 11:07:47 am
+2023-08-08 11:07:47.4168|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 11:07:47 am
+2023-08-08 11:09:47.3390|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:09:47 am
+2023-08-08 11:09:47.3713|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:09:47 am
+2023-08-08 11:09:47.3594|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 11:09:47 am
+2023-08-08 11:09:47.3713|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 11:09:47 am
+2023-08-08 11:09:47.3903|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 11:09:47 am
+2023-08-08 11:09:47.3903|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 11:09:47 am
+2023-08-08 11:10:03.0572|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 11:10:03 am
+2023-08-08 11:10:47.4179|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 11:10:47 am
+2023-08-08 11:10:47.4179|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 11:10:47 am
+2023-08-08 11:11:47.3409|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:11:47 am
+2023-08-08 11:11:47.3572|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:11:47 am
+2023-08-08 11:13:47.3443|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:13:47 am
+2023-08-08 11:13:47.3443|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:13:47 am
+2023-08-08 11:13:47.4166|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 11:13:47 am
+2023-08-08 11:13:47.4166|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 11:13:47 am
+2023-08-08 11:14:47.3882|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 11:14:47 am
+2023-08-08 11:14:47.4141|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 11:14:47 am
+2023-08-08 11:15:03.0733|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 11:15:03 am
+2023-08-08 11:15:47.3401|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:15:47 am
+2023-08-08 11:15:47.3560|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:15:47 am
+2023-08-08 11:16:47.4168|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 11:16:47 am
+2023-08-08 11:16:47.4168|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 11:16:47 am
+2023-08-08 11:17:47.3424|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:17:47 am
+2023-08-08 11:17:47.3424|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:17:47 am
+2023-08-08 11:19:47.2919|INFO|apkRegLogger|
+ Admin Change Assignment : 08-08-2023 11:19:47 am
+2023-08-08 11:19:47.3428|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:19:47 am
+2023-08-08 11:19:47.3557|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:19:47 am
+2023-08-08 11:19:47.3557|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 11:19:47 am
+2023-08-08 11:19:47.3557|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 11:19:47 am
+2023-08-08 11:19:47.3866|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 11:19:47 am
+2023-08-08 11:19:47.3866|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 11:19:47 am
+2023-08-08 11:19:47.4166|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 11:19:47 am
+2023-08-08 11:19:47.4166|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 11:19:47 am
+2023-08-08 11:20:03.0572|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 11:20:03 am
+2023-08-08 11:21:47.3419|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:21:47 am
+2023-08-08 11:21:47.3548|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:21:47 am
+2023-08-08 11:22:47.4106|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 11:22:47 am
+2023-08-08 11:22:47.4185|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 11:22:47 am
+2023-08-08 11:23:47.3416|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:23:47 am
+2023-08-08 11:23:47.3416|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:23:47 am
+2023-08-08 11:24:47.3866|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 11:24:47 am
+2023-08-08 11:24:47.3866|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 11:24:47 am
+2023-08-08 11:25:03.0502|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 11:25:03 am
+2023-08-08 11:25:47.3445|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:25:47 am
+2023-08-08 11:25:47.3549|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:25:47 am
+2023-08-08 11:25:47.4071|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 11:25:47 am
+2023-08-08 11:25:47.4071|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 11:25:47 am
+2023-08-08 11:27:47.3415|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:27:47 am
+2023-08-08 11:27:47.3415|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:27:47 am
+2023-08-08 11:28:47.4038|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 11:28:47 am
+2023-08-08 11:28:47.4038|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 11:28:47 am
+2023-08-08 11:29:47.3401|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:29:47 am
+2023-08-08 11:29:47.3570|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:29:47 am
+2023-08-08 11:29:47.3710|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 11:29:47 am
+2023-08-08 11:29:47.3710|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 11:29:47 am
+2023-08-08 11:29:47.3860|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 11:29:47 am
+2023-08-08 11:29:47.3860|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 11:29:47 am
+2023-08-08 11:30:03.0580|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 11:30:03 am
+2023-08-08 11:31:47.3344|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:31:47 am
+2023-08-08 11:31:47.3414|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:31:47 am
+2023-08-08 11:31:47.4168|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 11:31:47 am
+2023-08-08 11:31:47.4168|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 11:31:47 am
+2023-08-08 11:33:47.3427|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:33:47 am
+2023-08-08 11:33:47.3567|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:33:47 am
+2023-08-08 11:34:47.3861|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 11:34:47 am
+2023-08-08 11:34:47.3861|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 11:34:47 am
+2023-08-08 11:34:47.4171|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 11:34:47 am
+2023-08-08 11:34:47.4171|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 11:34:47 am
+2023-08-08 11:35:03.0586|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 11:35:03 am
+2023-08-08 11:35:47.3547|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:35:47 am
+2023-08-08 11:35:47.3547|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:35:47 am
+2023-08-08 11:37:47.3451|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:37:47 am
+2023-08-08 11:37:47.3591|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:37:47 am
+2023-08-08 11:37:47.4050|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 11:37:47 am
+2023-08-08 11:37:47.4050|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 11:37:47 am
+2023-08-08 11:39:47.3483|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:39:47 am
+2023-08-08 11:39:47.3553|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 11:39:47 am
+2023-08-08 11:39:47.3553|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:39:47 am
+2023-08-08 11:39:47.3553|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 11:39:47 am
+2023-08-08 11:39:47.3702|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 11:39:47 am
+2023-08-08 11:39:47.3702|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 11:39:47 am
+2023-08-08 11:40:03.0604|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 11:40:03 am
+2023-08-08 11:40:47.4173|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 11:40:47 am
+2023-08-08 11:40:47.4396|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 11:40:47 am
+2023-08-08 11:41:47.3452|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:41:47 am
+2023-08-08 11:41:47.3452|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:41:47 am
+2023-08-08 11:43:47.3568|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:43:47 am
+2023-08-08 11:43:47.3568|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:43:47 am
+2023-08-08 11:43:47.4107|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 11:43:47 am
+2023-08-08 11:43:47.4167|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 11:43:47 am
+2023-08-08 11:44:47.3860|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 11:44:47 am
+2023-08-08 11:44:47.3860|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 11:44:47 am
+2023-08-08 11:45:03.0734|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 11:45:03 am
+2023-08-08 11:45:47.3455|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:45:47 am
+2023-08-08 11:45:47.3455|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:45:47 am
+2023-08-08 11:46:47.4059|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 11:46:47 am
+2023-08-08 11:46:47.4059|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 11:46:47 am
+2023-08-08 11:47:47.3434|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:47:47 am
+2023-08-08 11:47:47.3624|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:47:47 am
+2023-08-08 11:49:47.2812|INFO|apkRegLogger|
+ Admin Change Assignment : 08-08-2023 11:49:47 am
+2023-08-08 11:49:47.3431|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:49:47 am
+2023-08-08 11:49:47.3540|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 11:49:47 am
+2023-08-08 11:49:47.3810|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 11:49:47 am
+2023-08-08 11:49:47.3810|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:49:47 am
+2023-08-08 11:49:47.4169|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 11:49:47 am
+2023-08-08 11:49:47.4169|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 11:49:47 am
+2023-08-08 11:49:47.4169|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 11:49:47 am
+2023-08-08 11:49:47.4169|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 11:49:47 am
+2023-08-08 11:50:03.0577|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 11:50:03 am
+2023-08-08 11:51:47.3405|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:51:47 am
+2023-08-08 11:51:47.3581|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:51:47 am
+2023-08-08 11:52:47.4122|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 11:52:47 am
+2023-08-08 11:52:47.4122|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 11:52:47 am
+2023-08-08 11:53:47.3408|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:53:47 am
+2023-08-08 11:53:47.3408|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:53:47 am
+2023-08-08 11:54:47.3900|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 11:54:47 am
+2023-08-08 11:54:47.3900|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 11:54:47 am
+2023-08-08 11:55:03.0735|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 11:55:03 am
+2023-08-08 11:55:47.3388|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:55:47 am
+2023-08-08 11:55:47.3388|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:55:47 am
+2023-08-08 11:55:47.4170|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 11:55:47 am
+2023-08-08 11:55:47.4170|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 11:55:47 am
+2023-08-08 11:57:47.3562|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:57:47 am
+2023-08-08 11:57:47.3562|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:57:47 am
+2023-08-08 11:58:47.4084|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 11:58:47 am
+2023-08-08 11:58:47.4213|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 11:58:47 am
+2023-08-08 11:59:47.3347|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 11:59:47 am
+2023-08-08 11:59:47.3399|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 11:59:47 am
+2023-08-08 11:59:47.3399|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 11:59:47 am
+2023-08-08 11:59:47.3549|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 11:59:47 am
+2023-08-08 11:59:47.3868|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 11:59:47 am
+2023-08-08 11:59:47.3868|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 11:59:47 am
+2023-08-08 12:00:00.0435|INFO|apkRegLogger|
+ Auto Whatsapp Cron Job Started: 08-08-2023 12:00:00 pm
+2023-08-08 12:00:00.0764|INFO|apkRegLogger|
+ Auto SMS Cron Job Started: 08-08-2023 12:00:00 pm
+2023-08-08 12:00:00.0764|INFO|apkRegLogger|
+ Android CallSynch Started at: 08-08-2023 12:00:00 pm
+2023-08-08 12:00:00.0764|INFO|apkRegLogger|
+ individualReport AUTO SMS Cron Job Started: 08-08-2023 12:00:00 pm
+2023-08-08 12:00:00.0893|INFO|apkRegLogger|
+ Android CallSynch Stopped at: 08-08-2023 12:00:00 pm
+2023-08-08 12:00:03.0582|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 12:00:03 pm
+2023-08-08 12:01:47.3415|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:01:47 pm
+2023-08-08 12:01:47.3635|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:01:47 pm
+2023-08-08 12:01:47.4183|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 12:01:47 pm
+2023-08-08 12:01:47.4183|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 12:01:47 pm
+2023-08-08 12:03:47.3459|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:03:47 pm
+2023-08-08 12:03:47.3459|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:03:47 pm
+2023-08-08 12:04:47.3861|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 12:04:47 pm
+2023-08-08 12:04:47.3861|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 12:04:47 pm
+2023-08-08 12:04:47.4041|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 12:04:47 pm
+2023-08-08 12:04:47.4190|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 12:04:47 pm
+2023-08-08 12:05:03.0612|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 12:05:03 pm
+2023-08-08 12:05:47.3390|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:05:47 pm
+2023-08-08 12:05:47.3390|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:05:47 pm
+2023-08-08 12:07:47.3395|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:07:47 pm
+2023-08-08 12:07:47.3564|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:07:47 pm
+2023-08-08 12:07:47.4088|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 12:07:47 pm
+2023-08-08 12:07:47.4177|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 12:07:47 pm
+2023-08-08 12:09:47.3422|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:09:47 pm
+2023-08-08 12:09:47.3562|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:09:47 pm
+2023-08-08 12:09:47.3891|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 12:09:47 pm
+2023-08-08 12:09:47.4020|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 12:09:47 pm
+2023-08-08 12:09:47.4200|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 12:09:47 pm
+2023-08-08 12:09:47.4200|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 12:09:47 pm
+2023-08-08 12:10:03.0574|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 12:10:03 pm
+2023-08-08 12:10:47.4168|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 12:10:47 pm
+2023-08-08 12:10:47.4517|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 12:10:47 pm
+2023-08-08 12:11:47.3440|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:11:47 pm
+2023-08-08 12:11:47.3440|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:11:47 pm
+2023-08-08 12:13:47.3310|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:13:47 pm
+2023-08-08 12:13:47.3310|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:13:47 pm
+2023-08-08 12:13:47.4496|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 12:13:47 pm
+2023-08-08 12:13:47.4496|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 12:13:47 pm
+2023-08-08 12:14:47.3925|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 12:14:47 pm
+2023-08-08 12:14:47.3925|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 12:14:47 pm
+2023-08-08 12:15:03.0582|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 12:15:03 pm
+2023-08-08 12:15:47.3416|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:15:47 pm
+2023-08-08 12:15:47.3416|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:15:47 pm
+2023-08-08 12:16:47.4176|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 12:16:47 pm
+2023-08-08 12:16:47.4176|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 12:16:47 pm
+2023-08-08 12:17:47.3547|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:17:47 pm
+2023-08-08 12:17:47.3547|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:17:47 pm
+2023-08-08 12:19:47.2919|INFO|apkRegLogger|
+ Admin Change Assignment : 08-08-2023 12:19:47 pm
+2023-08-08 12:19:47.3407|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:19:47 pm
+2023-08-08 12:19:47.3407|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:19:47 pm
+2023-08-08 12:19:47.3557|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 12:19:47 pm
+2023-08-08 12:19:47.3557|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 12:19:47 pm
+2023-08-08 12:19:47.3796|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 12:19:47 pm
+2023-08-08 12:19:47.3856|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 12:19:47 pm
+2023-08-08 12:19:47.4115|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 12:19:47 pm
+2023-08-08 12:19:47.4175|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 12:19:47 pm
+2023-08-08 12:20:03.0734|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 12:20:03 pm
+2023-08-08 12:21:47.3433|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:21:47 pm
+2023-08-08 12:21:47.3433|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:21:47 pm
+2023-08-08 12:22:47.4169|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 12:22:47 pm
+2023-08-08 12:22:47.4169|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 12:22:47 pm
+2023-08-08 12:23:47.3388|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:23:47 pm
+2023-08-08 12:23:47.3556|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:23:47 pm
+2023-08-08 12:24:47.3855|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 12:24:47 pm
+2023-08-08 12:24:47.3855|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 12:24:47 pm
+2023-08-08 12:25:03.0625|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 12:25:03 pm
+2023-08-08 12:25:47.3548|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:25:47 pm
+2023-08-08 12:25:47.3548|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:25:47 pm
+2023-08-08 12:25:47.4097|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 12:25:47 pm
+2023-08-08 12:25:47.4207|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 12:25:47 pm
+2023-08-08 12:27:47.3352|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:27:47 pm
+2023-08-08 12:27:47.3402|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:27:47 pm
+2023-08-08 12:28:47.4169|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 12:28:47 pm
+2023-08-08 12:28:47.4169|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 12:28:47 pm
+2023-08-08 12:29:47.3545|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:29:47 pm
+2023-08-08 12:29:47.3545|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:29:47 pm
+2023-08-08 12:29:47.3785|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 12:29:47 pm
+2023-08-08 12:29:47.3934|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 12:29:47 pm
+2023-08-08 12:29:47.4094|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 12:29:47 pm
+2023-08-08 12:29:47.4094|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 12:29:47 pm
+2023-08-08 12:30:03.0608|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 12:30:03 pm
+2023-08-08 12:31:47.3390|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:31:47 pm
+2023-08-08 12:31:47.3390|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:31:47 pm
+2023-08-08 12:31:47.4243|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 12:31:47 pm
+2023-08-08 12:31:47.4243|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 12:31:47 pm
+2023-08-08 12:33:47.3397|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:33:47 pm
+2023-08-08 12:33:47.3557|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:33:47 pm
+2023-08-08 12:34:47.3858|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 12:34:47 pm
+2023-08-08 12:34:47.3858|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 12:34:47 pm
+2023-08-08 12:34:47.4198|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 12:34:47 pm
+2023-08-08 12:34:47.4198|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 12:34:47 pm
+2023-08-08 12:35:03.0582|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 12:35:03 pm
+2023-08-08 12:35:47.3463|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:35:47 pm
+2023-08-08 12:35:47.3463|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:35:47 pm
+2023-08-08 12:37:47.3442|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:37:47 pm
+2023-08-08 12:37:47.3741|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:37:47 pm
+2023-08-08 12:37:47.4180|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 12:37:47 pm
+2023-08-08 12:37:47.4180|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 12:37:47 pm
+2023-08-08 12:39:47.3394|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:39:47 pm
+2023-08-08 12:39:47.3542|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:39:47 pm
+2023-08-08 12:39:47.4090|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 12:39:47 pm
+2023-08-08 12:39:47.4090|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 12:39:47 pm
+2023-08-08 12:39:47.4170|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 12:39:47 pm
+2023-08-08 12:39:47.4170|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 12:39:47 pm
+2023-08-08 12:40:03.0620|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 12:40:03 pm
+2023-08-08 12:40:47.4033|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 12:40:47 pm
+2023-08-08 12:40:47.4033|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 12:40:47 pm
+2023-08-08 12:41:47.3407|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:41:47 pm
+2023-08-08 12:41:47.3407|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:41:47 pm
+2023-08-08 12:43:47.3417|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:43:47 pm
+2023-08-08 12:43:47.3556|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:43:47 pm
+2023-08-08 12:43:47.4175|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 12:43:47 pm
+2023-08-08 12:43:47.4474|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 12:43:47 pm
+2023-08-08 12:44:47.4025|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 12:44:47 pm
+2023-08-08 12:44:47.4025|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 12:44:47 pm
+2023-08-08 12:45:03.0663|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 12:45:03 pm
+2023-08-08 12:45:47.3399|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:45:47 pm
+2023-08-08 12:45:47.3399|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:45:47 pm
+2023-08-08 12:46:47.4197|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 12:46:47 pm
+2023-08-08 12:46:47.4197|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 12:46:47 pm
+2023-08-08 12:47:47.3403|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:47:47 pm
+2023-08-08 12:47:47.3584|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:47:47 pm
+2023-08-08 12:49:47.2942|INFO|apkRegLogger|
+ Admin Change Assignment : 08-08-2023 12:49:47 pm
+2023-08-08 12:49:47.3393|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:49:47 pm
+2023-08-08 12:49:47.3393|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:49:47 pm
+2023-08-08 12:49:47.3552|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 12:49:47 pm
+2023-08-08 12:49:47.3552|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 12:49:47 pm
+2023-08-08 12:49:47.3861|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 12:49:47 pm
+2023-08-08 12:49:47.3861|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 12:49:47 pm
+2023-08-08 12:49:47.4021|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 12:49:47 pm
+2023-08-08 12:49:47.4021|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 12:49:47 pm
+2023-08-08 12:50:03.0579|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 12:50:03 pm
+2023-08-08 12:51:47.3431|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:51:47 pm
+2023-08-08 12:51:47.3540|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:51:47 pm
+2023-08-08 12:52:47.4176|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 12:52:47 pm
+2023-08-08 12:52:47.4176|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 12:52:47 pm
+2023-08-08 12:53:47.3544|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:53:47 pm
+2023-08-08 12:53:47.3544|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:53:47 pm
+2023-08-08 12:54:47.3939|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 12:54:47 pm
+2023-08-08 12:54:47.4101|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 12:54:47 pm
+2023-08-08 12:55:03.0516|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 12:55:03 pm
+2023-08-08 12:55:47.3410|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:55:47 pm
+2023-08-08 12:55:47.3410|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:55:47 pm
+2023-08-08 12:55:47.4171|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 12:55:47 pm
+2023-08-08 12:55:47.4171|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 12:55:47 pm
+2023-08-08 12:57:47.3385|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:57:47 pm
+2023-08-08 12:57:47.3385|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:57:47 pm
+2023-08-08 12:58:47.4174|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 12:58:47 pm
+2023-08-08 12:58:47.4344|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 12:58:47 pm
+2023-08-08 12:59:47.3316|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 12:59:47 pm
+2023-08-08 12:59:47.3402|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 12:59:47 pm
+2023-08-08 12:59:47.3402|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 12:59:47 pm
+2023-08-08 12:59:47.3402|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 12:59:47 pm
+2023-08-08 12:59:47.3783|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 12:59:47 pm
+2023-08-08 12:59:47.3852|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 12:59:47 pm
+2023-08-08 13:00:00.0310|INFO|apkRegLogger|
+ Auto Whatsapp Cron Job Started: 08-08-2023 1:00:00 pm
+2023-08-08 13:00:03.0600|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 1:00:03 pm
+2023-08-08 13:01:47.3402|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 1:01:47 pm
+2023-08-08 13:01:47.3562|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 1:01:47 pm
+2023-08-08 13:01:47.4130|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 1:01:47 pm
+2023-08-08 13:01:47.4180|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 1:01:47 pm
+2023-08-08 13:03:47.3413|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 1:03:47 pm
+2023-08-08 13:03:47.3413|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 1:03:47 pm
+2023-08-08 13:04:47.4039|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 1:04:47 pm
+2023-08-08 13:04:47.4178|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 1:04:47 pm
+2023-08-08 13:04:47.4178|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 1:04:47 pm
+2023-08-08 13:04:47.4378|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 1:04:47 pm
+2023-08-08 13:05:03.0732|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 1:05:03 pm
+2023-08-08 13:05:47.3408|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 1:05:47 pm
+2023-08-08 13:05:47.3408|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 1:05:47 pm
+2023-08-08 13:07:47.3442|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 1:07:47 pm
+2023-08-08 13:07:47.3541|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 1:07:47 pm
+2023-08-08 13:07:47.4180|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 1:07:47 pm
+2023-08-08 13:07:47.4180|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 1:07:47 pm
+2023-08-08 13:09:47.3554|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 1:09:47 pm
+2023-08-08 13:09:47.3554|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 1:09:47 pm
+2023-08-08 13:09:47.3864|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 1:09:47 pm
+2023-08-08 13:09:47.4023|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 1:09:47 pm
+2023-08-08 13:09:47.4223|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 1:09:47 pm
+2023-08-08 13:09:47.4223|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 1:09:47 pm
+2023-08-08 13:10:03.0485|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 1:10:03 pm
+2023-08-08 13:10:47.4182|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 1:10:47 pm
+2023-08-08 13:10:47.4361|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 1:10:47 pm
+2023-08-08 13:11:47.3393|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 1:11:47 pm
+2023-08-08 13:11:47.3393|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 1:11:47 pm
+2023-08-08 13:13:47.3398|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 1:13:47 pm
+2023-08-08 13:13:47.3398|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 1:13:47 pm
+2023-08-08 13:13:47.4124|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 1:13:47 pm
+2023-08-08 13:13:47.4184|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 1:13:47 pm
+2023-08-08 13:14:47.3860|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 1:14:47 pm
+2023-08-08 13:14:47.3860|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 1:14:47 pm
+2023-08-08 13:15:03.0580|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 1:15:03 pm
+2023-08-08 13:15:47.3411|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 1:15:47 pm
+2023-08-08 13:15:47.3577|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 1:15:47 pm
+2023-08-08 13:16:47.4175|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 1:16:47 pm
+2023-08-08 13:16:47.4175|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 1:16:47 pm
+2023-08-08 13:17:47.3540|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 1:17:47 pm
+2023-08-08 13:17:47.3540|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 1:17:47 pm
+2023-08-08 13:19:47.2919|INFO|apkRegLogger|
+ Admin Change Assignment : 08-08-2023 1:19:47 pm
+2023-08-08 13:19:47.3396|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 1:19:47 pm
+2023-08-08 13:19:47.3396|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 1:19:47 pm
+2023-08-08 13:19:47.3396|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 1:19:47 pm
+2023-08-08 13:19:47.3555|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 1:19:47 pm
+2023-08-08 13:19:47.3745|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 1:19:47 pm
+2023-08-08 13:19:47.3745|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 1:19:47 pm
+2023-08-08 13:19:47.4024|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 1:19:47 pm
+2023-08-08 13:19:47.4024|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 1:19:47 pm
+2023-08-08 13:20:03.0651|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 1:20:03 pm
+2023-08-08 13:21:47.3384|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 1:21:47 pm
+2023-08-08 13:21:47.3384|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 1:21:47 pm
+2023-08-08 13:22:47.4191|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 1:22:47 pm
+2023-08-08 13:22:47.4420|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 1:22:47 pm
+2023-08-08 13:23:47.3414|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 1:23:47 pm
+2023-08-08 13:23:47.3574|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 1:23:47 pm
+2023-08-08 13:24:47.3869|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 1:24:47 pm
+2023-08-08 13:24:47.4038|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 1:24:47 pm
+2023-08-08 13:25:03.0643|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 1:25:03 pm
+2023-08-08 13:25:47.3417|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 1:25:47 pm
+2023-08-08 13:25:47.3417|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 1:25:47 pm
+2023-08-08 13:25:47.4075|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 1:25:47 pm
+2023-08-08 13:25:47.4075|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 1:25:47 pm
+2023-08-08 13:27:47.3413|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 1:27:47 pm
+2023-08-08 13:27:47.3413|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 1:27:47 pm
+2023-08-08 13:28:47.4576|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 1:28:47 pm
+2023-08-08 13:28:47.4876|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 1:28:47 pm
+2023-08-08 13:29:47.3388|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 1:29:47 pm
+2023-08-08 13:29:47.3388|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 1:29:47 pm
+2023-08-08 13:29:47.3388|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 1:29:47 pm
+2023-08-08 13:29:47.3388|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 1:29:47 pm
+2023-08-08 13:29:47.4056|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 1:29:47 pm
+2023-08-08 13:29:47.4176|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 1:29:47 pm
+2023-08-08 13:30:03.0572|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 1:30:03 pm
+2023-08-08 13:31:47.3584|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 1:31:47 pm
+2023-08-08 13:31:47.3584|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 1:31:47 pm
+2023-08-08 13:31:47.4103|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 1:31:47 pm
+2023-08-08 13:31:47.4183|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 1:31:47 pm
+2023-08-08 15:06:52.2453|INFO|apkRegLogger|
+
+ -------- AutoSMS Scheduler Started -------------|AT: 0 0 0/4 1/1 * ? *
+2023-08-08 15:06:52.4388|INFO|apkRegLogger|
+
+ -------- Firebase Cron Scheduler Started -------------|AT: 0 0 0/4 1/1 * ? *
+2023-08-08 15:06:52.4647|INFO|apkRegLogger|
+
+ -------- Events Scheduler Started -------------|AT: 0 30 08 ? * *
+2023-08-08 15:06:52.5345|INFO|apkRegLogger|Naudabao Synch Scheduler Entered08-08-2023 3:06:52 pm
+2023-08-08 15:06:52.5445|INFO|apkRegLogger|Naudabao Synch Scheduler Started08-08-2023 3:06:52 pm
+2023-08-08 15:06:52.6153|INFO|apkRegLogger|
+ Admin Change Assignment : 08-08-2023 3:06:52 pm
+2023-08-08 15:06:52.6582|INFO|apkRegLogger|
+
+ -------- knowlaritycallsynch Cron Scheduler Started -------------|AT: 0 0 0/4 1/1 * ? *
+2023-08-08 15:06:52.7300|INFO|apkRegLogger|
+ Event_DailyEventMsgNotification Running  --> DateTime: 08-08-2023 3:06:52 pm
+2023-08-08 15:06:54.7526|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 3:06:54 pm
+2023-08-08 15:06:54.7526|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 3:06:54 pm
+2023-08-08 15:06:54.7616|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:06:54 pm
+2023-08-08 15:06:54.7616|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:06:54 pm
+2023-08-08 15:06:54.7616|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 3:06:54 pm
+2023-08-08 15:06:54.7805|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 3:06:54 pm
+2023-08-08 15:06:54.7805|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 3:06:54 pm
+2023-08-08 15:06:54.7805|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 3:06:54 pm
+2023-08-08 15:07:14.2131|INFO|apkRegLogger|
+
+ -------- Event_DailyEventMsgNotification Scheduler OutBlock -------
+Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+2023-08-08 15:07:14.2160|INFO|apkRegLogger|
+
+ --------individualReport AutoSMS Scheduler Started -------------|AT: 0 0 0/4 1/1 * ? *
+2023-08-08 15:07:14.2480|INFO|apkRegLogger|
+
+ -------- AutoWhatsapp Scheduler Started -------------|AT: 0 0 0/1 1/1 * ? *
+2023-08-08 15:07:14.2759|INFO|apkRegLogger|
+
+ -------- Cron Job MySql To MsSql 0 0,45 0,18 ? * * * : 
+2023-08-08 15:07:14.3018|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 3:07:14 pm
+2023-08-08 15:07:14.3587|INFO|apkRegLogger|
+
+ -------- Pulling data from  Autosherpasmysql to IndusMssql -------------AT  : 08-08-2023 3:07:14 pm
+2023-08-08 15:07:29.4913|INFO|apkRegLogger|
+
+ --------  Extraction Error Outer ExeptionThe provider did not return a ProviderManifestToken string. -------------: 
+2023-08-08 15:07:29.4913|INFO|apkRegLogger|
+
+ -------- Pulling data from autosherpaMysql to IndusMssql Ended -------------AT  : 08-08-2023 3:07:29 pm
+2023-08-08 15:08:52.4791|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:08:52 pm
+2023-08-08 15:08:52.4791|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:08:52 pm
+2023-08-08 15:09:52.7165|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 3:09:52 pm
+2023-08-08 15:09:52.7165|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 3:09:52 pm
+2023-08-08 15:10:52.4821|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:10:52 pm
+2023-08-08 15:10:52.4821|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:10:52 pm
+2023-08-08 15:11:52.4996|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 3:11:52 pm
+2023-08-08 15:11:52.5145|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 3:11:52 pm
+2023-08-08 15:12:14.2993|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 3:12:14 pm
+2023-08-08 15:12:52.4829|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:12:52 pm
+2023-08-08 15:12:52.4829|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:12:52 pm
+2023-08-08 15:12:52.7213|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 3:12:52 pm
+2023-08-08 15:12:52.7213|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 3:12:52 pm
+2023-08-08 15:14:52.4803|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:14:52 pm
+2023-08-08 15:14:52.4803|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:14:52 pm
+2023-08-08 15:15:52.7314|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 3:15:52 pm
+2023-08-08 15:15:52.7314|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 3:15:52 pm
+2023-08-08 15:16:52.4794|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 3:16:52 pm
+2023-08-08 15:16:52.4974|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:16:52 pm
+2023-08-08 15:16:52.4974|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:16:52 pm
+2023-08-08 15:16:52.5133|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 3:16:52 pm
+2023-08-08 15:16:52.5133|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 3:16:52 pm
+2023-08-08 15:16:52.5263|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 3:16:52 pm
+2023-08-08 15:17:14.2803|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 3:17:14 pm
+2023-08-08 15:18:52.4795|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:18:52 pm
+2023-08-08 15:18:52.4969|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:18:52 pm
+2023-08-08 15:18:52.7193|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 3:18:52 pm
+2023-08-08 15:18:52.7193|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 3:18:52 pm
+2023-08-08 15:20:52.4806|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:20:52 pm
+2023-08-08 15:20:52.5045|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:20:52 pm
+2023-08-08 15:21:52.4954|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 3:21:52 pm
+2023-08-08 15:21:52.5383|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 3:21:52 pm
+2023-08-08 15:21:52.7238|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 3:21:52 pm
+2023-08-08 15:21:52.7308|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 3:21:52 pm
+2023-08-08 15:22:14.2936|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 3:22:14 pm
+2023-08-08 15:22:52.4812|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:22:52 pm
+2023-08-08 15:22:52.4812|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:22:52 pm
+2023-08-08 15:24:52.4807|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:24:52 pm
+2023-08-08 15:24:52.4807|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:24:52 pm
+2023-08-08 15:24:52.7291|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 3:24:52 pm
+2023-08-08 15:24:52.7291|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 3:24:52 pm
+2023-08-08 15:26:52.4793|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 3:26:52 pm
+2023-08-08 15:26:52.5162|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 3:26:52 pm
+2023-08-08 15:26:52.5162|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:26:52 pm
+2023-08-08 15:26:52.5361|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:26:52 pm
+2023-08-08 15:26:52.5441|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 3:26:52 pm
+2023-08-08 15:26:52.5591|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 3:26:52 pm
+2023-08-08 15:27:14.2935|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 3:27:14 pm
+2023-08-08 15:27:52.7182|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 3:27:52 pm
+2023-08-08 15:27:52.7182|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 3:27:52 pm
+2023-08-08 15:28:52.4826|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:28:52 pm
+2023-08-08 15:28:52.4826|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:28:52 pm
+2023-08-08 15:30:52.4799|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:30:52 pm
+2023-08-08 15:30:52.4799|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:30:52 pm
+2023-08-08 15:30:52.7313|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 3:30:52 pm
+2023-08-08 15:30:52.7313|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 3:30:52 pm
+2023-08-08 15:31:52.5107|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 3:31:52 pm
+2023-08-08 15:31:52.5516|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 3:31:52 pm
+2023-08-08 15:32:14.6192|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 3:32:14 pm
+2023-08-08 15:32:52.4797|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:32:52 pm
+2023-08-08 15:32:52.4797|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:32:52 pm
+2023-08-08 15:33:52.7292|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 3:33:52 pm
+2023-08-08 15:33:52.7292|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 3:33:52 pm
+2023-08-08 15:34:52.4700|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:34:52 pm
+2023-08-08 15:34:52.4700|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:34:52 pm
+2023-08-08 15:36:52.4490|INFO|apkRegLogger|
+ Admin Change Assignment : 08-08-2023 3:36:52 pm
+2023-08-08 15:36:52.4809|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 3:36:52 pm
+2023-08-08 15:36:52.4979|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:36:52 pm
+2023-08-08 15:36:52.4979|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:36:52 pm
+2023-08-08 15:36:52.4979|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 3:36:52 pm
+2023-08-08 15:36:52.4979|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 3:36:52 pm
+2023-08-08 15:36:52.5128|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 3:36:52 pm
+2023-08-08 15:36:52.7183|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 3:36:52 pm
+2023-08-08 15:36:52.7183|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 3:36:52 pm
+2023-08-08 15:37:14.3270|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 3:37:14 pm
+2023-08-08 15:38:52.4833|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:38:52 pm
+2023-08-08 15:38:52.4833|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:38:52 pm
+2023-08-08 15:39:52.7305|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 3:39:52 pm
+2023-08-08 15:39:52.7305|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 3:39:52 pm
+2023-08-08 15:40:52.4690|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:40:52 pm
+2023-08-08 15:40:52.4690|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:40:52 pm
+2023-08-08 15:41:52.4948|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 3:41:52 pm
+2023-08-08 15:41:52.5366|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 3:41:52 pm
+2023-08-08 15:42:14.2781|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 3:42:14 pm
+2023-08-08 15:42:52.4758|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:42:52 pm
+2023-08-08 15:42:52.4818|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:42:52 pm
+2023-08-08 15:42:52.7291|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 3:42:52 pm
+2023-08-08 15:42:52.7291|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 3:42:52 pm
+2023-08-08 15:44:52.4796|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:44:52 pm
+2023-08-08 15:44:52.4796|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:44:52 pm
+2023-08-08 15:45:52.7167|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 3:45:52 pm
+2023-08-08 15:45:52.7167|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 3:45:52 pm
+2023-08-08 15:46:52.5028|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 3:46:52 pm
+2023-08-08 15:46:52.5318|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:46:52 pm
+2023-08-08 15:46:52.5318|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 3:46:52 pm
+2023-08-08 15:46:52.5427|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 3:46:52 pm
+2023-08-08 15:46:52.5427|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 3:46:52 pm
+2023-08-08 15:46:52.5577|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:46:52 pm
+2023-08-08 15:47:14.2775|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 3:47:14 pm
+2023-08-08 15:48:52.4805|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:48:52 pm
+2023-08-08 15:48:52.4999|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:48:52 pm
+2023-08-08 15:48:52.7155|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 3:48:52 pm
+2023-08-08 15:48:52.7155|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 3:48:52 pm
+2023-08-08 15:50:52.4826|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:50:52 pm
+2023-08-08 15:50:52.4997|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:50:52 pm
+2023-08-08 15:51:52.4969|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 3:51:52 pm
+2023-08-08 15:51:52.4969|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 3:51:52 pm
+2023-08-08 15:51:52.7135|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 3:51:52 pm
+2023-08-08 15:51:52.7135|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 3:51:52 pm
+2023-08-08 15:52:14.2827|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 3:52:14 pm
+2023-08-08 15:52:52.4830|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:52:52 pm
+2023-08-08 15:52:52.4830|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:52:52 pm
+2023-08-08 15:54:52.4809|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:54:52 pm
+2023-08-08 15:54:52.4809|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:54:52 pm
+2023-08-08 15:54:52.7252|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 3:54:52 pm
+2023-08-08 15:54:52.7302|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 3:54:52 pm
+2023-08-08 15:56:52.4887|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 3:56:52 pm
+2023-08-08 15:56:52.5306|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:56:52 pm
+2023-08-08 15:56:52.5306|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:56:52 pm
+2023-08-08 15:56:52.5425|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 3:56:52 pm
+2023-08-08 15:56:52.5425|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 3:56:52 pm
+2023-08-08 15:56:52.5754|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 3:56:52 pm
+2023-08-08 15:57:14.2973|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 3:57:14 pm
+2023-08-08 15:57:52.7171|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 3:57:52 pm
+2023-08-08 15:57:52.7171|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 3:57:52 pm
+2023-08-08 15:58:52.4791|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 3:58:52 pm
+2023-08-08 15:58:52.4791|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 3:58:52 pm
+2023-08-08 16:00:00.0128|INFO|apkRegLogger|
+ Auto SMS Cron Job Started: 08-08-2023 4:00:00 pm
+2023-08-08 16:00:00.0497|INFO|apkRegLogger|
+ Android CallSynch Started at: 08-08-2023 4:00:00 pm
+2023-08-08 16:00:00.0277|INFO|apkRegLogger|
+ Auto Whatsapp Cron Job Started: 08-08-2023 4:00:00 pm
+2023-08-08 16:00:00.0577|INFO|apkRegLogger|
+ Android CallSynch Stopped at: 08-08-2023 4:00:00 pm
+2023-08-08 16:00:00.0746|INFO|apkRegLogger|
+ individualReport AUTO SMS Cron Job Started: 08-08-2023 4:00:00 pm
+2023-08-08 16:00:52.4844|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:00:52 pm
+2023-08-08 16:00:52.4844|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:00:52 pm
+2023-08-08 16:00:52.7198|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 4:00:52 pm
+2023-08-08 16:00:52.7198|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 4:00:52 pm
+2023-08-08 16:01:52.5005|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 4:01:52 pm
+2023-08-08 16:01:52.5005|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 4:01:52 pm
+2023-08-08 16:02:14.2975|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 4:02:14 pm
+2023-08-08 16:02:52.4794|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:02:52 pm
+2023-08-08 16:02:52.4794|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:02:52 pm
+2023-08-08 16:03:52.7156|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 4:03:52 pm
+2023-08-08 16:03:52.7156|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 4:03:52 pm
+2023-08-08 16:04:52.4801|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:04:52 pm
+2023-08-08 16:04:52.4801|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:04:52 pm
+2023-08-08 16:06:52.4499|INFO|apkRegLogger|
+ Admin Change Assignment : 08-08-2023 4:06:52 pm
+2023-08-08 16:06:52.4801|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 4:06:52 pm
+2023-08-08 16:06:52.4801|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:06:52 pm
+2023-08-08 16:06:52.4801|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:06:52 pm
+2023-08-08 16:06:52.4801|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 4:06:52 pm
+2023-08-08 16:06:52.4950|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 4:06:52 pm
+2023-08-08 16:06:52.4950|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 4:06:52 pm
+2023-08-08 16:06:52.7304|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 4:06:52 pm
+2023-08-08 16:06:52.7304|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 4:06:52 pm
+2023-08-08 16:07:14.2843|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 4:07:14 pm
+2023-08-08 16:08:52.5014|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:08:52 pm
+2023-08-08 16:08:52.5014|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:08:52 pm
+2023-08-08 16:09:52.7304|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 4:09:52 pm
+2023-08-08 16:09:52.7304|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 4:09:52 pm
+2023-08-08 16:10:52.5018|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:10:52 pm
+2023-08-08 16:10:52.5118|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:10:52 pm
+2023-08-08 16:11:52.4965|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 4:11:52 pm
+2023-08-08 16:11:52.4965|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 4:11:52 pm
+2023-08-08 16:12:14.2960|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 4:12:14 pm
+2023-08-08 16:12:52.4860|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:12:52 pm
+2023-08-08 16:12:52.4950|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:12:52 pm
+2023-08-08 16:12:52.7225|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 4:12:52 pm
+2023-08-08 16:12:52.7225|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 4:12:52 pm
+2023-08-08 16:14:52.4739|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:14:52 pm
+2023-08-08 16:14:52.4801|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:14:52 pm
+2023-08-08 16:15:52.7201|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 4:15:52 pm
+2023-08-08 16:15:52.7201|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 4:15:52 pm
+2023-08-08 16:16:52.4834|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 4:16:52 pm
+2023-08-08 16:16:52.5004|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:16:52 pm
+2023-08-08 16:16:52.5164|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:16:52 pm
+2023-08-08 16:16:52.5164|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 4:16:52 pm
+2023-08-08 16:16:52.5284|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 4:16:52 pm
+2023-08-08 16:16:52.5284|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 4:16:52 pm
+2023-08-08 16:17:14.2822|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 4:17:14 pm
+2023-08-08 16:18:52.4973|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:18:52 pm
+2023-08-08 16:18:52.4973|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:18:52 pm
+2023-08-08 16:18:52.7227|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 4:18:52 pm
+2023-08-08 16:18:52.7227|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 4:18:52 pm
+2023-08-08 16:20:52.4808|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:20:52 pm
+2023-08-08 16:20:52.4808|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:20:52 pm
+2023-08-08 16:21:52.4893|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 4:21:52 pm
+2023-08-08 16:21:52.4963|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 4:21:52 pm
+2023-08-08 16:21:52.9142|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 4:21:52 pm
+2023-08-08 16:21:53.0029|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 4:21:53 pm
+2023-08-08 16:22:14.3171|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 4:22:14 pm
+2023-08-08 16:22:52.4799|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:22:52 pm
+2023-08-08 16:22:52.4799|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:22:52 pm
+2023-08-08 16:24:52.4715|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:24:52 pm
+2023-08-08 16:24:52.4715|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:24:52 pm
+2023-08-08 16:24:52.7202|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 4:24:52 pm
+2023-08-08 16:24:52.7202|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 4:24:52 pm
+2023-08-08 16:26:52.4948|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 4:26:52 pm
+2023-08-08 16:26:52.5537|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 4:26:52 pm
+2023-08-08 16:26:52.5577|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 4:26:52 pm
+2023-08-08 16:26:52.5577|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 4:26:52 pm
+2023-08-08 16:26:52.5577|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:26:52 pm
+2023-08-08 16:26:52.5756|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:26:52 pm
+2023-08-08 16:27:14.2869|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 4:27:14 pm
+2023-08-08 16:27:52.7316|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 4:27:52 pm
+2023-08-08 16:27:52.7316|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 4:27:52 pm
+2023-08-08 16:28:52.4836|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:28:52 pm
+2023-08-08 16:28:52.4836|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:28:52 pm
+2023-08-08 16:30:52.4814|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:30:52 pm
+2023-08-08 16:30:52.4814|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:30:52 pm
+2023-08-08 16:30:52.7305|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 4:30:52 pm
+2023-08-08 16:30:52.7305|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 4:30:52 pm
+2023-08-08 16:31:52.4962|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 4:31:52 pm
+2023-08-08 16:31:52.4962|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 4:31:52 pm
+2023-08-08 16:32:14.2930|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 4:32:14 pm
+2023-08-08 16:32:52.4807|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:32:52 pm
+2023-08-08 16:32:52.4807|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:32:52 pm
+2023-08-08 16:33:52.7219|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 4:33:52 pm
+2023-08-08 16:33:52.7297|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 4:33:52 pm
+2023-08-08 16:34:52.4813|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:34:52 pm
+2023-08-08 16:34:52.4813|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:34:52 pm
+2023-08-08 16:36:52.4498|INFO|apkRegLogger|
+ Admin Change Assignment : 08-08-2023 4:36:52 pm
+2023-08-08 16:36:52.4946|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 4:36:52 pm
+2023-08-08 16:36:52.4946|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:36:52 pm
+2023-08-08 16:36:52.5106|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:36:52 pm
+2023-08-08 16:36:52.5106|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 4:36:52 pm
+2023-08-08 16:36:52.5106|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 4:36:52 pm
+2023-08-08 16:36:52.5106|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 4:36:52 pm
+2023-08-08 16:36:52.7250|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 4:36:52 pm
+2023-08-08 16:36:52.7300|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 4:36:52 pm
+2023-08-08 16:37:14.2760|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 4:37:14 pm
+2023-08-08 16:38:52.4798|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:38:52 pm
+2023-08-08 16:38:52.4997|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:38:52 pm
+2023-08-08 16:39:52.7301|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 4:39:52 pm
+2023-08-08 16:39:52.7482|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 4:39:52 pm
+2023-08-08 16:40:52.4856|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:40:52 pm
+2023-08-08 16:40:52.4856|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:40:52 pm
+2023-08-08 16:41:52.4947|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 4:41:52 pm
+2023-08-08 16:41:52.4947|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 4:41:52 pm
+2023-08-08 16:42:14.3584|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 4:42:14 pm
+2023-08-08 16:42:52.4850|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:42:52 pm
+2023-08-08 16:42:52.4850|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:42:52 pm
+2023-08-08 16:42:52.7253|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 4:42:52 pm
+2023-08-08 16:42:52.7303|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 4:42:52 pm
+2023-08-08 16:44:52.4845|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:44:52 pm
+2023-08-08 16:44:52.5055|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:44:52 pm
+2023-08-08 16:45:52.7208|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 4:45:52 pm
+2023-08-08 16:45:52.7327|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 4:45:52 pm
+2023-08-08 16:46:52.4813|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 4:46:52 pm
+2023-08-08 16:46:52.4953|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 4:46:52 pm
+2023-08-08 16:46:52.5262|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:46:52 pm
+2023-08-08 16:46:52.5262|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:46:52 pm
+2023-08-08 16:46:52.5571|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 4:46:52 pm
+2023-08-08 16:46:52.5781|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 4:46:52 pm
+2023-08-08 16:47:14.2973|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 4:47:14 pm
+2023-08-08 16:48:52.4870|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:48:52 pm
+2023-08-08 16:48:52.4870|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:48:52 pm
+2023-08-08 16:48:52.7224|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 4:48:52 pm
+2023-08-08 16:48:52.7224|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 4:48:52 pm
+2023-08-08 16:50:52.4960|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:50:52 pm
+2023-08-08 16:50:52.4960|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:50:52 pm
+2023-08-08 16:51:52.5131|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 4:51:52 pm
+2023-08-08 16:51:52.5131|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 4:51:52 pm
+2023-08-08 16:51:52.7188|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 4:51:52 pm
+2023-08-08 16:51:52.7188|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 4:51:52 pm
+2023-08-08 16:52:14.2794|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 4:52:14 pm
+2023-08-08 16:52:52.4813|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:52:52 pm
+2023-08-08 16:52:52.4983|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:52:52 pm
+2023-08-08 16:54:52.4947|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:54:52 pm
+2023-08-08 16:54:52.4947|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:54:52 pm
+2023-08-08 16:54:52.7303|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 4:54:52 pm
+2023-08-08 16:54:52.7303|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 4:54:52 pm
+2023-08-08 16:56:52.4794|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 4:56:52 pm
+2023-08-08 16:56:52.4794|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 4:56:52 pm
+2023-08-08 16:56:52.4993|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:56:52 pm
+2023-08-08 16:56:52.5133|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:56:52 pm
+2023-08-08 16:56:52.5273|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 4:56:52 pm
+2023-08-08 16:56:52.5273|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 4:56:52 pm
+2023-08-08 16:57:14.2932|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 4:57:14 pm
+2023-08-08 16:57:52.7240|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 4:57:52 pm
+2023-08-08 16:57:52.7310|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 4:57:52 pm
+2023-08-08 16:58:52.4809|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 4:58:52 pm
+2023-08-08 16:58:52.4809|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 4:58:52 pm
+2023-08-08 17:00:00.0376|INFO|apkRegLogger|
+ Auto Whatsapp Cron Job Started: 08-08-2023 5:00:00 pm
+2023-08-08 17:00:52.4817|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:00:52 pm
+2023-08-08 17:00:52.4817|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:00:52 pm
+2023-08-08 17:00:52.7201|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 5:00:52 pm
+2023-08-08 17:00:52.7201|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 5:00:52 pm
+2023-08-08 17:01:52.4951|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 5:01:52 pm
+2023-08-08 17:01:52.4951|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 5:01:52 pm
+2023-08-08 17:02:14.2766|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 5:02:14 pm
+2023-08-08 17:02:52.4794|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:02:52 pm
+2023-08-08 17:02:52.5043|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:02:52 pm
+2023-08-08 17:03:52.7321|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 5:03:52 pm
+2023-08-08 17:03:52.7321|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 5:03:52 pm
+2023-08-08 17:04:52.4795|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:04:52 pm
+2023-08-08 17:04:52.5104|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:04:52 pm
+2023-08-08 17:06:52.4373|INFO|apkRegLogger|
+ Admin Change Assignment : 08-08-2023 5:06:52 pm
+2023-08-08 17:06:52.4663|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 5:06:52 pm
+2023-08-08 17:06:52.4822|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:06:52 pm
+2023-08-08 17:06:52.4822|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 5:06:52 pm
+2023-08-08 17:06:52.4822|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:06:52 pm
+2023-08-08 17:06:52.4952|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 5:06:52 pm
+2023-08-08 17:06:52.4952|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 5:06:52 pm
+2023-08-08 17:06:52.7166|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 5:06:52 pm
+2023-08-08 17:06:52.7166|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 5:06:52 pm
+2023-08-08 17:07:14.2930|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 5:07:14 pm
+2023-08-08 17:08:52.4817|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:08:52 pm
+2023-08-08 17:08:52.5046|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:08:52 pm
+2023-08-08 17:09:52.7302|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 5:09:52 pm
+2023-08-08 17:09:52.7591|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 5:09:52 pm
+2023-08-08 17:10:52.4801|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:10:52 pm
+2023-08-08 17:10:52.4801|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:10:52 pm
+2023-08-08 17:11:52.4975|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 5:11:52 pm
+2023-08-08 17:11:52.4975|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 5:11:52 pm
+2023-08-08 17:12:14.2759|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 5:12:14 pm
+2023-08-08 17:12:52.4804|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:12:52 pm
+2023-08-08 17:12:52.4804|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:12:52 pm
+2023-08-08 17:12:52.7137|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 5:12:52 pm
+2023-08-08 17:12:52.7137|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 5:12:52 pm
+2023-08-08 17:14:52.4792|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:14:52 pm
+2023-08-08 17:14:52.4962|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:14:52 pm
+2023-08-08 17:15:52.7195|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 5:15:52 pm
+2023-08-08 17:15:52.7424|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 5:15:52 pm
+2023-08-08 17:16:52.4840|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 5:16:52 pm
+2023-08-08 17:16:52.4979|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:16:52 pm
+2023-08-08 17:16:52.4979|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:16:52 pm
+2023-08-08 17:16:52.5119|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 5:16:52 pm
+2023-08-08 17:16:52.5119|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 5:16:52 pm
+2023-08-08 17:16:52.5408|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 5:16:52 pm
+2023-08-08 17:17:14.3096|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 5:17:14 pm
+2023-08-08 17:18:52.5049|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:18:52 pm
+2023-08-08 17:18:52.5328|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:18:52 pm
+2023-08-08 17:18:52.7163|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 5:18:52 pm
+2023-08-08 17:18:52.7163|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 5:18:52 pm
+2023-08-08 17:20:52.4811|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:20:52 pm
+2023-08-08 17:20:52.4811|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:20:52 pm
+2023-08-08 17:21:52.4956|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 5:21:52 pm
+2023-08-08 17:21:52.4956|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 5:21:52 pm
+2023-08-08 17:21:52.7249|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 5:21:52 pm
+2023-08-08 17:21:52.7299|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 5:21:52 pm
+2023-08-08 17:22:14.2800|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 5:22:14 pm
+2023-08-08 17:22:52.4797|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:22:52 pm
+2023-08-08 17:22:52.5166|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:22:52 pm
+2023-08-08 17:24:52.4830|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:24:52 pm
+2023-08-08 17:24:52.4830|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:24:52 pm
+2023-08-08 17:24:52.7204|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 5:24:52 pm
+2023-08-08 17:24:52.7204|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 5:24:52 pm
+2023-08-08 17:26:52.4791|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 5:26:52 pm
+2023-08-08 17:26:52.4951|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:26:52 pm
+2023-08-08 17:26:52.4951|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:26:52 pm
+2023-08-08 17:26:52.5120|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 5:26:52 pm
+2023-08-08 17:26:52.5300|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 5:26:52 pm
+2023-08-08 17:26:52.5300|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 5:26:52 pm
+2023-08-08 17:27:14.2919|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 5:27:14 pm
+2023-08-08 17:27:52.7290|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 5:27:52 pm
+2023-08-08 17:27:52.7512|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 5:27:52 pm
+2023-08-08 17:28:52.4745|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:28:52 pm
+2023-08-08 17:28:52.4808|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:28:52 pm
+2023-08-08 17:30:52.4947|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:30:52 pm
+2023-08-08 17:30:52.5196|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:30:52 pm
+2023-08-08 17:30:52.7261|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 5:30:52 pm
+2023-08-08 17:30:52.7330|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 5:30:52 pm
+2023-08-08 17:31:52.5031|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 5:31:52 pm
+2023-08-08 17:31:52.5114|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 5:31:52 pm
+2023-08-08 17:32:14.2828|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 5:32:14 pm
+2023-08-08 17:32:52.5011|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:32:52 pm
+2023-08-08 17:32:52.5181|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:32:52 pm
+2023-08-08 17:33:52.7304|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 5:33:52 pm
+2023-08-08 17:33:52.7304|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 5:33:52 pm
+2023-08-08 17:34:52.4797|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:34:52 pm
+2023-08-08 17:34:52.4947|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:34:52 pm
+2023-08-08 17:36:52.4513|INFO|apkRegLogger|
+ Admin Change Assignment : 08-08-2023 5:36:52 pm
+2023-08-08 17:36:52.4952|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 5:36:52 pm
+2023-08-08 17:36:52.4952|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 5:36:52 pm
+2023-08-08 17:36:52.5261|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:36:52 pm
+2023-08-08 17:36:52.5441|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 5:36:52 pm
+2023-08-08 17:36:52.5441|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:36:52 pm
+2023-08-08 17:36:52.5441|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 5:36:52 pm
+2023-08-08 17:36:52.7176|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 5:36:52 pm
+2023-08-08 17:36:52.7176|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 5:36:52 pm
+2023-08-08 17:37:14.2771|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 5:37:14 pm
+2023-08-08 17:38:52.4734|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:38:52 pm
+2023-08-08 17:38:52.4823|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:38:52 pm
+2023-08-08 17:39:52.7303|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 5:39:52 pm
+2023-08-08 17:39:52.7303|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 5:39:52 pm
+2023-08-08 17:40:52.4734|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:40:52 pm
+2023-08-08 17:40:52.4834|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:40:52 pm
+2023-08-08 17:41:52.4951|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 5:41:52 pm
+2023-08-08 17:41:52.4951|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 5:41:52 pm
+2023-08-08 17:42:14.2957|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 5:42:14 pm
+2023-08-08 17:42:52.4803|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:42:52 pm
+2023-08-08 17:42:52.4998|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:42:52 pm
+2023-08-08 17:42:52.7162|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 5:42:52 pm
+2023-08-08 17:42:52.7162|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 5:42:52 pm
+2023-08-08 17:44:52.4980|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:44:52 pm
+2023-08-08 17:44:52.4980|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:44:52 pm
+2023-08-08 17:45:52.7777|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 5:45:52 pm
+2023-08-08 17:45:52.7937|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 5:45:52 pm
+2023-08-08 17:46:52.4804|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 5:46:52 pm
+2023-08-08 17:46:52.5054|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 5:46:52 pm
+2023-08-08 17:46:52.5123|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 5:46:52 pm
+2023-08-08 17:46:52.5123|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:46:52 pm
+2023-08-08 17:46:52.5283|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:46:52 pm
+2023-08-08 17:46:52.5512|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 5:46:52 pm
+2023-08-08 17:47:14.2808|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 5:47:14 pm
+2023-08-08 17:48:52.4974|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:48:52 pm
+2023-08-08 17:48:52.5124|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:48:52 pm
+2023-08-08 17:48:52.7167|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 5:48:52 pm
+2023-08-08 17:48:52.7167|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 5:48:52 pm
+2023-08-08 17:50:52.4693|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:50:52 pm
+2023-08-08 17:50:52.4693|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:50:52 pm
+2023-08-08 17:51:52.4948|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 5:51:52 pm
+2023-08-08 17:51:52.5157|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 5:51:52 pm
+2023-08-08 17:51:52.7142|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 5:51:52 pm
+2023-08-08 17:51:52.7142|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 5:51:52 pm
+2023-08-08 17:52:14.2940|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 5:52:14 pm
+2023-08-08 17:52:52.4864|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:52:52 pm
+2023-08-08 17:52:52.5063|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:52:52 pm
+2023-08-08 17:54:52.4818|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:54:52 pm
+2023-08-08 17:54:52.4997|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:54:52 pm
+2023-08-08 17:54:52.7201|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 5:54:52 pm
+2023-08-08 17:54:52.7201|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 5:54:52 pm
+2023-08-08 17:56:52.6634|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 5:56:52 pm
+2023-08-08 17:56:52.7651|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 5:56:52 pm
+2023-08-08 17:56:53.0274|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:56:53 pm
+2023-08-08 17:56:53.0274|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:56:53 pm
+2023-08-08 17:56:53.0473|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 5:56:53 pm
+2023-08-08 17:56:53.0473|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 5:56:53 pm
+2023-08-08 17:57:14.4027|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 5:57:14 pm
+2023-08-08 17:57:52.7189|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 5:57:52 pm
+2023-08-08 17:57:52.7189|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 5:57:52 pm
+2023-08-08 17:58:52.4841|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 5:58:52 pm
+2023-08-08 17:58:52.4841|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 5:58:52 pm
+2023-08-08 18:00:00.0456|INFO|apkRegLogger|
+ Auto Whatsapp Cron Job Started: 08-08-2023 6:00:00 pm
+2023-08-08 18:00:52.4836|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 6:00:52 pm
+2023-08-08 18:00:52.4956|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 6:00:52 pm
+2023-08-08 18:00:52.7321|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 6:00:52 pm
+2023-08-08 18:00:52.7321|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 6:00:52 pm
+2023-08-08 18:01:52.5103|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 6:01:52 pm
+2023-08-08 18:01:52.5273|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 6:01:52 pm
+2023-08-08 18:02:14.2846|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 6:02:14 pm
+2023-08-08 18:02:52.4997|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 6:02:52 pm
+2023-08-08 18:02:52.4997|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 6:02:52 pm
+2023-08-08 18:03:52.7358|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 6:03:52 pm
+2023-08-08 18:03:52.7358|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 6:03:52 pm
+2023-08-08 18:04:52.4953|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 6:04:52 pm
+2023-08-08 18:04:52.4953|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 6:04:52 pm
+2023-08-08 18:06:52.4494|INFO|apkRegLogger|
+ Admin Change Assignment : 08-08-2023 6:06:52 pm
+2023-08-08 18:06:52.4793|INFO|apkRegLogger|
+ FE History Data Pulling Running DateTime: 08-08-2023 6:06:52 pm
+2023-08-08 18:06:52.4953|INFO|apkRegLogger|
+ FE History Data Pulling Completed DateTime: 08-08-2023 6:06:52 pm
+2023-08-08 18:06:52.4953|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 6:06:52 pm
+2023-08-08 18:06:52.5182|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 6:06:52 pm
+2023-08-08 18:06:52.5182|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 6:06:52 pm
+2023-08-08 18:06:52.5262|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 6:06:52 pm
+2023-08-08 18:06:52.7187|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 6:06:52 pm
+2023-08-08 18:06:52.7187|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 6:06:52 pm
+2023-08-08 18:07:14.2916|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 6:07:14 pm
+2023-08-08 18:08:52.4957|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 6:08:52 pm
+2023-08-08 18:08:52.4957|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 6:08:52 pm
+2023-08-08 18:09:52.7301|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 6:09:52 pm
+2023-08-08 18:09:52.7301|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 6:09:52 pm
+2023-08-08 18:10:52.4968|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 6:10:52 pm
+2023-08-08 18:10:52.5167|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 6:10:52 pm
+2023-08-08 18:11:52.5137|INFO|apkRegLogger|
+ Driver Pushing Running DateTime: 08-08-2023 6:11:52 pm
+2023-08-08 18:11:52.5137|INFO|apkRegLogger|
+ Driver History Data Pushing Completed DateTime: 08-08-2023 6:11:52 pm
+2023-08-08 18:12:14.3228|INFO|apkRegLogger|
+ payUTransaction verify_payment Job Started: 08-08-2023 6:12:14 pm
+2023-08-08 18:12:52.4808|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 6:12:52 pm
+2023-08-08 18:12:52.4948|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 6:12:52 pm
+2023-08-08 18:12:52.7241|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 6:12:52 pm
+2023-08-08 18:12:52.7304|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 6:12:52 pm
+2023-08-08 18:14:52.4792|INFO|apkRegLogger|
+ FE History Data Pushing Running Entered --> DateTime: 08-08-2023 6:14:52 pm
+2023-08-08 18:14:52.4792|INFO|apkRegLogger|
+ FE History Data Pushing Completed DateTime: 08-08-2023 6:14:52 pm
+2023-08-08 18:15:52.7290|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Started at: 08-08-2023 6:15:52 pm
+2023-08-08 18:15:52.7470|INFO|apkRegLogger|
+ knowlaritycallsynch CallSynch Stopped at: 08-08-2023 6:15:52 pm

@@ -1,0 +1,667 @@
+﻿@model AutoSherpa_project.Models.ViewModels.ComplaintViewModel
+@{
+    ViewBag.Title = "addComplaint";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.AntiForgeryToken()
+@using (Ajax.BeginForm("saveCustomerComplaints", "Complaint", new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "OnSuccess",
+    OnFailure = "OnFailure"
+}))
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    COMPLAINT REGISTRATION FORM
+                </div>
+                <div class="panel-body">
+                    <h4>CUSTOMER DETAILS :</h4>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            
+                            <label for="vehicleRegNo">Vehicle RegNo<i style="color:red">*</i>:</label>
+
+                            <div class="input-group">
+                                @Html.HiddenFor(model => model.wyzUser, new { @id = "hdnWyzId" })
+                                @Html.HiddenFor(model => model.customerId, new { @id = "hdncustId" })
+                                @Html.HiddenFor(model => model.location, new { @id = "hdnloc" })
+                                @Html.HiddenFor(model => model.isComplaintExist, new { @id = "hdnCmplnExst" })
+                                @Html.HiddenFor(model => model.vehicleId, new { @id = "hdnvehId" })
+
+
+                                @Html.TextBoxFor(model => model.vehicleRegNo, new { @class = "form-control", @id = "txtVehicleNo", @Required = "required" })
+                                <span class="input-group-addon" id="searchveh" onclick="ajaxsearchVehicle();"><i class="fa fa-search"></i> </span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="model">Model <i style="color:red">*</i>:</label>
+                            @Html.TextBoxFor(model => model.model, new { @class = "form-control", @id = "txtmodel", @Required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="customerName">Customer Name <i style="color:red">*</i>:</label>
+                            @Html.TextBoxFor(model => model.customerName, new { @class = "form-control", @id = "txtCustomerName", @Required = "required" })
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="form-group">
+
+                            <label for="variant">Variant <i style="color:red">*</i>:</label>
+                            @Html.TextBoxFor(model => model.variant, new { @class = "form-control", @id = "txtvariant", @Required = "required" })
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="customerPhone">Customer Phone <i style="color:red">*</i>:</label>
+
+                            @Html.TextBoxFor(model => model.customerMobileNo, new { @class = "form-control", @id = "txtphoneno", @Required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="saledate">Sale Date<i style="color:red">*</i>:</label>
+                            @Html.TextBoxFor(model => model.saleDate, new { @class = "form-control datepickerFilter", @id = "txtsaledate", @Required = "required", @autocomplete = "false" })
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="email">Email<i style="color:red">*</i>:</label>
+                            @Html.TextBoxFor(model => model.customerEmail, new { @class = "form-control", @id = "txtemail" })
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="lastservice">Last Service<i style="color:red">*</i>:</label>
+                            @Html.TextBoxFor(model => model.lastServiceDate, new { @class = "form-control datepickerFilter", @id = "txtservicedate", @Required = "required", @autocomplete = "false" })
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            @Html.TextAreaFor(model => model.concatenatedAdress, new { @class = "form-control", @rows = "1", @id = "txtaddress" })
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="serviceadvisor">Service Advisor<i style="color:red">*</i>:</label>
+                            @Html.TextBoxFor(model => model.serviceadvisor, new { @class = "form-control", @id = "txtadvisorname", @Required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="chassisno">Chassis No<i style="color:red">*</i>:</label>
+                            @Html.TextBoxFor(model => model.chassisNo, new { @class = "form-control", @id = "txtchassisno", @Required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+
+                            <label for="workshop">Workshop<i style="color:red">*</i>:</label>
+                            @Html.DropDownListFor(model => model.workshop, new SelectList(ViewBag.workshopList, "id", "name"), "--Select--", new { @class = "form-control", @Required = "required", @id = "ddlworkshopId" })
+                        </div>
+                    </div>
+                    <hr>
+                    <h4>COMPLAINT INFORMATION: </h4>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="sname">Source<i style="color:red">*</i>:</label>
+                            @Html.DropDownListFor(model => model.sourceName, new SelectList(ViewBag.complaintSourceList, "name", "name"), "--Select--", new { @class = "form-control", @Required = "required", @id = "ddlcomplaintSource" })
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="functame">Function<i style="color:red">*</i>:</label>
+
+                            @Html.DropDownListFor(model => model.functionName, new SelectListItem[]{
+                    new SelectListItem() {Text = "Select Function", Value=""},
+                    new SelectListItem() {Text = "FINANCE", Value="finance"},
+                     new SelectListItem() {Text = "INSURANCE", Value="insurance"},
+                      new SelectListItem() {Text = "PARTS", Value="parts"},
+                       new SelectListItem() {Text = "PRODUCT", Value="product"},
+                        new SelectListItem() {Text = "SALES", Value="sales"},
+                    new SelectListItem() {Text = "USED CAR SALES", Value="usedcarsales"}}, new { @class = "form-control", @Required = "required", @id = "ddlfunctionname" })
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 complainCategory" style="display:none">
+                        <div class="form-group">
+                            <label for="complaintType">Complaint Type CATEGORY<i style="color:red">*</i>:</label>
+
+
+                            @Html.DropDownListFor(model => model.complaintType, new SelectListItem[]{
+                  new SelectListItem() {Text = "Select Complaint Type", Value="0"},
+                  new SelectListItem() {Text = "Technical", Value="Technical"},
+                   new SelectListItem() {Text = "Service", Value="Service"},
+                    new SelectListItem() {Text = "Bodyshop", Value="Bodyshop"}}, new { @class = "form-control", @Required = "required", @id = "ddlcomplaintType" })
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 complainSubCategory" style="display:none">
+                        <div class="form-group">
+                            <label for="subcomplaintType">Sub CATEGORY<i style="color:red">*</i>:</label>
+
+                            @Html.DropDownListFor(model => model.subcomplaintType, new SelectListItem[]{
+                            new SelectListItem() {Text = "Select subComplaint Type", Value="0"},
+                            new SelectListItem() {Text = "Service", Value="Service"},
+                            new SelectListItem() {Text = "Repair", Value="Repair"},
+                            new SelectListItem() {Text = "Others", Value="Others"}}, new { @class = "form-control", @Required = "required", @id = "ddlsubCat" })
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="description">Description:</label>
+                            @Html.TextAreaFor(model => model.reasonFor, new { @class = "form-control", @rows = "1", @id = "txtdescription" })
+
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>&nbsp;</label>
+                            <input type="submit" class="btn btn-primary btn-block" id="complaintSubmit" value="Submit" onclick="return validatingCustomerForm()" />
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section scripts
+{
+    <script>
+            $('#ddlfunctionname').change(function () {
+
+    var funcVal = $('#ddlfunctionname').val();
+
+    if (funcVal == 'AFTERSALES') {
+
+        $('.complainCategory').css('display', 'block');
+        $('.complainSubCategory').css('display', 'block');
+
+
+    } else {
+        $('.complainCategory').css('display', 'none');
+        $('.complainSubCategory').css('display', 'none');
+
+    }
+
+});
+            $(document).ready(function () {
+
+                var stateObject = {
+                    "AFTERSALES": {
+                        "Technical": ["Accessories", "Body", "Brake", "Electrical", "Engine", "Hvac", "Steering", "Transmission", "Feedback Product"],
+                        "Service": ["Advisor", "Quality", "Sales Related", "Spares", "Warrantly", "Initiation", "PickUp", "FeedBack-Service"],
+                        "Bodyshop": ["Poor WorkManship-Denting,Fitment", "Poor WorkManship-Painting", "Delay In Delivery", "High Repair Charges", "Insurance"]
+                    }
+                }
+
+
+window.onload = function () {
+    var stateSel = document.getElementById("ddlfunctionname"),
+        countySel = document.getElementById("ddlcomplaintType"),
+        citySel = document.getElementById("ddlsubCat");
+    for (var state in stateObject) {
+        stateSel.options[stateSel.options.length] = new Option(state, state);
+    }
+    stateSel.onchange = function () {
+        countySel.length = 1; // remove all options bar first
+        citySel.length = 1; // remove all options bar first
+        if (this.selectedIndex < 1) return; // done
+        for (var county in stateObject[this.value]) {
+            countySel.options[countySel.options.length] = new Option(county, county);
+        }
+    }
+    stateSel.onchange(); // reset in case page is reloaded
+    countySel.onchange = function () {
+        citySel.length = 1; // remove all options bar first
+        if (this.selectedIndex < 1) return; // done
+        var cities = stateObject[stateSel.value][this.value];
+        for (var i = 0; i < cities.length; i++) {
+            citySel.options[citySel.options.length] = new Option(cities[i], cities[i]);
+        }
+    }
+    }
+                $('.datepickerFilter').datepicker({
+                    duration: "slow",
+                    showOptions: { direction: "up" },
+                    dateFormat: 'yy-mm-dd',
+                    changeMonth: true,//this option for allowing user to select month
+                    changeYear: true //this option for allowing user to select from year range
+
+                });
+            });
+
+
+            function validatingCustomerForm(){
+                $('#mainLoader').css({ 'display': 'block' });
+
+                var vehNum=$("#txtVehicleNo").val();
+                var model=$("#txtmodel").val();
+                var custName=$("#txtCustomerName").val();
+                var variant=$("#txtvariant").val();
+                var phone=$("#txtphoneno").val();
+                var saleDate=$("#txtsaledate").val();
+                var eMail=$("#txtemail").val();
+                var lastserviceDate=$("#txtservicedate").val();
+                var address=$("#txtaddress").val();
+                var advisorName=$("#txtadvisorname").val();
+                var chassiNo=$("#txtchassisno").val();
+                var workShop=$("#ddlworkshopId").val();
+                var complaintSource=$("#ddlcomplaintSource").val();
+                var functionName=$("#ddlfunctionname").val();
+                var deacription = $("#txtdescription").val();
+                var oem = "MAHINDRA";
+
+
+
+		        if(vehNum=='' && model=='' && custName=='' && variant=='' && phone=='' && saleDate=='' && lastserviceDate=='' && advisorName=='' && chassiNo=='' && workShop=='' && complaintSource=='' && functionName==''){
+			        Lobibox.notify('warning', {
+							        continueDelayOnInactiveTab: true,
+							        msg: 'Please Enter The Mandatory Fields .'
+                    });
+                    $('#mainLoader').css({ 'display': 'none' });
+
+						        return false;
+
+                } else if (vehNum=='')
+                {
+                    Lobibox.notify('warning', {
+				        continueDelayOnInactiveTab: true,
+				        msg: 'Enter valid Vehicle Reg number'
+                    });
+                    $('#mainLoader').css({ 'display': 'none' });
+
+			        return false;
+                }
+
+                else if (model == '') {
+			        Lobibox.notify('warning', {
+				        continueDelayOnInactiveTab: true,
+				        msg: 'Please Select Model'
+                    });
+                    $('#mainLoader').css({ 'display': 'none' });
+
+			        return false;
+		        }else if(custName==''){
+			        Lobibox.notify('warning', {
+							        continueDelayOnInactiveTab: true,
+							        msg: 'Please Enter Name'
+                    });
+                    $('#mainLoader').css({ 'display': 'none' });
+
+						        return false;
+
+		        }else if(phone==''){
+			        Lobibox.notify('warning', {
+							        continueDelayOnInactiveTab: true,
+							        msg: 'Please Enter Phone Number'
+                    });
+                    $('#mainLoader').css({ 'display': 'none' });
+
+						        return false;
+
+		        }else if(phone.length < 10 ){
+
+
+			        Lobibox.notify('warning', {
+							        continueDelayOnInactiveTab: true,
+							        msg: 'Invalid Phone No.'
+						        });
+                    $('#mainLoader').css({ 'display': 'none' });
+
+						        return false;
+
+
+		        }else if(variant==''){
+			        Lobibox.notify('warning', {
+							        continueDelayOnInactiveTab: true,
+							        msg: 'Please Enter Variant.'
+                    });
+                    $('#mainLoader').css({ 'display': 'none' });
+
+						        return false;
+
+                }
+                else if (saleDate == '') {
+			        Lobibox.notify('warning', {
+							        continueDelayOnInactiveTab: true,
+							        msg: 'Please Enter Sales Date.'
+                    });
+                    $('#mainLoader').css({ 'display': 'none' });
+
+						        return false;
+
+                }
+                else if (lastserviceDate == '') {
+			        Lobibox.notify('warning', {
+							        continueDelayOnInactiveTab: true,
+							        msg: 'Please Enter last Service Date.'
+                    });
+                    $('#mainLoader').css({ 'display': 'none' });
+
+						        return false;
+
+                }
+                       else if(advisorName==''){
+			        Lobibox.notify('warning', {
+							        continueDelayOnInactiveTab: true,
+							        msg: 'Please Enter Advisor Name.'
+                    });
+                    $('#mainLoader').css({ 'display': 'none' });
+
+						        return false;
+
+		        }
+
+		        else if(chassiNo==''){
+			        Lobibox.notify('warning', {
+							        continueDelayOnInactiveTab: true,
+							        msg: 'Enter valid chassis/VIN number'
+                    });
+                    $('#mainLoader').css({ 'display': 'none' });
+
+						        return false;
+
+                }
+                else if (workShop == '') {
+			        Lobibox.notify('warning', {
+							        continueDelayOnInactiveTab: true,
+							        msg: 'Enter Select Workshop'
+                    });
+                    $('#mainLoader').css({ 'display': 'none' });
+
+						        return false;
+
+                }
+                else if (complaintSource == '') {
+			        Lobibox.notify('warning', {
+							        continueDelayOnInactiveTab: true,
+							        msg: 'Please Select Complaint Source.'
+                    });
+                    $('#mainLoader').css({ 'display': 'none' });
+
+						        return false;
+
+                }
+                else if (functionName == '') {
+			        Lobibox.notify('warning', {
+							        continueDelayOnInactiveTab: true,
+							        msg: 'Pleas Select Function Name.'
+                    });
+                    $('#mainLoader').css({ 'display': 'none' });
+
+						        return false;
+
+		        }
+                else if (oem == 'MAHINDRA') {
+		        if(vehNum!=null && vehNum.length < 8){
+				        Lobibox.notify('warning', {
+								        continueDelayOnInactiveTab: true,
+								        msg: 'Enter valid Vehicle Reg number'
+                        });
+                    $('#mainLoader').css({ 'display': 'none' });
+
+				        return false;
+		        }
+		        //else if(isCharNumber(vehNum.substring(1, 2))) {
+			       // Lobibox.notify('warning', {
+				      //  continueDelayOnInactiveTab: true,
+				      //  msg: 'Enter valid Vehicle Reg number'
+			       // });
+			       // return false;
+		        //}
+		        else if(chassiNo!=null && chassiNo.length < 8){
+			        Lobibox.notify('warning', {
+				        continueDelayOnInactiveTab: true,
+				        msg: 'Enter valid chassis/VIN number'
+			        });
+                    $('#mainLoader').css({ 'display': 'none' });
+
+			        return false;
+
+			        }
+
+
+
+		        }else if(oem != 'MAHINDRA'){
+			        if(vehNum!=null && vehNum.length <8){
+				        Lobibox.notify('warning', {
+								        continueDelayOnInactiveTab: true,
+								        msg: 'Enter valid Vehicle Reg number'
+							        });
+                        $('#mainLoader').css({ 'display': 'none' });
+
+							        return false;
+			        }else if(chassiNo!=null && chassiNo.length <17){
+				        Lobibox.notify('warning', {
+					        continueDelayOnInactiveTab: true,
+					        msg: 'Enter valid chassis/VIN number'
+				        });
+                        $('#mainLoader').css({ 'display': 'none' });
+
+				        return false;
+
+				        }
+
+			        }
+
+            }
+
+	 $("#txtCustomerName").keypress(function (e) {
+    var code = e.keyCode || e.which;
+    if ((code < 65 || code > 90) && (code < 97 || code > 122) && code != 32 && code != 46)
+    {
+        Lobibox.notify('warning', {
+            continueDelayOnInactiveTab: true,
+            msg: 'Only alphabates are allowed.'
+        });
+
+        return false;
+    }
+});
+
+$('#txtemail').blur(function () {
+    var customerEmail = $(this).val();
+    var re = /^(([^<>()[\]\\.,;:\s@@\"]+(\.[^<>()[\]\\.,;:\s@@\"]+)*)|(\".+\"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/igm;
+    if (re.test(customerEmail)) {
+
+    } else {
+        $('#txtemail').val('');
+        Lobibox.notify('warning', {
+            continueDelayOnInactiveTab: true,
+            msg: 'Invalid Email Address.'
+        });
+        return false;
+    }
+});
+
+
+        $('#txtphoneno').on('keypress', function (e) {
+            var $this = $(this);
+            var regex = new RegExp("^[0-9\b]+$");
+            var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+            // for 10 digit number only
+            if ($this.val().length > 9) {
+                e.preventDefault();
+                return false;
+            }
+            if (e.charCode < 54 && e.charCode > 47) {
+                if ($this.val().length == 0) {
+                    e.preventDefault();
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            if (regex.test(str)) {
+                return true;
+            }
+            e.preventDefault();
+            return false;
+        });
+
+
+          //On Success of each Tabs Call- Ajax
+        function OnSuccess(res) {
+            $('#mainLoader').css({ 'display': 'none' });
+
+                if (res.success == true) {
+
+                    Lobibox.notify('info', {
+                        msg: 'Complaint Saved successfully!'
+                    });
+                    clearControls();
+                }
+                else if (res.success == false) {
+                    Lobibox.notify('warning', {
+                        msg: res.Message
+                    });
+                }
+
+            }
+            //On Success of each Tabs Call- Ajax
+            function OnFailure(res) {
+                $('#mainLoader').css({ 'display': 'none' });
+
+                Lobibox.notify('warning', {
+				                continueDelayOnInactiveTab: true,
+				                msg: 'Something Went Wrong'
+                });
+            }
+
+         function parseJsonDateTime(datetime) {
+                var ConDate = "";
+                if (datetime != null) {
+                    ConDate = new Date(parseInt(datetime.substr(6)));
+
+                    if ((ConDate.getMonth()+1) < 10) {
+                        ConDate = ConDate.getFullYear() + '-0' + (parseInt(ConDate.getMonth()) + 1) + '-' + ConDate.getDate();
+                    }
+                    else {
+                        ConDate = ConDate.getFullYear() + '-' + (parseInt(ConDate.getMonth()) + 1) + '-' + ConDate.getDate();
+                    }
+
+                    return ConDate;
+                }
+                else {
+                    return ConDate;
+                }
+            }
+        //Data-Filter Ajax Function
+        function ajaxsearchVehicle() {
+            clear();
+            var vehicleRegNo = $('#txtVehicleNo').val();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("fetchComplaint")',
+                datatype: 'json',
+                cache: false,
+                data: { vehicleRegNo: vehicleRegNo },
+                success: function (res) {
+                    if (res.success == true) {
+
+                    //    $("#ddlworkshopId").val(res.data.workshop);
+                        $('#ddlworkshopId').val(res.data.workshop).change();
+
+                        $('#txtCustomerName').val(res.data.customerName);
+                        $('#txtmodel').val(res.data.model);
+                        $('#txtphoneno').val(res.data.customerMobileNo);
+                        $('#txtvariant').val(res.data.variant);
+                        $('#txtsaledate').val(parseJsonDateTime(res.data.saleDate));
+                        $('#txtservicedate').val(parseJsonDateTime(res.data.lastServiceDate));
+                        $('#txtemail').val(res.data.customerEmail);
+                        $('#txtaddress').val(res.data.concatenatedAdress);
+                        $('#txtchassisno').val(res.data.chassisNo);
+                        $('#hdnWyzId').val(res.data.wyzUser);
+                        $('#hdncustId').val(res.data.customerId);
+                        $('#hdnloc').val(res.data.city);
+                        $('#hdnCmplnExst').val(res.data.isComplaintExist);
+                        $('#hdnvehId').val(res.data.vehicleId);
+                        $('#txtmodel').attr('readonly', 'true');
+                        $('#txtvariant').attr('readonly', 'true');
+                        $('#txtsaledate').attr('readonly', 'true');
+                        $('#txtchassisno').attr('readonly', 'true');
+                        $('#ddlworkshopId').attr('readonly', 'true');
+                    }
+                    else if (res.success == false) {
+
+                        Lobibox.notify('warning', {
+				                        continueDelayOnInactiveTab: true,
+				                        msg: 'Customer Details Not Found. Please Add One'
+                        });
+                        $('#txtmodel').attr('readonly', false);
+                        $('#txtvariant').attr('readonly', false);
+                        $('#txtsaledate').attr('readonly', false);
+                        $('#txtchassisno').attr('readonly', false);
+                        $('#ddlworkshopId').attr('readonly', false);
+                                            }
+                                        },
+                            error: function (ex) {
+                       //     alert(ex);
+                            }
+                        });
+
+                    }
+
+
+        function clear() {
+                   $('#txtCustomerName').val('');
+                        $('#txtmodel').val('');
+                        $('#txtphoneno').val('');
+                        $('#txtvariant').val('');
+                        $('#txtsaledate').val('');
+                        $('#txtservicedate').val('');
+                        $('#txtemail').val('');
+                         $('#txtaddress').val('');
+                         $('#txtchassisno').val('');
+                        $('#txtadvisorname').val('');
+                        $('#ddlworkshopId').val('');
+                         $('#hdnCmplnExst').val('');
+                                        $('#ddlcomplaintSource').val('');
+
+                                        $('#ddlfunctionname').val('');
+                                        $('#txtdescription').val('');
+
+                        $('.complainCategory').css('display', 'none');
+        $('.complainSubCategory').css('display', 'none');
+
+            }
+        function clearControls() {
+                   $('#txtCustomerName').val('');
+                        $('#txtmodel').val('');
+                        $('#txtphoneno').val('');
+                        $('#txtvariant').val('');
+                        $('#txtsaledate').val('');
+                        $('#txtservicedate').val('');
+                        $('#txtemail').val('');
+                         $('#txtaddress').val('');
+                         $('#txtchassisno').val('');
+                        $('#txtadvisorname').val('');
+                        $('#ddlworkshopId').val('');
+                        $('#txtVehicleNo').val('');
+                         $('#hdnCmplnExst').val('');
+                                        $('#ddlcomplaintSource').val('');
+
+                                        $('#ddlfunctionname').val('');
+                                        $('#txtdescription').val('');
+
+                        $('.complainCategory').css('display', 'none');
+        $('.complainSubCategory').css('display', 'none');
+
+            }
+    </script>
+
+}
+

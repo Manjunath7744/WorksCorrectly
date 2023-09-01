@@ -1,0 +1,1448 @@
+﻿@model AutoSherpa_project.Models.ViewModels.ForecastVM
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js
+}
+<div class="container-fluide">
+    <div class="row">
+
+        <div class="col-sm-2">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3><div id="totalVINsCount">@ViewBag.TotalVINCount</div></h3>
+                    <p>Total VINs</p>
+                </div>
+                <div class="icon"> <i class="fa fa-car"></i> </div>
+
+                <!--<span class="pull-left" data-toggle="modal" data-target=".myModal1">View Details</span>-->
+            </div>
+        </div>      <!-- ./col -->
+        <div class="col-sm-2 col-half-offset">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <p style="color:#fff;">Selected&nbsp;-&nbsp;<span id="selectedCard"></span></p>
+                    <p style="color:#fff;">Assigned&nbsp;-&nbsp;<span id="assignedCard"></span></p>
+                    <p style="margin:0 0 -1px;color:#fff;">Balanced&nbsp;-&nbsp;<span id="balancedCard"></span></p>
+                </div>
+                <div class="icon"> <i class="ion-android-checkbox-outline"></i> </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-half-offset">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <p style="color:#fff;font-size:smaller;">Last&nbsp;RO&nbsp;Uploaded&nbsp;-&nbsp;<br>@ViewBag.LastROUploaded</p>
+                    <p style="color:#fff;font-size:smaller;">Last&nbsp;Sales&nbsp;Uploaded&nbsp;-&nbsp;<br>@ViewBag.LastSalesUploaded</p>
+                </div>
+                <div class="icon"> <i class="ion-help-buoy"></i> </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-half-offset">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3><div id="TbdCount"><i class="fa  fa-pulse fa-fw"></i></div></h3>
+                    <p>TBD</p>
+                </div>
+                <div class="icon"> <i class="ion-search"></i> </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-half-offset">
+            <!-- small box -->
+            <div class="small-box bg-maroon">
+                <div class="inner">
+                    <h3><div id="creCurrentdate" style="font-size:34px;">@ViewBag.CurrentDate</div></h3>
+                    <p>Date</p>
+                </div>
+                <div class="icon"> <i class="ion-clock"></i> </div>
+            </div>
+        </div>
+        <!-- ./col -->
+
+    </div>
+</div>
+<div>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            Service Forecast Information
+        </div>
+
+        <div class="panel-body">
+            <div class="tab-content">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="col-md-2" id="locationforecastDiv">
+                                    <div class="form-group">
+                                        <label>Location</label><br>
+                                        <select class="filter form-control  selectpickerSMRForecast selectpicker" id="locationAssiged" onchange="getDDLData(this.selectedOptions, 'location')" multiple>
+                                            @foreach (var loc in Model.locations)
+                                            {
+                                                <option value="@loc.cityId">@loc.name</option>
+                                            }
+                                            <option value="0">Others</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2" id="lostPeriodDiv">
+                                    <div class="form-group">
+                                        <label>No Show Period</label><br>
+                                        <select class="filter form-control selectpickerSMRForecast selectpicker" id="lostPeriod" onchange="getDDLData(this.selectedOptions,'noShow')" multiple>
+                                            <option value="1">0-30 days</option>
+                                            <option value="2">31-60 days</option>
+                                            <option value="3">>60 days</option>
+                                            <option value="0">Others</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2" id="serviceYearDiv">
+                                    <div class="form-group">
+                                        <label>From Due Date</label><br>
+                                        <input type="text" class="datepicMandYDropDown filter form-control date-picker" onchange="FromDueYear=$(this).val()" placeholder="Enter From Due Date" id="FromDueYearId" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-2" id="serviceMonthDiv">
+                                    <div class="form-group">
+                                        <label>To Due Date</label><br>
+                                        <input type="text" class="datepicMandYDropDown filter form-control date-picker" onchange="ToDueYear=$(this).val()" placeholder="Enter To Due Date" id="ToDueYearId" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-2" id="fromlastServiceDiv" @*style="visibility:hidden;"*@>
+                                    <div class="form-group">
+                                        <label>From Last Service Date</label><br>
+                                        <input type="text" class="datepicMandYDropDown filter form-control date-picker" onchange="fromLastSerDate = $(this).val();" placeholder="Enter From Last Service Date" id="fromLastSerDateId" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2" id="tolastServiceDiv" @*style="display:none;"*@>
+                                    <div class="form-group">
+                                        <label>To Last Service Date</label><br>
+                                        <input type="text" class="datepicMandYDropDown filter form-control date-picker" onchange="toLastSerDate = $(this).val();" placeholder="Enter To Last Service Date" id="toLastSerDateId" readonly disabled="disabled">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2" id="psYearDiv" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Max PS Year</label><br>
+                                        <select class="filter form-control  date-picker selectpicker" id="psYear" multiple>
+                                            @*@for (da < -yearsIs)
+                                                {
+                                                    @{if (da.toString() == yearsIs(0).toString())
+                                                        {
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value={da.toString()}>{da}</option>
+                                                        }}
+                                                }*@
+                                            <option value="0">Others</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="col-md-2" id="saleYearDiv">
+                                    <div class="form-group">
+                                        <label>From Sale Date Year</label><br>
+                                        <input type="text" class="datepicMandYDropDown filter form-control date-picker" onchange="FromSaleDateYear = $(this).val();" placeholder="Enter From Sale Date Year" id="FromSaleDateYearId" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-2" id="saleMonthDiv">
+                                    <div class="form-group">
+                                        <label>To Sale Date Year</label><br>
+                                        <input type="text" class="datepicMandYDropDown filter form-control date-picker" onchange="ToSaleDateYear = $(this).val();" placeholder="Enter To Sale Date Year" id="ToSaleDateYearId" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-2" id="ROAgeDiv">
+                                    <div class="form-group">
+                                        <label>RO Age</label><br>
+                                        <select class="filter form-control selectpickerSMRForecast selectpicker" onchange="getDDLData(this.selectedOptions,'roAge')" id="ROAge" multiple>
+                                            <option value="1">0-6 months</option>
+                                            <option value="2">6-12 months</option>
+                                            <option value="3">13-18 months</option>
+                                            <option value="4">18-24 months</option>
+                                            @*<option value="5">>2 years</option>*@
+                                            <option value="0">Others</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-2" id="forecastLogicDiv">
+                                    <div class="form-group">
+                                        <label>Forecast Logic</label><br>
+                                        <select class="filter form-control selectpickerSMRForecast" onchange="getDDLData(this.selectedOptions,'forecast')" id="forecastLogic" style="background-color:#f4f4f4;">
+                                            <option value="0">None selected</option>
+                                            <option value="1">Tenure</option>
+                                            <option value="2">Mileage</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2" id="isAssignedDiv">
+                                    <div class="form-group">
+                                        <label>Is Assigned</label><br>
+                                        <select class="filter form-control selectpickerSMRForecast" onchange="getDDLData(this.selectedOptions,'isAssigned')" id="isAssigned" onchange="onAssignedChange();" style="background-color:#f4f4f4;">
+                                            <option value="1">No</option>
+                                            <option value="2">Yes</option>
+                                            <option value="3" selected="selected">All</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2" id="serviceTypeDiv" @*style="visibility:hidden;"*@>
+                                    <div class="form-group">
+                                        <label>Due Type</label><br>
+                                        <select class="filter form-control  selectpickerSMRForecast selectpicker" onchange="getDDLData(this.selectedOptions,'dueType')" id="serviceType" data-column-index="5" onchange="psyearView();" multiple>
+                                            @foreach (var fore in Model.forecastlogicservicetypes)
+                                            {
+                                                <option value="@fore.id">@fore.servicetype</option>
+                                            }
+                                            <option value="0">Others</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2" id="psMonthDiv" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Max PS Month</label><br>
+                                        <select class="filter form-control  selectpickerSMRForecast selectpicker" id="psMonth" multiple>
+                                            <option value="1">Jan</option>
+                                            <option value="2">Feb</option>
+                                            <option value="3">March</option>
+                                            <option value="4">April</option>
+                                            <option value="5">May</option>
+                                            <option value="6">June</option>
+                                            <option value="7">July</option>
+                                            <option value="8">Aug</option>
+                                            <option value="9">Sept</option>
+                                            <option value="10">Oct</option>
+                                            <option value="11">Nov</option>
+                                            <option value="12">Dec</option>
+                                            <option value="0">Others</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2" id="workshopDiv">
+                                    <div class="form-group">
+                                        <label>Workshop Location: </label>
+
+                                        @Html.DropDownList("ddlWorkshop", new SelectList(ViewBag.ddlWorkshop, "workshopId", "workshopName"), new { @class = "filter selectpicker form-control  ", multiple = "multiple", @id = "ddlWorkshop", @data_field = "workshop_Id", @style = "border:  1px solid blue;" })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>EW Expiry from</label><br>
+                                        <input type="text" id="EWExpiryFrom" class="datepicMandYDropDown filter form-control date-picker" placeholder="Enter From EW Expiry Date" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>EW Expiry To</label><br>
+                                        <input type="text" id="EWExpiryTo" class="datepicMandYDropDown filter form-control date-picker" placeholder="Enter To EW Expiry Date " readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>MCP Expiry from</label><br>
+                                        <input type="text" id="MCPExpiryFrom" class="datepicMandYDropDown filter form-control date-picker" placeholder="Enter From MCP Expiry Date" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>TO MCP Expiry </label><br>
+                                        <input type="text" id="MCPExpiryTo" class="datepicMandYDropDown filter form-control date-picker" placeholder="Enter To MCP Expiry Date" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Model Category</label><br>
+                                        @Html.DropDownList("Model Type", new SelectList(ViewBag.ModelCategories, "id", "name"), new { @multiple = "multiple", @class = "selectpicker show-tick form-control", @id = "ModelCategories", @data_live_search = "true", @title = "--Select--", @data_hide_disabled = "true", @data_virtual_scroll = "false" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Exclude Negative Diposition</label><br>
+
+                                        @Html.DropDownList("ex-neg-dep", new SelectList(ViewBag.ExcludeNegativeDiposition, "id", "name"), new { @multiple = "multiple", @class = "selectpicker selectpickerSMRForecast show-tick form-control", @id = "ex-neg-dep", @data_live_search = "true", @title = "--Select--", @data_hide_disabled = "true", @data_virtual_scroll = "false" })
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Negative Diposition Call Date From</label><br>
+                                        <input type="text" id="ex-neg-dep-date-from" class="datepicMandYDropDown filter form-control date-picker" placeholder="Enter Negative Diposition Call Date" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Negative Diposition Call Date To</label><br>
+                                        <input type="text" id="ex-neg-dep-date-to" class="datepicMandYDropDown filter form-control date-picker" placeholder="Enter Negative Diposition Call Date" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div><br>
+
+
+                        <button style="float:right; margin-right:20px; margin-top:10px; width:120px;" class="btn btn-primary" onclick="return forecastTableView();">View</button>
+
+                        <button style="float:right; margin-right:10px; margin-top:10px; width:120px;" class="btn btn-primary" onclick="return clearFilters();">Clear Filter</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="panel panel-default tab-pane fade" id="psYearDataView" style="display:none;">
+                <div class="panel-body inf-content">
+
+                    <div>
+                        <table class="table table-bordered table-hover" id="psYearData" style='width:100%;height:auto;'>
+                            <thead>
+                                <tr>
+                                  
+
+                                    <th>workshopname</th>
+                                    <th>FR1</th>
+                                    <th>FR2</th>
+                                    <th>FR3</th>
+                                    <th>FR4</th>
+                                    <th>PMS</th>
+                                    <th>PMS20</th>
+                                    <th>PMS30</th>
+                                    <th>PMS40</th>
+                                    <th>PMS50</th>
+                                    <th>PMS60</th>
+                                    <th>PMS70</th>
+                                    <th>PMS &nbsp;80Above</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="buttons1"></div>
+            </div>
+            <div class="panel panel-default tab-pane fade in active " id="forecastView" style="display:none;">
+                <div class="panel-body inf-content">
+
+                    <div class="dataTable_wrapper">
+                        <div>
+                            <table class="table table-striped table-bordered table-hover" id="serviceForecastTableMR">
+                                <thead>
+                                    <tr>
+                                        <th>Location</th>
+                                        <th>Chassis&nbsp;No.</th>
+                                        <th>Customer&nbsp;Name</th>
+                                        <th>Mobile&nbsp;No.</th>
+                                        <th>DND</th>
+                                        <th>Reg&nbsp;No.</th>
+                                        <th>Model</th>
+                                        <th>Sale&nbsp;Date</th>
+                                        <th>Due&nbsp;Date</th>
+                                        <th>Due&nbsp;Type</th>
+                                        <th>Forecast&nbsp;Logic</th>
+                                        <th>Due&nbsp;Date-&nbsp;Tenure</th>
+                                        <th>Due&nbsp;Date-&nbsp;Mileage</th>
+                                        <th>Avg&nbsp;Running</th>
+                                        <th>Vin&nbsp;Status</th>
+                                        <th>Max&nbsp;PS&nbsp;Year</th>
+                                        <th>Last&nbsp;Odometer&nbsp;Reading</th>
+                                        <th>Last&nbsp;Service&nbsp;Date</th>
+                                        <th>Last&nbsp;Service&nbsp;Type</th>
+                                        <th>No&nbsp;Show&nbsp;Period</th>
+                                        <th>Assigned&nbsp;CRE</th>
+                                        <th>Assigned&nbsp;Date</th>
+                                        <th>Campaign&nbsp;Name</th>
+                                        <th>Sale&nbsp;Dealer&nbsp;Code</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="forecastViewBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div style="display:inline-flex;margin-bottom:5px;">
+                @*<button style="float:center;color:#000000;" id="downloadSMR"><i class="fa fa-download"></i> Download</button>*@
+                @*@Html.ActionLink("Download", "DownloadData", null, new { @class = "btn btn-primary btn-sm" })*@
+                <img src="~/public/img/dwnld.gif" class="" style="display: none;float: right;width: 50px;" id="Serviceforecastfieldloader1" />
+                <button style="float:center;color:#000000;" id="downloadSMRDue" onclick="return getServiceReminder();" style="color:#000000"><i class="fa fa-cloud-download"></i> Service Reminder</button>
+                <button id="assignedTo" style="float:center;color:#000000;visibility:hidden;"><a href="#" onclick="assignedTo();" data-toggle="modal" style="color:#000000"><i class="fa fa-external-link-square"></i> Assign</a></button>
+            </div>
+            <img src="~/public/img/dwnld.gif" class="" style="display: none;float: right;width: 50px;" id="Serviceforecastfieldloader" />
+            <button style="float:right" id="serviceforecastDownload" class="btn" onclick="downloadForecastService();"><i class="fa fa-download"></i> Download</button>
+
+        </div><!--End tab content-->
+
+        <label style="float:left;margin-top:10px;"><font size="1" color="red">Note: Auto Assignment does not apply for vehicles that are not mapped to any location.</font></label>
+
+
+    </div><!--End panel body-->
+</div>
+@*modal pop up for selecting campaign*@
+<div class="modal fade" id="selectCampaign" role="dialog">
+    <div class="modal-dialog" style="width:780px;">
+        <div class="panel-heading" style="background-color: #337ab7; color:#fff">
+            <b>Assigned to</b>
+            <button type="button" class="close" data-dismiss="modal">X@*<img src="@routes.Assets.at("images/close1.png")">*@</button><br>
+        </div>
+        <div style="background-color: #fefefe;padding: 30px;">
+            <div class="row" id="campaignSelect" style="display:block;">
+                <div class="col-sm-12">
+                    @*<div class="col-md-4">
+                        <label>Add Campaign</label><br>
+                        <input type="text" maxlength="50" size="30" id="addCampaignTxt" class="campaign" onchange="refreshDDL();">
+                    </div>
+                    <div class="col-md-3">
+                        <br />
+                        <div style="text-align:center;">
+                            <label>OR</label>
+                        </div>
+                    </div>*@
+                    <div class="col-md-4">
+                        <label>Select Campaign</label>
+                        <select class="filter form-control campaign selectpicker" id="addCampaignDDL" onchange="refreshTextBox();">
+                            <option value="0">--Select--</option>
+                            @foreach (var item in Model.campaigns)
+                            {
+                                <option value="@item.id">@item.campaignName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div align="right">
+                <button class="btn btn-primary" id="CampaignForecast" on onclick="modalPopUpTwo();">Next -></button>
+            </div>
+        </div>
+    </div>
+    @*modal pop up for displaying user namess*@
+    <div class="modal fade" id="assignForecast" role="dialog">
+        <div class="modal-dialog" style="width:780px;">
+            <div class="panel-heading" style="background-color: #337ab7; color:#fff">
+                <b>Assigned to</b>
+                <label></label>
+                <button type="button" class="close" data-dismiss="modal">X@*<img src="@routes.Assets.at("images/close1.png")">*@</button><br>
+            </div>
+            <div style="background-color: #fefefe;padding: 30px;">
+                <div style="display:inline-flex">
+                    <div class="radio-inline">
+                        <label>
+                            <input type="radio" name="isAuto" value="No" id="AutoFalse" checked="checked">
+                            Manual-Assign
+                        </label>
+                    </div>
+                    @*<div class="radio-inline">
+                            <label>
+                                <input type="radio" name="isAuto" value="Yes" id="AutoTrue">
+                                Auto-Assign
+                            </label>
+                        </div>*@
+                </div>
+                <div class="row" id="manualWyzuser" style="display:block;">
+                    <div class="col-sm-12">
+                        <div class="cre-lst form-group">
+                            <div class="cre-wrkshp-header"></div>
+                                <div class="col-sm-3 checkClass" id="check">
+                                    <input type="checkbox" class="creList" name="wyzuserList" value=""><label class="lbl-user"></label>
+                                </div>                     
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" id="autoWyzuser" style="display:none;">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <div id="autoList">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div align="right">
+                    <button class="btn btn-primary" id="AssignCallsForecast" onclick="addCampaignModal();">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*modal pop up for group by usernames*@
+    <div class="modal fade" id="groupUserNameModal" role="dialog">
+        <div class="modal-dialog" style="width:780px;">
+            <div class="panel-heading" style="background-color: #337ab7; color:#fff">
+                <b>HEADING</b>
+                <label></label>
+                <button type="button" class="close" data-dismiss="modal">X@*<img src="@routes.Assets.at("images/close1.png")">*@</button><br>
+
+                <div style="background-color: #fefefe;padding: 30px;">
+                    <div class="row" id="manualWyzuser" style="display:block;">
+                        <div class="col-sm-12">
+                            <div class="form-group modalResponse">
+                                <div id="modalDataID">
+
+                                </div>
+                                @*<table>
+                                        <tbody>
+                                            <tr>
+                                                <td class="tableTD"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    @section scripts{
+        <script>
+
+
+            var selectedLocation, selectedNoShowPeriod, selectedROAge, selectedDueType, selectedIsAssigned = "3", selectedForecastLogic, FromDueYear,
+                ToDueYear, toLastSerDate, fromLastSerDate, FromSaleDateYear, ToSaleDateYear,isFiltered;
+            //Hiding from last service date and due date when the app loads
+
+            var selected = 0, assigned = 0,notAssigned=0;
+            $("#lostPeriod").change(function () {
+                var value = $(this).val();
+                if (value != null) {
+                    if (value.length > 0) {
+                        for (var i = 0; i < value.length; i++) {
+                            if (value[i] == "1" || value[i] == "2" || value[i] == "3") {
+                                $("#fromLastSerDateId").val("");
+                                fromLastSerDate = "";
+                                $("#fromlastServiceDiv").css("visibility", "hidden");
+                                $('#serviceType').multiselect("deselectAll", false).multiselect('refresh');
+                                selectedDueType = null;
+                                $("#serviceTypeDiv").css("visibility", "hidden");
+
+                            }
+                            else {
+                                $("#fromlastServiceDiv").css("visibility", "visible");
+                                $("#serviceTypeDiv").css("visibility", "visible");
+                            }
+                        }
+                    }
+                }
+                else {
+                    $("#fromlastServiceDiv").css("visibility", "visible");
+                    $("#serviceTypeDiv").css("visibility", "visible");
+                }
+            });
+
+            //For multiselect in dropdowns
+
+            $('.selectpicker').multiselect({
+                includeSelectAllOption: true,
+                enableFiltering: true,
+                enableCaseInsensitiveFiltering: true,
+                numberDisplayed: 1,
+                buttonWidth: '182px',
+                maxHeight: 250
+
+            });
+
+            //For Dates
+
+            $(".date-picker").datepicker({
+                autoclose: true,
+                duration: "slow",
+                showAnim: "slide",
+                dateFormat: 'yy-mm-dd',
+                showOptions: { direction: "up" },
+                changeMonth: true,
+                changeYear: true
+                //maxDate: 0
+            });
+
+            //$(".date-picker-new").datepicker({
+            //    autoclose: true,
+            //    duration: "slow",
+            //    showAnim: "slide",
+            //    showOptions: { direction: "up" },
+            //    dateFormat: 'yy-mm-dd',
+            //    changeMonth: true,
+            //    changeYear: true,
+            //    maxDate: new Date(),
+            //    onSelect: function (date) {
+            //        $('.date-picker').datepicker("destroy");
+            //        $('.date-picker').datepicker({
+            //            autoclose: true,
+            //            dateFormat: 'yy-mm-dd',
+            //            minDate: $('.date-picker-new').datepicker('getDate'),
+            //            maxDate: 0
+            //        });
+            //        var dt1 = $('.date-picker-new').datepicker('getDate');
+            //        var dt2 = $('.date-picker').datepicker('getDate');
+            //        if (dt2 <= dt1) {
+            //            var minDate = $('#dt2').datepicker('option', 'minDate');
+            //            $('.date-picker').datepicker('setDate', null);
+            //            //$('.date-picker').datepicker('maxDate', new Date());
+            //        }
+            //    }
+            //});
+
+            //$(".date-picker-year").datepicker({
+            //    autoclose: true,
+            //    duration: "slow",
+            //    showAnim: "slide",
+            //    showOptions: { direction: "up" },
+            //    dateFormat: 'yy-mm-dd',
+            //    changeMonth: true,
+            //    changeYear: true,
+            //    onSelect: function (date) {
+            //        $('.date-picker-to').datepicker("destroy");
+            //        $('.date-picker-to').datepicker({
+            //            autoclose: true,
+            //            dateFormat: 'yy-mm-dd',
+            //            minDate: $('.date-picker-year').datepicker('getDate')
+            //        });
+            //        var dt1 = $('.date-picker-year').datepicker('getDate');
+            //        var dt2 = $('.date-picker-to').datepicker('getDate');
+            //        if Sessiondt2 <= dt1) {
+            //            var minDate = $('#dt2').datepicker('option', 'minDate');
+            //            $('.date-picker-to').datepicker('setDate', null);
+            //        }
+            //    }
+            //});
+
+            //$(".date-picker-to").datepicker({
+            //    autoclose: true,
+            //    duration: "slow",
+            //    showAnim: "slide",
+            //    showOptions: { direction: "up" },
+            //    dateFormat: 'yy-mm-dd',
+            //    changeMonth: true,
+            //    changeYear: true
+            //});
+
+            //function getLocationValues(selected) {
+            //    debugger;
+            //    selectedLocation = "";
+            //    if (selected.length > 0) {
+            //        for (var i = 0; i < selected.length; i++) {
+            //            if (i == 0) {
+            //                selectedLocation = selected[i].text;
+            //            }
+            //            else {
+            //                selectedLocation = selectedLocation + ',' + selected[i].text;
+            //            }
+            //        }
+            //    }
+            //}
+
+            $("#fromLastSerDateId").change(function () {
+                var a = $(this).val();
+                if ($(this).val() != null) {
+                    $('#toLastSerDateId').removeAttr("disabled");
+                }
+            });
+
+            $(document).on("change", "#locationAssiged", function () {
+                var locationId = ($("#locationAssiged").val() || []).join(",");
+
+                $('#ddlWorkshop').empty();
+                $('#ddlWorkshop').multiselect("rebuild");
+
+                if (locationId != []) {
+                    $.ajax({
+                        url: siteRoot + "/Forecast/GetWorkshopListByLocationId/",
+                        type: 'POST',
+                        dataType: 'json',
+                        data: { "locationIds": locationId },
+                        cache: false,
+                        success: function (res) {
+
+                            $.each(res, function (key, optn) {
+
+                                $('#ddlWorkshop')
+                                    .append($("<option></option>")
+                                        .attr("value", optn.id)
+                                        .text(optn.name));
+                                $('#ddlWorkshop').multiselect("rebuild");
+                            });
+                        },
+                        error: function (err) {
+                            alert("error occured while getting workshop");
+                            console.log(err);
+                        }
+                    });
+
+                }
+
+
+          
+
+            });
+
+
+            function getDDLData(selected, filter) {
+
+                if (selected.length > 0) {
+                    for (var i = 0; i < selected.length; i++) {
+                        if (i == 0) {
+                            if (filter == 'location') {
+                                selectedLocation = "";
+                                selectedLocation = selected[i].value;
+                            }
+                            else if (filter == 'noShow') {
+                                selectedNoShowPeriod = " ";
+                                selectedNoShowPeriod = selected[i].value;
+                            }
+                            else if (filter == 'roAge') {
+                                selectedROAge = "";
+                                selectedROAge = selected[i].value;
+                            }
+                            else if (filter == 'dueType') {
+                                selectedDueType = "";
+                                selectedDueType = selected[i].value;
+                            }
+                            else if (filter == 'isAssigned') {
+                                selectedIsAssigned = "";
+                                selectedIsAssigned = selected[i].value;
+                                if (selectedIsAssigned == '1') {
+                                    $('#assignedTo').css("visibility", "visible");
+                                }
+                                else {
+                                    $('#assignedTo').css("visibility", "hidden");
+                                }
+
+                            }
+                            else if (filter == 'forecast') {
+                                selectedForecastLogic = "";
+                                selectedForecastLogic = selected[i].value;
+                            }
+                            //isFiltered = true;
+                        }
+                        else if (i > 0) {
+                            if (filter == 'location') {
+                                selectedLocation = selectedLocation + "," + selected[i].value;
+                            }
+                            else if (filter == 'noShow') {
+                                selectedNoShowPeriod = selectedNoShowPeriod + "," + selected[i].value;
+                            }
+                            else if (filter == 'roAge') {
+                                selectedROAge = selectedROAge + "," + selected[i].value;
+                            }
+                            else if (filter == 'dueType') {
+                                selectedDueType = selectedDueType + "," + selected[i].value;
+                            }
+                            //isFiltered = true;
+                        }
+                    }
+                }
+                else if (selected.length == 0) {//when we uncheck multiple options,selectedVariable will still contai the last but 1 value,this is to clear it
+                    if (filter == 'location') {
+                        selectedLocation = null;
+                    }
+                    else if (filter == 'noShow') {
+                        selectedNoShowPeriod = null;
+                    }
+                    else if (filter == 'roAge') {
+                        selectedROAge = null;
+                    }
+                    else if (filter == 'dueType') {
+                        selectedDueType = null;
+                    }
+                    else if (filter == 'isAssigned') {
+                        selectedIsAssigned = null;
+                    }
+                    else if (filter == 'forecast') {
+                        selectedForecastLogic = null;
+                    }
+                }
+            }
+            //function parseJsonDateTime(datetime) {
+            //    var ConDate = "";
+            //    if (datetime != null) {
+            //        ConDate = new Date(parseInt(datetime.substr(6)));
+
+            //        if (ConDate.getMonth() < 10) {
+            //            ConDate =  ConDate.getDate() + '-0' + (parseInt(ConDate.getMonth()) + 1) + '-' +ConDate.getFullYear();
+            //        }
+            //        else {
+            //            ConDate = ConDate.getDate() + '-' + (parseInt(ConDate.getMonth()) + 1) + '-' + ConDate.getFullYear() ;
+            //        }
+
+            //        return ConDate;
+            //    }
+            //    else {
+            //        return ConDate;
+            //    }
+            //}
+
+            function clearFilters() {
+
+                //refreshing card
+                $("#selectedCard").html('');
+                $("#assignedCard").html('');
+                $("#balancedCard").html('');
+
+                //refreshing multiple dropdowns
+                $('#locationAssiged').multiselect("deselectAll", false).multiselect('refresh');
+                $('#lostPeriod').multiselect("deselectAll", false).multiselect('refresh');
+                $('#ROAge').multiselect("deselectAll", false).multiselect('refresh');
+                $('#serviceType').multiselect("deselectAll", false).multiselect('refresh');
+
+                //refreshing dropdowns
+                $("#forecastLogic").val('0');
+                $("#isAssigned").val('3');
+
+                //refreshing datepickers
+                $('#FromDueYearId').val("");
+                $('#ToDueYearId').val("");
+                $('#toLastSerDateId').val("");
+                $('#fromLastSerDateId').val("");
+                $('#FromSaleDateYearId').val("");
+                $('#ToSaleDateYearId').val("");
+                //var fromDate = document.getElementById('FromDueYearId');
+                //fromDate.value = fromDate.defaultValue;
+
+                //table
+                $("#forecastViewBody").empty();
+
+                $("#forecastViewBody").empty();
+
+
+                $('#ddlWorkshop').multiselect("deselectAll", false).multiselect('refresh');
+                $('#ModelCategories').multiselect("deselectAll", false).multiselect('refresh');
+                $('#ex-neg-dep').multiselect("deselectAll", false).multiselect('refresh');
+                $("#EWExpiryFrom").val("");
+                $("#EWExpiryTo").val("");
+                $("#MCPExpiryFrom").val("");
+                $("#MCPExpiryTo").val("");
+
+                $("#ex-neg-dep-date-from").val("");
+                $("#ex-neg-dep-date-to").val("");
+
+            }
+
+            //Collecting data to view summary table
+            var fromDate, toDate, loc, locString;
+            $('#FromDueYearId, #ToDueYearId,#locationAssiged').change(function () {
+
+                fromDate = $('#FromDueYearId').val();
+                toDate = $('#ToDueYearId').val();
+                loc = $('#locationAssiged').val();
+                if (loc != null) {
+                    locString = loc.join(",");
+                }
+            });
+
+            function forecastTableView() {
+                $('#serviceforecastDownload').css({ 'display': 'none' });
+                $('#downloadSMRDue').css({ 'display': 'none' });
+
+
+                $('#forecastView').css("display", "block");
+                selected = 0; assigned = 0; notAssigned = 0;
+
+                //summary data table
+
+
+
+                if (fromDate != "" && toDate != "" && loc != null) {
+
+                    $('#psYearDataView').addClass('in active');
+                    $('#psYearDataView').css({ 'display': 'block' });
+
+
+                    var listOfDataForSummary = {
+                        locationObj: selectedLocation,
+                        noShowObj: selectedNoShowPeriod,
+                        FromDueYearObj: FromDueYear,
+                        ToDueYearObj: ToDueYear,
+                        toLastSerDateObj: toLastSerDate,
+                        fromLastSerDateObj: fromLastSerDate,
+                        FromSaleDateYearObj: FromSaleDateYear,
+                        ToSaleDateYearObj: ToSaleDateYear,
+                        roObj: selectedROAge,
+                        selectedForecastLogicObj: selectedForecastLogic,
+                        selectedIsAssignedObj: selectedIsAssigned,
+                        selectedDueTypeObj: selectedDueType,
+                        workshopId: ($("#ddlWorkshop").val() || []).join(","),
+                        FromEWExpiryFrom: $("#EWExpiryFrom").val(),
+                        FromEWExpiryTo: $("#EWExpiryTo").val(),
+                        FromMCPExpiryFrom: $("#MCPExpiryFrom").val(),
+                        FromMCPExpiryTo: $("#MCPExpiryTo").val(),
+                        ModelCategories: ($("#ModelCategories").val() || []).join(","),
+                        ExcludeNegativeDeposition: ($("#ex-neg-dep").val() || []).join(","),
+                        ExcludeNegativeDepositionCallDateFrom: $("#ex-neg-dep-date-from").val(),
+                        ExcludeNegativeDepositionCallDateTo: $("#ex-neg-dep-date-to").val()
+                        //isFiltered:isFiltered
+                    };
+
+                    $('#psYearData').DataTable({
+                        "destroy": true,
+                        dom: 'Bfrtip',
+                        "buttons": ['excel'],
+                        "ajax": {
+                            "url": siteRoot + "/Forecast/getDataWorkshopWiseCounts/",
+                            "async": false,
+                            "type": "POST",
+                            "datatype": "json",
+                            "data": { values: JSON.stringify(listOfDataForSummary) }
+                        },
+                        "columns": [
+                            { "data": "workshopname", "name": "workshopname" },
+                            { "data": "FR1", "name": "FR1" },
+                            { "data": "FR2", "name": "FR2" },
+                            { "data": "FR3", "name": "FR3" },
+                            { "data": "FR4", "name": "FR4" },
+                            { "data": "PMS", "name": "PMS" },
+                            { "data": "PMS20", "name": "PMS20" },
+                            { "data": "PMS30", "name": "PMS30" },
+                            { "data": "PMS40", "name": "PMS40" },
+                            { "data": "PMS50", "name": "PMS50" },
+                            { "data": "PMS60", "name": "PMS60" },
+                            { "data": "PMS70", "name": "PMS70" },
+                            { "data": "PMS80_and_above", "name": "PMS80_and_above" },
+                            { "data": "Total", "name": "Total" }
+                        ],
+                        "processing": "true",
+                        "serverSide": true,
+                        "scrollX": "true",
+                        "scrollY": "300",
+                        "pageLength": 100,
+                        "paging": false,//""
+                        "searching": false,
+                        "language": {
+                            "processing": "Loading Please Wait.....!"
+                        }
+
+                    });
+                }
+                //datatable for viewing the data
+                var listOfData = {
+                    locationObj: selectedLocation,
+                    noShowObj: selectedNoShowPeriod,
+                    FromDueYearObj: FromDueYear,
+                    ToDueYearObj: ToDueYear,
+                    toLastSerDateObj: toLastSerDate,
+                    fromLastSerDateObj: fromLastSerDate,
+                    FromSaleDateYearObj: FromSaleDateYear,
+                    ToSaleDateYearObj: ToSaleDateYear,
+                    roObj: selectedROAge,
+                    selectedForecastLogicObj: selectedForecastLogic,
+                    selectedIsAssignedObj: selectedIsAssigned,
+                    selectedDueTypeObj: selectedDueType,
+                    workshopId: ($("#ddlWorkshop").val() || []).join(","), 
+                    FromEWExpiryFrom: $("#EWExpiryFrom").val(),
+                    FromEWExpiryTo: $("#EWExpiryTo").val(),
+                    FromMCPExpiryFrom: $("#MCPExpiryFrom").val(),
+                    FromMCPExpiryTo: $("#MCPExpiryTo").val(),
+                    ModelCategories: ($("#ModelCategories").val() || []).join(","),
+                    ExcludeNegativeDeposition: ($("#ex-neg-dep").val() || []).join(","), 
+                    ExcludeNegativeDepositionCallDateFrom: $("#ex-neg-dep-date-from").val(),
+                    ExcludeNegativeDepositionCallDateTo: $("#ex-neg-dep-date-to").val()
+                    //isFiltered:isFiltered
+                };
+                var DealerName = '@Session["DealerCode"].ToString()';
+                if (DealerName == "SHIVAMHYUNDAI") {
+                    var rows = [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
+
+                }
+                else {
+                    var rows = [0, 1, 2,3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
+
+                }
+                var serviceForecastTable =$("#serviceForecastTableMR").DataTable({
+                    "destroy": true,
+                    dom: 'Bfrtip',
+                    buttons: [{
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: rows
+                        }
+                    }],
+                    "ajax": {
+                        "url": siteRoot+"/Forecast/ForecastPost/",
+                        "type": "POST",
+                        "datatype": "json",
+                        "data": { values: JSON.stringify(listOfData) }
+                    },
+                    "columns": [
+                        { "data": "locationName", "name": "locationName" },
+                        { "data": "chassisnumber", "name": "chassisnumber" },
+                        { "data": "customerName", "name": "customerName" },
+                        { "data": "phoneNumber", "name": "phoneNumber" },
+                        { "data": "dnd", "name": "dnd" },
+                        { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                        { "data": "model", "name": "model" },
+                        {
+                            "data": "saledate", "name": "saledate", render: function (data, type, row) {
+                                return parseJsonDateTime(data);
+                            }
+                        },
+                        {
+                            "data": "nextServicedate", "name": "nextServicedate", render: function (data, type, row) {
+                                return parseJsonDateTime(data);
+                            }
+                        },
+                        { "data": "nextServiceType", "name": "nextServiceType" },
+                        { "data": "forecastLogic", "name": "forecastLogic" },
+                        {
+                            "data": "nextServiceDateTenure", "name": "nextServiceDateTenure", render: function (data, type, row) {
+                                return parseJsonDateTime(data);
+                            }
+                        },
+                        {
+                            "data": "nextServiceDateMilage", "name": "nextServiceDateMilage", render: function (data, type, row) {
+                                return parseJsonDateTime(data);
+                            }
+                        },
+                        { "data": "averageRunning", "name": "averageRunning" },
+                        { "data": "lostStatus", "name": "lostStatus" },
+                        {
+                            "data": "maxPSDate", "name": "maxPSDate", render: function (data, type, row) {
+                                return parseJsonDateTime(data);
+                            }
+                        },
+                        { "data": "lastMileage", "name": "lastMileage" },
+                        {
+                            "data": "lastServiceDate", "name": "lastServiceDate", render: function (data, type, row) {
+                                return parseJsonDateTime(data);
+                            }
+                        },
+                        { "data": "lastServiceType", "name": "lastServiceType" },
+                        { "data": "NoShowPeriod", "name": "NoShowPeriod" },
+                        {
+                            "data": "creName", render: function (data, type, row) {
+                                ////debugger;
+                                //selected = selected + 1;
+                                //if (data === "Assigned") {
+                                //    assigned = assigned + 1;
+                                //}
+                                //$('#selectedVeh').html(selected);
+                                //$('#selectedAssigned').html(assigned);
+                                return data;
+                            }
+                        },
+                        {
+                            "data": "lastServiceDate", "name": "lastServiceDate", render: function (data, type, row) {
+                                return parseJsonDateTime(data);
+                            }
+                        },
+                        { "data": "campaignName", "name": "campaignName" },
+                        {"data": "saledealercode","name":"saledealercode"}
+                    ],
+                    "initComplete": function (setting, json) {
+                        if (DealerName == "SHIVAMHYUNDAI") {
+                            serviceForecastTable.columns(3).visible(false)
+                        }
+                        else {
+                            serviceForecastTable.columns(3).visible(true)
+                        }
+                        var jsonReturnData = json.data;
+                        selected = jsonReturnData.length;
+                        assigned = jsonReturnData.filter(m => m.creName != "Not Assigned").length;
+                        notAssigned = selected - assigned;
+                        $('#selectedCard').text(selected);
+                        $('#assignedCard').text(assigned);
+                        $('#balancedCard').text(notAssigned);
+                        $('#serviceforecastDownload').css({ 'display': 'block' });
+                        $('#downloadSMRDue').css({ 'display': 'block' });
+                    },
+                    "serverSide": "true",
+                    "processing": "true",
+                    "serverSide": true,
+                    "scrollX": "true",
+                    "scrollY": "300",
+                    "paging": true,//""
+                    "searching": false,
+                    "lengthMenu": [100, 200, 500, 1000],
+                    "pageLength": 100,
+                    "language": {
+                        "processing": "Loading Please Wait.....!"
+                    }
+                });
+
+
+                //gerCardValues(listOfData);
+
+            }
+            //function gerCardValues(listOfData) {
+            //    $.ajax({
+            //        url: '../Forecast/cardDetails/',
+            //        dataType: 'json',
+            //        "data": { values: JSON.stringify(listOfData) },
+            //        type: 'GET',
+            //        success: function (res) {
+            //            if (this.success) {
+            //                $("#selectedCard").text(res.totalCount);
+            //                $("#assignedCard").text(res.assignedCount);
+            //                $("#balancedCard").text(res.balanceCount);
+            //            }
+            //            else {
+            //                alert("error in retrieving data for dashboard");
+            //            }
+            //        }, error: function (err) {
+            //            console.log(err);
+            //        }
+            //    });
+            //}
+            var campaignData;
+            function assignedTo() {
+                $('#selectCampaign').modal('show');
+                $('#assignForecast').modal('hide');
+            }
+
+            var campaignDDLList =@Html.Raw(Json.Encode(ViewBag.CampDDL));
+
+            $('#addCampaignTxt').click(function () {
+                $('#addCampaignDDL').val('');
+                $('#addCampaignDDL').multiselect('refresh');
+            });
+
+            $("#addCampaignTxt").keypress(function (e) {
+                    var code = e.keyCode || e.which;
+                    if ((code < 65 || code > 90) && (code < 97 || code > 122) && code != 32 && code != 46)
+                    {
+                        Lobibox.notify('warning', {
+                            continueDelayOnInactiveTab: true,
+                            msg: 'Only alphabates are allowed.'
+                        });
+
+                        return false;
+                    }
+                });
+
+            function refreshDDL() {
+
+                var campaignFromInput = $('#addCampaignTxt').val() + ",txt";
+                for (var i = 0; i < campaignDDLList.length;i++)
+                {
+                    if (campaignDDLList[i] == campaignFromInput)
+                    {
+                        alert('Please choose another campaign name');
+                    }
+                    else
+                    {
+                        campaignData = campaignFromInput;
+                    }
+                }
+            }
+            function refreshTextBox() {
+                $('#addCampaignTxt').val("");
+                campaignData = $('#addCampaignDDL').val() + ",ddl";
+            }
+            function modalPopUpTwo() {
+
+                $.ajax({
+                    url: siteRoot + '/Forecast/GetFilteredCREUsers/',
+                    type: 'POST',
+                    success: function (res) {
+                        $('.cre-lst').empty();
+                        var clone = $('.cre-lst');
+
+                        var newHtml = "";
+
+                        $.each(res, function (i) {
+                            var wrkShpGrp = res[i];
+                            newHtml = newHtml + '<div class="col-sm-6" style="margin-bottom:10px;" > <div class="cre-wrkshp-header"><label>' + res[i].worshopName + '</label></div>';
+
+                            $.each(wrkShpGrp.creUsers, function (j) {
+                                let usr = wrkShpGrp.creUsers[j];
+                                newHtml = newHtml + '<div class="checkClass" id="check"><input type="checkbox" checked class="creList" name="wyzuserList" value="' + usr.workshopid + "_" + usr.CREUserId + "_" + usr.serviceTypeId + "_" + usr.categoryId + "_" + usr.RoAgeingId + '">' + usr.username + '</div>';
+                                if (j == (wrkShpGrp.creUsers.length - 1)) {
+                                    newHtml = newHtml + '</div>';
+                                    console.log(newHtml);
+                                }
+                            });                          
+                        });
+
+
+                        clone.append(newHtml);
+                        $('#assignForecast').modal('show');
+
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    },
+                    data: { "workshopId": ($("#ddlWorkshop").val() || []).join(","), campaignId: $('#addCampaignDDL').val(), serviceTypeId: selectedDueType, roAgeId: selectedROAge, categoryId: ($("#ModelCategories").val() || []).join(",") }
+            });
+
+         
+
+            }
+                
+
+             
+            
+
+            $(document).on("change", ".checkClass", function () {
+                var len = $(this).length;
+                if (len > 0) {
+                    $('#AssignCallsForecast').prop('disabled', false);
+                }
+                else {
+                    $('#AssignCallsForecast').prop('disabled', true);
+                }
+            });
+
+            function addCampaignModal() {
+                //$('#groupUserNameModal').modal('show');
+                var creList = [];
+
+                $('.creList').each(function () {
+                    var isChecked = $(this).prop('checked');
+                    if (isChecked == true) {
+                        if (creList === "") {
+                            creList = $(this).val();
+                        }
+                        else {
+                            let usrWrkshop = ($(this).val()).split('_') || [];
+
+                            creList.push({ workshop: usrWrkshop[0], userId: usrWrkshop[1], serviceTypeId: usrWrkshop[2], categoryId: usrWrkshop[3], ROAgeingId: usrWrkshop[4] })
+                        }
+                    }                    
+                });
+
+                var listOfData = {
+                    locationObj: selectedLocation,
+                    noShowObj: selectedNoShowPeriod,
+                    FromDueYearObj: FromDueYear,
+                    ToDueYearObj: ToDueYear,
+                    toLastSerDateObj: toLastSerDate,
+                    fromLastSerDateObj: fromLastSerDate,
+                    FromSaleDateYearObj: FromSaleDateYear,
+                    ToSaleDateYearObj: ToSaleDateYear,
+                    roObj: selectedROAge,
+                    selectedForecastLogicObj: selectedForecastLogic,
+                    selectedIsAssignedObj: selectedIsAssigned,
+                    selectedDueTypeObj: selectedDueType,
+                    campaignControl: campaignData,
+                    selectedWrkshpUsrList: creList,
+                    workshopId: ($("#ddlWorkshop").val() || []).join(","),
+                    FromEWExpiryFrom: $("#EWExpiryFrom").val(),
+                    FromEWExpiryTo: $("#EWExpiryTo").val(),
+                    FromMCPExpiryFrom: $("#MCPExpiryFrom").val(),
+                    FromMCPExpiryTo: $("#MCPExpiryTo").val(),
+                    ModelCategories: ($("#ModelCategories").val() || []).join(","),
+                    ExcludeNegativeDeposition: ($("#ex-neg-dep").val() || []).join(","),
+                    ExcludeNegativeDepositionCallDateFrom: $("#ex-neg-dep-date-from").val(),
+                    ExcludeNegativeDepositionCallDateTo: $("#ex-neg-dep-date-to").val()
+                };
+                $('#mainLoader').css({ 'display': 'block' });
+                $.ajax({
+                    url: siteRoot+'/Forecast/submitModal/',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { values: JSON.stringify(listOfData) },
+                    success: function (res) {
+                        if (res.success) {
+                            var content = "";
+                            $('#assignForecast').modal('hide');
+                            $('#selectCampaign').modal('hide');
+                            alert('total ' + res.totalAssigned + ' Data Assigned Successfully')
+                            $('#mainLoader').css({ 'display': 'none' });
+                            //$('#modalDataID').html('<p>Data Inserted Successfully</p>');
+                            //$('#groupUserNameModal').css('display','block');
+                            //if (res.length > 0) {
+                            //for (var i = 0; i < res.length; i++) {
+                            //    var element = '<div class="col-md-6">' + res[i].Key + ':</div><div class="col-md-6">' + res[i].Value + '</div>';
+                            //    content = content + '<div class="row">' + element + '</div>';
+                            //}
+                            //}
+                        }
+                        else {
+                            alert('there is something wrong with the data blah blah');
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                        console.log(err);
+                    },
+                    finally: function (err) {
+                        $('#mainLoader').css({ 'display': 'none' });
+                    }
+                });
+            }
+            function getServiceReminder() {
+                var loc = $('#locationAssiged').val();
+                var lostPeriod = $('#lostPeriod').val();
+                var fromdueYear = $('#FromDueYearId').val();
+                var todueYear = $('#ToDueYearId').val();
+
+                //if (loc == "" || loc == null) {
+                //    Lobibox.notify('warning', {
+                //        continueDelayOnInactiveTab: true,
+                //        msg: 'Please Select Location .'
+                //    });
+                //    return false;
+                //}
+                //if (lostPeriod == "" || lostPeriod == null) {
+                //    Lobibox.notify('warning', {
+                //        continueDelayOnInactiveTab: true,
+                //        msg: 'Please Select No Show Period.'
+                //    });
+                //    return false;
+                //}
+                //if (fromdueYear == "") {
+                //    Lobibox.notify('warning', {
+                //        continueDelayOnInactiveTab: true,
+                //        msg: 'Please Select From Due Year.'
+                //    });
+                //    return false;
+                //}
+                //if (todueYear == "") {
+                //    Lobibox.notify('warning', {
+                //        continueDelayOnInactiveTab: true,
+                //        msg: 'Please Select To Due Year.'
+                //    });
+                //    return false;
+                //}
+                $('#downloadSMRDue').css({ 'display': 'none' });
+                $('#Serviceforecastfieldloader1').css({ 'display': 'block' });
+                var listOfData = {
+                    locationObj: selectedLocation,
+                    noShowObj: selectedNoShowPeriod,
+                    FromDueYearObj: FromDueYear,
+                    ToDueYearObj: ToDueYear,
+                    toLastSerDateObj: toLastSerDate,
+                    fromLastSerDateObj: fromLastSerDate,
+                    FromSaleDateYearObj: FromSaleDateYear,
+                    ToSaleDateYearObj: ToSaleDateYear,
+                    roObj: selectedROAge,
+                    selectedForecastLogicObj: selectedForecastLogic,
+                    selectedIsAssignedObj: selectedIsAssigned,
+                    selectedDueTypeObj: selectedDueType,
+                    workshopId: ($("#ddlWorkshop").val() || []).join(","),
+                    FromEWExpiryFrom: $("#EWExpiryFrom").val(),
+                    FromEWExpiryTo: $("#EWExpiryTo").val(),
+                    FromMCPExpiryFrom: $("#MCPExpiryFrom").val(),
+                    FromMCPExpiryTo: $("#MCPExpiryTo").val(),
+                    ModelCategories: ($("#ModelCategories").val() || []).join(","),
+                    ExcludeNegativeDeposition: ($("#ex-neg-dep").val() || []).join(","),
+                    ExcludeNegativeDepositionCallDateFrom: $("#ex-neg-dep-date-from").val(),
+                    ExcludeNegativeDepositionCallDateTo: $("#ex-neg-dep-date-to").val()
+                };
+                $.ajax({
+                    url: siteRoot + "/Forecast/downloadServiceReminder/",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { values: JSON.stringify(listOfData) },
+                    cache: false,
+                    success: function (res) {
+                        if (res.success == true) {
+                            window.location = siteRoot + "/Forecast/Download/";
+
+
+                        }
+                        else if (res.success == false) {
+                            Lobibox.notify('warning', {
+                                msg: res.error
+                            });
+                        }
+                        $('#downloadSMRDue').css({ 'display': 'block' });
+                        $('#Serviceforecastfieldloader1').css({ 'display': 'none' });
+                    }
+                });
+                return false;
+            }
+
+            function downloadForecastService() {
+
+
+
+                $('#serviceforecastDownload').css({ 'display': 'none' });
+                $('#Serviceforecastfieldloader').css({ 'display': 'block' });
+
+
+                $.when(callForecastAjax()).then
+                    (function successHandler(res)
+                    {
+                        console.log(res);
+                        if (res.success == true) {
+                            window.location.href = siteRoot + "/Forecast/DownloadALL/";
+
+
+                        }
+                        else if (res.success == false) {
+                            Lobibox.notify('warning', {
+                                msg: res.error
+                            });
+                            $('#serviceforecastDownload').css({ 'display': 'block' });
+                            $('#Serviceforecastfieldloader').css({ 'display': 'none' });
+                            return false;
+                        }
+                        else {
+                            $('#serviceforecastDownload').css({ 'display': 'block' });
+                            $('#Serviceforecastfieldloader').css({ 'display': 'none' });
+                            alert(res.error);
+                        }
+                        $('#serviceforecastDownload').css({ 'display': 'block' });
+                        $('#Serviceforecastfieldloader').css({ 'display': 'none' });
+                    },
+                        function errorHandler(res)
+                        {
+                                                    console.log(err);
+
+                        })
+            }
+
+            function callForecastAjax() {
+                var connectionId = $.connection.hub.id;
+
+                return $.ajax({
+                    url: siteRoot + "/Forecast/downloadServiceForecastLimit/",
+                    type: 'post',
+                    data: { connectionId: connectionId }
+                });
+            }
+            //function downloadForecastService() {
+            //    var connectionId = $.connection.hub.id;
+            //    $('#serviceforecastDownload').css({ 'display': 'none' });
+            //    $('#Serviceforecastfieldloader').css({ 'display': 'block' });
+            //    $.ajax({
+            //        url: siteRoot + '/Forecast/downloadServiceForecastLimit/',
+            //        type: "POST",
+            //        data: { connectionId: connectionId},
+            //        timeout: 591111,
+            //        success: function (result) {
+            //            console.log(result);
+            //            if (result.success == true) {
+            //                //debugger
+            //                //var bytes = new Uint8Array(result.robj.FileContents);
+            //                //var blob = new Blob([bytes], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+            //                //var link = document.createElement('a');
+            //                //link.href = window.URL.createObjectURL(blob);
+            //                //link.download = "serviceForecastDatas.xlsx";
+            //                //link.click();
+            //                //$('#serviceforecastDownload').css({ 'display': 'block' });
+            //                //$('#Serviceforecastfieldloader').css({ 'display': 'none' });
+            //            }
+            //            else if (result.success == false) {
+            //                Lobibox.notify('warning', {
+            //                    continueDelayOnInactiveTab: true,
+            //                    msg: result.error
+            //                });
+            //                $('#serviceforecastDownload').css({ 'display': 'block' });
+            //                $('#Serviceforecastfieldloader').css({ 'display': 'none' });
+            //            }
+            //        },
+            //        error: function (err) {
+            //            console.log(err);
+            //            $('#serviceforecastDownload').css({ 'display': 'block' });
+            //            $('#Serviceforecastfieldloader').css({ 'display': 'none' });
+            //        }
+            //    });
+            //    $('#serviceforecastDownload').css({ 'display': 'block' });
+            //    $('#Serviceforecastfieldloader').css({ 'display': 'none' });
+            //}
+        </script>
+    }

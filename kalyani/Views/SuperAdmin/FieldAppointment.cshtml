@@ -1,0 +1,163 @@
+﻿@{
+    ViewBag.Title = "Field Appointment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("DownloadFieldAppointment", "SuperAdmin", FormMethod.Post))
+{
+
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <b> Field Appointment Report Download</b>
+        </div>
+        <div class="panel-body">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row filterDiv">
+                        <div class="col-md-2" id="insuranceAgentNameDiv">
+                            <label>Field Executive Name</label>
+                            <div class="form-group">
+                                @Html.DropDownList("insuranceAgentId", (MultiSelectList)new SelectList(ViewBag.insuranceAgentNames, "insuranceAgentId", "insuranceAgentName"), new
+                           {
+                               @multiple = "multiple",
+                               @class = "selectpicker show-tick form-control",
+                               @id = "insuranceAgentNames",
+                               @data_field = "insuranceAgentName",
+                               @name = "insuranceAgentName"
+                           })
+                            </div>
+                        </div>
+
+                        <div class="col-md-2" id="followupfromDateDiv">
+                            <div class="form-group">
+                                <label>From Date: </label>
+                                <input type="text" class="filter form-control datepicFollowUpFromDropDown" data-column-index="6" id="reportfromDate" name="fromDate" placeholder=" Select Date" data-field="followUP_From_date" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-2" id="followuptoDateDiv">
+                            <div class="form-group">
+                                <label>To Date: </label>
+                                <input type="text" class="filter form-control datepicFollowUpToDropDown" data-column-index="6" id="FieldAppointmentReporttoDate" name="toDate" placeholder="To Followup Date" data-field="followUP_To_date" onchange="getfilters(this)" readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-md-1">
+
+                            <label>&nbsp;</label>
+                            <div class="form-group">
+                                <button type="submit" name="FieldAppointmentReportButton" id="btn" class="btn btn-primary" title="DownloadFieldAppointmentReport" style="display:none">
+                                    <i class="glyphicon glyphicon-download"></i>&nbsp;Download Field-Appointment Report
+                                </button>
+                                <button type="button" name="FieldAppointmentReportButton" id="btnn" onclick="validateForm1()" class="btn btn-primary" title="DownloadFieldAppointmentReport">
+                                    <i class="glyphicon glyphicon-download"></i>&nbsp;Download Field-Appointment Report
+                                </button>
+                            </div>
+                        </div>
+
+                        <!--<div class="col-md-1" id="followuptoDateDiv">-->
+                            @*<label type="h">PickUpSlip To Date: </label>*@
+                            <!--<input type="hidden" class="filter form-control datepicFollowUpToDropDown datepicker" data-column-index="7" id="FieldAppointmentReporttoDate" name="followUPtoDate" placeholder="To Followup Date" data-field="followUP_To_Date" onchange="getfilters(this)" readonly>
+                        </div>-->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    @section scripts{
+        <script>
+            $('.datepicker').datepicker({
+                duration: "slow",
+                showOptions: { direction: "up" },
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,//this option for allowing user to select month
+                changeYear: true //this option for allowing user to select from year range
+
+            });
+
+            $('.datepicFollowUpFromDropDown ').datepicker({
+
+                autoclose: true,
+                dateFormat: 'yy-mm-dd',
+                //maxDate: new Date(),
+                onSelect: function (date) {
+                    $('.datepicFollowUpToDropDown').datepicker("destroy");
+                    $('.datepicFollowUpToDropDown').datepicker("destroy");
+                    $('.datepicFollowUpToDropDown').datepicker({
+                        autoclose: true,
+                        dateFormat: 'yy-mm-dd',
+                        minDate: $('.datepicFollowUpFromDropDown ').datepicker('getDate')
+                    });
+                    $(this).trigger('change'); var dt1 = $('.datepicFollowUpFromDropDown ').datepicker('getDate');
+                    var dt2 = $('.datepicFollowUpToDropDown').datepicker('getDate');
+                    if (dt2 <= dt1) {
+                        var minDate = $('#dt2').datepicker('option', 'minDate');
+                        $('.datepicFollowUpToDropDown').datepicker('setDate', null);
+                    }
+                }
+            })
+
+            $('.datepicFollowUptoDropDown ').datepicker({
+
+                autoclose: true,
+                dateFormat: 'yy-mm-dd',
+                //maxDate: new Date(),
+                onSelect: function (date) {
+                    $('.datepicFollowUpToDropDown').datepicker("destroy");
+                    $('.datepicFollowUpToDropDown').datepicker("destroy");
+                    $('.datepicFollowUpToDropDown').datepicker({
+                        autoclose: true,
+                        dateFormat: 'yy-mm-dd',
+                        minDate: $('.datepicFollowUptoDropDown ').datepicker('getDate')
+                    });
+                    $(this).trigger('change'); var dt1 = $('.datepicFollowUptoDropDown ').datepicker('getDate');
+                    var dt2 = $('.datepicFollowUpToDropDown').datepicker('getDate');
+                    if (dt2 <= dt1) {
+                        var minDate = $('#dt2').datepicker('option', 'minDate');
+                        $('.datepicFollowUpToDropDown').datepicker('setDate', null);
+                    }
+                }
+            })
+
+            function validateForm1() {
+                var insuranceAgentName = $("#insuranceAgentNames").val();
+                var date = $("#reportfromDate").val();
+                var Todate = $("#FieldAppointmentReporttoDate").val();
+                if ((date == "" || date == null) && (insuranceAgentName == "" || insuranceAgentName == null || insuranceAgentName == "0")) {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: "Please Select Field Executive and Date"
+                    });
+                    return false;
+
+                }
+                else if (date == "" || date == null) {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: "Please Select Date"
+                    });
+                    return false;
+
+                }
+                //else if (insuranceAgentName == "" || insuranceAgentName == null || insuranceAgentName == "0") {
+                //    Lobibox.notify('warning', {
+                //        continueDelayOnInactiveTab: true,
+                //        msg: "Please Select Field Executive"
+                //    });
+                //    return false;
+
+                //}
+                else {
+                    var insuranceAgentName = $("#insuranceAgentName").val();
+                    $("#btn").click();
+                }
+            }
+            $("#insuranceAgentNames").multiselect({
+                includeSelectAllOption: false,
+                onSelectAll: function () {
+                    $("#selectContainer .multiselect-container input[value='Select all']").prop('disabled', false);
+                }
+            });
+        </script>
+    }
+}

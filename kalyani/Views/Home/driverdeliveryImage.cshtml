@@ -1,0 +1,282 @@
+﻿@model AutoSherpa_project.Models.ViewModels.driverImageVM
+
+@{
+    ViewBag.Title = "driverdeliveryImage";
+    Layout = null;
+    string InImg = "InvoiceImage";
+}
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" type="image/png" href="~/public/images/favicon1.ico">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Invoice</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/public/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/public/LightBox/lightbox.min.css" rel="stylesheet" />
+    <link href="~/public/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            margin-top: 20px;
+            background: #eee;
+        }
+
+
+
+        .thumb {
+            background-color: #ffffff;
+            border-radius: 3px;
+            box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            padding-bottom: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-top: 10px;
+            width: 100%;
+        }
+
+        .thumb-img {
+            border-radius: 2px;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .gal-detail h4 {
+            margin: 16px auto 10px auto;
+            width: 80%;
+            white-space: nowrap;
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .gal-detail .ga-border {
+            height: 3px;
+            width: 40px;
+            background-color: #228bdf;
+            margin: 10px auto;
+        }
+
+        img {
+            float: left;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="">
+            <a href="#">
+                <img src="~/public/images/dealercustomerconnectlogoblack2.png" alt="AutoSherpa" data-toggle="tooltip" title="AUTOSherpa" style="width:390px;height:59px;text-align:center" />
+            </a>
+        </div>
+        <br />
+        <br />
+        <br />
+        <!--<h2 style="text-align:center;">-->@*Delivery Approval For*@<!--</h2>-->
+        <h4 style="text-align:center;">@Model.vehicleRegNo</h4>
+
+        <hr class="mt-2 mb-5">
+        @if (ViewBag.pickupdrop != "Pickuphide" && ViewBag.pickupdrop!=null)
+        {
+        <h4 style="text-align:left;">Pickup Details</h4>
+        <div class="alert alert-success">
+            <strong><i class="fa fa-car" aria-hidden="true"></i> Pickup Time -  @Model.PickupTime</strong> <br />
+            <strong><i class="fa fa-truck" aria-hidden="true"></i> K/m Travelled - @Model.pickupkmtravelled</strong><br />
+            <strong><i class="fa fa-location-arrow" aria-hidden="true"></i> Pickup Start Location - @Model.pickupstopedlocation</strong> <br />
+            <strong><i class="fa fa-map-marker" aria-hidden="true"></i> Pickup Reached Location - @Model.pickupstopedlocation</strong> <br />
+        </div>
+        }
+        @if (ViewBag.pickupdrop != "Drophide" && ViewBag.pickupdrop != null)
+        {
+        <h4 style="text-align:left;">Drop Details</h4>
+        <div class="alert alert-success">
+            <strong> <i class="fa fa-handshake-o" aria-hidden="true"></i> Delivery Time - @Model.DeliveryTime</strong> <br />
+            <strong><i class="fa fa-truck" aria-hidden="true"></i> K/m Travelled - @Model.dropkmtravelled</strong> <br />
+            <strong><i class="fa fa-location-arrow" aria-hidden="true"></i> Drop Start Location - @Model.dropstartedlocation</strong> <br />
+            <strong><i class="fa fa-map-marker" aria-hidden="true"></i> Drop Reached Location - @Model.dropstopedlocation</strong> <br />
+        </div>
+        }
+        <div id="accordion">
+            @if (Model.driverAppFileDetails != null)
+
+            {
+            if (Model.driverAppFileDetails.Count(m => m.FileName.Contains("Invoice")) > 0)
+            {
+            <div class="card">
+                <div class="card-header card-link" data-toggle="collapse" href="#collapseinvoice">Invoice<span class="pull-right">Click Here</span></div>
+                <div id="collapseinvoice" class="collapse show" data-parent="#accordion">
+                    <div class="card-body">
+                        @foreach (var file in Model.driverAppFileDetails.Where(m => m.FileName.Contains("Invoice")))
+                        {
+                        <div class="img-list">
+                            <div class="col-sm-6 col-lg-3 col-md-4 webdesign illustrator">
+                                <div class="gal-detail thumb">
+                                    <a href="@Url.Content("~/" + file.FilePath)" data-lightbox="image-1" data-title="@file.FileName" class="image-popup" title="Screenshot-1">
+                                        <img src="@Url.Content("~/" + file.FilePath)" class="thumb-img" alt="work-thumbnail">
+                                    </a>
+                                    <h4 class="text-center">@file.FileName</h4>
+                                    <div class="ga-border"></div>
+                                    <p class="text-muted text-center"><a href="@Url.Content("~/" + file.FilePath)" download="@file.FileName"><i class="fa fa-download"></i> Download</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <br />
+            }
+            if (Model.driverAppFileDetails.Count(m => m.PictureType == "PickUp Reached") > 0)
+            {
+            <div class="card">
+                <div class="card-header" class="collapsed card-link" data-toggle="collapse" href="#collapsepickupreached">Reached Pickup Images<span class="pull-right">Click Here</span></div>
+                <div id="collapsepickupreached" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                        @foreach (var file in Model.driverAppFileDetails.Where(m => m.PictureType == "PickUp Reached"))
+                        {
+                        if (file.FileName.Contains("InvoiceImage"))
+                        {
+
+                        }
+                        else
+                        {
+                        <div class="img-list">
+                            <div class="col-sm-6 col-lg-3 col-md-4 webdesign illustrator">
+                                <div class="gal-detail thumb">
+                                    <a href="@Url.Content("~/" + file.FilePath)" data-lightbox="image-1" data-title="@file.FileName" class="image-popup" title="Screenshot-1">
+                                        <img src="@Url.Content("~/" + file.FilePath)" class="thumb-img" alt="work-thumbnail">
+                                    </a>
+                                    <h4 class="text-center">@file.FileName</h4>
+                                    <div class="ga-border"></div>
+                                    <p class="text-muted text-center"><a href="@Url.Content("~/" + file.FilePath)" download="@file.FileName"><i class="fa fa-download"></i> Download</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                        }
+                    </div>
+                </div>
+            </div>
+            }
+            if (Model.driverAppFileDetails.Count(m => m.PictureType == "PickUp Completed" ) > 0)
+            {
+            <div class="card">
+                <div class="card-header collapsed card-link" data-toggle="collapse" href="#collaseickupcompleted"> Reached Workshop Images<span class="pull-right">Click Here</span></div>
+                <div id="collaseickupcompleted" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                        @foreach (var file in Model.driverAppFileDetails.Where(m => m.PictureType == "PickUp Completed"))
+                        {
+                        if (file.FileName.Contains("InvoiceImage"))
+                        {
+
+                        }
+                        else
+                        {
+                        <div class="img-list">
+                            <div class="col-sm-6 col-lg-3 col-md-4 webdesign illustrator">
+                                <div class="gal-detail thumb">
+                                    <a href="@Url.Content("~/" + file.FilePath)" data-lightbox="image-1" data-title="@file.FileName" class="image-popup" title="Screenshot-1">
+                                        <img src="@Url.Content("~/" + file.FilePath)" class="thumb-img" alt="work-thumbnail">
+                                    </a>
+                                    <h4 class="text-center">@file.FileName</h4>
+                                    <div class="ga-border"></div>
+                                    <p class="text-muted text-center"><a href="@Url.Content("~/" + file.FilePath)" download="@file.FileName"><i class="fa fa-download"></i> Download</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                        }
+                    </div>
+                </div>
+            </div>
+            <br />
+
+            }
+            if (Model.driverAppFileDetails.Count(m => m.PictureType == "Drop Started") > 0)
+            {
+            <div class="card">
+                <div class="card-header collapsed card-link" data-toggle="collapse" href="#collpasedropstarted">Delivery Checkup Images<span class="pull-right">Click Here</span></div>
+                <div id="collpasedropstarted" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                        @foreach (var file in Model.driverAppFileDetails.Where(m => m.PictureType == "Drop Started"))
+                        {
+                        if (file.FileName.Contains("InvoiceImage"))
+                        {
+
+                        }
+                        else
+                        {
+                        <div class="img-list">
+                            <div class="col-sm-6 col-lg-3 col-md-4 webdesign illustrator">
+                                <div class="gal-detail thumb">
+                                    <a href="@Url.Content("~/" + file.FilePath)" data-lightbox="image-1" data-title="@file.FileName" class="image-popup" title="Screenshot-1">
+                                        <img src="@Url.Content("~/" + file.FilePath)" class="thumb-img" alt="work-thumbnail">
+                                    </a>
+                                    <h4 class="text-center">@file.FileName</h4>
+                                    <div class="ga-border"></div>
+                                    <p class="text-muted text-center"><a href="@Url.Content("~/" + file.FilePath)" download="@file.FileName"><i class="fa fa-download"></i> Download</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                        }
+                    </div>
+                </div>
+            </div>
+            <br />
+
+            }
+            if (Model.driverAppFileDetails.Count(m => m.PictureType == "Drop Completed") > 0)
+            {
+            <div class="card">
+                <div class="card-header collapsed card-link" data-toggle="collapse" href="#collapsedropcompleted">
+                    Reached Location Images<span class="pull-right">Click Here</span>
+                </div>
+                <div id="collapsedropcompleted" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                        @foreach (var file in Model.driverAppFileDetails.Where(m => m.PictureType == "Drop Completed"))
+                        {
+                        if (file.FileName.Contains("InvoiceImage"))
+                        {
+
+                        }
+                        else
+                        {
+                        <div class="img-list">
+                            <div class="col-sm-6 col-lg-3 col-md-4 webdesign illustrator">
+                                <div class="gal-detail thumb">
+                                    <a href="@Url.Content("~/" + file.FilePath)" data-lightbox="image-1" data-title="@file.FileName" class="image-popup" title="Screenshot-1">
+                                        <img src="@Url.Content("~/" + file.FilePath)" class="thumb-img" alt="work-thumbnail">
+                                    </a>
+                                    <h4 class="text-center">@file.FileName</h4>
+                                    <div class="ga-border"></div>
+                                    <p class="text-muted text-center"><a href="@Url.Content("~/" + file.FilePath)" download="@file.FileName"><i class="fa fa-download"></i> Download</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                        }
+                    </div>
+                </div>
+            </div>
+            <br />
+
+            }
+            }
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/public/LightBox/lightbox.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+</script>

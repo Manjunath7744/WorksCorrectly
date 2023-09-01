@@ -1,0 +1,1424 @@
+﻿
+@{
+    ViewBag.Title = "PSFDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    .dashImg1 {
+        width: 37px;
+    }
+
+    .dashImg2 {
+        width: 20px;
+    }
+
+    * {
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    .panel-body, .nav, table.table-bordered.dataTable {
+        font-size: 9pt;
+    }
+</style>
+
+@*@Styles.Render("~/bundles/datepicker")*@
+
+
+<div class="container-fluide">
+    <div class="row">
+        <div class="col-sm-2">
+            <!-- small box -->
+            <div class="small-box bg-aqua animated bounceInLeft">
+                <div class="inner">
+                    <h3 id="freshPSF"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                    <p>Fresh PSF</p>
+                </div>
+                <div class="icon">
+                    <i class="ion-android-call"></i>
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-sm-2 col-half-offset">
+            <!-- small box -->
+            <div class="small-box bg-green animated bounceInLeft">
+                <div class="inner">
+                    <h3 id="pendingFollow"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                    <p>Pending Follow Ups</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+                @*<a href="@Url.Action("AllSalesOrders","SalesOrder")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>*@
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-sm-2 col-half-offset">
+            <!-- small box -->
+            <div class="small-box bg-yellow animated bounceInLeft">
+                <div class="inner">
+                    <h3 id="nonContactss"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                    <p>Non Contacts</p>
+                </div>
+                <div class="icon">
+                    <i class="ion-person-add"></i>
+                </div>
+                @*<a href="@Url.Action("CusMasMain","CustomerMaster")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>*@
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-sm-2 col-half-offset animated bounceInLeft">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3 id="incompleteSurvey"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                    <p>Dissatisfied</p>
+                    @*<p>Incomplete Survey</p>*@
+                </div>
+                <div class="icon">
+                    <i class="ion-android-download"></i>
+                </div>
+                @*<a href="@Url.Action("GetAllCompanies","CompanyMaster")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>*@
+            </div>
+        </div>
+        <div class="col-sm-2 col-half-offset">
+            <!-- small box -->
+            <div class="small-box animated bounceInLeft" style="background-color:#806517;">
+                <div class="inner">
+                    <p style="margin:0 0 1px;color:#fff;">Surveys&nbsp;-&nbsp;<span id="surveys"><img class="dashImg2" src="~/public/img/loading.gif" /></span></p>
+                    <p style="margin:0 0 1px;color:#fff;">Contacts&nbsp;-&nbsp;<span id="contacts"><img class="dashImg2" src="~/public/img/loading.gif" /></span></p>
+                    <p style="margin:0 0 1px;color:#fff;">Total Calls&nbsp;-&nbsp;<span id="totalCalls"><img class="dashImg2" src="~/public/img/loading.gif" /></span></p>
+                    <p style="margin:0 0 -5px;color:#fff;">Date&nbsp;-&nbsp;@DateTime.Today.ToShortDateString()</p>
+
+                </div>
+                @*<div class="inner">
+                        <span>Surveys-</span>@ViewBag.surveys<br />
+                        <span>Contacts-</span>@ViewBag.contacts<br />
+                        <span>Total Calls-</span>@ViewBag.totalCalls<br />
+                        <span>Date-</span>@DateTime.Today.ToShortDateString()<br />
+
+                    </div>*@
+
+                @*<a href="@Url.Action("GetAllCompanies","CompanyMaster")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>*@
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-primary">
+
+
+                <div class="panel-heading">
+                    <b id="pnlHead">PSF List For 3rd Day FeedBack</b>
+
+                    <button style="background-color:red;float:right;height:30px;width:100px;margin-top:-5px; " onclick="clearbucketfilters();" title="CLEAR FILTER">CLEAR&nbsp;FILTER</button>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist" style="background-color: #dcc1c1;">
+                        <li class="active bucket" id="li-PSF" data-bucket="1">
+                            <a class="nav-link active" id="PSF-tab" data-toggle="tab" href="#PSF" role="tab" aria-controls="home"
+                               aria-selected="true"></a>
+                        </li>
+                        <li class="bucket" id="li-FollowUpRequired" data-bucket="2">
+                            <a class="nav-link active" id="FollowUpRequired-tab" data-toggle="tab" href="#FollowUpRequired" role="tab" aria-controls="home"
+                               aria-selected="true">FollowUp Required</a>
+                        </li>
+                        <li class="bucket" id="li-completedSurvey" data-bucket="3">
+                            @if (Session["DealerCode"].ToString() == "SUKHMANI")
+                            {
+                                <a class="" id="" data-toggle="" href="" role="" aria-controls=""
+                                   aria-selected="">Completed Survey</a>
+                            }
+                            else
+                            {
+                                <a class="nav-link active" id="completedSurvey-tab" data-toggle="tab" href="#completedSurvey" role="tab" aria-controls="home"
+                                   aria-selected="true">Completed Survey</a>
+                            }
+
+                        </li>
+                        <li class="bucket" id="li-dissatisfied" data-bucket="4">
+                            <a class="nav-link active" id="dissatisfied-tab" data-toggle="tab" href="#dissatisfied" role="tab" aria-controls="home"
+                               aria-selected="true">Dissatisfied</a>
+                        </li>
+                        <li class="bucket" id="li-nonContacts" data-bucket="5">
+                            <a class="nav-link active" id="nonContacts-tab" data-toggle="tab" href="#nonContacts" role="tab" aria-controls="home"
+                               aria-selected="true">NonContacts</a>
+                        </li>
+                        <li class="bucket" id="li-dropped" data-bucket="6" style="display:none;">
+                            <a class="nav-link active" id="dropped-tab" data-toggle="tab" href="#dropped" role="tab" aria-controls="home"
+                               aria-selected="true">Droppped</a>
+                        </li>
+                        <li class="bucket" id="li-resolved" data-bucket="7">
+                            <a class="nav-link active" id="resolved-tab" data-toggle="tab" href="#resolved" role="tab" aria-controls="home"
+                               aria-selected="true">Resolved</a>
+                        </li>
+                        <li class="bucket" id="li-FutureFollowUpRequired" data-bucket="8">
+                            <a class="nav-link active" id="FutureFollowUpRequired-tab" data-toggle="tab" href="#FutureFollowUpRequired" role="tab" aria-controls="home"
+                               aria-selected="true">Future FollowUp</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content" id="Tabs">
+                        <div class="panel panel-default" style="border-top: #fff;">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div id="forDateschedule" style="display:none">
+                                        <div class="col-md-3" id="SchedulefromBillDate">
+                                            <label>From Bill Date : </label>
+                                            <input type="text" class="filter form-control datepicExpiryFromDropDown" placeholder="Enter From Bill Date" data-field="ExFromBillDate" data-column-index="1" onchange="getfilters(this)" id="frombilldaterange" name="frombilldaterange" readonly>
+                                        </div>
+                                        <div class="col-md-3" id="ScheduletoBillDate">
+                                            <label>To Bill Date : </label>
+                                            <input type="text" class="filter form-control datepicExpiryToDropDown" placeholder="Enter To Bill Date" data-field="ExToBillDate" data-column-index="2" onchange="getfilters(this)" id="tobilldaterange" name="tobilldaterange" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div id="forCallschedule" style="display:none">
+                                        <div class="col-md-3" id="fromCallDate">
+
+                                            <label>From Call Date : </label>
+                                            <input type="text" class="filter form-control datepickerFilter" placeholder="Enter From Call Date" data-field="ExFromCallDate" data-column-index="1" onchange="getfilters(this)" id="fromCalldaterange22" name="frombilldaterange22" readonly>
+                                        </div>
+                                        <div class="col-md-3" id="toCallDate">
+                                            <label>To Call Date : </label>
+                                            <input type="text" class="filter form-control datepickerFilter" placeholder="Enter To Call Date" data-field="ExToCallDate" data-column-index="2" id="tobCalldaterange33" onchange="getfilters(this)" name="tobilldaterange33" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" id="workshopDiv" style="display: block;">
+                                        <label>Workshop</label>
+                                        @Html.DropDownList("ddlWorkshop", new SelectList(ViewBag.ddlWorkshop, "workshopId", "workshopName"), "Select", new { @class = "filter form-control", @id = "workshop", @data_field = "workshop", @onchange = "getfilters(this);" })
+                                    </div>
+                                    <div class="col-md-3" id="ageingDiv" style="display: block;">
+                                        <label>Ageing</label>
+                                        <select class="filter form-control" id="ageing" data-field="ageing" onchange="getfilters(this)">
+                                            <option value="0" selected>--Select--</option>
+                                            <option value="1">0-3</option>
+                                            <option value="2">4-7</option>
+                                            <option value="3">8-15</option>
+                                            <option value="4">16-30</option>
+                                            <option value="5">&gt;30</option>
+                                        </select>
+                                    </div>
+
+
+                                    @if (Session["OEM"].ToString() == "MARUTI SUZUKI")
+                                    {
+                                        <div class="col-md-2" id="serviceTypediv">
+                                            <label>Service Type</label>
+                                            @Html.DropDownList("serviceTypeDDL", new SelectList(ViewBag.servicetypes, "serviceTypeName", "serviceTypeName"), "--Select--", new { @class = "form-control filter", @data_field = "serviceType", @id = "serviceTypeDDL", @onchange = "getfilters(this);" })
+                                        </div>
+
+                                        <div class="col-md-2" id="customerCategorydiv">
+                                            <label>CEI & NON-CEI</label>
+                                            <select class="form-control filter" onchange="getfilters(this)" id="customerCategoryDDL" data-field="customerCategory">
+                                                <option value="">--SELECT--</option>
+                                                <option value="CEI">CEI</option>
+                                                <option value="NONCEI">NON-CEI</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2" id="lastdispositionDiv" style="display:none;">
+                                            <label>Last Disposition</label>
+                                            @Html.DropDownList("serviceTypeDDL", new SelectList(ViewBag.ddllastdisposition, "id", "disposition"), "--Select--", new { @class = "form-control filter selectpicker", @data_field = "ddllastdisposition", @id = "ddllastdisposition", @onchange = "getfilters(this);", @autocomplete = "off" })
+                                        </div>
+
+                                    }
+                                </div>
+                                <div class="row">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default tab-pane fade active in" id="PSF" role="tabpanel" aria-labelledby="PSF-tab">
+
+                            <div>
+                                <table id="tblPSF" class="table table-striped table-bordered table-hover" cellspacing="0" style="clear:both;table-layout:fixed;width:400px;">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>Customer Name</th>
+                                            <th>Mobile Number</th>
+                                            <th>Vehicle RegNo.</th>
+                                            <th>model</th>
+                                            <th>RO Number</th>
+                                            <th>Bill Date</th>
+                                            <th>PSF Date</th>
+                                            <th>Workshop</th>
+                                            <th>SA Name</th>
+                                            <th>ServiceType</th>
+                                            <th>Customer Category</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody align="center"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default tab-pane fade" id="FollowUpRequired" role="tabpanel" aria-labelledby="FollowUpRequired-tab">
+                            <div>
+                                <table id="tblFollowUpRequired" class="table table-striped table-bordered table-hover" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>call_date</th>
+                                            <th>FollowUp Date</th>
+                                            <th>FollowUp Time</th>
+                                            <th>Customer Name</th>
+                                            <th>Mobile Number</th>
+                                            <th>Vehicle RegNo</th>
+                                            <th>model</th>
+                                            <th>RO Number</th>
+                                            <th>Bill Date</th>
+                                            <th>Workshop</th>
+                                            <th>SA Name</th>
+                                             <th>attempts</th>  
+                                                    <th>ServiceType</th>
+                                                    <th>Customer Category</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody align="center"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+
+                                <div class="panel panel-default tab-pane fade" id="completedSurvey" role="tabpanel" aria-labelledby="completedSurvey-tab">
+                                    <div>
+                                        <table id="tblcompletedSurvey" class="table table-striped table-bordered table-hover" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Action</th>
+                                                    <th>Survey Date</th>
+                                                    <th>Customer Name</th>
+                                                    <th>category</th>
+                                                    <th>vehicle RegNo</th>
+                                                    <th>model</th>
+                                                    <th>RO Number</th>
+                                                    <th>Bill Date</th>
+                                                    <th>Workshop</th>
+                                                    <th>SA Name</th>
+                                                    <th>attempts</th>
+                                                    <th>ServiceType</th>
+                                                    <th>Customer Category</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody align="center"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default tab-pane fade" id="dissatisfied" role="tabpanel" aria-labelledby="dissatisfied-tab">
+                                    <div>
+                                        <table id="tbldissatisfied" class="table table-striped table-bordered table-hover" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Action</th>
+                                                    <th>Survey Date</th>
+                                                    <th>Customer Name</th>
+                                                    <th>category</th>
+                                                    <th>vehicle RegNo</th>
+                                                    <th>model</th>
+                                                    <th>RO Number</th>
+                                                    <th>Bill Date</th>
+                                                    <th>Workshop</th>
+                                                    <th>SA Name</th>
+                                                    <th>attempts</th>
+                                                    <th>ServiceType</th>
+                                                    <th>Customer Category</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody align="center"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+
+                                <div class="panel panel-default tab-pane fade" id="nonContacts" role="tabpanel" aria-labelledby="nonContacts-tab">
+                                    <div>
+                                        <table id="tblnonContacts" class="table table-striped table-bordered table-hover" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Action</th>
+                                                    <th>Call Date</th>
+                                                    <th>Customer Name</th>
+                                                    <th>category</th>
+                                                    <th>Mobile number</th>
+                                                    <th>Vehicle RegNo</th>
+                                                    <th>model</th>
+                                                    <th>RO Number</th>
+                                                    <th>Bill Date</th>
+                                                    <th>Last Disposition</th>
+                                                    <th>Workshop</th>
+                                                    <th>SA Name</th>
+                                                    <th>attempts</th>
+                                                    <th>ServiceType</th>
+                                                    <th>Customer Category</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody align="center"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+
+                                <div class="panel panel-default tab-pane fade" id="dropped" role="tabpanel" aria-labelledby="dropped-tab">
+                                    <div>
+                                        <table id="tbldropped" class="table table-striped table-bordered table-hover" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Action</th>
+                                                    <th>Call Date</th>
+                                                    <th>Customer Name</th>
+                                                    <th>category</th>
+                                                    <th>Mobile number</th>
+                                                    <th>Vehicle RegNo</th>
+                                                    <th>model</th>
+                                                    <th>RO Number</th>
+                                                    <th>Bill Date</th>
+                                                    <th>Last Disposition</th>
+                                                    <th>Workshop</th>
+                                                    <th>SA Name</th>
+                                                    <th>attempts</th>
+                                                    <th>ServiceType</th>
+                                                    <th>Customer Category</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody align="center"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default tab-pane fade" id="resolved" role="tabpanel" aria-labelledby="dropped-tab">
+                                    <div>
+                                        <table id="tblresolved" class="table table-striped table-bordered table-hover" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+
+                                                    <th>Action</th>
+                                                    <th>Call Date</th>
+                                                    <th>Customer Name</th>
+                                                    <th>Mobile number</th>
+                                                    <th>Chassis No.</th>
+                                                    <th>JobCard Number</th>
+                                                    <th>Workshop</th>
+                                                    <th>Bill Date</th>
+                                                    <th>Issue Date</th>
+                                                    <th>Resolution Date</th>
+                                                    <th>Ageing</th>
+                                                    <th>Resolved By</th>
+                                                    <th>Resolution Mode</th>
+                                                    <th>SecondaryDisposition</th>
+                                                    <th>ServiceType</th>
+                                                    <th>Customer Category</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody align="center"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default tab-pane fade" id="FutureFollowUpRequired" role="tabpanel" aria-labelledby="FutureFollowUpRequired-tab">
+                                    <div>
+                                        <table id="tblFutureFollowUpRequired" class="table table-striped table-bordered table-hover" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Action</th>
+                                                    <th>call_date</th>
+                                                    <th>FollowUp Date</th>
+                                                    <th>FollowUp Time</th>
+                                                    <th>Customer Name</th>
+                                                    <th>Mobile Number</th>
+                                                    <th>Vehicle RegNo</th>
+                                                    <th>model</th>
+                                                    <th>RO Number</th>
+                                                    <th>Bill Date</th>
+                                                    <th>Workshop</th>
+                                                    <th>SA Name</th>
+                                                    <th>attempts</th>
+                                                    <th>ServiceType</th>
+                                                    <th>Customer Category</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody align="center"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <span id="tblException" style="font-size:12pt;color:red;"></span>
+
+                            </div><!--Tabs-->
+                        </div>
+                        <!-- /.col-lg-12 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        @section scripts
+        {
+            @if (ViewBag.dispositionResult != null && ViewBag.dispoError == false)
+            {
+                <script type="text/javascript">
+                Lobibox.notify('info', {
+                    delay: 4 * 200,
+                    msg: '@ViewBag.dispositionResult'
+                });
+                </script>
+            }
+
+            @if (ViewBag.dispositionResult != null && ViewBag.dispoError == true)
+            {
+                <script type="text/javascript">
+                Lobibox.notify('info', {
+                    delay: 4 * 7000,
+                    msg: '@ViewBag.dispositionResult'
+                });
+                </script>
+            }
+
+        <script type="text/javascript">
+                var presentBucket = 1, filtDist = {}, dealerCode = "", callLogingAction = "";
+                dealerCode = '@Session["DealerCode"].ToString()';
+                var campId = '@Session["psfDayType"]';
+
+                callLogingAction = "/Home/redirectToCallLogging";
+
+            //Date Conversion
+                $('li.bucket').on('click', function () {
+                    var id = $(this).attr('id');
+                    //removing current style
+                    $('li.bucket').removeClass('active');
+                    $('div.fade').removeClass('show active in');
+
+                    //applying new style
+                    $('#' + id).addClass('active');
+                    $('#' + id.split('-')[1]).addClass('show active in');
+                    presentBucket = $(this).attr('data-bucket');
+                    makeAjaxCall();
+                    manageFilters(presentBucket);
+                   // clearbucketfilters();
+
+                })
+            function loadpsfDashboardCount() {
+                $.ajax({
+                    type: "POST",
+                    url: siteRoot + "/PSF/loadDashboardCounts/",
+                    data: {},
+                    cache: false,
+                    success: function (res) {
+                        if (res.success == true) {
+                            $('#freshPSF').text(res.freshPSF);
+                            $('#pendingFollow').text(res.pendingFollow);
+                            $('#nonContactss').text(res.nonContacts);
+                            $('#incompleteSurvey').text(res.incompleteSurvey);
+
+                            $('#surveys').text(res.surveys);
+                            $('#contacts').text(res.contacts);
+                            $('#totalCalls').text(res.totalCalls);
+                        }
+                        else {
+                            Lobibox.notify('warning', {
+                                msg: res.error
+                            });
+                        }
+                    },
+                    error: function (data) {
+                        alert("Cann't load Dashboard count, Error occured while processing data");
+                    }
+                });
+
+            }
+                function makeAjaxCall() {
+                    $('#lastdispositionDiv').hide();
+
+                    if (presentBucket == 1) {
+                        bindPSFData();
+                    } else if (presentBucket == 2) {
+                        bindfollowUpData();
+                    } else if (presentBucket == 3) {
+                        bindcompletedsurveyData();
+                    } else if (presentBucket == 4) {
+                        binddissatisfiedData();
+                    } else if (presentBucket == 5) {
+                        bindnonContactData();
+                    } else if (presentBucket == 6) {
+                        bindDroppedData();
+                    } else if (presentBucket == 7) {
+                        bindresolved();
+                        $('#lastdispositionDiv').show();
+                    }
+                    else if (presentBucket == 8) {
+                        bindfutureFollowUpData();
+                    }
+                }
+
+
+            $(document).ready(function () {
+
+                    var dealerCode = '@Session["DealerCode"].ToString()';
+                if (dealerCode == "ABTMARUTHI") {
+                        logoutIntalk();
+                }
+
+                    loadpsfDashboardCount();
+                      var myVal = '@Session["psfDayType"]';
+
+                    if (myVal == 5) {
+                        if ('@Session["DealerCode"].ToString()' == "JDAUTONATION") {
+                            $("#PSF-tab").text("9Th Day PSF")
+                            $("#pnlHead").text("9Th Day PSF")
+                            $("#dissatisfied-tab").css("display", "block");
+                        }
+                        else if ('@Session["DealerCode"].ToString()' == "INDUS" || '@Session["DealerCode"].ToString()' == "KATARIA" || '@Session["DealerCode"].ToString()' == "JAYABHERIAUTO") {
+                            $("#PSF-tab").text("15Th Day PSF")
+                            $("#pnlHead").text("15Th Day PSF")
+                            $("#dissatisfied-tab").css("display", "block");
+                            $("#li-resolved").css("display", "none");
+                        }
+                        else {
+                            $("#PSF-tab").text("10Th Day PSF")
+                            $("#pnlHead").text("10Th Day PSF")
+                            $("#dissatisfied-tab").css("display", "block");
+                        }
+
+                      }
+                    else if (myVal == 7) {
+                        if ('@Session["DealerCode"].ToString()' == "JDAUTONATION") {
+                            $("#PSF-tab").text("2nd Day PSF")
+                            $("#pnlHead").text("2nd Day PSF")
+                            $("#dissatisfied-tab").css("display", "block");
+                        }
+                        else if ('@Session["DealerCode"].ToString()' == "MAVERICKMOTORS") {
+                            $("#PSF-tab").text("N+4th Day PSF")
+                            $("#pnlHead").text("N+4th Day PSF")
+                            $("#dissatisfied-tab").css("display", "block");
+                        }
+                        else {
+                            $("#PSF-tab").text("3rd Day PSF")
+                            $("#pnlHead").text("3rd Day PSF")
+                            $("#dissatisfied-tab").css("display", "block");
+                        }
+
+                      }
+                       else if (myVal == 4) {
+                        if ('@Session["DealerCode"].ToString()' == "RAJASKODA") {
+                            $("#PSF-tab").text("Next Day PSF")
+                            $("#pnlHead").text("Next Day PSF")
+                        }
+                        else if ('@Session["DealerCode"].ToString()' == "MAVERICKMOTORS") {
+                            $("#PSF-tab").text("N+1st Day PSF")
+                            $("#pnlHead").text("N+1st Day PSF")
+                            $("#dissatisfied-tab").css("display", "block");
+                        }
+                        else {
+                            $("#PSF-tab").text("6th Day PSF")
+                            $("#pnlHead").text("6th Day PSF")
+                        }
+
+                      }
+                       else  if (myVal == 6) {
+                          $("#PSF-tab").text("30th Day PSF")
+                          $("#pnlHead").text("30th Day PSF")
+                      }
+                       else  if (myVal == 4) {
+                          $("#PSF-tab").text("1st Day PSF")
+                          $("#pnlHead").text("1st Day PSF")
+                      }
+                      else if (myVal == 10) {
+                          $("#PSF-tab").text("2nd Day PSF")
+                          $("#pnlHead").text("2nd Day PSF")
+                      }
+
+                      $('.datepickerFilter').datepicker({
+                          duration: "slow",
+                          showAnim: "slide",
+                          showOptions: { direction: "up" },
+                          dateFormat: 'yy-mm-dd',
+                          changeMonth: true,//this option for allowing user to select month
+                          changeYear: true //this option for allowing user to select from year range
+                      });
+
+
+                    $('.datepicExpiryFromDropDown').datepicker({
+
+                        autoclose: true,
+                        dateFormat: 'yy-mm-dd',
+                        //maxDate: new Date(),
+                        onSelect: function (date) {
+                            $('.datepicExpiryToDropDown').datepicker("destroy");
+                            $('.datepicExpiryToDropDown').datepicker("destroy");
+                            $('.datepicExpiryToDropDown').datepicker({
+                                autoclose: true,
+                                dateFormat: 'yy-mm-dd',
+                                minDate: $('.datepicExpiryFromDropDown').datepicker('getDate')
+                            });
+                            $(this).trigger('change'); var dt1 = $('.datepicExpiryFromDropDown').datepicker('getDate');
+                            var dt2 = $('.datepicExpiryToDropDown').datepicker('getDate');
+                            if (dt2 <= dt1) {
+                                var minDate = $('#dt2').datepicker('option', 'minDate');
+                                $('.datepicExpiryToDropDown').datepicker('setDate', null);
+                            }
+                        }
+                    })
+
+                    $('.datepicAppointmentFromDropDown').datepicker({
+
+                        autoclose: true,
+                        dateFormat: 'yy-mm-dd',
+                        //maxDate: new Date(),
+                        onSelect: function (date) {
+                            $('.datepicAppointmentToDropDown').datepicker("destroy");
+                            $('.datepicAppointmentToDropDown').datepicker("destroy");
+                            $('.datepicAppointmentToDropDown').datepicker({
+                                autoclose: true,
+                                dateFormat: 'yy-mm-dd',
+                                minDate: $('.datepicAppointmentFromDropDown').datepicker('getDate')
+                            });
+                            $(this).trigger('change'); var dt1 = $('.datepicAppointmentFromDropDown').datepicker('getDate');
+                            var dt2 = $('.datepicAppointmentToDropDown').datepicker('getDate');
+                            if (dt2 <= dt1) {
+                                var minDate = $('#dt2').datepicker('option', 'minDate');
+                                $('.datepicAppointmentToDropDown').datepicker('setDate', null);
+                            }
+                        }
+                    })
+
+                  //  localStorage.removeItem("PsfFilter");
+                      if (localStorage.length > 0) {
+                          filtDist = JSON.parse(localStorage.getItem("PsfFilter"));
+                          if (filtDist != null) {
+                              renderFilterData();
+                              localStorage.removeItem("PsfFilter");
+                          }
+                          else {
+                              presentBucket = 1;
+                              filtDist = {};
+                              bindPSFData();
+                          }
+
+                      }
+                      else {
+                          presentBucket = 1;
+                          bindPSFData();
+                      }
+                      manageFilters(presentBucket);
+                      //bindPSFData();
+                });
+
+                //re-render the filtered element
+                function renderFilterData() {
+                    //debugger;
+                    for (var key in filtDist) {
+                        if (key !== "getDataFor" && key !== "isFiltered") {
+                            var element = $('.filter[data-field="' + key + '"]');
+                            $(element).val(filtDist[key]);
+                        }
+                    }
+                    if (filtDist["getDataFor"] != null) {
+                        presentBucket = filtDist["getDataFor"];
+                        var liElement = $('.bucket[data-bucket="' + presentBucket + '"]');
+                        var id = liElement[0].id;
+                        //removing current style
+                        $('li.bucket').removeClass('active');
+                        $('div.fade').removeClass('show active in');
+
+                        //applying new style
+                        $('#' + id).addClass('active');
+                        $('#' + id.split('-')[1]).addClass('show active in');
+
+                        manageFilters(presentBucket);
+                        makeAjaxCall();
+                    }
+                }
+
+                //hide and show divs
+                function manageFilters(bucketId)
+                {
+                    if (bucketId == 1)
+                    {
+                          //Showing Div
+                          $('#forDateschedule').css({ 'display': 'block' });
+                          //$('#forCallschedule').css({ 'display': 'none' });
+                          $('#ageingDiv').css({ 'display': 'none' });
+
+                      }
+                      else if (bucketId == 7)
+                      {
+                        $('#forDateschedule').css({ 'display': 'block' });
+                        //  $('#forCallschedule').css({ 'display': 'block' });
+                          $('#ageingDiv').css({ 'display': 'block' });
+                      }
+                    else
+                    {
+                        $('#forDateschedule').css({ 'display': 'block' });
+                         // $('#forCallschedule').css({ 'display': 'block' });
+                          $('#ageingDiv').css({ 'display': 'none' });
+                      }
+                  }
+                     //Clear Buckets data
+                function clearbucketfilters()
+                {
+                    filtDist = {};
+                    $('#tobCalldaterange33').val('');
+                    $('#fromCalldaterange22').val('');
+                    $('#tobilldaterange').val('');
+                    $('#frombilldaterange').val('');
+                    $('#ageing').prop('selectedIndex', 0);
+                    $('#workshop').prop('selectedIndex', 0);
+                    $('#customerCategoryDDL').prop('selectedIndex', 0);
+                    $("#ddllastdisposition").val('default');
+
+                    $("#ddllastdisposition").removeClass('selectpicker');
+                    $('#ddllastdisposition').prop('selectedIndex', 0);
+
+                    $("#ddllastdisposition").addClass('selectpicker');
+                    $('#ddllastdisposition').multiselect('rebuild');
+
+                    $('#serviceTypeDDL').prop('selectedIndex', 0);
+                    filtDist = {};
+                    makeAjaxCall();
+
+                }
+
+                //Function to access filter data
+                function getfilters(item) {
+                    var field = $(item).attr('data-field');
+                    var data = $(item).val();
+                    if (filtDist[field] === undefined) {
+                        filtDist[field] = data;
+
+                        if (data != "")
+                        {
+                            filtDist["isFiltered"] = true;
+                        }
+                        else if ($('#tobCalldaterange33').val() === "" && $('#fromCalldaterange22').val() === "" && $('#tobilldaterange').val() === "" && $('#frombilldaterange').val() === "" && $('#workshop').val() == "0" && $('#ageing').val() == "" && $('#customerCategoryDDL').val() == "" && $('#serviceTypeDDL').val() == "" && $('#ddllastdisposition').val() == "")
+                        {
+                            filtDist["isFiltered"] = false;
+                        }
+                    }
+                    else
+                    {
+                        filtDist[field] = data;
+                        if (data != "")
+                        {
+                            filtDist["isFiltered"] = true;
+                        }
+                        else if ($('#tobCalldaterange33').val() === "" && $('#fromCalldaterange22').val() === "" && $('#tobilldaterange').val() === "" && $('#frombilldaterange').val() === "" && $('#workshop').val() == "0" && $('#ageing').val() == "" && $('#customerCategoryDDL').val() == "" && $('#serviceTypeDDL').val() == "" && $('#ddllastdisposition').val() == "")
+                        {
+                            filtDist["isFiltered"] = false;
+                        }
+                    }
+                    makeAjaxCall();
+                }
+
+                //******************** recording filter ***************
+                function recordFilter() {
+                    localStorage.setItem("PsfFilter", JSON.stringify(filtDist));
+                    console.log("hello");
+                }
+                    //--------------------------- Binding Data To Table ---------------------------------------
+
+                    //***************** PSF Table *****************************
+                    function bindPSFData() {
+                        filtDist["getDataFor"] = 1;
+                        var bindPSFDatadatatable = $('#tblPSF').DataTable({
+                            "destroy": true,
+                            "ajax": {
+                                "url":siteRoot+"/PSF/GetBucketData/",
+                                "type": "POST",
+                                "datatype": "json",
+                                "data": { psfData: JSON.stringify(filtDist) },
+                                "timeout": 30000,
+
+                            },
+                            "columns": [
+                                {
+                                    "data": "Action", render: function (data, type, row) {
+                                        //debugger;
+                                        return `<a class="fa fa-pencil-square" href="${siteRoot}${callLogingAction}/CRE%2c${row.customer_id}%2c${row.vehicle_id}%2c${row.assigned_intercation_id}%2c${0}%2c${'@Session["psfDayType"]'}" style="font-size: 24pt;color: red;" onclick="recordFilter();"> </a>`
+                                    }
+                                },
+                                { "data": "customer_name", "name": "customer_name" },
+                                { "data": "Mobile_number", "name": "Mobile_number" },
+                                { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                                { "data": "model", "name": "model" },
+                                { "data": "RONumber", "name": "RONumber" },
+                                {
+                                    "data": "BillDate", render: function (data, type, row) {
+                                        return parseJsonDateTime(data);
+                                    }
+                                },
+                                {
+                                    "data": "category", render: function (data, type, row) {
+                                        return reverDate(data);
+                                    }
+                                },
+                                { "data": "workshop", "name": "workshop" },
+                                { "data": "saname", "name": "saname" },
+                                { "data": "servicetype", "name": "servicetype" },
+                                { "data": "customercategory", "name": "customercategory" }
+                            ],
+                            "serverSide": "true",
+                            "processing": "true",
+                            "serverSide": true,
+                            "scrollX": "true",
+                            "scrollY": "300",
+                            "paging": "true",
+                            "searching": true,
+                            "language": {
+                                "processing": "Loading Please Wait.....!"
+                            },
+                            "rowCallback": function (row, data) {
+
+                                if (data.isrobocall== "1") {
+                                    $(row).css({ "background-color": "#ffe6e6" })
+                                }
+
+                            },
+                            "initComplete": function (data) {
+
+                                if (dealerCode == "INDUS" || dealerCode == "KATARIA" || dealerCode == "SPEEDAUTO") {
+                                    bindPSFDatadatatable.columns(11).visible(true)
+                                }
+                                else {
+                                    bindPSFDatadatatable.columns(11).visible(false)
+                                 }
+                                $('#tblException').text(data.json.exception);
+                                // filtercountDisplay();
+
+                            }
+                        });
+                    }
+                    /************  End PSF Data ***************/
+                    //--------------------------- Binding Data To Table ---------------------------------------
+
+                    //***************** Follow Up Table *****************************
+                    function bindfollowUpData() {
+                        filtDist["getDataFor"] = 2;
+                        var bindfollowUpDataDataTable = $('#tblFollowUpRequired').DataTable({
+                            "destroy": true,
+                            "ajax": {
+                                "url":siteRoot+"/PSF/GetBucketData/",
+                                "type": "POST",
+                                "datatype": "json",
+                                "data": { psfData: JSON.stringify(filtDist) }
+                            },
+                            "columns": [
+                                {
+                                    "data": "Action", render: function (data, type, row) {
+                                        //debugger;
+                                        return `<a class="fa fa-pencil-square" href="${siteRoot}${callLogingAction}/CRE%2c${row.customer_id}%2c${row.vehicle_id}%2c${row.psfassignedinteraction_id}%2c${0}%2c${'@Session["psfDayType"]'}" style="font-size: 24pt;color: red;" onclick="recordFilter();"> </a>`
+                                    }
+                                },
+                                {
+                                    "data": "call_date", render: function (data, type, row) {
+                                        return parseJsonDateTime(data);
+                                    }
+                                },
+                                { "data": "followupdate", "name": "followupdate" },
+                                { "data": "followuptime", "name": "followuptime" },
+                                { "data": "customer_name", "name": "customer_name" },
+                                { "data": "Mobile_number", "name": "Mobile_number" },
+                                { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                                { "data": "model", "name": "model" },
+                                { "data": "RONumber", "name": "RONumber" },
+                                {
+                                    "data": "BillDate", render: function (data, type, row) {
+                                        return parseJsonDateTime(data);
+                                    }
+                                },
+                                { "data": "workshop", "name": "workshop" },
+                                { "data": "saname", "name": "saname" },
+                                { "data": "attempts", "name": "attempts" },
+                                { "data": "servicetype", "name": "servicetype" },
+                                { "data": "customercategory", "name": "customercategory" }
+                            ],
+                            "serverSide": "true",
+                            "processing": "true",
+                            "serverSide": true,
+                            "scrollX": "true",
+                            "scrollY": "300",
+                            "paging": "true",
+                            "searching": true,
+                            "language": {
+                                "processing": "Loading Please Wait.....!"
+                            },
+                            "initComplete": function (data) {
+                                if (dealerCode == "INDUS"  || '@Session["DealerCode"].ToString()' == "KATARIA" || '@Session["DealerCode"].ToString()' == "SPEEDAUTO") {
+                                    bindfollowUpDataDataTable.columns(12).visible(false)
+                                    bindfollowUpDataDataTable.columns(14).visible(true)
+                                  
+
+                                }
+                                else {
+                                    bindfollowUpDataDataTable.columns(12).visible(false)
+                                    bindfollowUpDataDataTable.columns(14).visible(false)
+
+                                }
+
+                                $('#tblException').text(data.json.exception);
+                                // filtercountDisplay();
+
+                            }
+                        });
+                    }
+                    /************  End Follow Up Data ***************/
+
+
+                    //***************** Completed Survey Table *****************************
+                    function bindcompletedsurveyData(data) {
+                        filtDist["getDataFor"] = 3;
+                        var bindcompletedsurveyDataTable = $('#tblcompletedSurvey').DataTable({
+                            "destroy": true,
+                            "ajax": {
+                                "url":siteRoot+"/PSF/GetBucketData/",
+                                "type": "POST",
+                                "datatype": "json",
+                                "data": { psfData: JSON.stringify(filtDist) }
+                            },
+                            "columns": [
+                                {
+                                    "data": "Action", render: function (data, type, row) {
+                                        //debugger;vehicle_id = "58684"
+                                        return `<a class="fa fa-pencil-square" href="${siteRoot}${callLogingAction}/CRE%2c${row.customer_id}%2c${row.vehicle_id}%2c${row.psfassignedinteraction_id}%2c${0}%2c${'@Session["psfDayType"]'}" style="font-size: 24pt;color: red;" onclick="recordFilter();"> </a>`
+                                    }
+                                },
+                                {
+                                    "data": "Servey_date", render: function (data, type, row) {
+                                        return parseJsonDateTime(data);
+                                    }
+                                },
+                                { "data": "customer_name", "name": "customer_name" },
+                                { "data": "category", "name": "category" },
+                                { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                                { "data": "model", "name": "model" },
+                                { "data": "RONumber", "name": "RONumber" },
+                                {
+                                    "data": "BillDate", render: function (data, type, row) {
+                                        return parseJsonDateTime(data);
+                                    }
+                                },
+                                { "data": "workshop", "name": "workshop" },
+                                { "data": "saname", "name": "saname" },
+                                { "data": "attempts", "name": "attempts" },
+                                { "data": "servicetype", "name": "servicetype" },
+                                { "data": "customercategory", "name": "customercategory" }
+                            ],
+                            "serverSide": "true",
+                            "processing": "true",
+                            "serverSide": true,
+                            "scrollX": "true",
+                            "scrollY": "300",
+                            "paging": "true",
+                            "searching": true,
+                            "language": {
+                                "processing": "Loading Please Wait.....!"
+                            },
+                            "initComplete": function (data) {
+                                if (dealerCode = "INDUS"  || '@Session["DealerCode"].ToString()' == "KATARIA" || '@Session["DealerCode"].ToString()' == "SPEEDAUTO") {
+                                    bindcompletedsurveyDataTable.columns(10).visible(true)
+                                    bindcompletedsurveyDataTable.columns(12).visible(true)
+
+                                }
+                                else {
+                                    bindcompletedsurveyDataTable.columns(10).visible(false)
+                                    bindcompletedsurveyDataTable.columns(12).visible(false)
+
+                                }
+                                $('#tblException').text(data.json.exception);
+                                // filtercountDisplay();
+
+                            }
+                        });
+                    }
+                    /************  End Completed Survey ***************/
+
+                    //***************** Dissatisfied Table *****************************
+                    function binddissatisfiedData(data) {
+                        filtDist["getDataFor"] = 4;
+                        var binddissatisfiedDataDataTable = $('#tbldissatisfied').DataTable({
+                            "destroy": true,
+                            "ajax": {
+                                "url":siteRoot+"/PSF/GetBucketData/",
+                                "type": "POST",
+                                "datatype": "json",
+                                "data": { psfData: JSON.stringify(filtDist) }
+                            },
+                            "columns": [
+                                {
+                                    "data": "Action", render: function (data, type, row) {
+                                        //debugger;
+                                        if (dealerCode == "INDUS" && campId == "5") {
+                                        return `<a class="fa fa-pencil-square" href="${siteRoot}${callLogingAction}/CRE%2c${row.customer_id}%2c${row.vehicle_id}%2c${row.psfassignedinteraction_id}%2c${0}%2c${'@Session["psfDayType"]'}" style="font-size: 24pt;color: red;" onclick="recordFilter();"> </a>`
+                                        }
+                                        else {
+                                        return `<a class="fa fa-id-card-o" href="${siteRoot}${callLogingAction}/CREManager%2c${row.customer_id}%2c${row.vehicle_id}%2c${row.psfassignedinteraction_id}%2c${0}%2c${'@Session["psfDayType"]'}" style="font-size: 24pt;color: red;" onclick="recordFilter();"> </a>`
+                                        }
+                                    }
+                                },
+                                {
+                                    "data": "Servey_date", render: function (data, type, row) {
+                                        return parseJsonDateTime(data);
+                                    }
+                                },
+                                { "data": "customer_name", "name": "customer_name" },
+                                { "data": "category", "name": "category" },
+                                { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                                { "data": "model", "name": "model" },
+                                { "data": "RONumber", "name": "RONumber" },
+                                {
+                                    "data": "BillDate", render: function (data, type, row) {
+                                        return parseJsonDateTime(data);
+                                    }
+                                },
+                                { "data": "workshop", "name": "workshop" },
+                                { "data": "saname", "name": "saname" },
+                                { "data": "attempts", "name": "attempts" },
+                                { "data": "servicetype", "name": "servicetype" },
+                                { "data": "customercategory", "name": "customercategory" }
+                            ],
+                            "serverSide": "true",
+                            "processing": "true",
+                            "serverSide": true,
+                            "scrollX": "true",
+                            "scrollY": "300",
+                            "paging": "true",
+                            "searching": true,
+                            "language": {
+                                "processing": "Loading Please Wait.....!"
+                            },
+                            "initComplete": function (data) {
+                                if (dealerCode = "INDUS"  || '@Session["DealerCode"].ToString()' == "KATARIA" || '@Session["DealerCode"].ToString()' == "SPEEDAUTO") {
+                                    binddissatisfiedDataDataTable.columns(10).visible(true)
+                                    binddissatisfiedDataDataTable.columns(12).visible(true)
+
+                                }
+                                else {
+                                    binddissatisfiedDataDataTable.columns(10).visible(false)
+                                    binddissatisfiedDataDataTable.columns(12).visible(false)
+
+                                }
+                                $('#tblException').text(data.json.exception);
+                                // filtercountDisplay();
+
+                            }
+                        });
+                    }
+                    /************  End Dissatisfied Data ***************/
+
+                    //--------------------------- Binding Data To Table ---------------------------------------
+
+                    //***************** Non Contacts Table *****************************
+                    function bindnonContactData(data) {
+                        filtDist["getDataFor"] = 5;
+                        var bindnonContactDataDataTable = $('#tblnonContacts').DataTable({
+                            "destroy": true,
+                            "ajax": {
+                                "url":siteRoot+"/PSF/GetBucketData/",
+                                "type": "POST",
+                                "datatype": "json",
+                                "data": { psfData: JSON.stringify(filtDist) }
+                            },
+                            "columns": [
+                                {
+                                    "data": "Action", render: function (data, type, row) {
+                                        //debugger;
+                                        return `<a class="fa fa-pencil-square" href="${siteRoot}${callLogingAction}/CRE%2c${row.customer_id}%2c${row.vehicle_id}%2c${row.psfassignedinteraction_id}%2c${0}%2c${'@Session["psfDayType"]'}" style="font-size: 24pt;color: red;" onclick="recordFilter();"> </a>`
+                                    }
+                                },
+                                {
+                                    "data": "call_date", render: function (data, type, row) {
+                                        return parseJsonDateTime(data);
+                                    }
+                                },
+                                { "data": "customer_name", "name": "customer_name" },
+                                { "data": "category", "name": "category" },
+                                { "data": "Mobile_number", "name": "Mobile_number" },
+                                { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                                { "data": "model", "name": "model" },
+                                { "data": "RONumber", "name": "RONumber" },
+                                {
+                                    "data": "BillDate", render: function (data, type, row) {
+                                        return parseJsonDateTime(data);
+                                    }
+                                },
+                                { "data": "followupdate", "name": "followupdate" },
+                                { "data": "workshop", "name": "workshop" },
+                                { "data": "saname", "name": "saname" },
+                                { "data": "attempts", "name": "attempts" },
+                                { "data": "servicetype", "name": "servicetype" },
+                                { "data": "customercategory", "name": "customercategory" }
+                            ],
+                            "serverSide": "true",
+                            "processing": "true",
+                            "serverSide": true,
+                            "scrollX": "true",
+                            "scrollY": "300",
+                            "paging": "true",
+                            "searching": true,
+                            "language": {
+                                "processing": "Loading Please Wait.....!"
+                            },
+                            "initComplete": function (data) {
+                                if (dealerCode = "INDUS"  || '@Session["DealerCode"].ToString()' == "KATARIA" || '@Session["DealerCode"].ToString()' == "SPEEDAUTO") {
+                                    bindnonContactDataDataTable.columns(12).visible(true)
+                                    bindnonContactDataDataTable.columns(14).visible(true)
+
+                                }
+                                else {
+                                    bindnonContactDataDataTable.columns(12).visible(false)
+                                    bindnonContactDataDataTable.columns(14).visible(false)
+
+                                }
+                                $('#tblException').text(data.json.exception);
+                                // filtercountDisplay();
+
+                            }
+                        });
+                    }
+                    /************  End Non Contacts Data ***************/
+
+
+                    //***************** Dropped Table *****************************
+                    function bindDroppedData() {
+                        filtDist["getDataFor"] = 6;
+                        var bindDroppedDataDataTable = $('#tbldropped').DataTable({
+                            "destroy": true,
+                            "ajax": {
+                                "url":siteRoot+"/PSF/GetBucketData/",
+                                "type": "POST",
+                                "datatype": "json",
+                                "data": { psfData: JSON.stringify(filtDist) }
+                            },
+                            "columns": [
+                                {
+                                    "data": "Action", render: function (data, type, row) {
+                                        //debugger;
+                                        return `<a class="fa fa-pencil-square" href="${siteRoot}${callLogingAction}/CRE%2c${row.customer_id}%2c${row.vehical_Id}%2c${row.psfassignedinteraction_id}%2c${0}%2c${'@Session["psfDayType"]'}" style="font-size: 24pt;color: red;" onclick="recordFilter();"> </a>`
+                                    }
+                                },
+                                {
+                                    "data": "call_date", render: function (data, type, row) {
+                                        return parseJsonDateTime(data);
+                                    }
+                                },
+                                { "data": "customer_name", "name": "customer_name" },
+                                { "data": "category", "name": "category" },
+                                { "data": "Mobile_number", "name": "Mobile_number" },
+                                { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                                { "data": "model", "name": "model" },
+                                { "data": "RONumber", "name": "RONumber" },
+                                {
+                                    "data": "BillDate", render: function (data, type, row) {
+                                        return parseJsonDateTime(data);
+                                    }
+                                },
+                                { "data": "followupdate", "name": "followupdate" },
+                                { "data": "workshop", "name": "workshop" },
+                                { "data": "saname", "name": "saname" },
+                                { "data": "attempts", "name": "attempts" },
+                                { "data": "servicetype", "name": "servicetype" },
+                                { "data": "customercategory", "name": "customercategory" }
+                            ],
+                            "serverSide": "true",
+                            "processing": "true",
+                            "serverSide": true,
+                            "scrollX": "true",
+                            "scrollY": "300",
+                            "paging": "true",
+                            "searching": true,
+                            "language": {
+                                "processing": "Loading Please Wait.....!"
+                            },
+                            "initComplete": function (data) {
+                                if (dealerCode = "INDUS"  || '@Session["DealerCode"].ToString()' == "KATARIA" || '@Session["DealerCode"].ToString()' == "SPEEDAUTO") {
+                                    bindDroppedDataDataTable.columns(12).visible(true)
+                                    bindDroppedDataDataTable.columns(14).visible(true)
+
+                                }
+                                else {
+                                    bindDroppedDataDataTable.columns(12).visible(false)
+                                    bindDroppedDataDataTable.columns(14).visible(false)
+
+                                }
+                                $('#tblException').text(data.json.exception);
+                                // filtercountDisplay();
+
+                            }
+                        });
+                    }
+                            /************  End Dropped Data ***************/
+            function bindresolved() {
+                        filtDist["getDataFor"] = 7;
+                var bindresolvedDataTable = $('#tblresolved').DataTable({
+                            "destroy": true,
+                            "ajax": {
+                                "url":siteRoot+"/PSF/GetBucketData/",
+                                "type": "POST",
+                                "datatype": "json",
+                                "data": { psfData: JSON.stringify(filtDist) }
+                            },
+                            "columns": [
+                                {
+                                    "data": "Action", render: function (data, type, row) {
+                                        //debugger;
+                                        return `<a class="fa fa-pencil-square" href="${siteRoot}${callLogingAction}/CRE%2c${row.customer_id}%2c${row.vehicle_id}%2c${row.psfassignedinteraction_id}%2c${63}%2c${'@Session["psfDayType"]'}" style="font-size: 24pt;color: red;" onclick="recordFilter();"> </a>`
+                                    }
+                                },
+                                {
+                                    "data": "call_date", render: function (data, type, row) {
+                                        return parseJsonDateTime(data);
+                                    }
+                                },
+                                { "data": "customer_name", "name": "customer_name" },
+                                { "data": "Mobile_number", "name": "Mobile_number" },
+                                { "data": "chassisno", "name": "chassisno" },
+                                { "data": "RONumber", "name": "RONumber" },
+                                { "data": "workshop", "name": "workshop" },
+                                {
+                                    "data": "BillDate", render: function (data, type, row) {
+                                        return parseJsonDateTime(data);
+                                    }
+                                },
+                                {
+                                    "data": "issuedate", render: function (data, type, row) {
+                                        return parseJsonDateTime(data);
+                                    }
+                                },
+                                {
+                                    "data": "resolvedDate", render: function (data, type, row) {
+                                        return parseJsonDateTime(data);
+                                    }
+                                },
+                                { "data": "ageing", "name": "ageing" },
+                                { "data": "resolvedBy", "name": "resolvedBy" },
+                                { "data": "resolutionMode", "name": "resolutionMode" },
+                                { "data": "SecondaryDisposition", "name": "SecondaryDisposition" },
+                                { "data": "servicetype", "name": "servicetype" },
+                                { "data": "customercategory", "name": "customercategory" }
+                            ],
+                            "serverSide": "true",
+                            "processing": "true",
+                            "serverSide": true,
+                            "scrollX": "true",
+                            "scrollY": "300",
+                            "paging": "true",
+                            "searching": true,
+                            "language": {
+                                "processing": "Loading Please Wait.....!"
+                            },
+                            "initComplete": function (data) {
+                                if (dealerCode = "INDUS" || '@Session["DealerCode"].ToString()' == "KATARIA" || '@Session["DealerCode"].ToString()' == "SPEEDAUTO" || '@Session["DealerCode"].ToString()' == "JAYABHERIAUTO") {
+                                    bindresolvedDataTable.columns(15).visible(true)
+
+                                }
+                                else {
+                                    bindresolvedDataTable.columns(15).visible(false)
+
+                                }
+                                $('#tblException').text(data.json.exception);
+                                // filtercountDisplay();
+
+                            }
+                        });
+                    }
+                /************  End Dropped Data ***************/
+
+                  //***************** Future Follow Up Table *****************************
+                    function bindfutureFollowUpData() {
+                        filtDist["getDataFor"] = 8;
+                        var bindfutureFollowUpDataDataTable = $('#tblFutureFollowUpRequired').DataTable({
+                            "destroy": true,
+                            "ajax": {
+                                "url":siteRoot+"/PSF/GetBucketData/",
+                                "type": "POST",
+                                "datatype": "json",
+                                "data": { psfData: JSON.stringify(filtDist) }
+                            },
+                            "columns": [
+                                {
+                                    "data": "Action", render: function (data, type, row) {
+                                        //debugger;
+                                        return `<a class="fa fa-pencil-square" href="${siteRoot}${callLogingAction}/CRE%2c${row.customer_id}%2c${row.vehicle_id}%2c${row.psfassignedinteraction_id}%2c${0}%2c${'@Session["psfDayType"]'}" style="font-size: 24pt;color: red;" onclick="recordFilter();"> </a>`
+                                    }
+                                },
+                                {
+                                    "data": "call_date", render: function (data, type, row) {
+                                        return parseJsonDateTime(data);
+                                    }
+                                },
+                                { "data": "followupdate", "name": "followupdate" },
+                                { "data": "followuptime", "name": "followuptime" },
+                                { "data": "customer_name", "name": "customer_name" },
+                                { "data": "Mobile_number", "name": "Mobile_number" },
+                                { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                                { "data": "model", "name": "model" },
+                                { "data": "RONumber", "name": "RONumber" },
+                                {
+                                    "data": "BillDate", render: function (data, type, row) {
+                                        return parseJsonDateTime(data);
+                                    }
+                                },
+                                { "data": "workshop", "name": "workshop" },
+                                { "data": "saname", "name": "saname" },
+                                { "data": "attempts", "name": "attempts" },
+                                { "data": "servicetype", "name": "servicetype" },
+                                { "data": "customercategory", "name": "customercategory" }
+                            ],
+                            "serverSide": "true",
+                            "processing": "true",
+                            "serverSide": true,
+                            "scrollX": "true",
+                            "scrollY": "300",
+                            "paging": "true",
+                            "searching": true,
+                            "language": {
+                                "processing": "Loading Please Wait.....!"
+                            },
+                            "initComplete": function (data) {
+                                if (dealerCode = "INDUS"  || '@Session["DealerCode"].ToString()' == "KATARIA" || '@Session["DealerCode"].ToString()' == "SPEEDAUTO" || '@Session["DealerCode"].ToString()' == "JAYABHERIAUTO") {
+                                    bindfutureFollowUpDataDataTable.columns(12).visible(true)
+                                    bindfutureFollowUpDataDataTable.columns(14).visible(true)
+
+                                }
+                                else {
+                                    bindfutureFollowUpDataDataTable.columns(12).visible(false)
+                                    bindfutureFollowUpDataDataTable.columns(14).visible(false)
+
+                                }
+                                $('#tblException').text(data.json.exception);
+                                // filtercountDisplay();
+
+                            }
+                        });
+                    }
+            /************  End Future Follow Up Data ***************/
+
+            function logoutIntalk() {
+                var userTokenStorage = localStorage.getItem("usertoken");
+                if (userTokenStorage != "" && userTokenStorage != null && userTokenStorage != undefined) {
+                    var json = '{"token":"' + localStorage.getItem("usertoken") + '","accountStatus":"logout"}';
+                    $.ajax({
+                        url: "https://abt.intalk.io/cc/api/v1/status/edit",
+                        type: "POST",
+                        data: json,
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        success: function (data, textStatus, jqXHR) {
+                            var obj = JSON.parse(JSON.stringify(data))
+                            localStorage.setItem("usertoken", "")
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log(errorThrown);
+                        }
+                    });
+                }
+            }
+
+        </script>
+        }

@@ -1,0 +1,1609 @@
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\AutoSherpa-project.dll.config
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\AutoSherpa-project.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\AutoSherpa-project.pdb
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\csc.exe
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\csc.exe.config
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\csc.rsp
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\csi.exe
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\csi.exe.config
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\csi.rsp
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\Microsoft.CSharp.Core.targets
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\Microsoft.Managed.Core.targets
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\Microsoft.VisualBasic.Core.targets
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\Microsoft.Win32.Primitives.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.AppContext.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.Collections.Immutable.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.Console.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.Diagnostics.DiagnosticSource.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.Diagnostics.StackTrace.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.Globalization.Calendars.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.IO.Compression.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.IO.Compression.ZipFile.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.IO.FileSystem.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.IO.FileSystem.Primitives.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.Net.Http.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.Net.Sockets.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.Reflection.Metadata.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.Runtime.InteropServices.RuntimeInformation.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.Encoding.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.Primitives.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.Text.Encoding.CodePages.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.Threading.Tasks.Extensions.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.ValueTuple.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.Xml.ReaderWriter.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.Xml.XmlDocument.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.Xml.XPath.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\System.Xml.XPath.XDocument.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\vbc.exe
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\vbc.exe.config
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\vbc.rsp
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\VBCSCompiler.exe
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\roslyn\VBCSCompiler.exe.config
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\Antlr3.Runtime.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\BouncyCastle.Crypto.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\EntityFramework.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\EntityFramework.SqlServer.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\Google.Protobuf.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\Microsoft.Web.Infrastructure.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\MySql.Data.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\MySql.Data.EntityFramework.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\Newtonsoft.Json.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\Renci.SshNet.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\System.Net.Http.Formatting.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\System.Web.Helpers.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\System.Web.Http.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\System.Web.Http.WebHost.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\System.Web.Mvc.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\System.Web.Optimization.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\System.Web.Razor.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\System.Web.WebPages.Deployment.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\System.Web.WebPages.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\System.Web.WebPages.Razor.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\WebGrease.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\EntityFramework.xml
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\EntityFramework.SqlServer.xml
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\Google.Protobuf.xml
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\MySql.Data.xml
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\MySql.Data.EntityFramework.xml
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\Newtonsoft.Json.xml
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\Renci.SshNet.xml
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\System.Net.Http.Formatting.xml
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\System.Web.Helpers.xml
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\System.Web.Http.xml
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\System.Web.Http.WebHost.xml
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\System.Web.Mvc.xml
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\System.Web.Razor.xml
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\System.Web.WebPages.xml
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\System.Web.WebPages.Deployment.xml
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\System.Web.WebPages.Razor.xml
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\System.Web.Optimization.xml
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\Antlr3.Runtime.pdb
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\obj\Debug\AutoSherpa-project.csproj.CoreCompileInputs.cache
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\obj\Debug\AutoSherpa-project.csproj.CopyComplete
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\obj\Debug\AutoSherpa-project.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\obj\Debug\AutoSherpa-project.pdb
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.newUpdated.resources
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\obj\Debug\AutoSherpa-project.csproj.GenerateResource.cache
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.newUpdated1.resources
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\PagedList.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\PagedList.Mvc.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\PagedList.xml
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\PagedList.Mvc.xml
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\EPPlus.dll
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\bin\EPPlus.xml
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.new2020.resources
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.NewUPdated_17_01.resources
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.RequiredAdd.resources
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\obj\Debug\AutoSherpa-project.csprojAssemblyReference.cache
+E:\Projects\Autosharepas\Auto-SherPa Project- Real\AutoSherpa-project\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.newRequRemoved.resources
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa-project.csprojAssemblyReference.cache
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.newUpdated.resources
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.newUpdated1.resources
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.new2020.resources
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.NewUPdated_17_01.resources
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.RequiredAdd.resources
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.newRequRemoved.resources
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa-project.csproj.GenerateResource.cache
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa-project.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa-project.pdb
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\AutoSherpa-project.dll.config
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\AutoSherpa-project.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\AutoSherpa-project.pdb
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\csc.exe
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\csc.exe.config
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\csc.rsp
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\csi.exe
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\csi.exe.config
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\csi.rsp
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.Managed.Core.targets
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.Win32.Primitives.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.AppContext.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Collections.Immutable.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Console.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Diagnostics.DiagnosticSource.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Globalization.Calendars.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.IO.Compression.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.IO.Compression.ZipFile.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.IO.FileSystem.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Net.Http.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Net.Sockets.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Reflection.Metadata.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Runtime.InteropServices.RuntimeInformation.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.Encoding.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.Primitives.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Text.Encoding.CodePages.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Threading.Tasks.Extensions.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.ValueTuple.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Xml.ReaderWriter.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Xml.XmlDocument.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Xml.XPath.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Xml.XPath.XDocument.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\vbc.exe
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\vbc.exe.config
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\vbc.rsp
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\VBCSCompiler.exe
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\VBCSCompiler.exe.config
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\Microsoft.Win32.Primitives.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\netstandard.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.AppContext.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Collections.Concurrent.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Collections.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Collections.NonGeneric.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Collections.Specialized.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.ComponentModel.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.ComponentModel.EventBasedAsync.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.ComponentModel.Primitives.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.ComponentModel.TypeConverter.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Console.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Data.Common.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.Contracts.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.Debug.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.FileVersionInfo.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.Process.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.StackTrace.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.TextWriterTraceListener.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.Tools.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.TraceSource.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.Tracing.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Drawing.Primitives.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Dynamic.Runtime.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Globalization.Calendars.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Globalization.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Globalization.Extensions.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.Compression.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.Compression.ZipFile.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.FileSystem.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.FileSystem.DriveInfo.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.FileSystem.Primitives.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.FileSystem.Watcher.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.IsolatedStorage.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.MemoryMappedFiles.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.Pipes.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.UnmanagedMemoryStream.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Linq.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Linq.Expressions.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Linq.Parallel.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Linq.Queryable.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Http.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.NameResolution.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.NetworkInformation.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Ping.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Primitives.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Requests.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Security.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Sockets.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.WebHeaderCollection.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.WebSockets.Client.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.WebSockets.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.ObjectModel.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Reflection.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Reflection.Extensions.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Reflection.Primitives.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Resources.Reader.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Resources.ResourceManager.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Resources.Writer.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.CompilerServices.VisualC.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Extensions.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Handles.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.InteropServices.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.InteropServices.RuntimeInformation.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Numerics.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Serialization.Formatters.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Serialization.Json.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Serialization.Primitives.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Serialization.Xml.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Claims.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Cryptography.Algorithms.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Cryptography.Csp.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Cryptography.Encoding.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Cryptography.Primitives.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Cryptography.X509Certificates.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Principal.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.SecureString.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Text.Encoding.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Text.Encoding.Extensions.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Text.RegularExpressions.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.Overlapped.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.Tasks.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.Tasks.Parallel.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.Thread.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.ThreadPool.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.Timer.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.ValueTuple.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Xml.ReaderWriter.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Xml.XDocument.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Xml.XmlDocument.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Xml.XmlSerializer.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Xml.XPath.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Xml.XPath.XDocument.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\Antlr3.Runtime.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\BouncyCastle.Crypto.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\EntityFramework.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\EntityFramework.SqlServer.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\EPPlus.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\Firebase.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\Google.Protobuf.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\LiteDB.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\Microsoft.Web.Infrastructure.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\MySql.Data.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\MySql.Data.EntityFramework.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\Newtonsoft.Json.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\PagedList.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\PagedList.Mvc.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\Renci.SshNet.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Http.Formatting.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Reactive.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Helpers.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Http.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Http.WebHost.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Mvc.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Optimization.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Razor.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.WebPages.Deployment.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.WebPages.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.WebPages.Razor.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\WebGrease.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\EntityFramework.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\EntityFramework.SqlServer.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\EPPlus.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\Firebase.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\Google.Protobuf.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\LiteDB.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\MySql.Data.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\MySql.Data.EntityFramework.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\Newtonsoft.Json.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\PagedList.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\PagedList.Mvc.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\Renci.SshNet.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Http.Formatting.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Reactive.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Helpers.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Http.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Http.WebHost.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Mvc.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Razor.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.WebPages.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.WebPages.Deployment.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.WebPages.Razor.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Optimization.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\Antlr3.Runtime.pdb
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa-project.csproj.CopyComplete
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\DocumentFormat.OpenXml.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.Packaging.dll
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\DocumentFormat.OpenXml.xml
+D:\Friday Final\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.Packaging.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\AutoSherpa-project.dll.config
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\AutoSherpa-project.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\AutoSherpa-project.pdb
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\csc.exe
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\csc.exe.config
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\csc.rsp
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\csi.exe
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\csi.exe.config
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\csi.rsp
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.Managed.Core.targets
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.Win32.Primitives.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.AppContext.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Collections.Immutable.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Console.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Diagnostics.DiagnosticSource.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Globalization.Calendars.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.IO.Compression.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.IO.Compression.ZipFile.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.IO.FileSystem.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Net.Http.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Net.Sockets.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Reflection.Metadata.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Runtime.InteropServices.RuntimeInformation.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.Encoding.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.Primitives.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Text.Encoding.CodePages.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Threading.Tasks.Extensions.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.ValueTuple.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Xml.ReaderWriter.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Xml.XmlDocument.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Xml.XPath.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Xml.XPath.XDocument.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\vbc.exe
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\vbc.exe.config
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\vbc.rsp
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\VBCSCompiler.exe
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\VBCSCompiler.exe.config
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\Microsoft.Win32.Primitives.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\netstandard.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.AppContext.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Collections.Concurrent.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Collections.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Collections.NonGeneric.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Collections.Specialized.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.ComponentModel.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.ComponentModel.EventBasedAsync.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.ComponentModel.Primitives.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.ComponentModel.TypeConverter.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Console.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Data.Common.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.Contracts.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.Debug.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.FileVersionInfo.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.Process.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.StackTrace.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.TextWriterTraceListener.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.Tools.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.TraceSource.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.Tracing.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Drawing.Primitives.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Dynamic.Runtime.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Globalization.Calendars.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Globalization.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Globalization.Extensions.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.Compression.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.Compression.ZipFile.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.FileSystem.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.FileSystem.DriveInfo.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.FileSystem.Primitives.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.FileSystem.Watcher.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.IsolatedStorage.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.MemoryMappedFiles.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.Pipes.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.UnmanagedMemoryStream.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Linq.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Linq.Expressions.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Linq.Parallel.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Linq.Queryable.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Http.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.NameResolution.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.NetworkInformation.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Ping.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Primitives.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Requests.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Security.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Sockets.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.WebHeaderCollection.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.WebSockets.Client.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.WebSockets.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.ObjectModel.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Reflection.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Reflection.Extensions.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Reflection.Primitives.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Resources.Reader.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Resources.ResourceManager.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Resources.Writer.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.CompilerServices.VisualC.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Extensions.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Handles.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.InteropServices.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.InteropServices.RuntimeInformation.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Numerics.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Serialization.Formatters.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Serialization.Json.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Serialization.Primitives.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Serialization.Xml.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Claims.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Cryptography.Algorithms.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Cryptography.Csp.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Cryptography.Encoding.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Cryptography.Primitives.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Cryptography.X509Certificates.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Principal.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.SecureString.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Text.Encoding.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Text.Encoding.Extensions.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Text.RegularExpressions.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.Overlapped.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.Tasks.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.Tasks.Parallel.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.Thread.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.ThreadPool.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.Timer.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.ValueTuple.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Xml.ReaderWriter.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Xml.XDocument.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Xml.XmlDocument.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Xml.XmlSerializer.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Xml.XPath.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Xml.XPath.XDocument.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\Antlr3.Runtime.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\BouncyCastle.Crypto.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\DocumentFormat.OpenXml.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\EntityFramework.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\EntityFramework.SqlServer.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\EPPlus.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\Firebase.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\Google.Protobuf.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\LiteDB.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\Microsoft.Web.Infrastructure.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\MySql.Data.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\MySql.Data.EntityFramework.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\Newtonsoft.Json.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\PagedList.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\PagedList.Mvc.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\Renci.SshNet.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.Packaging.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Http.Formatting.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Reactive.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Helpers.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Http.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Http.WebHost.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Mvc.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Optimization.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Razor.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.WebPages.Deployment.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.WebPages.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.WebPages.Razor.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\WebGrease.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\DocumentFormat.OpenXml.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\EntityFramework.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\EntityFramework.SqlServer.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\EPPlus.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\Firebase.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\Google.Protobuf.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\LiteDB.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\MySql.Data.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\MySql.Data.EntityFramework.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\Newtonsoft.Json.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\PagedList.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\PagedList.Mvc.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\Renci.SshNet.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.Packaging.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Http.Formatting.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Reactive.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Helpers.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Http.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Http.WebHost.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Mvc.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Razor.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.WebPages.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.WebPages.Deployment.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.WebPages.Razor.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Optimization.xml
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\bin\Antlr3.Runtime.pdb
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa-project.csprojAssemblyReference.cache
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.newUpdated.resources
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.newUpdated1.resources
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.new2020.resources
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.NewUPdated_17_01.resources
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.RequiredAdd.resources
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.newRequRemoved.resources
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa-project.csproj.GenerateResource.cache
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa-project.csproj.CopyComplete
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa-project.dll
+D:\FridayFinal\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa-project.pdb
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa-project.csprojAssemblyReference.cache
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.newUpdated.resources
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.newUpdated1.resources
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.new2020.resources
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.NewUPdated_17_01.resources
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.RequiredAdd.resources
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.newRequRemoved.resources
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa-project.csproj.GenerateResource.cache
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa-project.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa-project.pdb
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\AutoSherpa-project.dll.config
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\AutoSherpa-project.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\AutoSherpa-project.pdb
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\csc.exe
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\csc.exe.config
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\csc.rsp
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\csi.exe
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\csi.exe.config
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\csi.rsp
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.Managed.Core.targets
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.Win32.Primitives.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.AppContext.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Collections.Immutable.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Console.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Diagnostics.DiagnosticSource.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Globalization.Calendars.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.IO.Compression.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.IO.Compression.ZipFile.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.IO.FileSystem.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Net.Http.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Net.Sockets.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Reflection.Metadata.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Runtime.InteropServices.RuntimeInformation.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.Encoding.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.Primitives.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Text.Encoding.CodePages.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Threading.Tasks.Extensions.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.ValueTuple.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Xml.ReaderWriter.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Xml.XmlDocument.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Xml.XPath.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Xml.XPath.XDocument.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\vbc.exe
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\vbc.exe.config
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\vbc.rsp
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\VBCSCompiler.exe
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\VBCSCompiler.exe.config
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\Microsoft.Win32.Primitives.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\netstandard.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.AppContext.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Collections.Concurrent.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Collections.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Collections.NonGeneric.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Collections.Specialized.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.ComponentModel.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.ComponentModel.EventBasedAsync.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.ComponentModel.Primitives.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.ComponentModel.TypeConverter.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Console.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Data.Common.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.Contracts.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.Debug.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.FileVersionInfo.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.Process.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.StackTrace.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.TextWriterTraceListener.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.Tools.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.TraceSource.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.Tracing.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Drawing.Primitives.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Dynamic.Runtime.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Globalization.Calendars.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Globalization.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Globalization.Extensions.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.Compression.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.Compression.ZipFile.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.FileSystem.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.FileSystem.DriveInfo.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.FileSystem.Primitives.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.FileSystem.Watcher.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.IsolatedStorage.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.MemoryMappedFiles.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.Pipes.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.UnmanagedMemoryStream.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Linq.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Linq.Expressions.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Linq.Parallel.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Linq.Queryable.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Http.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.NameResolution.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.NetworkInformation.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Ping.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Primitives.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Requests.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Security.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Sockets.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.WebHeaderCollection.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.WebSockets.Client.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.WebSockets.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.ObjectModel.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Reflection.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Reflection.Extensions.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Reflection.Primitives.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Resources.Reader.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Resources.ResourceManager.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Resources.Writer.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.CompilerServices.VisualC.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Extensions.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Handles.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.InteropServices.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.InteropServices.RuntimeInformation.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Numerics.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Serialization.Formatters.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Serialization.Json.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Serialization.Primitives.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Serialization.Xml.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Claims.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Cryptography.Algorithms.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Cryptography.Csp.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Cryptography.Encoding.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Cryptography.Primitives.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Cryptography.X509Certificates.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Principal.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.SecureString.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Text.Encoding.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Text.Encoding.Extensions.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Text.RegularExpressions.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.Overlapped.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.Tasks.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.Tasks.Parallel.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.Thread.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.ThreadPool.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.Timer.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.ValueTuple.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Xml.ReaderWriter.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Xml.XDocument.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Xml.XmlDocument.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Xml.XmlSerializer.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Xml.XPath.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Xml.XPath.XDocument.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\Antlr3.Runtime.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\BouncyCastle.Crypto.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\DocumentFormat.OpenXml.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\EntityFramework.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\EntityFramework.SqlServer.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\EPPlus.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\Firebase.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\Google.Protobuf.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\LiteDB.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\Microsoft.Web.Infrastructure.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\MySql.Data.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\MySql.Data.EntityFramework.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\Newtonsoft.Json.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\PagedList.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\PagedList.Mvc.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\Renci.SshNet.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.Packaging.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Http.Formatting.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Reactive.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Helpers.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Http.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Http.WebHost.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Mvc.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Optimization.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Razor.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.WebPages.Deployment.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.WebPages.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.WebPages.Razor.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\WebGrease.dll
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\DocumentFormat.OpenXml.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\EntityFramework.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\EntityFramework.SqlServer.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\EPPlus.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\Firebase.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\Google.Protobuf.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\LiteDB.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\MySql.Data.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\MySql.Data.EntityFramework.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\Newtonsoft.Json.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\PagedList.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\PagedList.Mvc.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\Renci.SshNet.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.Packaging.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Http.Formatting.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Reactive.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Helpers.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Http.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Http.WebHost.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Mvc.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Razor.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.WebPages.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.WebPages.Deployment.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.WebPages.Razor.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Optimization.xml
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\bin\Antlr3.Runtime.pdb
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa-project.csproj.CopyComplete
+D:\AutoSherpa23-03-2020\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.A.resources
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa-project.csprojAssemblyReference.cache
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa-project.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa-project.pdb
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\AutoSherpa-project.dll.config
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\AutoSherpa-project.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\AutoSherpa-project.pdb
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\csc.exe
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\csc.exe.config
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\csc.rsp
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\csi.exe
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\csi.exe.config
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\csi.rsp
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.Managed.Core.targets
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\Microsoft.Win32.Primitives.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.AppContext.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Collections.Immutable.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Console.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Diagnostics.DiagnosticSource.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Globalization.Calendars.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.IO.Compression.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.IO.Compression.ZipFile.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.IO.FileSystem.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Net.Http.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Net.Sockets.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Reflection.Metadata.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Runtime.InteropServices.RuntimeInformation.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.Encoding.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.Primitives.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Text.Encoding.CodePages.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Threading.Tasks.Extensions.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.ValueTuple.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Xml.ReaderWriter.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Xml.XmlDocument.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Xml.XPath.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\System.Xml.XPath.XDocument.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\vbc.exe
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\vbc.exe.config
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\vbc.rsp
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\VBCSCompiler.exe
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\roslyn\VBCSCompiler.exe.config
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\Microsoft.Win32.Primitives.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\netstandard.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.AppContext.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Collections.Concurrent.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Collections.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Collections.NonGeneric.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Collections.Specialized.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.ComponentModel.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.ComponentModel.EventBasedAsync.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.ComponentModel.Primitives.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.ComponentModel.TypeConverter.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Console.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Data.Common.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.Contracts.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.Debug.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.FileVersionInfo.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.Process.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.StackTrace.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.TextWriterTraceListener.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.Tools.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.TraceSource.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Diagnostics.Tracing.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Drawing.Primitives.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Dynamic.Runtime.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Globalization.Calendars.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Globalization.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Globalization.Extensions.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.Compression.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.Compression.ZipFile.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.FileSystem.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.FileSystem.DriveInfo.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.FileSystem.Primitives.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.FileSystem.Watcher.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.IsolatedStorage.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.MemoryMappedFiles.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.Pipes.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.UnmanagedMemoryStream.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Linq.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Linq.Expressions.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Linq.Parallel.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Linq.Queryable.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Http.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.NameResolution.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.NetworkInformation.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Ping.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Primitives.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Requests.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Security.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Sockets.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.WebHeaderCollection.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.WebSockets.Client.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.WebSockets.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.ObjectModel.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Reflection.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Reflection.Extensions.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Reflection.Primitives.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Resources.Reader.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Resources.ResourceManager.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Resources.Writer.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.CompilerServices.VisualC.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Extensions.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Handles.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.InteropServices.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.InteropServices.RuntimeInformation.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Numerics.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Serialization.Formatters.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Serialization.Json.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Serialization.Primitives.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Runtime.Serialization.Xml.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Claims.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Cryptography.Algorithms.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Cryptography.Csp.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Cryptography.Encoding.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Cryptography.Primitives.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Cryptography.X509Certificates.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.Principal.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Security.SecureString.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Text.Encoding.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Text.Encoding.Extensions.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Text.RegularExpressions.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.Overlapped.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.Tasks.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.Tasks.Parallel.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.Thread.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.ThreadPool.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Threading.Timer.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.ValueTuple.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Xml.ReaderWriter.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Xml.XDocument.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Xml.XmlDocument.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Xml.XmlSerializer.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Xml.XPath.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Xml.XPath.XDocument.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\Antlr3.Runtime.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\BouncyCastle.Crypto.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\DocumentFormat.OpenXml.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\EntityFramework.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\EntityFramework.SqlServer.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\EPPlus.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\Firebase.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\Google.Protobuf.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\LiteDB.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\Microsoft.Web.Infrastructure.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\MySql.Data.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\MySql.Data.EntityFramework.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\Newtonsoft.Json.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\PagedList.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\PagedList.Mvc.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\Renci.SshNet.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.Packaging.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Http.Formatting.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Reactive.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Helpers.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Http.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Http.WebHost.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Mvc.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Optimization.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Razor.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.WebPages.Deployment.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.WebPages.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.WebPages.Razor.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\WebGrease.dll
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\DocumentFormat.OpenXml.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\EntityFramework.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\EntityFramework.SqlServer.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\EPPlus.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\Firebase.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\Google.Protobuf.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\LiteDB.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\MySql.Data.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\MySql.Data.EntityFramework.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\Newtonsoft.Json.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\PagedList.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\PagedList.Mvc.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\Renci.SshNet.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.IO.Packaging.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Net.Http.Formatting.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Reactive.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Helpers.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Http.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Http.WebHost.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Mvc.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Razor.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.WebPages.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.WebPages.Deployment.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.WebPages.Razor.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\System.Web.Optimization.xml
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\bin\Antlr3.Runtime.pdb
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa-project.csproj.CopyComplete
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa-project.csproj.GenerateResource.cache
+D:\26-03-2020 Backup New\AutosherpaDotNet\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.AS.resources
+D:\Autosherpa\AutoSherpa-project\obj\Debug\AutoSherpa-project.csprojAssemblyReference.cache
+D:\Autosherpa\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.AS.resources
+D:\Autosherpa\AutoSherpa-project\obj\Debug\AutoSherpa-project.csproj.GenerateResource.cache
+D:\Autosherpa\AutoSherpa-project\obj\Debug\AutoSherpa-project.dll
+D:\Autosherpa\AutoSherpa-project\obj\Debug\AutoSherpa-project.pdb
+D:\Autosherpa\AutoSherpa-project\bin\AutoSherpa-project.dll.config
+D:\Autosherpa\AutoSherpa-project\bin\AutoSherpa-project.dll
+D:\Autosherpa\AutoSherpa-project\bin\AutoSherpa-project.pdb
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\csc.exe
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\csc.exe.config
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\csc.rsp
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\csi.exe
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\csi.exe.config
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\csi.rsp
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\Microsoft.Managed.Core.targets
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\Microsoft.Win32.Primitives.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.AppContext.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.Collections.Immutable.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.Console.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.Diagnostics.DiagnosticSource.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.Globalization.Calendars.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.IO.Compression.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.IO.Compression.ZipFile.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.IO.FileSystem.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.Net.Http.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.Net.Sockets.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.Reflection.Metadata.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.Runtime.InteropServices.RuntimeInformation.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.Encoding.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.Primitives.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.Text.Encoding.CodePages.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.Threading.Tasks.Extensions.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.ValueTuple.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.Xml.ReaderWriter.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.Xml.XmlDocument.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.Xml.XPath.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\System.Xml.XPath.XDocument.dll
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\vbc.exe
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\vbc.exe.config
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\vbc.rsp
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\VBCSCompiler.exe
+D:\Autosherpa\AutoSherpa-project\bin\roslyn\VBCSCompiler.exe.config
+D:\Autosherpa\AutoSherpa-project\bin\Microsoft.Win32.Primitives.dll
+D:\Autosherpa\AutoSherpa-project\bin\netstandard.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.AppContext.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Collections.Concurrent.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Collections.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Collections.NonGeneric.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Collections.Specialized.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.ComponentModel.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.ComponentModel.EventBasedAsync.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.ComponentModel.Primitives.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.ComponentModel.TypeConverter.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Console.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Data.Common.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Diagnostics.Contracts.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Diagnostics.Debug.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Diagnostics.FileVersionInfo.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Diagnostics.Process.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Diagnostics.StackTrace.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Diagnostics.TextWriterTraceListener.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Diagnostics.Tools.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Diagnostics.TraceSource.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Diagnostics.Tracing.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Drawing.Primitives.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Dynamic.Runtime.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Globalization.Calendars.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Globalization.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Globalization.Extensions.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.IO.Compression.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.IO.Compression.ZipFile.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.IO.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.IO.FileSystem.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.IO.FileSystem.DriveInfo.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.IO.FileSystem.Primitives.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.IO.FileSystem.Watcher.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.IO.IsolatedStorage.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.IO.MemoryMappedFiles.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.IO.Pipes.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.IO.UnmanagedMemoryStream.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Linq.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Linq.Expressions.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Linq.Parallel.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Linq.Queryable.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Net.Http.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Net.NameResolution.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Net.NetworkInformation.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Net.Ping.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Net.Primitives.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Net.Requests.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Net.Security.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Net.Sockets.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Net.WebHeaderCollection.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Net.WebSockets.Client.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Net.WebSockets.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.ObjectModel.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Reflection.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Reflection.Extensions.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Reflection.Primitives.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Resources.Reader.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Resources.ResourceManager.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Resources.Writer.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Runtime.CompilerServices.VisualC.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Runtime.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Runtime.Extensions.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Runtime.Handles.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Runtime.InteropServices.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Runtime.InteropServices.RuntimeInformation.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Runtime.Numerics.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Runtime.Serialization.Formatters.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Runtime.Serialization.Json.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Runtime.Serialization.Primitives.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Runtime.Serialization.Xml.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Security.Claims.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Security.Cryptography.Algorithms.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Security.Cryptography.Csp.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Security.Cryptography.Encoding.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Security.Cryptography.Primitives.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Security.Cryptography.X509Certificates.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Security.Principal.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Security.SecureString.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Text.Encoding.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Text.Encoding.Extensions.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Text.RegularExpressions.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Threading.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Threading.Overlapped.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Threading.Tasks.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Threading.Tasks.Parallel.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Threading.Thread.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Threading.ThreadPool.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Threading.Timer.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.ValueTuple.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Xml.ReaderWriter.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Xml.XDocument.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Xml.XmlDocument.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Xml.XmlSerializer.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Xml.XPath.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Xml.XPath.XDocument.dll
+D:\Autosherpa\AutoSherpa-project\bin\Antlr3.Runtime.dll
+D:\Autosherpa\AutoSherpa-project\bin\BouncyCastle.Crypto.dll
+D:\Autosherpa\AutoSherpa-project\bin\DocumentFormat.OpenXml.dll
+D:\Autosherpa\AutoSherpa-project\bin\EntityFramework.dll
+D:\Autosherpa\AutoSherpa-project\bin\EntityFramework.SqlServer.dll
+D:\Autosherpa\AutoSherpa-project\bin\EPPlus.dll
+D:\Autosherpa\AutoSherpa-project\bin\Firebase.dll
+D:\Autosherpa\AutoSherpa-project\bin\Google.Protobuf.dll
+D:\Autosherpa\AutoSherpa-project\bin\LiteDB.dll
+D:\Autosherpa\AutoSherpa-project\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Autosherpa\AutoSherpa-project\bin\Microsoft.Web.Infrastructure.dll
+D:\Autosherpa\AutoSherpa-project\bin\MySql.Data.dll
+D:\Autosherpa\AutoSherpa-project\bin\MySql.Data.EntityFramework.dll
+D:\Autosherpa\AutoSherpa-project\bin\Newtonsoft.Json.dll
+D:\Autosherpa\AutoSherpa-project\bin\PagedList.dll
+D:\Autosherpa\AutoSherpa-project\bin\PagedList.Mvc.dll
+D:\Autosherpa\AutoSherpa-project\bin\Renci.SshNet.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.IO.Packaging.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Net.Http.Formatting.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Reactive.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Web.Helpers.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Web.Http.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Web.Http.WebHost.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Web.Mvc.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Web.Optimization.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Web.Razor.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Web.WebPages.Deployment.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Web.WebPages.dll
+D:\Autosherpa\AutoSherpa-project\bin\System.Web.WebPages.Razor.dll
+D:\Autosherpa\AutoSherpa-project\bin\WebGrease.dll
+D:\Autosherpa\AutoSherpa-project\bin\DocumentFormat.OpenXml.xml
+D:\Autosherpa\AutoSherpa-project\bin\EntityFramework.xml
+D:\Autosherpa\AutoSherpa-project\bin\EntityFramework.SqlServer.xml
+D:\Autosherpa\AutoSherpa-project\bin\EPPlus.xml
+D:\Autosherpa\AutoSherpa-project\bin\Firebase.xml
+D:\Autosherpa\AutoSherpa-project\bin\Google.Protobuf.xml
+D:\Autosherpa\AutoSherpa-project\bin\LiteDB.xml
+D:\Autosherpa\AutoSherpa-project\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Autosherpa\AutoSherpa-project\bin\MySql.Data.xml
+D:\Autosherpa\AutoSherpa-project\bin\MySql.Data.EntityFramework.xml
+D:\Autosherpa\AutoSherpa-project\bin\Newtonsoft.Json.xml
+D:\Autosherpa\AutoSherpa-project\bin\PagedList.xml
+D:\Autosherpa\AutoSherpa-project\bin\PagedList.Mvc.xml
+D:\Autosherpa\AutoSherpa-project\bin\Renci.SshNet.xml
+D:\Autosherpa\AutoSherpa-project\bin\System.IO.Packaging.xml
+D:\Autosherpa\AutoSherpa-project\bin\System.Net.Http.Formatting.xml
+D:\Autosherpa\AutoSherpa-project\bin\System.Reactive.xml
+D:\Autosherpa\AutoSherpa-project\bin\System.Web.Helpers.xml
+D:\Autosherpa\AutoSherpa-project\bin\System.Web.Http.xml
+D:\Autosherpa\AutoSherpa-project\bin\System.Web.Http.WebHost.xml
+D:\Autosherpa\AutoSherpa-project\bin\System.Web.Mvc.xml
+D:\Autosherpa\AutoSherpa-project\bin\System.Web.Razor.xml
+D:\Autosherpa\AutoSherpa-project\bin\System.Web.WebPages.xml
+D:\Autosherpa\AutoSherpa-project\bin\System.Web.WebPages.Deployment.xml
+D:\Autosherpa\AutoSherpa-project\bin\System.Web.WebPages.Razor.xml
+D:\Autosherpa\AutoSherpa-project\bin\System.Web.Optimization.xml
+D:\Autosherpa\AutoSherpa-project\bin\Antlr3.Runtime.pdb
+D:\Autosherpa\AutoSherpa-project\obj\Debug\AutoSherpa-project.csproj.CopyComplete
+D:\AutosherpaExpo\AutoSherpa-project\bin\AutoSherpa-project.dll.config
+D:\AutosherpaExpo\AutoSherpa-project\bin\AutoSherpa-project.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\AutoSherpa-project.pdb
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\csc.exe
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\csc.exe.config
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\csc.rsp
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\csi.exe
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\csi.exe.config
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\csi.rsp
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\Microsoft.Managed.Core.targets
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\Microsoft.Win32.Primitives.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.AppContext.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.Collections.Immutable.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.Console.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.Diagnostics.DiagnosticSource.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.Globalization.Calendars.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.IO.Compression.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.IO.Compression.ZipFile.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.IO.FileSystem.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.Net.Http.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.Net.Sockets.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.Reflection.Metadata.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.Runtime.InteropServices.RuntimeInformation.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.Encoding.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.Primitives.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.Text.Encoding.CodePages.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.Threading.Tasks.Extensions.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.ValueTuple.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.Xml.ReaderWriter.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.Xml.XmlDocument.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.Xml.XPath.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\System.Xml.XPath.XDocument.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\vbc.exe
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\vbc.exe.config
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\vbc.rsp
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\VBCSCompiler.exe
+D:\AutosherpaExpo\AutoSherpa-project\bin\roslyn\VBCSCompiler.exe.config
+D:\AutosherpaExpo\AutoSherpa-project\bin\Microsoft.Win32.Primitives.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\netstandard.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.AppContext.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Collections.Concurrent.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Collections.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Collections.NonGeneric.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Collections.Specialized.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.ComponentModel.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.ComponentModel.EventBasedAsync.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.ComponentModel.Primitives.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.ComponentModel.TypeConverter.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Console.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Data.Common.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Diagnostics.Contracts.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Diagnostics.Debug.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Diagnostics.FileVersionInfo.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Diagnostics.Process.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Diagnostics.StackTrace.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Diagnostics.TextWriterTraceListener.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Diagnostics.Tools.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Diagnostics.TraceSource.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Diagnostics.Tracing.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Drawing.Primitives.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Dynamic.Runtime.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Globalization.Calendars.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Globalization.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Globalization.Extensions.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.IO.Compression.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.IO.Compression.ZipFile.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.IO.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.IO.FileSystem.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.IO.FileSystem.DriveInfo.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.IO.FileSystem.Primitives.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.IO.FileSystem.Watcher.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.IO.IsolatedStorage.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.IO.MemoryMappedFiles.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.IO.Pipes.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.IO.UnmanagedMemoryStream.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Linq.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Linq.Expressions.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Linq.Parallel.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Linq.Queryable.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Net.Http.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Net.NameResolution.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Net.NetworkInformation.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Net.Ping.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Net.Primitives.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Net.Requests.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Net.Security.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Net.Sockets.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Net.WebHeaderCollection.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Net.WebSockets.Client.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Net.WebSockets.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.ObjectModel.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Reflection.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Reflection.Extensions.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Reflection.Primitives.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Resources.Reader.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Resources.ResourceManager.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Resources.Writer.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Runtime.CompilerServices.VisualC.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Runtime.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Runtime.Extensions.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Runtime.Handles.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Runtime.InteropServices.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Runtime.InteropServices.RuntimeInformation.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Runtime.Numerics.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Runtime.Serialization.Formatters.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Runtime.Serialization.Json.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Runtime.Serialization.Primitives.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Runtime.Serialization.Xml.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Security.Claims.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Security.Cryptography.Algorithms.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Security.Cryptography.Csp.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Security.Cryptography.Encoding.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Security.Cryptography.Primitives.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Security.Cryptography.X509Certificates.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Security.Principal.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Security.SecureString.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Text.Encoding.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Text.Encoding.Extensions.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Text.RegularExpressions.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Threading.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Threading.Overlapped.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Threading.Tasks.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Threading.Tasks.Parallel.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Threading.Thread.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Threading.ThreadPool.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Threading.Timer.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.ValueTuple.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Xml.ReaderWriter.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Xml.XDocument.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Xml.XmlDocument.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Xml.XmlSerializer.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Xml.XPath.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Xml.XPath.XDocument.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\Antlr3.Runtime.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\BouncyCastle.Crypto.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\DocumentFormat.OpenXml.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\EntityFramework.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\EntityFramework.SqlServer.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\EPPlus.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\Firebase.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\Google.Protobuf.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\LiteDB.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\Microsoft.Web.Infrastructure.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\MySql.Data.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\MySql.Data.EntityFramework.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\Newtonsoft.Json.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\PagedList.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\PagedList.Mvc.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\Renci.SshNet.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.IO.Packaging.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Net.Http.Formatting.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Reactive.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Web.Helpers.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Web.Http.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Web.Http.WebHost.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Web.Mvc.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Web.Optimization.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Web.Razor.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Web.WebPages.Deployment.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Web.WebPages.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Web.WebPages.Razor.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\WebGrease.dll
+D:\AutosherpaExpo\AutoSherpa-project\bin\DocumentFormat.OpenXml.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\EntityFramework.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\EntityFramework.SqlServer.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\EPPlus.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\Firebase.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\Google.Protobuf.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\LiteDB.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\MySql.Data.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\MySql.Data.EntityFramework.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\Newtonsoft.Json.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\PagedList.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\PagedList.Mvc.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\Renci.SshNet.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.IO.Packaging.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Net.Http.Formatting.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Reactive.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Web.Helpers.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Web.Http.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Web.Http.WebHost.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Web.Mvc.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Web.Razor.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Web.WebPages.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Web.WebPages.Deployment.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Web.WebPages.Razor.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\System.Web.Optimization.xml
+D:\AutosherpaExpo\AutoSherpa-project\bin\Antlr3.Runtime.pdb
+D:\AutosherpaExpo\AutoSherpa-project\obj\Debug\AutoSherpa-project.csprojAssemblyReference.cache
+D:\AutosherpaExpo\AutoSherpa-project\obj\Debug\AutoSherpa-project.csproj.CopyComplete
+D:\AutosherpaExpo\AutoSherpa-project\obj\Debug\AutoSherpa-project.dll
+D:\AutosherpaExpo\AutoSherpa-project\obj\Debug\AutoSherpa-project.pdb
+D:\AutosherpaExpo\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.AS.resources
+D:\AutosherpaExpo\AutoSherpa-project\obj\Debug\AutoSherpa-project.csproj.GenerateResource.cache
+D:\AutosherpaExpo\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.AS1.resources
+D:\AutosherpaExpo\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.AS2.resources
+D:\AutosherpaExpo\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.AS3.resources
+D:\AutosherpaExpo\AutoSherpa-project\obj\Debug\AutoSherpa_project.Migrations.AS4.resources
+D:\Galaxy Toyoto\AutoSherpa-project\obj\Debug\AutoSherpa-project.dll
+D:\Galaxy Toyoto\AutoSherpa-project\obj\Debug\AutoSherpa-project.pdb
+D:\Galaxy Toyoto\AutoSherpa-project\bin\AutoSherpa-project.dll.config
+D:\Galaxy Toyoto\AutoSherpa-project\bin\AutoSherpa-project.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\AutoSherpa-project.pdb
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\csc.exe
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\csc.exe.config
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\csc.rsp
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\csi.exe
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\csi.exe.config
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\csi.rsp
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\Microsoft.Managed.Core.targets
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\Microsoft.Win32.Primitives.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.AppContext.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.Collections.Immutable.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.Console.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.Diagnostics.DiagnosticSource.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.Globalization.Calendars.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.IO.Compression.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.IO.Compression.ZipFile.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.IO.FileSystem.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.Net.Http.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.Net.Sockets.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.Reflection.Metadata.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.Runtime.InteropServices.RuntimeInformation.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.Encoding.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.Primitives.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.Text.Encoding.CodePages.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.Threading.Tasks.Extensions.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.ValueTuple.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.Xml.ReaderWriter.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.Xml.XmlDocument.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.Xml.XPath.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\System.Xml.XPath.XDocument.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\vbc.exe
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\vbc.exe.config
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\vbc.rsp
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\VBCSCompiler.exe
+D:\Galaxy Toyoto\AutoSherpa-project\bin\roslyn\VBCSCompiler.exe.config
+D:\Galaxy Toyoto\AutoSherpa-project\bin\Microsoft.Win32.Primitives.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\netstandard.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.AppContext.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Collections.Concurrent.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Collections.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Collections.NonGeneric.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Collections.Specialized.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.ComponentModel.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.ComponentModel.EventBasedAsync.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.ComponentModel.Primitives.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.ComponentModel.TypeConverter.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Console.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Data.Common.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Diagnostics.Contracts.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Diagnostics.Debug.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Diagnostics.FileVersionInfo.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Diagnostics.Process.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Diagnostics.StackTrace.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Diagnostics.TextWriterTraceListener.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Diagnostics.Tools.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Diagnostics.TraceSource.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Diagnostics.Tracing.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Drawing.Primitives.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Dynamic.Runtime.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Globalization.Calendars.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Globalization.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Globalization.Extensions.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.IO.Compression.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.IO.Compression.ZipFile.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.IO.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.IO.FileSystem.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.IO.FileSystem.DriveInfo.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.IO.FileSystem.Primitives.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.IO.FileSystem.Watcher.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.IO.IsolatedStorage.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.IO.MemoryMappedFiles.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.IO.Pipes.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.IO.UnmanagedMemoryStream.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Linq.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Linq.Expressions.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Linq.Parallel.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Linq.Queryable.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Net.Http.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Net.NameResolution.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Net.NetworkInformation.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Net.Ping.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Net.Primitives.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Net.Requests.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Net.Security.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Net.Sockets.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Net.WebHeaderCollection.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Net.WebSockets.Client.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Net.WebSockets.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.ObjectModel.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Reflection.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Reflection.Extensions.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Reflection.Primitives.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Resources.Reader.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Resources.ResourceManager.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Resources.Writer.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Runtime.CompilerServices.VisualC.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Runtime.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Runtime.Extensions.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Runtime.Handles.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Runtime.InteropServices.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Runtime.InteropServices.RuntimeInformation.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Runtime.Numerics.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Runtime.Serialization.Formatters.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Runtime.Serialization.Json.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Runtime.Serialization.Primitives.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Runtime.Serialization.Xml.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Security.Claims.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Security.Cryptography.Algorithms.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Security.Cryptography.Csp.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Security.Cryptography.Encoding.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Security.Cryptography.Primitives.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Security.Cryptography.X509Certificates.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Security.Principal.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Security.SecureString.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Text.Encoding.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Text.Encoding.Extensions.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Text.RegularExpressions.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Threading.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Threading.Overlapped.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Threading.Tasks.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Threading.Tasks.Parallel.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Threading.Thread.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Threading.ThreadPool.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Threading.Timer.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.ValueTuple.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Xml.ReaderWriter.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Xml.XDocument.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Xml.XmlDocument.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Xml.XmlSerializer.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Xml.XPath.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Xml.XPath.XDocument.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\Antlr3.Runtime.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\BouncyCastle.Crypto.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\DocumentFormat.OpenXml.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\EntityFramework.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\EntityFramework.SqlServer.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\EPPlus.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\Firebase.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\Google.Protobuf.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\LiteDB.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\Microsoft.Web.Infrastructure.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\MySql.Data.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\MySql.Data.EntityFramework.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\Newtonsoft.Json.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\PagedList.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\PagedList.Mvc.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\Quartz.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\Renci.SshNet.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.IO.Packaging.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Net.Http.Formatting.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Reactive.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Web.Helpers.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Web.Http.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Web.Http.WebHost.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Web.Mvc.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Web.Optimization.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Web.Razor.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Web.WebPages.Deployment.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Web.WebPages.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Web.WebPages.Razor.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\WebGrease.dll
+D:\Galaxy Toyoto\AutoSherpa-project\bin\DocumentFormat.OpenXml.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\EntityFramework.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\EntityFramework.SqlServer.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\EPPlus.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\Firebase.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\Google.Protobuf.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\LiteDB.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\MySql.Data.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\MySql.Data.EntityFramework.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\Newtonsoft.Json.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\PagedList.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\PagedList.Mvc.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\Quartz.pdb
+D:\Galaxy Toyoto\AutoSherpa-project\bin\Quartz.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\Renci.SshNet.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.IO.Packaging.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Net.Http.Formatting.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Reactive.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Web.Helpers.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Web.Http.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Web.Http.WebHost.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Web.Mvc.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Web.Razor.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Web.WebPages.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Web.WebPages.Deployment.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Web.WebPages.Razor.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\System.Web.Optimization.xml
+D:\Galaxy Toyoto\AutoSherpa-project\bin\Antlr3.Runtime.pdb
+D:\Galaxy Toyoto\AutoSherpa-project\obj\Debug\AutoSherpa-project.csproj.CopyComplete
+D:\Galaxy Toyoto\AutoSherpa-project\obj\Debug\AutoSherpa-project.csprojAssemblyReference.cache

@@ -1,0 +1,836 @@
+﻿
+@{
+    ViewBag.Title = "PSFCREComplaintMgr_CallLog";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    td, th {
+        border: 1px solid black;
+        overflow: hidden;
+        text-align: center !important;
+    }
+
+    .dashImg1 {
+        width: 37px;
+    }
+
+    .dashImg2 {
+        width: 20px;
+    }
+    .shadoweffect {
+        box-shadow: -3px -2px 10px #d0dcf5, 3px 4px 15px rgba(0,0,0,0.3);
+    }
+
+        .shadoweffect:hover {
+            box-shadow: -3px -2px 10px #d0dcf5, 3px 4px 15px rgba(0,0,0,0.8);
+            border: 2px solid rgba(0,0,0,0.5);
+            transform:scale(1.03);
+        }
+</style>
+<div class="row">
+
+    <div class="col-sm-2">
+        <!-- small box -->
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h3 id="CDFreshComplaint"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                <p>Fresh Complaint</p>
+            </div>
+            <div class="icon"> <i class="ion-android-call"></i> </div>
+
+            <!--<span class="pull-left" data-toggle="modal" data-target=".myModal1">View Details</span>-->
+        </div>
+    </div>      <!-- ./col -->
+    <div class="col-sm-2 col-half-offset">
+        <!-- small box -->
+        <div class="small-box bg-green">
+            <div class="inner">
+                <h3 id="CDPendingFollowUps"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                <p>Pending Follow Ups</p>
+            </div>
+            <div class="icon"> <i class="ion-android-checkbox-outline"></i> </div>
+        </div>
+    </div>        <!-- ./col -->
+    <div class="col-sm-2 col-half-offset">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                <h3 id="CDNonContact"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                <p>Non Contacts</p>
+            </div>
+            <div class="icon"> <i class="ion-person-add"></i> </div>
+        </div>
+    </div>        <!-- ./col -->
+    <div class="col-sm-2 col-half-offset">
+        <!-- small box -->
+        <div class="small-box bg-red">
+            <div class="inner">
+                <h3 id="CDRework"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                <p>Rework</p>
+            </div>
+            <div class="icon"> <i class="ion-android-download"></i> </div>
+        </div>
+    </div>
+    <div class="col-sm-2 col-half-offset">
+        <!-- small box -->
+        <div class="small-box" style="background-color:#806517;">
+            <div class="inner">
+                @*<p style="margin:0 0 1px;color:#fff;">Resolved&nbsp;-&nbsp;<span id="CDResolved"><img class="dashImg2" src="~/public/img/loading.gif" /></span></p>*@
+                <p style="margin:0 0 1px;color:#fff;">Contacts&nbsp;-&nbsp;<span id="CDContacts"><img class="dashImg2" src="~/public/img/loading.gif" /></span></p>
+                <p style="margin:0 0 1px;color:#fff;">Total Calls&nbsp;-&nbsp;<span id="CDTotalCalls"><img class="dashImg2" src="~/public/img/loading.gif" /></span></p>
+                <p style="margin:0 0 -5px;color:#fff;">Date&nbsp;-&nbsp;<span id="creCurrentdate">@DateTime.Now.ToString("dd/MM/yyyy")</span></p>
+            </div>
+        </div>
+    </div>
+    <!-- ./col -->
+
+</div>
+
+<div>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            PSF Call Log Information
+            <button style="background-color:red;float:right;height:30px;width:100px;margin-top:-5px;" onclick="clearbucketfilters();" title="CLEAR FILTER">CLEAR FILTER</button>
+        </div>
+        <div class="panel-body">
+            <ul class="nav nav-tabs">
+                <li class="active bucket" id="li-freshComp" data-bucket="1">
+                    <a class="nav-link" id="freshComp-tab" data-toggle="tab" href="#freshComp" role="tab" aria-controls="home" aria-selected="true">New Complaints</a>
+                </li>
+                <li class="bucket" id="li-psfpendingFollowUp" data-bucket="2">
+                    <a class="nav-link" id="psfpendingFollowUp-tab" data-toggle="tab" href="#psfpendingFollowUp" role="tab" aria-controls="home" aria-selected="true">Follow Up Required</a>
+                </li>
+                <li class="bucket" id="li-psfNonContacts" data-bucket="3">
+                    <a class="nav-link" id="psfNonContacts-tab" data-toggle="tab" href="#psfNonContacts" role="tab" aria-controls="home" aria-selected="true">Non Contacts</a>
+                </li>
+                <li class="bucket" id="li-psfRework" data-bucket="4">
+                    <a class="nav-link" id="psfRework-tab" data-toggle="tab" href="#psfRework" role="tab" aria-controls="home" aria-selected="true">Rework</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="panel panel-default" style="border-top: #fff;">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-2 tab-pane" id="campaignDiv">
+
+                                <label>User Name</label>
+                                @Html.DropDownList("ddlcomplaintCreList", new SelectList(ViewBag.complaintCreList, "id", "name"), new { @class = "form-control selectpicker", @id = "compMgrWyzuserid", @data_field = "compMgrWyzuserid", @onchange = "getfilters(this)",@multiple="multiple" })
+                            </div>
+
+                            <div class="col-md-2" id="cityDiv">
+                                <div class="form-group">
+                                    <label>Workshop</label>
+                                    @Html.DropDownList("ddlworkshopList", new SelectList(ViewBag.workshopList, "id", "workshopname"), "--Select--", new { @class = "form-control", @data_field = "workshopid", @id = "workshopid", @onchange = "getfilters(this)" })
+                                </div>
+                            </div>
+                            <div class="col-md-2" id="workshopDiv">
+                                <div class="form-group">
+                                    <label>Aging</label>
+                                    <select class="form-control" id="aging" data-field="aging" name="agingList" onchange="getfilters(this);">
+                                        <option value="0">--Select--</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2" id="fromDateDiv">
+                                <label>From Date : </label>
+                                <input type="text" class="filter form-control datepicFromDropDown" data-column-index="1" id="fromduedaterange" name="fromduedaterange" autocomplete="off" data-field="startdate" onchange="getfilters(this);" readonly>
+                            </div>
+                            <div class="col-md-2" id="toDateDiv">
+                                <label>To Date : </label>
+                                <input type="text" class="filter form-control datepicToDropDown datePicker" data-column-index="2" id="toduedaterange" name="toduedaterange" autocomplete="off"  data-field="enddate" onchange="getfilters(this);" readonly>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-2" id="attemptsDiv" style="display:none;">
+                                <label>Attempts</label>
+                                <select class="filter form-control" id="attempts" data-column-index="3" name="attemptsList" data-field="attempts" onchange="getfilters(this);">
+                                    <option value="0">--Select--</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3" id="reworkmodeDiv" style="display:none">
+                                <label>Rework Mode</label>
+                                <select class="filter form-control" name="reworkmodeList" id="reworkmode" data-column-index="5" data-field="reworkmode" onchange="getfilters(this);">
+                                    <option value="">--Select--</option>
+                                    <option value="Self">Self</option>
+                                    <option value="Revisit WalkIn">Revisit WalkIn</option>
+                                    <option value="Revisit PickUp">Revisit PickUp</option>
+                                    <option value="Home Visit">Home Visit</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="tab-pane fade in active" id="freshComp">
+                    <div class="panel-body inf-content">
+                        <div class="dataTable_wrapper">
+                            <div>
+                                <table class="table table-striped table-bordered table-hover" id="tblfreshComp" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>Campaign Name</th>
+                                            <th>Customer Name</th>
+                                            <th>Mobile Number</th>
+                                            <th>Vehicle Reg No</th>
+                                            <th>RO&nbsp;Number</th>
+                                            <th>Bill&nbsp;Date</th>
+                                            <th>Issue&nbsp;Date</th>
+                                            <th>Last Disposition</th>
+                                            <th>Ageing</th>
+                                            <th>Attempts</th>
+                                            <th>Workshop</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="buttons"></div>
+                </div>
+                <div class="tab-pane fade" id="psfpendingFollowUp">
+                    <div class="panel-body inf-content">
+                        <div class="dataTable_wrapper">
+                            <div>
+                                <table class="table table-striped table-bordered table-hover" id="tblpsfpendingFollowUp" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>Campaign Name</th>
+                                            <th>Customer Name</th>
+                                            <th>Mobile Number</th>
+                                            <th>Vehicle Reg No</th>
+                                            <th>RO&nbsp;Number</th>
+                                            <th>Bill&nbsp;Date</th>
+                                            <th>FollowUp&nbsp;Date</th>
+                                            <th>FollowUp&nbsp;Time</th>
+                                            <th>Issue&nbsp;Date</th>
+                                            <th>Last Disposition</th>
+                                            <th>Ageing</th>
+                                            <th>Attempts</th>
+                                            <th>Workshop</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="buttons"></div>
+                </div>
+                <div class="tab-pane fade" id="psfNonContacts">
+                    <div class="panel-body inf-content">
+                        <div class="dataTable_wrapper">
+                            <div>
+                                <table class="table table-striped table-bordered table-hover" id="tblpsfNonContacts" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>Campaign Name</th>
+                                            <th>Customer Name</th>
+                                            <th>Mobile Number</th>
+                                            <th>Vehicle Reg No</th>
+                                            <th>RO&nbsp;Number</th>
+                                            <th>Bill&nbsp;Date</th>
+                                            <th>Issue&nbsp;Date</th>
+                                            <th>Last Disposition</th>
+                                            <th>Ageing</th>
+                                            <th>Attempts</th>
+                                            <th>Workshop</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="buttons"></div>
+                </div>
+                <div class="tab-pane fade" id="psfRework">
+                    <div class="panel-body inf-content">
+                        <div class="dataTable_wrapper">
+                            <div>
+                                <table class="table table-striped table-bordered table-hover" id="tblpsfRework" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>Campaign Name</th>
+                                            <th>Customer Name</th>
+                                            <th>Mobile Number</th>
+                                            <th>Vehicle Reg No</th>
+                                            <th>RO&nbsp;Number</th>
+                                            <th>Bill&nbsp;Date</th>
+                                            <th>Issue&nbsp;Date</th>
+                                            <th>Apt Date</th>
+                                            <th>Apt Time</th>
+                                            <th>Apt Status</th>
+                                            <th>Rework&nbsp;Mode</th>
+                                            <th>Last Disposition</th>
+                                            <th>Ageing</th>
+                                            <th>Attempts</th>
+                                            <th>Workshop</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="buttons"></div>
+                </div><!--End tab panel-->
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <span class="code" id="tblException" style="font-size:11pt;font-weight:bold;"></span>
+                    </div>
+                </div>
+            </div><!--End tab content-->
+        </div><!--End panel body-->
+    </div>
+
+</div>
+
+
+@section scripts{
+
+    <script type="text/javascript">
+        var presentBucket = "", filtDist = {}, callAjaxClear = 0, callfromTab = 0;
+
+        function calldashboardCount() {
+            var psfid = $('#campaignName').val();
+
+            if (siteRoot == "/" || siteRoot.includes("/ASTest")) {
+                $('.form-control').addClass('shadoweffect');
+            }
+
+            $.ajax({
+                type: "POST",
+                url: siteRoot + "/callLogReminder/loadPSFCRECompMgrDashboardCounts/",
+                data: { psfID: psfid },
+                cache: false,
+                success: function (res) {
+                    if (res.success == true) {
+                        $('#CDFreshComplaint').text(res.FreshComplaint);
+                        $('#CDPendingFollowUps').text(res.PendingFollowUps);
+                        $('#CDNonContact').text(res.NonContact);
+                        $('#CDRework').text(res.Rework);
+                        //$('#CDResolved').text(res.Resolved);
+                        $('#CDContacts').text(res.Contacts);
+                        $('#CDTotalCalls').text(res.TotalCalls);
+                    }
+                    else {
+                        Lobibox.notify('warning', {
+                            msg: res.exception
+                        });
+                    }
+                },
+                error: function (data) {
+                    alert("Cann't load Dashboard count, Error occured while processing data");
+                }
+            });
+
+        }
+
+        $(document).ready(function () {
+
+
+            calldashboardCount();
+
+            //getDataFor==1 ----> 1,2,3 is bucket number
+            $(".datePicker").datepicker({
+                autoclose: true,
+                dateFormat: 'yy/mm/dd',
+            });
+
+            $('.datepicFromDropDown').datepicker({
+
+                autoclose: true,
+                dateFormat: 'yy-mm-dd',
+                //maxDate: new Date(),
+                onSelect: function (date) {
+                    $('.datepicToDropDown').datepicker("destroy");
+                    $('.datepicToDropDown').datepicker("destroy");
+                    $('.datepicToDropDown').datepicker({
+                        autoclose: true,
+                        dateFormat: 'yy-mm-dd',
+                        minDate: $('.datepicFromDropDown').datepicker('getDate')
+                    });
+                    $(this).trigger('change');
+                    var dt1 = $('.datepicFromDropDown').datepicker('getDate');
+                    var dt2 = $('.datepicToDropDown').datepicker('getDate');
+                    if (dt2 <= dt1) {
+                        var minDate = $('#dt2').datepicker('option', 'minDate');
+                        $('.datepicToDropDown').datepicker('setDate', null);
+                    }
+                }
+            })
+
+            if (localStorage.length > 0) {
+                filtDist = JSON.parse(localStorage.getItem("psfCompMgr"));
+                if (filtDist != null) {
+                    renderFilterData();
+                }
+                else {
+                    presentBucket = 1;
+                    filtDist = {};
+                    bindNewComplaint();
+                }
+            }
+            else {
+                presentBucket = 1;
+                bindNewComplaint();
+            }
+
+
+        });
+
+
+        function renderFilterData() {
+            //debugger;
+            for (var key in filtDist) {
+                if (key !== "getDataFor" && key !== "isFiltered") {
+                    var element = $('.filter[data-field="' + key + '"]');
+                    $(element).val(filtDist[key]);
+                }
+            }
+
+            if (filtDist["getDataFor"] != null) {
+                presentBucket = filtDist["getDataFor"];
+                var liElement = $('.bucket[data-bucket="' + presentBucket + '"]');
+                var id = liElement[0].id;
+                //removing current style
+                $('li.bucket').removeClass('active');
+                $('div.fade').removeClass('show active in');
+
+                //applying new style
+                $('#' + id).addClass('active');
+                $('#' + id.split('-')[1]).addClass('show active in');
+
+                // manageFilters(presentBucket);
+                makeAjaxCall();
+            }
+        }
+
+
+        $('li.bucket').on('click', function () {
+
+            var id = $(this).attr('id');
+            //removing current style
+            $('li.bucket').removeClass('active');
+            $('div.fade').removeClass('show active in');
+
+            //applying new style
+            $('#' + id).addClass('active');
+            $('#' + id.split('-')[1]).addClass('show active in');
+            presentBucket = $(this).attr('data-bucket');
+            // manageFilters(presentBucket);
+            makeAjaxCall();
+        })
+
+
+        function getfilters(item) {
+            //debugger;
+            var field = $(item).attr('data-field');
+            var data = $(item).val();
+            if (field == "compMgrWyzuserid") {
+                data = $('#compMgrWyzuserid option:selected').toArray().map(item => item.value).join();
+                //alert(data);
+            }
+            if (filtDist[field] === undefined) {
+                filtDist[field] = data;
+                if (data != "") {
+                    filtDist["isFiltered"] = true;
+                }
+                else {
+
+
+                    if ($('#compMgrWyzuserid').val() === "" && $('#workshopid').val() === "" && $('#attempts').val() === ""  &&
+                        $('#fromduedaterange').val() === "" && $('#reworkmode').val() === "" && $('#aging').val() === "") {
+                        filtDist["isFiltered"] = false;
+                    }
+                }
+            }
+            else {
+                filtDist[field] = data;
+                if (data != "") {
+                    filtDist["isFiltered"] = true;
+                }
+                else
+                    if ($('#compMgrWyzuserid').val() === "" && $('#workshopid').val() === "" && $('#attempts').val() === "" &&
+                        $('#fromduedaterange').val() === "" && $('#reworkmode').val() === "" && $('#aging').val() === "") {
+                    filtDist["isFiltered"] = false;
+                }
+
+            }
+            //calling ajax function
+            makeAjaxCall();
+        }
+
+        //                    campaignName  city workshop ddlCreIds fromduedaterange toduedaterange ServiceTypeName serviceBookedType serviceBookedType  lastDispo
+
+        function makeAjaxCall() {
+
+            if (presentBucket == 4) {
+                $("#attemptsDiv").show();
+                $("#reworkmodeDiv").show();
+            }
+            else {
+                $("#attemptsDiv").hide();
+                $("#reworkmodeDiv").hide();
+            }
+
+            if (presentBucket == 1) {
+                bindNewComplaint();
+            }
+            else if (presentBucket == 2) {
+                bindfollowupData();
+            }
+            else if (presentBucket == 3) {
+                bindNonContacts();
+            }
+            else if (presentBucket == 4) {
+                bindRework();
+            }
+        }
+
+
+        function recordFilters() {
+            localStorage.setItem("psfCompMgr", JSON.stringify(filtDist));
+        }
+
+        //Clear Buckets data
+        function clearbucketfilters() {
+
+
+
+            $('#compMgrWyzuserid').val('');
+            $('#workshopid').prop('selectedIndex', 0);
+            $("#compMgrWyzuserid").multiselect('refresh');
+            $("#compMgrWyzuserid").multiselect('rebuilt');
+            $('#attempts').val('');
+            $('#fromduedaterange').val('');
+            $('#toduedaterange').val('');
+            $('#reworkmode').val('');
+            $('#aging').prop('selectedIndex', 0);
+            filtDist = {};
+
+            makeAjaxCall();
+        }
+
+
+        function bindNewComplaint() {
+            //debugger;
+            filtDist["getDataFor"] = 1;
+            $('#tblfreshComp').DataTable({
+                "destroy": true,
+                dom: 'Blfrtip',
+                buttons: ['excel'],
+                "ajax": {
+                    "url": siteRoot + "/callLogReminder/getBucketData",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { filterData: JSON.stringify(filtDist) }
+                },
+
+                "columns": [
+                    {
+                        "data": "action", render(data, type, row) {
+                            return `<a class="fa fa-id-card-o" href="${siteRoot}/Home/redirectToCallLogging/CREManager%2c${row.customer_id}%2c${row.vehicle_id}%2c${row.psfassignedinteraction_id}%2c${63}%2c${0}" style="font-size: 24pt;color: red;" onclick="recordFilter();"> </a>`;
+                        }
+                    },
+                    { "data": "campaignName", "name": "campaignName" },
+                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "Mobile_number", "name": "Mobile_number" },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                    { "data": "RONumber", "name": "RONumber" },
+                    {
+                        "data": "BillDate", "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    {
+                        "data": "issuedate", "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "Last_disposition", "name": "Last_disposition" },
+                    { "data": "ageing", "name": "ageing" },
+                    { "data": "attempts", "name": "attempts" },
+                    { "data": "workshop", "name": "workshop" }
+                ],
+                "initComplete": function (data) {
+                    $('#tblException').text(data.json.exception);
+                    // filtercountDisplay();
+
+                }, dom: 'lBfrtip',
+                buttons: [
+                    'copyHtml5',
+                    {
+                        extend: 'excelHtml5',
+                        filename: 'PsfCompMgrCallData'
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        filename: 'PsfCompMgrCallData'
+                    }
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "lengthMenu": [100, 200, 500, 1000],
+                "pageLength": 100,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+        
+        function bindfollowupData() {
+            //debugger;
+            filtDist["getDataFor"] = 2;
+            $('#tblpsfpendingFollowUp').DataTable({
+                "destroy": true,
+                dom: 'Blfrtip',
+                buttons: ['excel'],
+                "ajax": {
+                    "url": siteRoot + "/callLogReminder/getBucketData",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { filterData: JSON.stringify(filtDist) }
+                },
+
+                "columns": [
+                    {
+                        "data": "action", render(data, type, row) {
+                            return `<a class="fa fa-id-card-o" href="${siteRoot}/Home/redirectToCallLogging/CREManager%2c${row.customer_id}%2c${row.vehicle_id}%2c${row.psfassignedinteraction_id}%2c${63}%2c${0}" style="font-size: 24pt;color: red;" onclick="recordFilter();"> </a>`;
+                        }
+                    },
+                    { "data": "campaignName", "name": "campaignName" },
+                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "Mobile_number", "name": "Mobile_number" },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                    { "data": "RONumber", "name": "RONumber" },
+                    {
+                        "data": "BillDate", "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    {
+                        "data": "psffollowupdate", "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "psffollowuptime", "name": "psffollowuptime" },
+                    {
+                        "data": "issuedate", "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "Last_disposition", "name": "Last_disposition" },
+                    { "data": "ageing", "name": "ageing" },
+                    { "data": "attempts", "name": "attempts" },
+                    { "data": "workshop", "name": "workshop" }
+                ],
+                "initComplete": function (data) {
+                    $('#tblException').text(data.json.exception);
+                    // filtercountDisplay();
+
+                }, dom: 'lBfrtip',
+                buttons: [
+                    'copyHtml5',
+                    {
+                        extend: 'excelHtml5',
+                        filename: 'PsfCompMgrCallData'
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        filename: 'ScheduledCallData'
+                    }
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "lengthMenu": [100, 200, 500, 1000],
+                "pageLength": 100,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+        
+        function bindNonContacts() {
+            //debugger;
+            filtDist["getDataFor"] = 3;
+            $('#tblpsfNonContacts').DataTable({
+                "destroy": true,
+                dom: 'Blfrtip',
+                buttons: ['excel'],
+                "ajax": {
+                    "url": siteRoot + "/callLogReminder/getBucketData",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { filterData: JSON.stringify(filtDist) }
+                },
+
+                "columns": [
+                    {
+                        "data": "action", render(data, type, row) {
+                            return `<a class="fa fa-id-card-o" href="${siteRoot}/Home/redirectToCallLogging/CREManager%2c${row.customer_id}%2c${row.vehicle_id}%2c${row.psfassignedinteraction_id}%2c${63}%2c${0}" style="font-size: 24pt;color: red;" onclick="recordFilter();"> </a>`;
+                        }
+                    },
+                    { "data": "campaignName", "name": "campaignName" },
+                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "Mobile_number", "name": "Mobile_number" },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                    { "data": "RONumber", "name": "RONumber" },
+                    {
+                        "data": "BillDate", "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    {
+                        "data": "issuedate", "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "Last_disposition", "name": "Last_disposition" },
+                    { "data": "ageing", "name": "ageing" },
+                    { "data": "attempts", "name": "attempts" },
+                    { "data": "workshop", "name": "workshop" }
+                ],
+                "initComplete": function (data) {
+                    $('#tblException').text(data.json.exception);
+                    // filtercountDisplay();
+
+                }, dom: 'lBfrtip',
+                buttons: [
+                    'copyHtml5',
+                    {
+                        extend: 'excelHtml5',
+                        filename: 'PsfCompMgrCallData'
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        filename: 'ScheduledCallData'
+                    }
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "lengthMenu": [100, 200, 500, 1000],
+                "pageLength": 100,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+        
+        function bindRework() {
+            //debugger;
+            filtDist["getDataFor"] = 4;
+            $('#tblpsfRework').DataTable({
+                "destroy": true,
+                dom: 'Blfrtip',
+                buttons: ['excel'],
+                "ajax": {
+                    "url": siteRoot + "/callLogReminder/getBucketData",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { filterData: JSON.stringify(filtDist) }
+                },
+
+                "columns": [
+                    {
+                        "data": "action", render(data, type, row) {
+                            return `<a class="fa fa-id-card-o" href="${siteRoot}/Home/redirectToCallLogging/CREManager%2c${row.customer_id}%2c${row.vehicle_id}%2c${row.psfassignedinteraction_id}%2c${63}%2c${0}" style="font-size: 24pt;color: red;" onclick="recordFilter();"> </a>`;
+                        }
+                    },
+                    { "data": "campaignName", "name": "campaignName" },
+                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "Mobile_number", "name": "Mobile_number" },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                    { "data": "RONumber", "name": "RONumber" },
+                    {
+                        "data": "BillDate", "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    {
+                        "data": "issuedate", "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    {
+                        "data": "aptdate", "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "apttime", "name": "apttime" },
+                    { "data": "aptstatus", "name": "aptstatus" },
+                    { "data": "reworkMode", "name": "reworkMode" },
+                    { "data": "Last_disposition", "name": "Last_disposition" },
+                    { "data": "ageing", "name": "ageing" },
+                    { "data": "attempts", "name": "attempts" },
+                    { "data": "workshop", "name": "workshop" }
+                ],
+                "initComplete": function (data) {
+                    $('#tblException').text(data.json.exception);
+                    // filtercountDisplay();
+
+                }, dom: 'lBfrtip',
+                buttons: [
+                    'copyHtml5',
+                    {
+                        extend: 'excelHtml5',
+                        filename: 'PsfCompMgrCallData'
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        filename: 'ScheduledCallData'
+                    }
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "lengthMenu": [100, 200, 500, 1000],
+                "pageLength": 100,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+        
+
+
+    </script>    
+}

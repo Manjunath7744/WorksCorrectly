@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewBag.Title = "Event";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Event List
+            </div>
+            <div class="panel-body">
+                <table id="tblEvent" class="table table-bordered" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>Uniqueid</th>
+                            <th>Eventname</th>
+                            <th>EventStartdate</th>
+                            <th>EventEnddate</th>
+                            <th>Error_status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+
+                </table>
+                <span id="tblException"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <script>
+
+        $(document).ready(function () {
+            EventSchedule();
+
+        });
+
+        function EventSchedule() {
+
+            $('#tblEvent').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/SuperAdmin/getEventDetails/",
+                    "type": 'post',
+                    "datatype": 'json',
+                    "data": {}
+                },
+                "columns": [
+                    { "data": "id", "name": "Uniqueid" },
+                    { "data": "Uniqueid", "name": "Uniqueid" },
+                    { "data": "Eventname", "name": "Eventname" },
+                    { "data": "EventStartdate", "name": "EventStartdate" },
+                    { "data": "EventEnddate", "name": "EventEnddate" },
+                    {
+                        "data": "Error_status", render: function (data, type, row) {
+                            var errorstatus = row.Error_status;
+                            if (errorstatus == null) {
+                                //return `<span style='background-color:green;color:#fff;padding:5px;display: block;text-align:center;'>` + data + `</span >`;
+                                return '-';
+                            }
+                            else {
+                                return `<span style='background-color:#de6565;color:#fff;padding:5px;display: block;text-align:center;'>` + data + `</span >`;
+                            }
+                        }
+                    }
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                },
+                "initComplete": function (data) {
+                    $('#tblException').text(data.json.exception);
+                }
+            });
+        }
+
+    </script>
+}
+
+

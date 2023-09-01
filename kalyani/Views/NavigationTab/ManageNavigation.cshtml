@@ -1,0 +1,388 @@
+﻿@{
+    ViewBag.Title = "NavigationTab Control";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .nav-container {
+        margin: 15px;
+        text-align: left;
+    }
+
+    .parent-panel {
+        text-transform: uppercase;
+        font-weight: bold;
+        margin-bottom:15px;
+    }
+
+    .child-panel {
+        text-transform: capitalize;
+        font-weight: 500;
+        margin-left:28px;
+        margin-top:5px;
+    }
+
+
+    .cust-btn {
+        margin-top: -5px;
+        background-color: #e6e50d;
+        font-weight: bold;
+        color: black;
+    }
+    
+    .cust-btn:hover {
+        background-color: #f5f7dd;
+        color: black;
+        cursor:pointer;
+    }
+
+    .btn-sm:hover{
+        cursor:pointer;
+    }
+</style>
+
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <b id="pnlHead">Navigation Filters</b>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.Label("Select Module")
+                        @if (Session["LoginUser"].ToString() == "Service")
+                        {
+                            <select id="moduleType" class="form-control" onchange="getCreNames()">
+                                <option value="">--Select-- </option>
+                                <option value="1">SMR </option>
+                                <option value="4"> PSF </option>
+                            </select>
+                        }
+                        @if (Session["LoginUser"].ToString() == "Insurance")
+                        {
+
+                            <select id="moduleType" class="form-control" onchange="getCreNames()">
+                                <option value="">--Select-- </option>
+                                <option value="2">INS </option>
+                            </select>
+                        }
+                    </div>
+
+                    <div class="col-md-3">
+                        @Html.Label("Select Role")
+                        <select id="roleType" class="form-control" onchange="getCreNames()">
+                            <option value="">--Select-- </option>
+                            <option value="Admin">Admin</option>
+                            <option value="CRE">CRE</option>
+                            <option value="CREManager">CREManager</option>
+                            <option value="RM">RM</option>
+                            <option value="WM">WM</option>
+                            <option value="Service Advisor">Service Advisor</option>
+                        </select>
+
+                    </div>
+                    <div class="col-md-3">
+                        @Html.Label("Select User")
+                        <select id="cressNames" class="form-control selectpicker"></select>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:15px;margin-bottom:10px;">
+                    <div class="col-md-2 col-md-offset-2" style="margin-top:5px;display:none;" id="div_showAll">
+                        <input type="checkbox" id="ckAll" />&nbsp; <label for="ckAll">Show All</label>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-sm btn-primary" onclick="getnavigation()">Show</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-sm btn-danger" onclick="resetDetails();">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <b id="pnlHead">Navigation Panel</b>
+                <button onclick="manageNavDetails();" style="display:none;" id="btnAssign" class="btn btn-success btn-sm pull-right cust-btn">Assign Nav</button>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="mainContainer" style="min-height:115px">
+                            <span id="activeNav" style="display:none;padding: 5px;border: 2px solid #3c7ab7;border-radius: 10px;"><input id="active" type="checkbox"/>&nbsp;<label for="active">IsActive</label></span>
+                            <div id="navPanelBody" style="display:none;" class="animated fadeIn">
+
+                            </div>
+                            <div id="noNav" style="display:none; text-align:center;color:red;font-size:18pt">
+                                Sorry! no navigation list found..........
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section scripts{
+    <script>
+
+        var disct = {}, userActions = false;
+        var GrantPer = '@ViewBag.Grant';
+
+        if (GrantPer == "Yes") {
+            $('#div_showAll').show();
+        }
+        else {
+            $('#div_showAll').hide();
+        }
+      
+        function getCreNames() {
+            var moduleType = $('#moduleType').val();
+            var roleType = $('#roleType').val();
+
+            $("#cressNames").empty();
+            $("#cressNames").multiselect('refresh');
+
+            $.ajax({
+                type: 'POST',
+                url: siteRoot + "/NavigationTab/getCreNames",
+                datatype: 'json',
+                cache: false,
+                data: { moduleType: moduleType, roleType: roleType },
+                success: function (res) {
+                    if (res.success == true) {
+                        var cressNames = $('#cressNames');
+                        $('#btnAssign').hide();
+                        $(cressNames).empty();
+                        $(cressNames).append(`<option value=''>--Select--</option>`);
+                        if (res.data.length > 0) {
+                            
+                            for (var i = 0; i < res.data.length; i++) {
+                                $(cressNames).append(`<option value='${res.data[i].id}'>${res.data[i].name}</option>`)
+                            }
+                            $("#cressNames").multiselect('rebuild');
+                            //$('#cressNames').multiselect('refresh');
+                           
+                        }
+                    }
+                    else {
+                        Lobibox.notify('warning', {
+                            continueDelayOnInactiveTab: true,
+                            msg: res.exception
+                        });
+                    }
+                },
+
+                error: function (ex) {
+                    console.log(ex);
+                    alert(ex);
+                }
+            });
+
+        }
+
+        function getnavigation() {
+
+            var moduleType = $('#moduleType').val();
+            var creId = $('#cressNames').val();
+            var roleType = $('#roleType').val();
+            var isCkAll = false;
+
+            if ($('#ckAll').is(':checked')) {
+                isCkAll = true;
+            }
+
+            if (moduleType != "" && creId != "" && roleType != "") {
+                if (roleType != "") {
+                    $.ajax({
+                        type: 'POST',
+                        url: siteRoot + "/NavigationTab/getNavigationDetails",
+                        datatype: 'json',
+                        cache: false,
+                        data: { creId: creId, roleType: roleType, moduleType: moduleType, isCkAll: isCkAll },
+                        success: function (res) {
+
+                            if (res.success == true) {
+                                disct = {};
+                                if (res.forms != null && res.forms != undefined && res.forms.length > 0) {
+                                   
+                                    var navContainer = '<div class="nav-container">';
+                                    var header = res.forms.filter(m => m.mainform_id == 0);
+                                    if (header.length > 0) {
+                                        $('#btnAssign').show();
+                                        if (res.isActive == true) {
+                                            $('#active').prop('checked', true);
+                                            $('#activeNav').show();
+                                        }
+                                        else {
+                                            if (res.userforms == "") {
+                                                $('#active').prop('checked', true);
+                                                $('#activeNav').show();
+                                            }
+                                            else {
+                                                $('#active').prop('checked', false);
+                                                $('#activeNav').show();
+                                            }
+                                            
+                                        }
+                                        var userForms;
+                                        if (res.userforms != "") {
+                                            userForms = res.userforms.split(',');
+                                        }
+                                         
+
+                                        for (var i = 0; i < header.length; i++) {
+                                            var parentPanel = "<div class='parent-panel'>";
+                                            var childPanel = '<div class="child-panel">';
+                                            var childNavs = res.forms.filter(m => m.mainform_id == header[i].id);
+                                            for (var j = 0; j < childNavs.length; j++) {
+                                                if (res.userforms != "" && userForms.filter(m => m == childNavs[j].id).length>0) {
+                                                //if (res.userforms.includes(childNavs[j].id)) {
+                                                    if (disct[childNavs[j].id] == undefined) {
+                                                        disct[childNavs[j].id] = childNavs[j].id;
+                                                        childPanel = childPanel + `<input type="checkbox" onclick="manageCk(this);" id="ck_${childNavs[j].id}" value="${childNavs[j].id}" checked/>&nbsp${childNavs[j].form_name}<br/>`;
+                                                    }
+                                                    
+                                                }
+                                                else {
+                                                    childPanel = childPanel + `<input type="checkbox" onclick="manageCk(this);" id="ck_${childNavs[j].id}" value="${childNavs[j].id}"/>&nbsp${childNavs[j].form_name}<br/>`;
+                                                }
+                                            }
+                                            //parent_container = parent_container + parentPanel + header[i].form_name + childPanel + "</div>";
+                                            navContainer = navContainer + parentPanel + header[i].form_name + childPanel + "</div></div>"
+                                        }
+                                        //navContainer = navContainer + parent_container + "</div>";
+
+                                        $('#navPanelBody').html(navContainer);
+                                        $('#noNav').hide();
+                                        $('#navPanelBody').show();
+                                    }
+                                    else {
+                                        $('#noNav').show();
+                                        $('#navPanelBody').hide();
+                                    }
+                                }
+                                else {
+                                    $('#noNav').show();
+                                    $('#navPanelBody').hide();
+                                }
+                            }
+                            else {
+
+                                Lobibox.notify('warning', {
+                                    continueDelayOnInactiveTab: true,
+                                    msg: res.exception
+                                });
+                            }
+                        },
+                        error: function (ex) {
+                            console.log(ex);
+                            alert(ex);
+                        }
+                    });
+                }
+            }
+            else {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: "Please select all fields."
+                });
+            }
+        }
+
+
+        function manageCk(ele) {
+
+            if (ele.checked === true) {
+                if (disct[$(ele).val()] == undefined) {
+                    disct[$(ele).val()] = $(ele).val();
+                }
+            }
+            else {
+                delete disct[$(ele).val()]
+            }
+        }
+
+        function resetDetails() {
+            $('#moduleType').val('');
+            $('#cressNames').empty();
+            $('#cressNames').append(`<option value="">--Select--</option>`);
+            $('#roleType').val('');
+            disct = {};
+            $('#navDetailsDiv').html('');
+            $('#btnDiv').hide();
+            $('#moduleType').prop("disabled", false);
+            $('#roleType').prop("disabled", false);
+            $('#navPanelBody').html('');
+            $('#ckAll').prop('checked', false);
+            $('#btnAssign').hide();
+            $('#active').prop('checked', false);
+            $('#activeNav').hide();
+            $("#cressNames").empty();
+            $("#cressNames").multiselect('refresh');
+
+        }
+
+        function manageNavDetails() {
+
+            if (Object.keys(disct).length > 0) {
+                
+                var creId = $('#cressNames').val();
+                var roleType = $('#roleType').val();
+                var active = false;
+                var selected_navs = []
+
+                for (var key in disct) {
+                    selected_navs.push(disct[key]);
+                }
+
+                if ($('#active').is(':checked')) {
+                    active = true;
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: siteRoot + "/NavigationTab/manageNavigationDetails",
+                    datatype: 'json',
+                    cache: false,
+                    data: { creId: creId, roleType: roleType, selected_navs: selected_navs.join(','), active },
+                    success: function (res) {
+                        if (res.success == true) {
+                            Lobibox.notify('success', {
+                                continueDelayOnInactiveTab: true,
+                                msg: 'Saved Successfully.'
+                            });
+                            resetDetails();
+                        }
+                        else {
+                            Lobibox.notify('warning', {
+                                continueDelayOnInactiveTab: true,
+                                msg: res.exception
+                            });
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                        alert(err);
+                    }
+                });
+            }
+            else {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please Select Navigations'
+                });
+            }
+        }
+    </script>
+}
+
+
+

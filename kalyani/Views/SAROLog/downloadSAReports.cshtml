@@ -1,0 +1,895 @@
+﻿
+@{
+    ViewBag.Title = "downloadSAReports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/public/liveReportCSS/custom.css" rel="stylesheet" />
+
+<style>
+    thead {
+        background-color: rgb(128, 203, 196);
+        width: 84px;
+    }
+    th.dt-center, td.dt-center {
+        text-align: center;
+    }
+    .scroll {
+        width: 20px;
+        height: 12px;
+        overflow: auto;
+        margin: 0 10px;
+    }
+
+    .scroll4::-webkit-scrollbar {
+        width: 10px;
+        height: 6px;
+    }
+
+    .scroll4::-webkit-scrollbar-thumb {
+        background: #666;
+        border-radius: 20px;
+    }
+
+    .scroll4::-webkit-scrollbar-track {
+        background: #ddd;
+        border-radius: 20px;
+    }
+
+    .panel-heading {
+        cursor: pointer;
+    }
+
+    div#container {
+        height: 400px;
+        width: 400px;
+        border: 2px solid #000;
+        overflow: scroll;
+    }
+
+    .accordion-toggle:after {
+        font-family: 'FontAwesome';
+        content: "\f077";
+        float: right;
+        color: inherit;
+    }
+
+    .panel-heading.collapsed .accordion-toggle:after {
+        content: "\f078";
+    }
+
+    .box-body {
+        padding: 0px;
+    }
+
+    hr {
+        margin-top: 0px;
+        margin-bottom: 0px;
+        border: 0;
+    }
+
+    #slideOut {
+        position: fixed;
+        width: 230px;
+        height: 800px;
+        top: 147px;
+        right: -230px;
+        /* Animation  */
+        transition-property: all;
+        transition-duration: .5s;
+        transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+        z-index: 999;
+    }
+
+    .showSlideOut {
+        right: 0px !important;
+    }
+
+    .slideOutTab {
+        margin-top: 50px;
+        position: absolute;
+        left: -40px;
+        height: 200px;
+        width: 40px;
+        -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+        background: #F2AB34;
+        border-radius: 15px 0px 0px 15px
+    }
+
+        .slideOutTab div {
+            text-align: center;
+            position: relative;
+            right: 70px;
+            top: 90px;
+            background: #F2AB34;
+            width: 180px;
+            -webkit-transform: rotate(270deg);
+            -moz-transform: rotate(270deg);
+            -o-transform: rotate(270deg);
+            writing-mode: lr-tb;
+        }
+
+
+    h2 {
+        font-size: 18px;
+    }
+
+    .dbbgcolor1 {
+        background-color: #03a9f4;
+    }
+
+    .dbbgcolor2 {
+        background-color: #ffc107;
+    }
+
+    .dbbgcolor3 {
+        background-color: #d559ea;
+    }
+
+    .dbbgcolor4 {
+        background-color: #ff5652;
+    }
+
+    .dbbgcolor5 {
+        background-color: #69afff;
+    }
+
+    .dbbgcolor6 {
+        background-color: #4edec1;
+    }
+
+    .dbbgcolor7 {
+        background-color: #ffc107;
+    }
+
+    .dbbgcolor8 {
+        background-color: #d559ea;
+    }
+
+    .dbbgcolor9 {
+        background-color: #ff5652;
+    }
+
+    ul.multiselect-container.dropdown-menu {
+        height: 121px;
+        overflow: auto;
+    }
+
+    .tile-stats span {
+        margin-top: 5px;
+        font-size: 12px;
+    }
+
+    .boxes {
+        margin: 6px;
+    }
+
+    .x_title h2 {
+        float: none;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    #myTab {
+        margin-bottom: 0px;
+    }
+
+        #myTab > li {
+            /* width: 110px;
+        word-wrap: break-word;*/
+            border-bottom: 2px solid #fff;
+        }
+
+    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        padding: 3px;
+        line-height: 1;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+        color: #000 !important;
+        font-size: 13px;
+        background-color: #fff;
+    }
+
+    .dataTables_length,
+    .dataTables_filter,
+    .dataTables_info {
+        font-size: 12px;
+    }
+
+    /*tbody,th{
+      text-align: center;
+    }*/
+
+
+    .nav-tabs > li > a:hover {
+        border-color: #b14b4b #b93131 #b33;
+        color: #000;
+    }
+
+    .donloadClass {
+        text-align: center;
+        position: relative;
+        margin-top: 38px;
+        margin-left: 0px;
+        font-size: medium;
+    }
+
+    .html5buttons {
+        display: none;
+    }
+</style>
+
+<div class="panel panel-primary" id="SAMNGLiveReportDiv">
+    <div class="panel-heading">
+        <b>Live SA-Reports</b>
+        <button style="        background-color: rgb(128, 203, 196);
+        float: right;
+        height: 30px;
+        width: 100px;
+        margin-top: -5px;" onclick="ReloadSAData();" title="CLEAR FILTER">Refresh</button>
+    </div>
+    <div class="panel-body">
+
+        <div class="row" id="sawiseLiveReport">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <b>SA-Wise Availability Live Table</b>
+                        <ul class="nav navbar-right panel_toolbox">
+
+                            <li>
+                                <a id="tblSAWiseLive_xl"></a>
+                            </li>
+                            <li>
+                                <button type="button" class="btn btn-primary btn-xs pull-right" id="tblSAWiseLive_button" data-toggle="collapse" data-target="#tblSAWiseLiveDiv" onclick="callSAprocedure(1,'tblSAWiseLive');">Show</button>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content collapse" id="tblSAWiseLiveDiv">
+                        <div class="">
+                            <div>
+                                <img id="tblSAWiseLive_Spinner" style=" display: block; margin-left: auto; margin-right: auto; width: 20%;" src="~/public/img/fe.gif" />
+                            </div>
+                            <table id="tblSAWiseLive" class="table table-striped table-bordered table-hover " style="width:100%;margin:0px;">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="workshopwiseLiveReport">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <b>Workshop-Wise Availability Live Table</b>
+                            <ul class="nav navbar-right panel_toolbox">
+
+                                <li>
+                                    <a id="tblSAWorkshowiseLive_xl"></a>
+                                </li>
+                                <li>
+                                    <button type="button" id="tblSAWorkshowiseLive_button" class="btn btn-primary btn-xs pull-right" data-toggle="collapse" data-target="#tblSAWorkshowiseLiveDiv" onclick="callSAprocedure(2,'tblSAWorkshowiseLive');">Show</button>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content collapse" id="tblSAWorkshowiseLiveDiv">
+                            <div class="">
+                                <div>
+                                    <img id="tblSAWorkshowiseLive_Spinner" style=" display: block; margin-left: auto; margin-right: auto; width: 20%;" src="~/public/img/fe.gif" />
+                                </div>
+                                <table id="tblSAWorkshowiseLive" class="table table-striped table-bordered table-hover " style="width:100%;margin:0px;">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <span class="code" id="tblException" style="font-size:11pt;font-weight:bold;color:red;"></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <b>Download SA-Reports</b>
+        <button style="background-color:red;float:right;height:30px;width:100px;margin-top:-5px;" onclick="clearAllSAFilters();" title="CLEAR FILTER">CLEAR</button>
+    </div>
+    <div class="panel-body">
+
+        <div class="row">
+
+            <div class="col-md-3 col-md-3 col-sm-12 col-xs-12 SAmodalclick col-half-offset" data-toggle="modal" data-target="#myModalSAfilters" data-id="3" style="display:none" id="assignmentreportDiv">
+                <div class="panel panel-primary" style="text-align: center; cursor:pointer">
+                    <div class="panel-heading">ASSIGNMENT REPORT</div>
+                    <div class="panel-body" style="height: 88px;">
+                        <h2>DATA ASSIGNMENT REPORT</h2>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-3 col-md-3 col-sm-12 col-xs-12 SAmodalclick col-half-offset" data-toggle="modal" data-target="#myModalSAfilters" data-id="4" style="display:none" id="pendngstatusreportDiv">
+                <div class="panel panel-primary" style="text-align: center; cursor:pointer">
+                    <div class="panel-heading">Pending Reason Report</div>
+                    <div class="panel-body" style="height: 88px;">
+                        <h2>Pending Reason Report</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-md-3 col-sm-12 col-xs-12 SAmodalclick col-half-offset" data-toggle="modal" data-target="#myModalSAfilters" data-id="5" style="display:none" id="referalreportDiv">
+                <div class="panel panel-primary" style="text-align: center; cursor:pointer">
+                    <div class="panel-heading">Referral Report</div>
+                    <div class="panel-body" style="height: 88px;">
+                        <h2>Referral Report</h2>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="myModalSAfilters" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="text-align:center;background-color: #106A86;color: #fff;">
+                <button type="button" class="close" data-dismiss="modal" style="opacity:2;"><img src="~/public/images/close1.png" /></button>
+                <h4 class="modal-title" id="SAmodaltitle"></h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="SAbucketID" id="SAbucketID" value="" />
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label id="lblcallfromDate">Call Date From</label>
+                                <input id="calldateFrom" readonly type="text" class="datepickerSAcallfrom form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label id="lblcalltoDate">Call Date To</label>
+                                <input id="calllldateTo" readonly type="text" class="datepickerSAcallto form-control">
+                            </div>
+                        </div>
+                        <div id="serviceadvisorDiv" style="display:none;">
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label>Service Advisor</label>
+                                    @Html.DropDownList("serviceadvisor", new SelectList(ViewBag.wyuserLists, "id", "name"), new { @class = "form-control selectpicker", @multiple = "multiple", @id = "serviceadvisor" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="workTypeDiv" style="display:none;">
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label>Work Type</label>
+                                    @Html.DropDownList("worktypeLists", new SelectList(ViewBag.worktypeLists, "id", "name"), new { @class = "form-control selectpicker", @multiple = "multiple", @id = "worktypeLists" })
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="col-sm-2" id="saservicetypesDiv">
+                            <div class="form-group">
+                                <label>Sa Service Type: </label>
+                                @Html.DropDownList("saservicetypes", new SelectList(ViewBag.saservicetypes, "saservicetypes", "saservicetypes"), "Select", new { @class = "filter form-control", @id = "saservicetypes" })
+                            </div>
+                        </div>*@
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+
+                        <div id="missedrodateDiv" style="display:none;">
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label id="lblmissedrofromdate">RO From Date</label>
+                                    <input id="missedrofromdate" readonly type="text" class="datepickerSAmissedrocallfrom form-control">
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label id="lblmissedrotodate">RO To Date</label>
+                                    <input id="missedrotodate" readonly type="text" class="datepickerSAmissedrocallto form-control">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div id="workshopDiv" style="display:none;">
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label>Workshop Name</label>
+                                    @Html.DropDownList("saworkshop", new SelectList(ViewBag.workshopLists, "id", "workshopName"), new { @class = "form-control selectpicker", @multiple = "multiple", @id = "saworkshop" })
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id="pendingDiv" style="display:none;">
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label>Pending</label>
+                                    @Html.DropDownList("pending", new SelectListItem[] { new SelectListItem() { Text = "No", Value = "0" }, new SelectListItem() { Text = "Yes", Value = "1" } }, new { @class = "form-control selectpicker", @multiple = "multiple", @id = "pending" })
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+
+                        <div id="roStatusDiv" style="display:none;">
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select class="selectpicker form-control" id="roStatus" name="roStatus" multiple>
+                                        <option value="OPEN">OPEN</option>
+                                        <option value="CLOSED">CLOSED</option>
+                                        <option value="BILLED">BILLED</option>
+                                        <option value="DELIVERED">DELIVERED</option>
+                                        <option value="CANCEL">CANCEL</option>
+                                        <option value="NOTDELIVERED">BILLED AND NOT DELIVERED</option>
+
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="assgnmentDateDiv" style="display:none;">
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label id="">Assignment From Date</label>
+                                    <input id="assgnmntFromDate" readonly type="text" class="datepickerSAassgnmntcallfrom form-control">
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label id="">Assignment To Date</label>
+                                    <input id="assgnmntToDate" readonly type="text" class="datepickerSAassgnmntcallto form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="return clearAllSAFilters(); ">&nbsp;Clear all</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" id="" onclick="return downloadSAReports();"><i class="fa fa-cloud-download">  &nbsp;&nbsp;Download</i></button>
+                </div>
+            </div>
+
+    </div>
+</div>
+@section scripts
+{
+    <Script>
+        $(document).ready(function () {
+            selectallSAmultipleDropdown();
+            var userrole;
+            var userrole ='@Session["UserRole"].ToString()'
+            if (userrole == "Service Advisor")
+            {
+                $('#sawiseLiveReport').css({ 'display': 'block' });
+                $('#workshopwiseLiveReport').css({ 'display': 'none' });
+                $('#assignmentreportDiv').css({ 'display': 'block' });
+                $('#pendngstatusreportDiv').css({ 'display': 'block' });
+                $('#referalreportDiv').css({ 'display': 'block' });
+
+            }
+            else if (userrole == "CREManager")
+            {
+                $('#sawiseLiveReport').css({ 'display': 'block' });
+                $('#workshopwiseLiveReport').css({ 'display': 'block' });
+                $('#assignmentreportDiv').css({ 'display': 'block' });
+                $('#pendngstatusreportDiv').css({ 'display': 'block' });
+                $('#referalreportDiv').css({ 'display': 'block' });
+
+            }
+
+            $(".datepickerSAcallfrom").datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: 0,
+
+                onSelect: function () {
+                    var datepickerto = $('.datepickerSAcallto');
+                    var startDate = $(this).datepicker('getDate');
+                    var minDate = $(this).datepicker('getDate');
+                    var dt2Date = datepickerto.datepicker('getDate');
+                    //difference in days. 86400 seconds in day, 1000 ms in second
+                    var dateDiff = (dt2Date - minDate) / (86400 * 1000);
+
+                    startDate.setDate(startDate.getDate() + 30);
+                    if (dt2Date == null || dateDiff < 0) {
+                        datepickerto.datepicker('setDate', minDate);
+                    }
+                    else if (dateDiff > 30) {
+                        datepickerto.datepicker('setDate', startDate);
+                    }
+                    //sets dt2 maxDate to the last day of 30 days window
+                    datepickerto.datepicker('option', 'maxDate', startDate);
+                    datepickerto.datepicker('option', 'minDate', minDate);
+                }
+            });
+            $('.datepickerSAcallto').datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: 0,
+
+            });
+
+            $(".datepickerSAmissedrocallfrom").datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: 0,
+
+                onSelect: function () {
+                    var datepickerto = $('.datepickerSAmissedrocallto');
+                    var startDate = $(this).datepicker('getDate');
+                    var minDate = $(this).datepicker('getDate');
+                    var dt2Date = datepickerto.datepicker('getDate');
+                    //difference in days. 86400 seconds in day, 1000 ms in second
+                    var dateDiff = (dt2Date - minDate) / (86400 * 1000);
+
+                    startDate.setDate(startDate.getDate() + 30);
+                    if (dt2Date == null || dateDiff < 0) {
+                        datepickerto.datepicker('setDate', minDate);
+                    }
+                    else if (dateDiff > 30) {
+                        datepickerto.datepicker('setDate', startDate);
+                    }
+                    //sets dt2 maxDate to the last day of 30 days window
+                    datepickerto.datepicker('option', 'maxDate', startDate);
+                    datepickerto.datepicker('option', 'minDate', minDate);
+                }
+            });
+            $('.datepickerSAmissedrocallto').datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: 0,
+
+            });
+
+            $(".datepickerSAassgnmntcallfrom").datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: 0,
+
+                onSelect: function () {
+                    var datepickerto = $('.datepickerSAassgnmntcallto');
+                    var startDate = $(this).datepicker('getDate');
+                    var minDate = $(this).datepicker('getDate');
+                    var dt2Date = datepickerto.datepicker('getDate');
+                    //difference in days. 86400 seconds in day, 1000 ms in second
+                    var dateDiff = (dt2Date - minDate) / (86400 * 1000);
+
+                    startDate.setDate(startDate.getDate() + 30);
+                    if (dt2Date == null || dateDiff < 0) {
+                        datepickerto.datepicker('setDate', minDate);
+                    }
+                    else if (dateDiff > 30) {
+                        datepickerto.datepicker('setDate', startDate);
+                    }
+                    //sets dt2 maxDate to the last day of 30 days window
+                    datepickerto.datepicker('option', 'maxDate', startDate);
+                    datepickerto.datepicker('option', 'minDate', minDate);
+                }
+            });
+            $('.datepickerSAassgnmntcallto').datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: 0,
+
+            });
+
+
+            $('#calldateFrom').focus(function () {
+                $('#calllldateTo').val('');
+                $('#missedrofromdate').val('');
+                $('#missedrotodate').val('');
+                 $('#assgnmntFromDate').val('');
+                $('#assgnmntToDate').val('');
+
+            });
+            $('#missedrofromdate').focus(function () {
+                $('#calldateFrom').val('');
+                $('#calllldateTo').val('');
+                $('#missedrotodate').val('');
+                $('#assgnmntFromDate').val('');
+                $('#assgnmntToDate').val('');
+
+            });
+            $('#assgnmntFromDate').focus(function () {
+                $('#calldateFrom').val('');
+                $('#calllldateTo').val('');
+                $('#missedrofromdate').val('');
+                $('#missedrotodate').val('');
+                $('#assgnmntToDate').val('');
+            });
+        });
+
+        $(".SAmodalclick").click(function () {
+            var my_id_value = $(this).data('id');
+
+             if (my_id_value == "3")
+            {
+                document.getElementById('lblcallfromDate').innerHTML = 'Assignment From Date';
+                document.getElementById('lblcalltoDate').innerHTML = 'Assignment To Date';
+                 $('#pendingDiv').css({ 'display': 'block' });
+                 $('#workTypeDiv').css({ 'display': 'block' });
+                 $('#missedrodateDiv').css({ 'display': 'block' });
+                 $('#workshopDiv').css({ 'display': 'none' });
+                 $('#roStatusDiv').css({ 'display': 'block' }); 
+                $('#serviceadvisorDiv').css({ 'display': 'none' });
+                 $('#assgnmentDateDiv').css({ 'display': 'none' });
+                document.getElementById("SAmodaltitle").innerHTML = "DATA ASSIGNMENT REPORT";
+            }
+            else if (my_id_value == "4") {
+
+                document.getElementById('lblcallfromDate').innerHTML = 'Call From Date';
+                 document.getElementById('lblcalltoDate').innerHTML = 'Call To Date';
+                 //document.getElementById('lblmissedrofromdate').innerHTML = 'ROOpen From Date';
+                 //document.getElementById('lblmissedrotodate').innerHTML = 'ROOpen To Date';
+                 $('#workTypeDiv').css({ 'display': 'none' });
+                 $('#pendingDiv').css({ 'display': 'none' });
+                 $('#roStatusDiv').css({ 'display': 'none' }); 
+                 $('#missedrodateDiv').css({ 'display': 'block' });
+                $('#workshopDiv').css({ 'display': 'block' });
+                $('#serviceadvisorDiv').css({ 'display': 'block' });
+                 $('#assgnmentDateDiv').css({ 'display': 'block' });
+                document.getElementById("SAmodaltitle").innerHTML = "Pending Status Report";
+            }
+            else if (my_id_value == "5") {
+                document.getElementById('lblcallfromDate').innerHTML = 'Call From Date';
+                 document.getElementById('lblcalltoDate').innerHTML = 'Call To Date';
+                 $('#workTypeDiv').css({ 'display': 'none' });
+                 $('#roStatusDiv').css({ 'display': 'none' }); 
+
+                 $('#pendingDiv').css({ 'display': 'none' });
+                 $('#missedrodateDiv').css({ 'display': 'none' });
+                $('#workshopDiv').css({ 'display': 'none' });
+                $('#serviceadvisorDiv').css({ 'display': 'none' });
+                 $('#assgnmentDateDiv').css({ 'display': 'none' });
+                document.getElementById("SAmodaltitle").innerHTML = "Referral Report";
+            }
+            $(".modal-body #SAbucketID").val(my_id_value);
+        })
+
+
+
+        function downloadSAReports() {
+
+            $('#mainLoader').css({ 'display': 'block' });
+
+            var reportId, reportName;
+            reportId = $('#SAbucketID').val();
+
+
+            var name = $("#SAmodaltitle").text();
+            reportName = name.replace(/[\. ,:-]+/g, "");
+            var callfromDate = $('#calldateFrom').val();
+            var calltoDate = $('#calllldateTo').val();
+            var missedrofromdate = $('#missedrofromdate').val();
+            var missedrotodate = $('#missedrotodate').val();
+            var assignmentfromDate = $('#assgnmntFromDate').val();  
+            var assignmenttoDate = $('#assgnmntToDate').val();
+            var pending = $('#pending option:selected').toArray().map(item => item.value).join();
+            var worktypeLists = $('#worktypeLists option:selected').toArray().map(item => item.value).join();
+            var workshope_list = $('#saworkshop option:selected').toArray().map(item => item.value).join();
+            var cre_list = $('#serviceadvisor option:selected').toArray().map(item => item.value).join();
+            var roStatus_list = $('#roStatus option:selected').toArray().map(item => item.value).join();
+            var connectionId = $.connection.hub.id;
+        //    if (reportId!="3")
+        //    {
+        //    if ((callfromDate === "" || calltoDate == "") && (missedrofromdate === "" || missedrotodate == "")) {
+        //        Lobibox.notify('warning', {
+        //            continueDelayOnInactiveTab: true,
+        //            msg: "Please Enter Call From and To Date."
+        //        });
+        //        $('#mainLoader').css({ 'display': 'none' });
+
+        //        return false;
+        //    }
+        //}
+            var SAFilterLists = { reportId: reportId, callfromDate: callfromDate, calltoDate: calltoDate, workshopLists: workshope_list, creLists: cre_list, reportName: reportName, connectionId: connectionId, billdateFrom: missedrofromdate, billdateTo: missedrotodate, ispending: pending, worktypelists: worktypeLists, roStatus: roStatus_list, assigndateFrom: assignmentfromDate, assigndateTo: assignmenttoDate}
+
+
+            $.when(SAReportDownnloadAjax(SAFilterLists)).then
+                (function successHandler(res) {
+                    console.log(res);
+                    if (res.success == true) {
+                        window.location = siteRoot + "/SAROLog/SADownloadALL/?reportName=" + reportName;
+                        $('#mainLoader').css({ 'display': 'none' });
+                        clearAllSAFilters();
+                    }
+                    else if (res.success == false) {
+                        Lobibox.notify('warning', {
+                            continueDelayOnInactiveTab: true,
+                            msg: res.error
+                        });
+                        clearAllSAFilters();
+                        $('#mainLoader').css({ 'display': 'none' });
+                        return false;
+                    }
+                    else {
+                        $('#mainLoader').css({ 'display': 'none' });
+                        console.log(res.error);
+                    }
+
+                },
+                    function errorHandler(res) {
+                        $('#mainLoader').css({ 'display': 'none' });
+                        console.log(err);
+                    })
+
+        }
+
+        function SAReportDownnloadAjax(SAFilterLists) {
+            return $.ajax({
+                url: siteRoot + '/SAROLog/SADownloadFilter/',
+                type: "post",
+                data: { SAFilterLists: JSON.stringify(SAFilterLists) }
+            });
+        }
+
+        function selectallSAmultipleDropdown() {
+            $("#saworkshop").multiselect('selectAll', false);
+            $("#saworkshop").multiselect('updateButtonText')
+            $("#serviceadvisor").multiselect('selectAll', false);
+            $("#serviceadvisor").multiselect('updateButtonText')
+            $("#worktypeLists").multiselect('selectAll', false);
+            $("#worktypeLists").multiselect('updateButtonText')
+            $("#pending").multiselect('selectAll', false);
+            $("#pending").multiselect('updateButtonText')
+            $("#roStatus").multiselect('selectAll', false);
+            $("#roStatus").multiselect('updateButtonText')
+
+        }
+
+        function clearAllSAFilters() {
+            selectallSAmultipleDropdown();
+            $('#calldateFrom').val('');
+            $('#calllldateTo').val('');  
+            $('#missedrofromdate').val('');
+            $('#missedrotodate').val('');
+            $('#assgnmntFromDate').val('');
+            $('#assgnmntToDate').val('');
+        }
+
+        function ReloadSAData() {
+            if ($.fn.DataTable.isDataTable("#tblSAWiseLive")) {
+                var table = $("#tblSAWiseLive").DataTable();
+                table.clear();
+                table.destroy();
+                $("#tblSAWiseLive thead th").remove();
+                callSAprocedure(1, "tblSAWiseLive");
+            }
+            if ($.fn.DataTable.isDataTable("#tblSAWorkshowiseLive")) {
+                var table = $("#tblSAWorkshowiseLive").DataTable();
+                table.clear();
+                table.destroy();
+                $("#tblSAWorkshowiseLive thead th").remove();
+                callSAprocedure(2, 'tblSAWorkshowiseLive');
+            }
+          
+        }
+        function callSAprocedure(Id, tblId) {
+
+            var reportId = Id;
+            if (!$.fn.DataTable.isDataTable("#" + tblId)) {
+                {
+                    $("#" + tblId + "_button").hide();
+                    callSACallScoreCardLive_tabledata(reportId, tblId);
+                }
+            }
+        }
+        function getSATableData(reportId) {
+            return $.ajax({
+                "url": siteRoot + "/SAROLog/getLiveSAReports",
+                "type": "POST",
+                "data": { reportId: reportId },
+                "datatype": "json"
+            });
+        }
+        function callSACallScoreCardLive_tabledata(reportId, tblId) {
+            $('#' + tblId + '_Spinner').show();
+            getSATableData(reportId).done(function (records) {
+                var jsonrecords = JSON.parse(records.data);
+                var my_columns = [];
+                if (records.exception === "" && jsonrecords.length > 0) {
+                    $.each(jsonrecords[0], function (key, value) {
+                        var my_item = {};
+                        my_item.data = key;
+                        my_item.title = key;
+                        my_columns.push(my_item);
+                    });
+
+                    $('#' + tblId).DataTable({
+                        data: jsonrecords,
+                        "columns": my_columns,
+                        "paging": false,
+                        "searching": false,
+                        "order": [[0, "asc"]],
+                        "pageLength": 50,
+                        "columnDefs": [
+                            { "className": "dt-center", "targets": "_all" }
+                        ],
+                        "initComplete": function (settings, exception) {
+                            $('#' + tblId + '_Spinner').hide();
+                            $("#" + tblId + "_button").show();
+                        }
+
+                    });
+                    var buttons = new $.fn.dataTable.Buttons('#' + tblId, {
+                        buttons: [
+                            {
+                                extend: 'csvHtml5',
+                                text: '<i class="fa fa-download">&nbsp;&nbsp;Excel</i>',
+                                titleAttr: 'Excel',
+                                filename: tblId
+
+                            }
+                        ]
+                    }).container().appendTo($('#' + tblId + '_xl'));
+                }
+                else {
+                    var dataset = [{ "Result": "No Data Available" }];
+
+                    var my_columns = [];
+                    $.each(dataset[0], function (key, value) {
+                        var my_item = {};
+                        my_item.data = key;
+                        my_item.title = key;
+                        my_columns.push(my_item);
+                    });
+
+                    $('#' + tblId).DataTable({
+                        data: dataset,
+                        "columns": my_columns,
+                        "paging": false,
+                        "searching": false,
+                        "order": [[0, "asc"]],
+                        "pageLength": 50,
+                        "columnDefs": [
+                            { "className": "dt-center", "targets": "_all" }
+                        ],
+                        "initComplete": function (settings, exception) {
+                            $('#' + tblId + '_Spinner').hide();
+                            $("#" + tblId + "_button").show();
+
+                        }
+                    });
+                    $('#tblException').text(records.exception);
+                }
+
+            });
+
+        }
+
+    </Script>
+}

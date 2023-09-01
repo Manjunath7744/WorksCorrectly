@@ -1,0 +1,1116 @@
+﻿
+@{
+    ViewBag.Title = "SMRLiveForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string user_role = Session["UserRole"].ToString();
+    string userName = Session["UserName"].ToString();
+    string dealer_name = Session["DealerName"].ToString();
+
+}
+<link href="~/public/liveReportCSS/custom.css" rel="stylesheet" />
+<style>
+    thead {
+        background-color: rgb(128, 203, 196);
+        width: 84px;
+    }
+
+    .dashImg1 {
+        width: 30px;
+    }
+
+    .dashImg2 {
+        width: 20px;
+    }
+
+    .scroll {
+        width: 20px;
+        height: 12px;
+        overflow: auto;
+        margin: 0 10px;
+    }
+
+    .scroll4::-webkit-scrollbar {
+        width: 10px;
+        height: 6px;
+    }
+
+    .scroll4::-webkit-scrollbar-thumb {
+        background: #666;
+        border-radius: 20px;
+    }
+
+    .scroll4::-webkit-scrollbar-track {
+        background: #ddd;
+        border-radius: 20px;
+    }
+
+    .panel-heading {
+        cursor: pointer;
+    }
+
+    div#container {
+        height: 400px;
+        width: 400px;
+        border: 2px solid #000;
+        overflow: scroll;
+    }
+
+    .accordion-toggle:after {
+        font-family: 'FontAwesome';
+        content: "\f077";
+        float: right;
+        color: inherit;
+    }
+
+    .panel-heading.collapsed .accordion-toggle:after {
+        content: "\f078";
+    }
+
+    .box-body {
+        padding: 0px;
+    }
+
+    hr {
+        margin-top: 0px;
+        margin-bottom: 0px;
+        border: 0;
+    }
+
+    #slideOut {
+        position: fixed;
+        width: 230px;
+        height: 800px;
+        top: 147px;
+        right: -230px;
+        /* Animation  */
+        transition-property: all;
+        transition-duration: .5s;
+        transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+        z-index: 999;
+    }
+
+
+    /* Display slideOut */
+
+    .showSlideOut {
+        right: 0px !important;
+    }
+
+
+    /* Tab */
+
+    .slideOutTab {
+        margin-top: 50px;
+        position: absolute;
+        left: -40px;
+        height: 200px;
+        width: 40px;
+        -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+        background: #F2AB34;
+        border-radius: 15px 0px 0px 15px
+    }
+
+        .slideOutTab div {
+            text-align: center;
+            position: relative;
+            right: 70px;
+            top: 90px;
+            background: #F2AB34;
+            width: 180px;
+            -webkit-transform: rotate(270deg);
+            -moz-transform: rotate(270deg);
+            -o-transform: rotate(270deg);
+            writing-mode: lr-tb;
+        }
+
+    .modal-content {
+        height: 325px;
+        background-color: white;
+    }
+
+    .modal-body {
+        height: 400px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    .dbbgcolor1 {
+        background-color: #03a9f4;
+    }
+
+    .dbbgcolor2 {
+        background-color: #ffc107;
+    }
+
+    .dbbgcolor3 {
+        background-color: #d559ea;
+    }
+
+    .dbbgcolor4 {
+        background-color: #ff5652;
+    }
+
+    .dbbgcolor5 {
+        background-color: #69afff;
+    }
+
+    .dbbgcolor6 {
+        background-color: #4edec1;
+    }
+
+    .dbbgcolor7 {
+        background-color: #ffc107;
+    }
+
+    .dbbgcolor8 {
+        background-color: #d559ea;
+    }
+
+    .dbbgcolor9 {
+        background-color: #ff5652;
+    }
+
+    ul.multiselect-container.dropdown-menu {
+        height: 121px;
+        overflow: auto;
+    }
+
+    .tile-stats span {
+        margin-top: 5px;
+        font-size: 12px;
+    }
+
+    .boxes {
+        margin: 6px;
+    }
+
+    .x_title h2 {
+        float: none;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    #myTab {
+        margin-bottom: 0px;
+    }
+
+        #myTab > li {
+            /* width: 110px;
+            word-wrap: break-word;*/
+            border-bottom: 2px solid #fff;
+        }
+
+    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        padding: 3px;
+        line-height: 1;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+        color: #000 !important;
+        font-size: 13px;
+        background-color: #fff;
+    }
+
+    .dataTables_length,
+    .dataTables_filter,
+    .dataTables_info {
+        font-size: 12px;
+    }
+
+    /*tbody,th{
+          text-align: center;
+        }*/
+
+    .btn {
+        display: inline-block;
+        /* padding: 0px 4px;  */
+        margin-bottom: 0;
+        font-size: 12px;
+    }
+
+    .nav-tabs > li > a:hover {
+        border-color: #b14b4b #b93131 #b33;
+        color: #000;
+    }
+
+    .html5buttons {
+        display: none;
+    }
+    /* @@media only screen and(max-width:768px;){
+            #Banus{
+            font-size: 8px!important;
+
+            }
+        } */
+</style>
+<div class="container-fluide">
+
+    <div class="row top_tiles" style="color: #fff;">
+        <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
+            <div class="">
+
+                <div class="animated flipInY ccol-lg-2 col-md-2  col-sm-6 col-xs-6">
+                    <div class="tile-stats dbbgcolor1">
+                        <div class="inner">
+                            <div class="count" style="margin-bottom:15px;" id="BoxLiveCRE"><img class="dashImg1" src="~/public/img/loading.gif" /></div>
+                            <b>
+                                <p style="text-align:center;margin-bottom:5px;font-size:15px">CRE</p>
+                            </b>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-rocket" style="font-size: 23px"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ./col -->
+                <!-- small box -->
+                <div class="animated flipInY col-lg-2 col-md-2  col-sm-6 col-xs-6">
+                    <div class="tile-stats dbbgcolor2">
+                        <div class="inner">
+                            <div class="count" style="margin-bottom:15px;" id="BoxLiveDataAvail"><img class="dashImg1" src="~/public/img/loading.gif" /></div>
+                            <b>
+                                <p style="text-align:center;margin-bottom:5px;font-size:15px">Data Avail</p>
+                            </b>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-dropbox" style="font-size: 23px"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ./col -->
+
+                <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                    <!-- small box -->
+                    <div class="tile-stats dbbgcolor3">
+                        <div class="inner">
+                            <div class="count" style="margin-bottom:15px;" id="BoxLiveCalls"><img class="dashImg1" src="~/public/img/loading.gif" /></div>
+                            <b>
+                                <p style="text-align:center;margin-bottom:5px;font-size:15px">Calls</p>
+                            </b>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-repeat" style="font-size: 23px"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                    <!-- small box -->
+                    <div class="tile-stats dbbgcolor4">
+                        <div class="inner">
+                            <div class="count" style="margin-bottom:15px;" id="BoxLiveCRECalls"><img class="dashImg1" src="~/public/img/loading.gif" /></div>
+                            <b>
+                                <p style="text-align:center;margin-bottom:5px;font-size:15px">Calls/CRE</p>
+                            </b>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-exchange" style="font-size: 23px"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- ./col -->
+
+                <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                    <!-- small box -->
+                    <div class="tile-stats dbbgcolor5">
+                        <div class="inner">
+                            <div class="count" style="margin-bottom:15px;" id="BoxLiveContact"><img class="dashImg1" src="~/public/img/loading.gif" /></div>
+                            <b>
+                                <p style="text-align:center;margin-bottom:5px;font-size:15px">Contacts</p>
+                            </b>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-phone" style="font-size: 23px"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ./col  -->
+                <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-6">
+
+                    <div class="tile-stats dbbgcolor6">
+                        <div class="inner">
+                            <div class="count" style="margin-bottom:15px;" id="BoxLiveContactPercent"><img class="dashImg1" src="~/public/img/loading.gif" /></div>
+                            <b>
+                                <p style="text-align:center;margin-bottom:5px;font-size:15px">Contact(%)</p>
+                            </b>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-percent" style="font-size: 23px"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--  4 ./col -->
+        <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+            <!-- ./col  -->
+            <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-6">
+
+                <div class="tile-stats dbbgcolor7">
+                    <div class="inner">
+                        <div class="count" style="margin-bottom:15px;" id="BoxLiveFreshBook"><img class="dashImg1" src="~/public/img/loading.gif" /></div>
+                        <b>
+                            <p style="text-align:center;margin-bottom:5px;font-size:15px">FreshBooking</p>
+                        </b>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-list-alt" style="font-size: 23px"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- ./col  -->
+            <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-6">
+
+                <div class="tile-stats dbbgcolor8">
+                    <div class="inner">
+                        <div class="count" style="margin-bottom:15px;" id="BoxLiveCancelled"><img class="dashImg1" src="~/public/img/loading.gif" /></div>
+                        <b>
+                            <p style="text-align:center;margin-bottom:5px;font-size:15px">Cancelled</p>
+                        </b>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-times" style="font-size: 23px"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-6">
+
+                <div class="tile-stats dbbgcolor9">
+                    <div class="inner">
+                        <div class="count" style="margin-bottom:15px;" id="BoxLiveReschedule"><img class="dashImg1" src="~/public/img/loading.gif" /></div>
+                        <b>
+                            <p style="text-align:center;margin-bottom:5px;font-size:15px">Rescheduled</p>
+                        </b>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-book" style="font-size: 23px"></i>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" id="dealer_Name" name='dealer_Name' value="@dealer_name" />
+    <div class="col-md-12 text-center" style="padding:1px;">
+        <button class="btn btn-info btn-xs pull-center" style="text-align:center;" type="submit" onclick="selectAllmultipleSMRselectors();getSMRIntradaycharts();loadSMRDashboard(); smrFilterrefresh(); ">&nbsp;Refresh</button>
+
+        <p>
+            <button class="btn btn-primary btn-xs pull-right">
+                <a style="text-align: center; cursor:pointer; color:#fff" data-toggle="modal" data-target="#myModal1">Filter Selection</a>
+            </button>
+        </p>
+    </div>
+    <marquee style="color:red;cursor:pointer" onmouseover="this.stop();" onmouseout="this.start();">*- Call Sync is a continuous process. Final ‘Call Duration’ will be updated at end of business hours</marquee>
+
+    <div class="modal fade" id="myModal1" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="text-align:center;background-color: #106A86;color: #fff;">
+                    <button type="button" class="close" data-dismiss="modal" style="opacity:2;">
+                        <img src="~/public/images/close1.png">
+                    </button>
+                    <h4 class="modal-title">SMR Live Data Filter</h4>
+                </div>
+                <div class="modal-header" style="padding: 2px;">
+                    <button class="btn btn-info btn-xs pull-right" type="submit" onclick="return clearsmrfilters();">&nbsp;Clear All</button>
+                    <br />
+                </div>
+                <div class="modal-body">
+                    @if (Session["UserRole"].ToString() != "CRE")
+                    {
+                        <div class="col-xs-4 crehideshow">
+
+                            <label>CRE Name</label>
+                            <div class="form-group">
+                                @Html.DropDownList("LLModel", new SelectList(ViewBag.ddlcres, "id", "creName"), new { @class = "form-control selectpickerAll", @multiple = "multiple", @data_field = "smrCres", @id = "smrCres" })
+                            </div>
+                        </div>
+                    }
+                    <div class="col-xs-4">
+                        <label>Workshop Name</label>
+                        <div class="form-group">
+                            @Html.DropDownList("LiveWorkshop", new SelectList(ViewBag.ddlWorkshop, "workshopId", "workshopName"), new { @class = "form-control selectpickerAll", @multiple = "multiple", @data_field = "smrLiveWorkshop", @id = "smrLiveWorkshop" })
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <label>Campaign Name</label>
+                        <div class="form-group">
+                            @Html.DropDownList("LLModel", new SelectList(ViewBag.ddlcampaignList, "id", "campaignName"), new { @class = "form-control selectpickerAll", @multiple = "multiple", @data_field = "smrCampaignid", @id = "smrCampaignid" })
+
+                        </div>
+                    </div>
+                    @*<div class="col-xs-4">
+                            <label>From Date</label>
+                            <div class="form-group">
+                                <input type="text" class="filter form-control datepicAppointmentFromDropDown" data-column-index="8" placeholder="Select From Date" data-field="smrfromDate" id="smrfromDate" name="smrfromDate" readonly>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <label>To Date</label>
+                            <div class="form-group">
+                                <input type="text" class="filter form-control datepicAppointmentFromDropDown" data-column-index="8" placeholder="Select To Date" data-field="smrtoDate" id="smrtoDate" name="smrtoDate" readonly>
+                            </div>
+                        </div>*@
+
+                    <div class="modal-footer" style="padding: 2px;margin-top:170px">
+                        <div class="row">
+                            <div class="col-xs-4 pull-right">
+                                <div class="form-group">
+                                    <button class="btn btn-success" data-dismiss="modal" id="tblDate" onclick="getSMRIntradaycharts();smrFilterrefresh();">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="todayscallModal" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="" style="height: 239px; background-color:white;align-content:center">
+                <div class="modal-header" style="text-align:center;background-color: #106A86;color: #fff;">
+                    <button type="button" class="close" data-dismiss="modal" style="opacity:2;">
+                        <img src="~/public/images/close1.png">
+                    </button>
+                    <h4 class="modal-title">Todays Total Call</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                            <label>Workshop Name</label>
+                            <div class="form-group">
+                                @Html.DropDownList("LiveWorkshop", new SelectList(ViewBag.ddlWorkshop, "workshopId", "workshopName"), new { @class = "form-control selectpickerAll", @multiple = "multiple", @data_field = "smrLiveWorkshop", @id = "creworkshops" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success close" data-dismiss="modal" id="tblSMSInteractionDataLogs" onclick="getTodaysCREReports();"><i class="fa fa-cloud-download">  &nbsp;&nbsp;Download</i></button>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="show_tblFordCRECallLive" style="display:none">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <b id='SMRCallScoreCardlivetable'>	Call ScoreCard Live Table</b>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a id="tblFordCRECallLive_xl"></a>
+                                </li>
+                                <li>
+                                    <button type="button" class="btn btn-primary btn-xs pull-right" id="tblFordCRECallLive_button" data-toggle="collapse" data-target="#tblFordCRECallLiveDiv" onclick="callSMRProcedure(10,'tblFordCRECallLive');">Show</button>
+                                </li>
+                            </ul>
+
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content collapse" id="tblFordCRECallLiveDiv">
+                            <div class="">
+                                <div>
+                                    <img id="tblFordCRECallLive_Spinner" style=" display: block; margin-left: auto; margin-right: auto; width: 20%;" src="~/public/img/fe.gif" />
+                                </div>
+                                <table id="tblFordCRECallLive" class="table table-striped table-bordered table-hover" style="width:100%;margin:0px;">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="show_tblFordIntraDaySMRLive" style="display:none">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <b>
+                                IntraDay Live Table
+                            </b>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a id="tblFordIntraDaySMRLive_xl"></a>
+                                </li>
+                                <li>
+                                    <button type="button" class="btn btn-primary btn-xs pull-right" id="tblFordIntraDaySMRLive_button" data-toggle="collapse" data-target="#tblFordIntraDaySMRLiveDiv" onclick="callSMRProcedure(11,'tblFordIntraDaySMRLive');">Show</button>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content collapse" id="tblFordIntraDaySMRLiveDiv">
+                            <div class="">
+                                <div>
+                                    <img id="tblFordIntraDaySMRLive_Spinner" style=" display: block; margin-left: auto; margin-right: auto; width: 20%;" src="~/public/img/fe.gif" />
+                                </div>
+                                <table id="tblFordIntraDaySMRLive" class="table table-striped table-bordered table-hover " style="width:100%;margin:0px;">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="show_tblFordCampaignSMRLive" style="display:none">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <b>
+                                Campaign Live Table
+                            </b>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a id="tblFordCampaignSMRLive_xl"></a>
+                                </li>
+                                <li>
+                                    <button type="button" class="btn btn-primary btn-xs pull-right" id="tblFordCampaignSMRLive_button" data-toggle="collapse" data-target="#tblFordCampaignSMRLiveDive" onclick="callSMRProcedure(12,'tblFordCampaignSMRLive');">Show</button>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content collapse" id="tblFordCampaignSMRLiveDive">
+                            <div class="">
+                                <div>
+                                    <img id="tblFordCampaignSMRLive_Spinner" style=" display: block; margin-left: auto; margin-right: auto; width: 20%;" src="~/public/img/fe.gif" />
+                                </div>
+                                <table id="tblFordCampaignSMRLive" class="table table-striped table-bordered table-hover " style="width:100%;margin:0px;">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="show_tblFordLocationSMRLive" style="display:none">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <b id="SMRLocationLiveTable">
+                            Workshop Live Table
+                        </b>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a id="tblFordLocationSMRLive_xl"></a>
+                            </li>
+                            <li>
+                                <button type="button" class="btn btn-primary btn-xs pull-right" id="tblFordLocationSMRLive_button" data-toggle="collapse" data-target="#tblFordLocationSMRLiveDiv" onclick="callSMRProcedure(13,'tblFordLocationSMRLive');">Show</button>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content collapse" id="tblFordLocationSMRLiveDiv">
+                        <div class="">
+                            <div>
+                                <img id="tblFordLocationSMRLive_Spinner" style=" display: block; margin-left: auto; margin-right: auto; width: 20%;" src="~/public/img/fe.gif" />
+                            </div>
+                            <table id="tblFordLocationSMRLive" class="table table-striped table-bordered table-hover " style="width:100%;margin:0px;">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="show_tblFordDataAvailSMRLive" style="display:none">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <b>
+                                Data Availability Live Table
+                            </b>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a id="tblFordDataAvailSMRLive_xl"></a>
+                                </li>
+                                <li>
+                                    <button type="button" class="btn btn-primary btn-xs pull-right" id="tblFordDataAvailSMRLive_button" data-toggle="collapse" data-target="#tblFordDataAvailSMRLiveDiv" onclick="callSMRProcedure(14,'tblFordDataAvailSMRLive');">Show</button>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content collapse" id="tblFordDataAvailSMRLiveDiv">
+                            <div class="">
+                                <div>
+                                    <img id="tblFordDataAvailSMRLive_Spinner" style=" display: block; margin-left: auto; margin-right: auto; width: 20%;" src="~/public/img/fe.gif" />
+                                </div>
+                                <table id="tblFordDataAvailSMRLive" class="table table-striped table-bordered table-hover " style="width:100%;margin:0px;">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="show_tblOverDueBookingsLive" style="display:none">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <b>
+                                Over Due Bookings Live Table
+                            </b>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a id="tblOverDueBookingsLive_xl"></a>
+                                </li>
+                                <li>
+                                    <button type="button" class="btn btn-primary btn-xs pull-right" id="tblOverDueBookingsLive_button" data-toggle="collapse" data-target="#tblOverDueBookingsLiveDiv" onclick="callSMRProcedure(15,'tblOverDueBookingsLive');">Show</button>
+
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content collapse" id="tblOverDueBookingsLiveDiv">
+                            <div class="">
+                                <div>
+                                    <img id="tblOverDueBookingsLive_Spinner" style=" display: block; margin-left: auto; margin-right: auto; width: 20%;" src="~/public/img/fe.gif" />
+                                </div>
+                                <table id="tblOverDueBookingsLive" class="table table-striped table-bordered table-hover " style="width:100%;margin:0px;">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="show_tblFollowUpCallsLive" style="display:none">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <b>
+                                FollowUp Calls Live Table
+                            </b>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a id="tblFollowUpCallsLive_xl"></a>
+                                </li>
+                                <li>
+                                    <button type="button" class="btn btn-primary btn-xs pull-right" id="tblFollowUpCallsLive_button" data-toggle="collapse" data-target="#tblFollowUpCallsLiveDiv" onclick="callSMRProcedure(16,'tblFollowUpCallsLive');">Show</button>
+
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content collapse" id="tblFollowUpCallsLiveDiv">
+                            <div class="">
+                                <div>
+                                    <img id="tblFollowUpCallsLive_Spinner" style=" display: block; margin-left: auto; margin-right: auto; width: 20%;" src="~/public/img/fe.gif" />
+                                </div>
+                                <table id="tblFollowUpCallsLive" class="table table-striped table-bordered table-hover " style="width:100%;margin:0px;">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="show_tblFordNthDaySMRLive" style="display:none">
+        <div class="row" id="CREHide">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <b>
+                                SMR Nth Day Live(Workshop wise)
+                            </b>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a id="tblFordNthDaySMRLive_xl"></a>
+                                </li>
+                                <li>
+                                    <button type="button" class="btn btn-primary btn-xs pull-right" id="tblFordNthDaySMRLive_button" data-toggle="collapse" data-target="#tblFordNthDaySMRLiveDiv" onclick="callSMRProcedure(17,'tblFordNthDaySMRLive');">Show</button>
+
+                                </li>
+                            </ul>
+
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content collapse" id="tblFordNthDaySMRLiveDiv">
+                            <div class="">
+                                <div>
+                                    <img id="tblFordNthDaySMRLive_Spinner" style=" display: block; margin-left: auto; margin-right: auto; width: 20%;" src="~/public/img/fe.gif" />
+                                </div>
+                                <table id="tblFordNthDaySMRLive" class="table table-striped table-bordered table-hover " style="width:100%;margin:0px;">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="show_tblFordNminusOneSMRLive" style="display:none">
+        <div class="row" id="CREHide1">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <b>
+                                SMR (N+1)th Day Live(Workshop wise)
+                            </b>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a id="tblFordNminusOneSMRLive_xl"></a>
+                                </li>
+                                <li>
+                                    <button type="button" class="btn btn-primary btn-xs pull-right" id="tblFordNminusOneSMRLive_button" data-toggle="collapse" data-target="#tblFordNminusOneSMRLiveDiv" onclick="callSMRProcedure(18,'tblFordNminusOneSMRLive');">Show</button>
+
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content collapse" id="tblFordNminusOneSMRLiveDiv">
+                            <div class="">
+                                <div>
+                                    <img id="tblFordNminusOneSMRLive_Spinner" style=" display: block; margin-left: auto; margin-right: auto; width: 20%;" src="~/public/img/fe.gif" />
+                                </div>
+                                <table id="tblFordNminusOneSMRLive" class="table table-striped table-bordered table-hover " style="width:100%;margin:0px;">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="show_tblFordNthDaySMRCRELive" style="display:none">
+        <div class="row" id="CREHide">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <b>
+                                SMR Nth Day Live(CRE wise)
+                            </b>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a id="tblFordNthDaySMRCRELive_xl"></a>
+                                </li>
+                                <li>
+                                    <button type="button" class="btn btn-primary btn-xs pull-right" id="tblFordNthDaySMRCRELive_button" data-toggle="collapse" data-target="#tblFordNthDaySMRCRELiveDiv" onclick="callSMRProcedure(19,'tblFordNthDaySMRCRELive');">Show</button>
+
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content collapse" id="tblFordNthDaySMRCRELiveDiv">
+                            <div class="">
+                                <div>
+                                    <img id="tblFordNthDaySMRCRELive_Spinner" style=" display: block; margin-left: auto; margin-right: auto; width: 20%;" src="~/public/img/fe.gif" />
+                                </div>
+                                <table id="tblFordNthDaySMRCRELive" class="table table-striped table-bordered table-hover " style="width:100%;margin:0px;">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="show_tblFordNminusOneSMRCRELive" style="display:none">
+        <div class="row" id="CREHide">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <b>
+                                SMR (N+1)th Day Live(CRE wise)
+                            </b>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a id="tblFordNminusOneSMRCRELive_xl"></a>
+                                </li>
+                                <li>
+                                    <button type="button" class="btn btn-primary btn-xs pull-right" id="tblFordNminusOneSMRCRELive_button" data-toggle="collapse" data-target="#tblFordNminusOneSMRCRELiveDiv" onclick="callSMRProcedure(20,'tblFordNminusOneSMRCRELive');">Show</button>
+
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content collapse" id="tblFordNminusOneSMRCRELiveDiv">
+                            <div class="">
+                                <div>
+                                    <img id="tblFordNminusOneSMRCRELive_Spinner" style=" display: block; margin-left: auto; margin-right: auto; width: 20%;" src="~/public/img/fe.gif" />
+                                </div>
+                                <table id="tblFordNminusOneSMRCRELive" class="table table-striped table-bordered table-hover " style="width:100%;margin:0px;">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="show_tblcallhistorySMRLiveLive" style="display:none">
+        <div class="row" id="">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <b>
+                                SMR Call History Report
+                            </b>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a id="tblcallhistorySMRLive_xl"></a>
+                                </li>
+                                <li>
+                                    <button type="button" class="btn btn-primary btn-xs pull-right" id="tblcallhistorySMRLive_button" data-toggle="collapse" data-target="#tblcallhistorySMRLiveDiv" onclick="callSMRProcedure(21,'tblcallhistorySMRLive');">Show</button>
+
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content collapse" id="tblcallhistorySMRLiveDiv">
+                            <div class="">
+                                <div>
+                                    <img id="tblcallhistorySMRLive_Spinner" style=" display: block; margin-left: auto; margin-right: auto; width: 20%;" src="~/public/img/fe.gif" />
+                                </div>
+                                <table id="tblcallhistorySMRLive" class="table table-striped table-bordered table-hover " style="width:100%;margin:0px;">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-12 text-lg-left modal-footer" id="todaysSMRreportDiv" style="display:none">
+        <button type="button" class="btn btn-info" data-dismiss="modal" data-toggle="modal" data-target="#todayscallModal"><i class="fa fa-cloud-download">  &nbsp;&nbsp;Todays Call</i></button>
+    </div>
+    
+    <div class="row text-center" id="SMRbarChartDiv" style="display:none;">
+        <div class="col-md-2 ">
+        </div>
+        <div class="col-md-8 panel panel-primary" id="smrcanvascontainer">
+            <canvas id="SMRbarChart"></canvas>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <span class="code" id="tblException" style="font-size:11pt;font-weight:bold;color:red;"></span>
+            <span class="code" id="barException" style="font-size:11pt;font-weight:bold;color:red;"></span>
+        </div>
+    </div>
+</div>
+
+@section scripts
+        {
+    @Scripts.Render("~/bundles/liveRptJqury")
+<script>
+    $(document).ready(function () {
+
+        var userrole = "@user_role";
+  
+        if (userrole === "Admin" || userrole == "GM" || userrole == "RM")
+        {
+            document.getElementById("SMRCallScoreCardlivetable").innerHTML = "Workshop Live Table ";
+            document.getElementById("SMRLocationLiveTable").innerHTML = "Call ScoreCard Live Table";
+
+            $('#show_tblFordCRECallLive').show();
+            $('#show_tblFordIntraDaySMRLive').show();
+            $('#show_tblFordCampaignSMRLive').show();
+            $('#show_tblFordLocationSMRLive').show();
+            $('#show_tblFordDataAvailSMRLive').show();
+            $('#show_tblWshopDataAvailSMRLive').show();
+            $('#show_tblOverDueBookingsLive').show();
+            $('#show_tblWshopOverDueBookingsLive').show();
+            $('#show_tblFollowUpCallsLive').show();
+            $('#show_tblWshopFollowUpCallsLive').show();
+            $('#show_tblFordNthDaySMRLive').show();
+            $('#show_tblFordNminusOneSMRLive').show();
+            $('#show_tblFordNthDaySMRCRELive').show();
+            $('#show_tblFordNminusOneSMRCRELive').show();
+            $('#show_tblFordDailyusageSMRLive').show();
+            $('#show_tblFordDailyusageworkshopSMRLive').show();
+            $('#todaysSMRreportDiv').hide();
+            }
+        else if (userrole === "CREManager")
+            {
+            $('#show_tblFordCRECallLive').show();
+            $('#show_tblFordIntraDaySMRLive').show();
+            $('#show_tblFordCampaignSMRLive').show();
+            $('#show_tblFordLocationSMRLive').show();
+            $('#show_tblFordDataAvailSMRLive').show();
+            $('#show_tblOverDueBookingsLive').show();
+            $('#show_tblFollowUpCallsLive').show();
+            $('#show_tblFordNthDaySMRLive').show();
+            $('#show_tblFordNminusOneSMRLive').show();
+            $('#show_tblFordNthDaySMRCRELive').show();
+            $('#show_tblFordNminusOneSMRCRELive').show();
+
+            $('#show_tblWshopDataAvailSMRLive').hide();
+            $('#show_tblWshopOverDueBookingsLive').hide();
+            $('#show_tblWshopFollowUpCallsLive').hide();
+            $('#show_tblFordDailyusageSMRLive').hide();
+            $('#show_tblFordDailyusageworkshopSMRLive').hide();
+            $('#todaysSMRreportDiv').hide();
+
+
+
+            
+            }
+        else if (userrole === "CRE")
+        {
+            $('#show_tblFordCRECallLive').show();
+            $('#show_tblFordIntraDaySMRLive').hide();
+            $('#show_tblFordCampaignSMRLive').show();
+            $('#todaysSMRreportDiv').show();
+            $('#show_tblFordLocationSMRLive').hide();
+            $('#show_tblFordDataAvailSMRLive').show();
+            $('#show_tblOverDueBookingsLive').hide();
+            $('#show_tblFollowUpCallsLive').hide();
+            
+            $('#show_tblFordNthDaySMRCRELive').hide();
+            $('#show_tblFordNminusOneSMRCRELive').hide();
+
+            $('#show_tblWshopDataAvailSMRLive').hide();
+            $('#show_tblWshopOverDueBookingsLive').hide();
+            $('#show_tblWshopFollowUpCallsLive').hide();
+            $('#show_tblFordDailyusageSMRLive').hide();
+            $('#show_tblFordDailyusageworkshopSMRLive').hide();
+            $('#show_tblFordNthDaySMRLive').hide();
+            $('#show_tblFordNminusOneSMRLive').hide();
+  
+            }
+
+        $('.datepicExpiryFromDropDown').datepicker({
+
+            autoclose: true,
+            dateFormat: 'yy-mm-dd',
+            //maxDate: new Date(),
+            onSelect: function (date) {
+                $('.datepicExpiryToDropDown').datepicker("destroy");
+                $('.datepicExpiryToDropDown').datepicker("destroy");
+                $('.datepicExpiryToDropDown').datepicker({
+                    autoclose: true,
+                    dateFormat: 'yy-mm-dd',
+                    minDate: $('.datepicExpiryFromDropDown').datepicker('getDate')
+                });
+                $(this).trigger('change'); var dt1 = $('.datepicExpiryFromDropDown').datepicker('getDate');
+                var dt2 = $('.datepicExpiryToDropDown').datepicker('getDate');
+                if (dt2 <= dt1) {
+                    var minDate = $('#dt2').datepicker('option', 'minDate');
+                    $('.datepicExpiryToDropDown').datepicker('setDate', null);
+                }
+            }
+        })
+
+        $('.datepicAppointmentFromDropDown').datepicker({
+
+            autoclose: true,
+            dateFormat: 'yy-mm-dd',
+            //maxDate: new Date(),
+            onSelect: function (date) {
+                $('.datepicAppointmentToDropDown').datepicker("destroy");
+                $('.datepicAppointmentToDropDown').datepicker("destroy");
+                $('.datepicAppointmentToDropDown').datepicker({
+                    autoclose: true,
+                    dateFormat: 'yy-mm-dd',
+                    minDate: $('.datepicAppointmentFromDropDown').datepicker('getDate')
+                });
+                $(this).trigger('change'); var dt1 = $('.datepicAppointmentFromDropDown').datepicker('getDate');
+                var dt2 = $('.datepicAppointmentToDropDown').datepicker('getDate');
+                if (dt2 <= dt1) {
+                    var minDate = $('#dt2').datepicker('option', 'minDate');
+                    $('.datepicAppointmentToDropDown').datepicker('setDate', null);
+                }
+            }
+        })
+
+
+    $('.selectpickerAll').multiselect({
+
+        allSelectedText: 'All',
+        enableFiltering: true,
+        enableCaseInsensitiveFiltering: true,
+        numberDisplayed: 1,
+        buttonWidth: '140px',
+        maxHeight: 250,
+        includeSelectAllOption: true
+    });
+
+        selectAllmultipleSMRselectors();
+        loadSMRDashboard();
+        getSMRIntradaycharts();
+
+
+
+    });
+
+    function loadSMRDashboard() {
+
+        $.ajax({
+            type: "POST",
+            url: siteRoot + "/SMRLive/SMRLiveloadDashboardCounts/",
+            data: {},
+            cache: false,
+            success: function (res) {
+                if (res.success == true) {
+                    $('#BoxLiveCRE').text(res.BoxLiveCRE);
+                    $('#BoxLiveDataAvail').text(res.BoxLiveDataAvail);
+                    $('#BoxLiveCalls').text(res.BoxLiveCalls);
+                    $('#BoxLiveCRECalls').text(res.BoxLiveCRECalls);
+                    $('#BoxLiveContact').text(res.BoxLiveContact);
+                    $('#BoxLiveContactPercent').text(res.BoxLiveContactPercent);
+                    $('#BoxLiveFreshBook').text(res.BoxLiveFreshBook);
+                    $('#BoxLiveCancelled').text(res.BoxLiveCancelled);
+                    $('#BoxLiveReschedule').text(res.BoxLiveReschedule);
+                }
+                else {
+                    Lobibox.notify('warning', {
+                        msg: res.error
+                    });
+                }
+            },
+            error: function (data) {
+                alert("Connection TimeOut! Please Reload the page.");
+            }
+        });
+
+    }
+
+    function selectAllmultipleSMRselectors() {
+        $("#creworkshops").multiselect('selectAll', false);
+        $("#creworkshops").multiselect('updateButtonText')
+        $("#smrCres").multiselect('selectAll', false);
+        $("#smrCres").multiselect('updateButtonText')
+        $("#smrCampaignid").multiselect('selectAll', false);
+        $("#smrCampaignid").multiselect('updateButtonText')
+        $("#smrLiveWorkshop").multiselect('selectAll', false);
+        $("#smrLiveWorkshop").multiselect('updateButtonText');
+    }
+
+  
+</script>
+}
+

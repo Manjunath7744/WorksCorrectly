@@ -1,0 +1,3019 @@
+﻿@model AutoSherpa_project.Models.ViewModels.CallLoggingViewModel
+<style>
+    ul.multiselect-container.dropdown-menu {
+        position: relative;
+    }
+</style>
+@*<input type="hidden" name="selectedFile" value="@{if(interOfCall.getInsuranceDisposition()!=null){interOfCall.getInsuranceDisposition().getCallDispositionData().getDisposition()}}">*@
+
+
+@{
+    List<SelectListItem> ComplaintOrFB_TagTo = new List<SelectListItem>();
+
+    string lastServiceDate = string.Empty;
+
+    if (Model.Latestservices.lastServiceDate != null)
+    {
+        lastServiceDate = Convert.ToDateTime(Model.Latestservices.lastServiceDate).ToString("dd/MM/yyyy");
+    }
+    #region Reschedule data Binding
+    string typeofApptmnt = "";
+    string onlineapptmntDate = "";
+    string onlineapptmntTime = "";
+    string nomineeName = "";
+    string nomineeRelation = "";
+    string nomineeAge = "";
+    string appointeName = "";
+    string purpose = "";
+    string discount = "0";
+    string fieldscheduledate = "";
+    string picode = "";
+    if (Model.callinteraction.appointmentbooked != null)
+    {
+        typeofApptmnt = Model.callinteraction.appointmentbooked.typeOfPickup;
+        onlineapptmntDate = Convert.ToDateTime(Model.callinteraction.appointmentbooked.appointmentDate).ToString("dd-MM-yyyy");
+        onlineapptmntTime = Model.callinteraction.appointmentbooked.appointmentFromTime;
+        discount = Model.callinteraction.appointmentbooked.discountValue;
+        nomineeName = Model.callinteraction.appointmentbooked.nomineeName;
+        nomineeRelation = Model.callinteraction.appointmentbooked.nomineeRelationWithOwner;
+        nomineeAge = Model.callinteraction.appointmentbooked.nomineeAge;
+        appointeName = Model.callinteraction.appointmentbooked.appointeeName;
+        purpose = Model.callinteraction.appointmentbooked.purpose;
+        picode = Model.callinteraction.appointmentbooked.pincodeValue;
+
+    }
+    #endregion
+
+}
+
+<div style="display:none;" class="animated  bounceInRight" id="serviceBookDiv">
+
+    <style>
+        ul.multiselect-container.dropdown-menu {
+            position: relative;
+        }
+    </style>
+    <!-- BOOK MY SERVICE -->
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-2" style="display:none">
+                <div class="form-group">
+                    <label for="">Select Vehicle</label>
+                    @Html.DropDownListFor(m => m.listingForm.vehicleId_SB, new SelectList(Model.cust.vehicles, "vehicle_id", "vehicleRegNo"), new { @class = "form-control", @id = "vehicle" })
+
+                    @*<select class="form-control" id="vehicle" name="vehicleId_SB">
+
+                            @for (post < -customerData.getVehicles())
+                            {
+
+                                <option value="@post.vehicle_id">@post.vehicleRegNo</option>
+
+                            }
+
+
+
+
+                        </select>*@
+                </div>
+            </div>
+
+
+            <div class="col-md-2">
+                <label for="">Renewal Type</label>
+
+                @if (Model.callinteraction.appointmentbooked != null)
+                {
+                    @Html.DropDownListFor(m => m.appointbooked.renewalType, new SelectList(Model.renewaltypes, "renewalTypeName", "renewalTypeName", Model.callinteraction.appointmentbooked.renewalType), "--Select--", new { @class = "form-control selectLoop", @id = "renewalTypeID" })
+                }
+                else
+
+                {
+                    @Html.DropDownListFor(m => m.appointbooked.renewalType, new SelectList(Model.renewaltypes, "renewalTypeName", "renewalTypeName"), "--Select--", new { @class = "form-control selectLoop", @id = "renewalTypeID" })
+                }
+
+
+                @*<select class="form-control" name="renewalType" id="renewalTypeID">
+                        <option value="0">--Select--</option>
+                        @for (sa < -renewaltypes)
+                        {
+
+                            @{if (sa.getRenewalTypeName() == vehicleData.getNextRenewalType())
+                                {
+                                    <option value={vehicleData.getNextRenewalType()} selected="selected">{vehicleData.getNextRenewalType()}</option>
+                                }
+                                else
+                                {
+                                    <option value={sa.getRenewalTypeName}>{sa.getRenewalTypeName}</option>
+                                }
+                            }
+
+                        }
+
+
+                    </select>*@
+            </div>
+            <div class="col-md-2">
+                <label for="">Renewal Mode</label>
+                @if (Model.callinteraction.appointmentbooked != null)
+                {
+
+                    @Html.DropDownListFor(model => model.appointbooked.renewalMode, new SelectList(new List<SelectListItem> {
+                                  new SelectListItem() {Text = "--Select--", Value="0"},
+                                  new SelectListItem() {Text = "Preferred INS Partner", Value="PI"},
+                                  new SelectListItem() {Text = "Non-Preferred Partner", Value="NPI"}},
+                                "Value", // property to be set as Value of dropdown item
+                                "Text",  // property to be used as text of dropdown item
+                                Model.callinteraction.appointmentbooked.renewalMode), // value that should be set selected of dropdown
+                                new { @class = "form-control", @Required = "required", @id = "renewalModeID" })
+                }
+                else
+
+                {
+                    @Html.DropDownListFor(model => model.appointbooked.renewalMode, new SelectListItem[]{
+                                  new SelectListItem() {Text = "--Select--", Value="0"},
+                                  new SelectListItem() {Text = "Preferred INS Partner", Value="PI"},
+                                  new SelectListItem() {Text = "Non-Preferred Partner", Value="NPI"},
+                                                      }, new { @class = "form-control", @Required = "required", @id = "renewalModeID" })
+                }
+                @*<select class="form-control" id="renewalModeID" name="renewalMode">
+                        <option value='0'>--Select--</option>
+                        <option value='PI'>Preferred INS Partner</option>
+                        <option value='NPI'>Non-Preferred Partner</option>
+
+                    </select>*@
+            </div>
+            <div class="col-md-2">
+                <label for="">Payment Mode</label>
+                @if (Model.callinteraction.appointmentbooked != null)
+                {
+                    @Html.DropDownListFor(model => model.insudisposition.paymentType, new SelectList(new List<SelectListItem> {
+                              new SelectListItem() {Text = "--Select--", Value="0"},
+                              new SelectListItem() {Text = "Cash", Value="Cash"},
+                              new SelectListItem() {Text = "Cheque", Value="cheque"},
+                              new SelectListItem() {Text = "Online", Value="Online"},
+                              new SelectListItem() {Text = "Card", Value="Card"}}, "Value", "Text", Model.callinteraction.insurancedispositions.ElementAtOrDefault(0).paymentType), new { @class = "form-control", @Required = "required", @id = "paymentTypeID" })
+
+                }
+                else
+
+                {
+                    @Html.DropDownListFor(model => model.insudisposition.paymentType, new SelectListItem[]{
+                                new SelectListItem() {Text = "--Select--", Value="0"},
+                                new SelectListItem() {Text = "Cash", Value="Cash"},
+                                new SelectListItem() {Text = "Cheque", Value="cheque"},
+                                new SelectListItem() {Text = "Online", Value="Online"},
+                                new SelectListItem() {Text = "Card", Value="Card"},
+                                                    }, new { @class = "form-control", @Required = "required", @id = "paymentTypeID" })
+                }
+                @*<select class="form-control" id="paymentTypeID" name="paymentType">
+                        <option value='0'>--Select--</option>
+                        <option value='Cash'>Cash</option>
+                        <option value='cheque'>Cheque</option>
+                        <option value='Online'>Online</option>
+                        <option value='Card'>Card</option>
+                    </select>*@
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="">Discount</label>
+                    @Html.TextBoxFor(m => m.appointbooked.discountValue, new { @type = "number", @Value = discount, @class = "form-control", @min = "0", @id = "discount", @onkeypress = "if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" })
+                    @*<input type="text" class="form-control" id="discountId" name="discountValue" value="0" />*@
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label for="">Coupon</label>
+                @*<select class="form-control" id="couponTypeID" name="coupon">
+                        <option value='None'>None</option>
+                        <option value='Free Check-up & WA'>Free Check-up & WA</option>
+                        <option value='Wash, WA & WB'>Wash, WA & WB</option>
+                    </select>*@
+                @if (Model.callinteraction.appointmentbooked != null)
+                {
+                    @Html.DropDownListFor(m => m.appointbooked.coupon, new SelectList(Model.coupons, "couponName", "couponName", Model.callinteraction.appointmentbooked.coupon), "None", new { @class = "form-control selectLoop", @id = "coupon" })
+
+                }
+                else
+                {
+                    @Html.DropDownListFor(m => m.appointbooked.coupon, new SelectList(Model.coupons, "couponName", "couponName"), "None", new { @class = "form-control selectLoop", @id = "coupon" })
+                }
+            </div>
+
+            <div class="col-md-2">
+                <label for="">Appt Mode</label>
+                <div class="form-group">
+                    <div class="radio-inline">
+                        <label>
+                            @*   <input type="radio" name="typeOfPickup" value="Field" id="Field">*@
+                            @if (Model.callinteraction.appointmentbooked != null)
+                            {
+                                if (Model.callinteraction.appointmentbooked.typeOfPickup == "Field")
+                                {
+                                    @Html.RadioButtonFor(model => model.appointbooked.typeOfPickup, "Field", new { @id = "Field", @checked = true })
+
+                                }
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.appointbooked.typeOfPickup, "Field", new { @id = "Field" })
+
+                                }
+                            }
+                            else
+                            {
+                                @Html.RadioButtonFor(model => model.appointbooked.typeOfPickup, "Field", new { @id = "Field" })
+                            }
+                            Field
+                        </label>
+                    </div>
+
+                    <div class="radio-inline">
+                        <label>
+                            @*<input type="radio" name="typeOfPickup" value="Walk-in" id="Walk-in">*@
+                            @if (Model.callinteraction.appointmentbooked != null)
+                            {
+                                if (Model.callinteraction.appointmentbooked.typeOfPickup == "Walk-in")
+                                {
+                                    @Html.RadioButtonFor(model => model.appointbooked.typeOfPickup, "Walk-in", new { @id = "Walk-in", @checked = true })
+
+                                }
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.appointbooked.typeOfPickup, "Walk-in", new { @id = "Walk-in" })
+
+                                }
+                            }
+                            else
+                            {
+                                @Html.RadioButtonFor(model => model.appointbooked.typeOfPickup, "Walk-in", new { @id = "Walk-in" })
+                            }
+                            Walk-In
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            @*  <input type="radio" name="typeOfPickup" value="Online" id="Online">*@
+                            @if (Model.callinteraction.appointmentbooked != null)
+                            {
+                                if (Model.callinteraction.appointmentbooked.typeOfPickup == "Online")
+                                {
+                                    @Html.RadioButtonFor(model => model.appointbooked.typeOfPickup, "Online", new { @id = "Online", @checked = true })
+
+                                }
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.appointbooked.typeOfPickup, "Online", new { @id = "Online" })
+
+                                }
+                            }
+                            else
+                            {
+                                @Html.RadioButtonFor(model => model.appointbooked.typeOfPickup, "Online", new { @id = "Online" })
+                            }
+                            Online
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="col-md-12">
+        <div class="row animated  bounceInRight" style="display:none" id="NEWFieldID">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="">Walk-In Location</label>
+
+                    @if (Model.callinteraction.appointmentbooked != null && Model.callinteraction.appointmentbooked.typeOfPickup == "Walk-in")
+                    {
+                        @Html.DropDownList("walkinLocation", new SelectList(Model.walkinlocationLists, "id", "name", Model.callinteraction.appointmentbooked.fieldWalkinLocation), "--Select--", new { @class = "form-control", @id = "walkinLocation", onchange = "executiveBasedOnWalkinLocation()" })
+                    }
+                    else
+                    {
+                        @Html.DropDownList("walkinLocation", new SelectList(Model.walkinlocationLists, "id", "name"), "--Select--", new { @class = "form-control", @id = "walkinLocation", onchange = "executiveBasedOnWalkinLocation()" })
+                    }
+                    @*<select class="form-control" id="walkinLocation" name="walkinLocation" onchange="executiveBasedOnWalkinLocation()">
+                            <option value="0">--SELECT--</option>
+                            @for (sa < -walkinlocationList)
+                            {
+                                @if (sa.getTypeOfLocation() == "2")
+                                {
+                                    <option value="@sa.getId()">@sa.getName()</option>
+
+                                }
+                            }
+
+                        </select>*@
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <label for="">Walk-In Executives</label>
+                @*<select class="form-control" id="insuranceAgentDataId" name="insuranceAgentData">
+                    </select>*@
+                @if (Model.callinteraction.appointmentbooked != null)
+                {
+                    @Html.DropDownListFor(model => model.appointbooked.insuranceAgentData, Enumerable.Empty<SelectListItem>(), "--Select--", new { @class = "form-control", @id = "insuranceAgentDataId" })
+                }
+                else
+                {
+                    @Html.DropDownListFor(model => model.appointbooked.insuranceAgentData, Enumerable.Empty<SelectListItem>(), "--Select--", new { @class = "form-control", @id = "insuranceAgentDataId" })
+                }
+            </div>
+
+
+        </div>
+        <div class="row animated  bounceInRight" style="display:none" id="NEWWalkinID">
+            <div class="col-md-2">
+                <label for="">Purpose</label>
+                @if (Model.callinteraction.appointmentbooked != null)
+                {
+
+                    @Html.DropDownListFor(model => model.appointbooked.purpose, new SelectList(new List<SelectListItem> {
+                                  new SelectListItem() {Text = "--Select--", Value="0"},
+                                  new SelectListItem() {Text = "Payment Collection", Value="Payment Collection"},
+                                  new SelectListItem() {Text = "Direct Visit", Value="Direct Visit"}},
+                                "Value", // property to be set as Value of dropdown item
+                                "Text",  // property to be used as text of dropdown item
+                                Model.callinteraction.appointmentbooked.purpose), // value that should be set selected of dropdown
+                                new { @class = "form-control", @Required = "required", @id = "PurposeID" })
+                }
+                else
+
+                {
+                    @Html.DropDownListFor(model => model.appointbooked.purpose, new SelectListItem[]{
+                                  new SelectListItem() {Text = "--Select--", Value="0"},
+                                  new SelectListItem() {Text = "Payment Collection", Value="Payment Collection"},
+                                  new SelectListItem() {Text = "Direct Visit", Value="Direct Visit"},
+                                                      }, new { @class = "form-control", @Required = "required", @id = "PurposeID" })
+                }
+                @*<select class="form-control" id="PurposeID" name="purpose">
+                        <option value='0'>--Select--</option>
+                        <option value='Payment Collection'>Payment Collection</option>
+                        <option value='Direct Visit'>Direct Visit</option>
+
+                    </select>*@
+            </div>
+
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Confirm Address</label>
+                    <div class="input-group">
+
+                        @if (Model.callinteraction.appointmentbooked != null)
+                        {
+                            @Html.DropDownListFor(m => m.appointbooked.addressOfVisit, new SelectList(Model.cust.addresses, "concatenatedAdress", "concatenatedAdress", Model.callinteraction.appointmentbooked.addressOfVisit), new { @class = "form-control", @id = "AddressMSSId" })
+                        }
+                        else
+
+                        {
+                            @Html.DropDownListFor(m => m.appointbooked.addressOfVisit, new SelectList(Model.cust.addresses, "concatenatedAdress", "concatenatedAdress"), new { @class = "form-control", @id = "AddressMSSId" })
+                        }
+                        @*<select class="form-control" name="addressOfVisit" id="AddressMSSId">
+                                @if (customerData.getPreferredAdress() != null)
+                                {
+                                    <option value="@customerData.getPreferredAdress().getConcatenatedAdress(),@customerData.getPreferredAdress().getCity(),@customerData.getPreferredAdress().getPincode()">@customerData.getPreferredAdress().getConcatenatedAdress(),@customerData.getPreferredAdress().getCity(),@customerData.getPreferredAdress().getPincode()</option>
+                                }
+                            </select>*@
+
+                        <span class="input-group-addon" style="cursor:pointer; color:#dd4b39; padding: 1px 12px;" data-target="#AddNewAddressPopup" data-toggle="modal" data-backdrop="static" data-keyboard="false"><i class="fa fa-pencil fa-2x"></i> </span>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="">Pincode</label>
+                    @Html.TextBoxFor(model => model.appointbooked.pincodeValue, new { @class = "form-control numberOnly", @id = "pincodeId", @maxlength = "6", @rows = "1",@Value=picode })
+
+                    @*<input type="text" class="form-control numberOnly" id="pincodeId" name="pincodeValue" maxlength="6" rows="1" />*@
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="">Location</label>
+                    @if (Model.callinteraction.appointmentbooked != null && Model.callinteraction.appointmentbooked.fieldWalkinLocation != null)
+                    {
+                        @Html.DropDownListFor(m => m.appointbooked.fieldWalkinLocation, new SelectList(Model.FieldwalkinlocationList, "id", "name", Model.callinteraction.appointmentbooked.fieldWalkinLocation), "--Select--", new {@class = "form-control", @id = "OtherLocation" })
+
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(m => m.appointbooked.fieldWalkinLocation, new SelectList(Model.FieldwalkinlocationList, "id", "name"), "--Select--", new { @class = "form-control", @id = "OtherLocation" })
+                    }
+                    @*
+                                                                        <select class="form-control" id="fieldLocation" name="fieldLocation">
+                        <option value="0">--SELECT--</option>
+                                                    @for (sa < -walkinlocationList)
+                                                    {
+                                                        @if (sa.getTypeOfLocation() == "1")
+                                                        {
+                                                            <option value="@sa.getId()">@sa.getName()</option>
+                                                        }
+                                                    }
+                                                                        </select>
+
+                    *@
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <div class="row animated  bounceInRight" style="display:none" id="NEWOnlineID">
+            <div class="col-md-3">
+                <label for="">Date</label>
+                @Html.TextBoxFor(model => model.appointbooked.appointmentDate, new { @class = "form-control", @id = "insdate12345", @Value = onlineapptmntDate })
+                @*<input type="text" name="appointmentDate" class="form-control" id="insdate12345" />*@
+            </div>
+            <div class="col-md-3">
+                <label for="">Prefered Time</label>
+                @Html.TextBoxFor(model => model.appointbooked.appointmentFromTime, new { @class = "timepicker_7 form-control", @id = "appointmentTime", @Value = onlineapptmntTime })
+                @*<input type="text" name="appointmentFromTime" class="timepicker_7 form-control" id="appointmentTime" value="12:00" />*@
+            </div>
+        </div>
+
+
+        <div class="pull-right">
+            <button type="button" class="btn btn-primary" id="backtoMain">Back</button>
+            <button type="button" class="btn btn-primary" id="nextToCustomerDrivekalyani">Next</button>
+        </div>
+    </div>
+
+
+</div>
+<div style="display:none;" class="animated  bounceInRight" id="CustomerDriveInDiv">
+    <div class="col-md-12">
+        <label>Do you want to save Insurance Quotation ?</label>
+        <div class="form-group">
+            <div class="radio-inline">
+                <label>
+                    <input type="radio" name="SaveInsurance" value="Yes" data-target="#InsuPremiumPopup" data-toggle="modal">
+                    Yes
+                </label>
+            </div>
+            <div class="radio-inline">
+
+                <label>
+                    <input type="radio" name="SaveInsurance" value="No" checked>
+                    No
+                </label>
+            </div>
+        </div>
+
+        <label>Update Add-On covers considered for Insurance Quotation?</label>
+        <div class="form-group">
+
+            <div class="radio-inline">
+                <label>
+                    <input type="radio" name="UpdateAddOn" value="Yes">
+                    Yes
+                </label>
+            </div>
+            <div class="radio-inline">
+
+                <label>
+                    <input type="radio" name="UpdateAddOn" value="No" checked>
+                    No
+                </label>
+            </div>
+        </div>
+        <div class="row animated  bounceInRight" style="display:none" id="UpdateAddONYESDIV">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="">Select Add-on list</label>
+                    @*<select class="form-control selectpicker" name="addonsList[]" multiple>
+                            @for (sa < -addOnCoversList)
+                            {
+                                <option value="@sa.getCoverName()">@sa.getCoverName()</option>
+                            }
+                        </select>*@
+                    @Html.DropDownListFor(m => m.listingForm.addonsList, new SelectList(Model.addOnCoversList, "coverName", "coverName"), new { @multiple = "true", @class = "form-control selectpicker", @id = "AddressMSSId" })
+
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="">Other Add-on</label>
+                    @*<textarea rows="2" class="form-control characterLimit" name="otherAddon"></textarea>*@
+                    @Html.TextAreaFor(model => model.listingForm.otherAddon, new { @id = "otherAddon", @rows = "2", @class = "form-control characterLimit" })
+                </div>
+            </div>
+
+
+        </div>
+        <div>
+            <label>Update Nominee details ?</label>
+            <div class="form-group">
+
+                <div class="radio-inline">
+                    <label>
+                        @*<input type="radio" name="nomineeYes" value="Yes" id="nomineeYesID">*@
+                        @Html.RadioButtonFor(model => model.listingForm.nomineeYes, "Yes", new { @id = "nomineeYesID" })
+                        Yes
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(model => model.listingForm.nomineeYes, "No", new { @id = "nomineeNoID", @checked = "true" })
+                        @*<input type="radio" name="nomineeYes" value="No" id="nomineeNoID" checked>*@
+                        No
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row animated  bounceInRight" style="display:none;" id="nomineeDiv">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Nominee Name</label>
+                    @*<input type="text" class="form-control textOnlyAccepted" name="nomineeName" id="NomineeNameID" />*@
+                    @Html.TextBoxFor(model => model.appointbooked.nomineeName, new { @class = "form-control textOnlyAccepted", @id = "NomineeNameID", @Value = nomineeName })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Nominee Age</label>
+                    @Html.TextBoxFor(model => model.appointbooked.nomineeAge, new { @class = "form-control numberOnly", @maxlength = "2", @id = "NomineeAgeID", @Value = nomineeAge })
+                    @*<input type="text" class="form-control numberOnly" name="nomineeAge" maxlength="2" id="NomineeAgeID" />*@
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Nominee's Relation with Owner</label>
+                    @*<input type="text" class="form-control textOnlyAccepted" name="nomineeRelationWithOwner" id="NomineeRelationID" />*@
+                    @Html.TextBoxFor(model => model.appointbooked.nomineeRelationWithOwner, new { @class = "form-control textOnlyAccepted", @id = "NomineeRelationID", @Value = nomineeRelation })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Appointee Name</label>
+                    @Html.TextBoxFor(model => model.appointbooked.appointeeName, new { @class = "form-control textOnlyAccepted", @id = "AppointeeNameID", @Value = appointeName })
+                    @*<input type="text" class="form-control textOnlyAccepted" name="appointeeName" id="AppointeeNameID" />*@
+                </div>
+            </div>
+        </div>
+
+
+        <label>Is there an Upsell Opportunity?</label>
+        <div class="form-group">
+            <div class="radio-inline">
+                <label>
+                    @Html.RadioButtonFor(model => model.listingForm.LeadYes, "Capture Lead Yes", new { @id = "LeadYesID" })
+                    @*<input type="radio" name="LeadYes" value="Capture Lead Yes" id="LeadYesID">*@
+                    Yes
+                </label>
+            </div>
+            <div class="radio-inline">
+                <label>
+                    @Html.RadioButtonFor(model => model.listingForm.LeadYes, "Capture Lead No", new { @id = "LeadNoID", @checked = "true" })
+                    @*<input type="radio" name="LeadYes" value="Capture Lead No" id="LeadNoID" checked>*@
+                    No
+                </label>
+            </div>
+        </div>
+        <div class="row animated  bounceInRight" style="display:none;" id="LeadDiv">
+            @*<div>
+                    <div class="col-md-6">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="EXCHANGE myOutCheckbox" name="upsellLead[0].upsellId" value="15" id="EXCHANGEID" onClick="loadLeadBasedOnUserLocation('EXCHANGEID','buyNewCarLead1')" />
+                                Exchange
+                            </label>
+                        </div>
+                        <div class="row animated  bounceInRight" style="display:none;" id="EXCHANGEIDSelect">
+
+                            <div class="col-md-6">
+                                <label for="">Tag to</label>
+                                <select class="form-control" name="upsellLead[0].taggedTo" id="buyNewCarLead1">
+                                    <option>Select</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="comments">Remarks</label>
+                                <textarea class="form-control characterLimit" rows="1" name="upsellLead[0].upsellComments"></textarea>
+                            </div>
+                        </div>
+
+
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="LeadClass myOutCheckbox" name="upsellLead[1].upsellId" value="18" id="MaxicareIDCheck" onClick="loadLeadBasedOnUserLocation('MaxicareIDCheck','maxicareLead')">
+                                Extended Warranty
+                            </label>
+                        </div>
+                        <div class="row animated  bounceInRight" style="display:none;" id="MaxicareSelect">
+
+                            <div class="col-md-6">
+                                <label for="">Tag to</label>
+                                <select class="form-control" name="upsellLead[1].taggedTo" id="maxicareLead">
+                                    <option>Select</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="comments">Remarks</label>
+                                <textarea class="form-control characterLimit" rows="1" name="upsellLead[1].upsellComments"></textarea>
+                            </div>
+
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="LeadClass myOutCheckbox" name="upsellLead[2].upsellId" value="20" id="ShieldID" onClick="loadLeadBasedOnUserLocation('ShieldID','warrantyLead1')">
+                                Service / BP
+                            </label>
+                        </div>
+                        <div class="row animated  bounceInRight" style="display:none;" id="ShieldSelect">
+
+                            <div class="col-md-6">
+                                <label for="">Tag to</label>
+                                <select class="form-control" name="upsellLead[2].taggedTo" id="warrantyLead1">
+                                    <option>Select</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="comments">Remarks</label>
+                                <textarea class="form-control characterLimit" rows="1" name="upsellLead[2].upsellComments"></textarea>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="VAS myOutCheckbox" name="upsellLead[3].upsellId" value="14" id="VASID" onClick="loadLeadBasedOnUserLocation('VASID','vASLead1')" />
+                                RSA
+                            </label>
+                        </div>
+                        <div class="row animated  bounceInRight" style="display:none;" id="VASTagToSelect">
+
+                            <div class="col-md-6">
+                                <label for="">Tag to</label>
+                                <select class="form-control" name="upsellLead[3].taggedTo" id="vASLead1">
+                                    <option>Select</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="comments">Remarks</label>
+                                <textarea class="form-control characterLimit" rows="1" name="upsellLead[3].upsellComments"></textarea>
+                            </div>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="LeadClass myOutCheckbox" name="upsellLead[4].upsellId" value="21" id="InsuranceIDCheck" onClick="loadLeadBasedOnUserLocation('InsuranceIDCheck','insuranceLead1')">
+                                New car
+                            </label>
+                        </div>
+                        <div class="row animated  bounceInRight" style="display:none;" id="InsuranceSelect">
+
+                            <div class="col-md-6">
+                                <label for="">Tag to</label>
+                                <select class="form-control" name="upsellLead[4].taggedTo" id="insuranceLead1">
+                                    <option>Select</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="comments">Remarks</label>
+                                <textarea class="form-control characterLimit" rows="1" name="upsellLead[4].upsellComments"></textarea>
+                            </div>
+
+                        </div>
+
+
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="UsedCar myOutCheckbox" name="upsellLead[5].upsellId" value="16" id="UsedCarID" onClick="loadLeadBasedOnUserLocation('UsedCarID','usedCarLead1')" />
+                                Other VAS
+                            </label>
+                        </div>
+                        <div class="row animated  bounceInRight" style="display:none;" id="UsedCarSelect">
+
+                            <div class="col-md-6">
+                                <label for="">Tag to</label>
+                                <select class="form-control" name="upsellLead[5].taggedTo" id="usedCarLead1">
+                                    <option>Select</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="comments">Remarks</label>
+                                <textarea class="form-control characterLimit" rows="1" name="upsellLead[5].upsellComments"></textarea>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Tag to & Remarks</label>
+                                <textarea rows="2" class="form-control characterLimit"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+            <div class="col-md-12">
+                @for (int i = 0; i < Model.tags.Count; i++)
+                {
+                    <div class="col-md-6">
+                        <div class="checkbox">
+                            <label>
+
+                                @Html.HiddenFor(m => m.listingForm.upsellleads[i].upsellId, new { Value = Model.tags[i].upsellLeadId, @id = "valueselectSBHidden" + Model.tags[i].upsellLeadId })
+                                @Html.CheckBox("ckUpsell", false, new { @Value = Model.tags[i].upsellLeadId, @upsell_index = 0, @id = "valueselectSB" + Model.tags[i].upsellLeadId, @data_childDiv = @Model.tags[i].upsellType, @class = "LeadClass myOutCheckbox upsellLeadSelectDivSB", @onClick = "loadLeadBasedOnUserLocation('valueselectSB" + Model.tags[i].upsellLeadId + "','LeadSB" + Model.tags[i].upsellLeadId + "')" })
+                                @Model.tags[i].upsellType
+                            </label>
+                        </div>
+                        <div class="row animated  bounceInRight" style="display:none;" id="upsellLeadSelectSB_@Model.tags[i].upsellLeadId">
+                            <div class="col-md-6">
+                                <label for="">Tag to</label>
+                                @Html.DropDownListFor(m => m.listingForm.upsellleads[i].taggedTo, Enumerable.Empty<SelectListItem>(), "Select", new { @class = "form-control", @id = "LeadSB" + Model.tags[i].upsellLeadId })
+                                @*<select class="form-control" name="upsellLead[0].taggedTo" id="insuranceLead1">
+                                        <option>Select</option>
+                                    </select>*@
+                            </div>
+                            <div class="col-md-6">
+                                <label for="comments">Remarks</label>
+                                @Html.TextAreaFor(m => m.listingForm.upsellleads[i].upsellComments, new { @class = "form-control characterLimit", @rows = "1", @id = "comments1" })
+                                @*<textarea class="form-control characterLimit" rows="1" id="comments1" name="upsellLead[0].upsellComments"></textarea>*@
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">Tag to & Remarks</label>
+                            @Html.TextArea("TagRemark", new { @class = "form-control characterLimit", @rows = "2" })
+                            @*  <textarea rows="2" class="form-control characterLimit"></textarea>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <label>Does Customer has a feedback / compliant ?</label>
+        <div class="form-group" location_Id>
+            <div class="radio-inline">
+                <label>
+                    @Html.RadioButtonFor(model => model.listingForm.Customerfeedback, "Yes", new { @id = "CustomerfeedbackYes", @onclick = "loadLeadBasedOnLocationDepartment();" })
+                    @*<input type="radio" name="Customerfeedback" onclick="loadLeadBasedOnLocationDepartment();" id="CustomerfeedbackYes" value="Yes">*@
+                    Yes
+                </label>
+            </div>
+            <div class="radio-inline">
+
+                <label>
+                    @*<input type="radio" name="Customerfeedback" value="No" id="CustomerfeedbackNo" checked>*@
+                    @Html.RadioButtonFor(model => model.listingForm.Customerfeedback, "No", new { @id = "CustomerfeedbackNo", @checked = "true" })
+                    No
+                </label>
+            </div>
+        </div>
+
+
+
+        <div style="display:none;" id="FeedBackYESDiv">
+            <div class="animated  bounceInRight">
+                <div class="row">
+
+
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <label for="">Select Department<i class="lblStar">*</i></label>
+                            @*<select class="form-control selected_department" onchange="ajaxLeadTagByDepartment();" id="selected_department1" name="departmentForFB">
+                                </select>*@
+                            @Html.DropDownListFor(m => m.insudisposition.departmentForFB, Enumerable.Empty<SelectListItem>(), new { @class = "form-control selected_department", @onchange = "ajaxLeadTagByDepartments();", @id = "selected_department1" })
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Tag to</label>
+                            @*<select class="form-control" name="complaintOrFB_TagTo" id="LeadTagsByLocation1" name="complaintOrFB_TagTo">
+
+                                    @{if (interOfCall.getSrdisposition() != null)
+                                        {
+
+                                            <option value={interOfCall.getSrdisposition().getComplaintOrFB_TagTo()} selected="selected">{interOfCall.getSrdisposition().getComplaintOrFB_TagTo()}</option>
+
+                                        }}
+                                </select>*@
+                            @Html.DropDownListFor(m => m.insudisposition.complaintOrFB_TagTo, ComplaintOrFB_TagTo, new { @id = "LeadTagsByLocation1", @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="comments">Feedback/Comment</label>
+                            @Html.TextAreaFor(model => model.insudisposition.remarksOfFB, new { @class = "form-control characterLimit", @rows = "1", @id = "commentsOfFB" })
+                            @*<textarea class="form-control characterLimit" rows="1" id="commentsOfFB" name="remarksOfFB"></textarea>*@
+                        </div>
+                        <br>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <label>May we take a moment to update your contact information? This will help us serve you better in future. </label>
+        <div class="form-group">
+            <div class="radio-inline">
+                <label for="feedbackYes">
+                    @Html.RadioButtonFor(model => model.listingForm.CustomerFeedBackYes2, "Customer Yes", new { @id = "CustomerFeedBackYes2", @data_toggle = "modal", @data_target = "#addBtn", @onclick = "openAddressPopup()" })
+                    @*<input type="radio" name="CustomerFeedBackYes2" value="Customer Yes" data-toggle="modal" data-target="#addBtn">*@
+                    Yes
+                </label>
+            </div>
+            <div class="radio-inline">
+                <label for="feedbackNo">
+                    @Html.RadioButtonFor(model => model.listingForm.CustomerFeedBackYes2, "Customer No", new { @id = "CustomerFeedBackYes2", @checked = "true" })
+                    @*<input type="radio" name="CustomerFeedBackYes2" value="Customer No" checked>*@
+                    No
+                </label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">CRE Remarks</label>
+                    @Html.TextAreaFor(model => model.listingForm.remarksList[12], new { @rows = "2", @class = "form-control characterLimit", @id = "remarksList[12]" })
+                    @*<textarea rows="2" class="form-control characterLimit" name="remarksList[12]"></textarea>*@
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">Customer Feedback</label>
+                    @Html.TextAreaFor(model => model.listingForm.customerfeedbackList[12], new { @rows = "2", @class = "form-control characterLimit", @id = "remarksList[13]" })
+                    @*<textarea rows="2" class="form-control characterLimit" name="commentsList[12]"></textarea>*@
+                </div>
+            </div>
+        </div>
+        <div style="display:none;" id="ShowroomListDiv">
+            <div class="animated  bounceInRight">
+                <div class="col-md-3">
+                    <label for="">List Of Showrooms:</label>
+                    <div class="form-group">
+
+                        <select class="form-control" id="ShowroomsSelectId" name="showRoom_id">
+                            <option value="0">--Select--</option>
+
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <br />
+
+
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </div>
+        <div style="display:none;" id="pickupDivInsurance">
+            <div class="animated  bounceInRight">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <br />
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#AddNewAddressPopup">Add New Address</button>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+        </div>
+        <div class="pull-right">
+            <button type="button" class="btn btn-primary" id="BackToCunstomerDriveIndu">Back</button>
+            <button type="submit" class="btn btn-primary" value="bookMyAppointment" name="typeOfsubmit" id="NextToLeadInsurance">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div style="display:none;" class="animated  bounceInRight" id="Add_OnsIndurace1">
+
+    <label>Any Add-Ons covers prefered by customer? (Details will be shared by the Insurance Executive) </label>
+    <br>
+    <div class="radio-inline">
+        <label>
+            <input type="radio" name="AddOnsYes" value="Yes" id="AddOnsYesRId">
+            Yes
+        </label>
+    </div>
+    <div class="radio-inline">
+        <label>
+            <input type="radio" name="AddOnsYes" value="No" id="AddOnsNoRId" checked>
+            No
+        </label>
+    </div>
+
+    <div style="display:none;" id="AllAdd_onsDiv" class="animated  bounceInRight">
+        <div class="row">
+            <div class="col-md-12">
+                <p><b>Popular Options :</b></p>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="ComprehensivePolicy" name="addOnsPrefered_PopularOptions[0]" class="Add_Onschk">Comprehensive Policy
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="NCB Protect Cover" name="addOnsPrefered_PopularOptions[1]" class="Add_Onschk">NCB Protect Cover
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="Zero Dep Cover" name="addOnsPrefered_PopularOptions[2]" class="Add_Onschk">Zero Dep Cover
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="Invoice Cover" name="addOnsPrefered_PopularOptions[3]" class="Add_Onschk">Invoice Cover
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="Engine Protect" name="addOnsPrefered_PopularOptions[4]" class="Add_Onschk">Engine Protect
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="Electronic Circuit Cover" name="addOnsPrefered_PopularOptions[5]" class="Add_Onschk"> Electronic Circuit Cover
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="Passenger Cover" name="addOnsPrefered_PopularOptions[6]" class="Add_Onschk">Passenger Cover
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="Quick Assistance Cover" name="addOnsPrefered_PopularOptions[7]" class="Add_Onschk">Quick Assistance Cover
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="Voluntary Deductible Cover" name="addOnsPrefered_PopularOptions[8]" class="Add_Onschk">Voluntary Deductible Cover
+                        </label>
+                    </div>
+                </div>
+                <br />
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+
+                <p><b>Other Options:</b></p>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="Loss Of Personal Belongings" name="addOnsPrefered_OtherOptions[0]" class="Add_Onschk">Loss Of Personal Belongings
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="Windshield Glass Cover" name="addOnsPrefered_OtherOptions[1]" class="Add_Onschk">Windshield Glass Cover
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="Consumable Expenses" name="addOnsPrefered_OtherOptions[2]" class="Add_Onschk">Consumable Expenses
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="Hospital Daily Cash Allowance" name="addOnsPrefered_OtherOptions[3]" class="Add_Onschk">Hospital Daily Cash Allowance
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="Key Protector Cover" name="addOnsPrefered_OtherOptions[4]" class="Add_Onschk">Key Protector Cover
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="Consumable Expenses" name="addOnsPrefered_OtherOptions[5]" class="Add_Onschk">Consumable Expenses
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="Additional Expense Coverage" name="addOnsPrefered_OtherOptions[6]" class="Add_Onschk">Additional Expense Coverage
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="Loss of DL / RC" name="addOnsPrefered_OtherOptions[7]" class="Add_Onschk">Loss of DL / RC
+                        </label>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="pull-right">
+        <button type="button" class="btn btn-primary" id="BackToNewInsu1">Back</button>
+        <button type="button" class="btn btn-primary" id="NextToNewInsu1">Next</button>
+    </div>
+</div>
+
+<div style="display:none;" class="animated  bounceInRight" id="PremiumInsu2">
+    <div class="col-md-12">
+        <label>Have you shared the tentative 'Insurance Premium' with customer ?:</label>
+        <br />
+        <div class="radio-inline">
+            <label>
+                <input type="radio" name="PremiumYes" value="Yes" id="PremiumYesID">
+                Yes
+            </label>
+        </div>
+        <div class="radio-inline">
+
+            <label>
+                <input type="radio" name="PremiumYes" value="No" id="PremiumNoID">
+                No
+            </label>
+        </div>
+
+        <div style="display:none;" id="InsurancePremiumDiv" class="animated  bounceInRight">
+            <div class="row">
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label for="InsuranceCompany">Insurance Company</label>
+                        @*<select class="form-control input-sm" name="insuranceCompany" id="InsuCompSelectID">
+                                <option value="0">--Select--</option>
+                                @for (sa < -companiesList)
+                                {
+                                    <option value="@sa.companyName">@sa.companyName</option>
+                                }
+                            </select>*@
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label for="InsuDSAID">DSA (if any)</label>
+                        <input class="form-control input-sm" id="InsuDSAID" name="dsa" type="text">
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Premium (with Tax)</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control numberOnly" value="0" name="premiumwithTax" id="PremiumwithTax" readonly>
+                            <span class="input-group-addon" id="editFinalPremium" style="cursor:pointer" data-toggle="tooltip" title="Reset"><i class="fa fa-pencil"></i> </span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <br />
+                        <button type="button" class="btn btn-primary" data-target="#InsuPremiumPopup" data-toggle="modal" data-backdrop="static" data-keyboard="false" onclick="ajaxODPercentage();"><i class="fa fa-calculator fa-lg"></i>&nbsp;Calculate Premium</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="pull-right">
+            <button type="button" class="btn btn-primary" id="BackToNewInsu2">Back</button>
+            <button type="button" class="btn btn-primary" id="NextToNewInsu2">Next</button>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="row animated  bounceInRight" id="CustFeedBack" style="display:none;">
+    <div class="col-md-12">
+
+        <label>Does Customer has a feedback / compliant ?</label>
+        <br>
+        <div class="radio-inline">
+            <label for="feedbackYes">
+                <input type="radio" name="userfeedback" onclick="loadLeadBasedOnLocationDepartment();" value="feedback Yes" id="feedbackYes">
+                Yes
+            </label>
+        </div>
+        <div class="radio-inline">
+            <label for="feedbackNo">
+                <input type="radio" name="userfeedback" value="feedback No" id="feedbackNo" checked>
+                No
+            </label>
+        </div>
+
+
+        <div class="row animated  bounceInRight" style="display:none;" id="feedbackDIV">
+            <br>
+            <!--   <div class="col-md-12">
+              <div class="col-md-3">
+                <label for="">Select Department<i class="lblStar">*</i></label>
+                <select class="form-control selected_department" onchange="ajaxLeadTagByDepartment();" id="selected_department1" name="departmentForFB">
+
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label for="">Tag to</label>
+                <select class="form-control" name="complaintOrFB_TagTo" id="LeadTagsByLocation1" name="complaintOrFB_TagTo">
+
+                .@@.{if(interOfCall.getSrdisposition()!=null){
+
+                <option value={interOfCall.getSrdisposition().getComplaintOrFB_TagTo()} selected="selected">{interOfCall.getSrdisposition().getComplaintOrFB_TagTo()}</option>
+
+                }.}
+                </select>
+              </div>
+
+              <div class="col-md-3">
+                <label for="comments">Feedback/Comment</label>
+                <textarea class="form-control" rows="1" id="commentsOfFB" name="remarksOfFB"></textarea>
+              </div>
+              <br>
+            </div>-->
+        </div>
+        <div class="pull-right">
+            <button type="button" class="btn btn-primary" id="BackToUpsell">Back</button>
+            <button type="button" class="btn btn-primary" value="" id="NextToLastQuestion" />Next</button>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 animated  bounceInRight" id="LastQuestion" style="display:none;">
+
+    <label>May I please take a moment to update your contact information? This will help us serve you better in future.</label>
+    <br>
+    <div class="col-md-2">
+        <div class="radio-inline">
+            <label for="feedbackYes">
+                <input type="radio" name="CustomerFeedBackYes1" value="Customer Yes" id="CustomerYes" data-toggle="modal" data-target="#addBtn">
+                Yes
+            </label>
+        </div>
+        <div class="radio-inline">
+            <label for="feedbackNo">
+                <input type="radio" name="CustomerFeedBackYes1" value="Customer No" id="CustomerNo" checked>
+                No
+            </label>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>CRE Remarks</label>
+            @Html.TextAreaFor(model => model.listingForm.remarksList[0], new { @class = "form-control characterLimit", @rows = "2" })
+            @*<textarea class="form-control characterLimit" rows="2" name="remarksList[0]"></textarea>*@
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="">Customer Feedback</label>
+            @Html.TextAreaFor(model => model.listingForm.customerfeedbackList[0], new { @class = "form-control characterLimit", @rows = "2" })
+            @*<textarea rows="2" class="form-control characterLimit" name="commentsList[0]"></textarea>*@
+        </div>
+    </div>
+    <div class="pull-right">
+        <button type="button" class="btn btn-primary" id="BackToCustomerFeedback">Back</button>
+        <button type="submit" class="btn btn-primary" value="bookMyAppointment" name="typeOfsubmit" id="bookMyserviceSubmit" />Submit</button>
+    </div>
+</div>
+
+
+
+<!-- call me later -->
+
+<div class="row animated  bounceInRight" style="display:none;" id="callMeLattteDiv">
+    <div class="col-md-12">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="followUpDate">Follow Up Date<i class="lblStar">*</i></label>
+                @Html.TextBoxFor(model => model.insudisposition.followUpDate, new { @class = "form-control datePickerFilterTo", @id = "FollowUpDateinsurance", @readonly = "readonly" })
+                @*<input type="text" name="followUpDate" class="form-control" id="FollowUpDate" readonly>*@
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="followUpTime">Follow Up Time<i class="lblStar">*</i></label>
+                @Html.TextBoxFor(model => model.insudisposition.followUpTime, new { @class = "timepicker_7 form-control", @id = "FollowUpTimeinsurance", @readonly = "readonly" })
+                @*<input type="text" name="followUpTime" class="timepicker_7 form-control" id="FollowUpTime" readonly>*@
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="">CRE Remarks</label>
+                @Html.TextAreaFor(model => model.listingForm.remarksList[1], new { @class = "form-control characterLimit", @rows = "2" })
+                @*<textarea class="form-control characterLimit" rows="2" name="remarksList[1]"></textarea>*@
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="">Customer Feedback</label>
+                @Html.TextAreaFor(model => model.listingForm.customerfeedbackList[1], new { @class = "form-control characterLimit", @rows = "2" })
+                @*<textarea rows="2" class="form-control characterLimit" name="commentsList[1]"></textarea>*@
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <label for="">Do you want to save Insurance Quotation ?</label>
+        <div class="form-group">
+            <div class="radio-inline">
+                <label>
+                    @Html.RadioButtonFor(model => model.listingForm.InsuranceQuotation, "Yes", new { @data_target = "#InsuPremiumPopup", @data_toggle = "modal" })
+                    @*<input type="radio" name="InsuranceQuotation" value="Yes" data-target="#InsuPremiumPopup" data-toggle="modal">*@
+                    Yes
+                </label>
+            </div>
+            <div class="radio-inline">
+                <label>
+                    @Html.RadioButtonFor(model => model.listingForm.InsuranceQuotation, "No", new { @data_target = "#InsuPremiumPopup", @data_toggle = "modal", @checked = "true" })
+                    @*<input type="radio" name="InsuranceQuotation" value="No" checked>*@
+                    No
+                </label>
+            </div>
+        </div>
+        <br>
+        <div class="pull-right">
+            <button type="button" class="btn btn-primary" value="" id="CallaterBack">Back</button>
+            <button type="submit" class="btn btn-primary" value="callMeLater" id="callMeLaterSubmit" name="typeOfsubmit">Submit</button>
+        </div>
+    </div>
+
+</div>
+
+<!-- Service Not Required -->
+<div class="row animated  bounceInRight" style="display:none;" id="alreadyserviceDIV">
+    <!--No Service Required-->
+    <div class="col-md-12">
+        <div class="col-md-12">
+            <div class="form-group">
+
+                <div class="checkbox AlreadyServiced">
+                    <label>
+                        @Html.HiddenFor(m => m.insudisposition.renewalNotRequiredReason, new { @id = "chkrenewalNotRequired" })
+                        <input type="checkbox" class="NoService" name="renewalNotRequiredReason" value="Already Renewed" id="AlreadyServiced">
+                        Already Renewed
+                    </label>
+                </div>
+                <div class="animated  bounceInRight alreadyservicedDiv1" style="display:none;" id="alreadyservicedDiv1">
+                    <div class="col-md-12">
+                        <div class="radio ServicedMyDealer">
+                            <label>
+                                @Html.RadioButtonFor(model => model.insudisposition.renewalDoneBy, "Renewed At My Dealer", new { @onclick = "insuracelastrenewedLocation();", @id = "ServicedMyDealer" })
+                                @*<input type="radio" name="renewalDoneBy" onclick="workshopNameList();" value="Renewed At My Dealer" id="ServicedMyDealer">*@
+                                Renewed At My Dealer
+                            </label>
+                        </div>
+                        <div class="row animated  bounceInRight" style="display:none;" id="ServicedMyDealerDiv">
+                            <div class="col-md-12">
+                                <div class="col-md-3">
+                                    <label for=""><b>Last Renewal Date<b></label>
+                                    @Html.TextBoxFor(model => model.insudisposition.lastRenewalDate, new { @Value = (Model.Latestservices.lastServiceDate != null ? Convert.ToDateTime(Model.Latestservices.lastServiceDate).ToShortDateString() : ""), @class = "datepicker form-control" })
+                                    @*<input type="text" name="lastRenewalDate" value="@{vehicleData.getLastServiceDate()}" class="datepicker form-control" />*@
+                                </div>
+                                <div class="col-md-3">
+                                    <label for=""><b>Last Renewed Location<b></label>
+                                    @*<select class="form-control" name="lastRenewedLocation" id="lastServiceWorkshopList">
+                                            <option value=0>--Select--</option>
+                                        </select>*@
+                                    @Html.DropDownListFor(m => m.insudisposition.lastRenewedLocation, new SelectList(Model.locationList, "name", "name"), new { @class = "form-control", @id = "lastServiceWorkshopList" })
+
+                                </div>
+                                <div class="col-md-2">
+                                    <label for=""><b>Insurance Provided By<b></label>
+                                    @Html.DropDownListFor(m => m.insudisposition.insuranceProvidedBy, new SelectList(Model.companiesList, "companyName", "companyName"), "--Select--", new { @class = "form-control", @id = "insuranceProvidedBy" })
+                                    @*<select class="form-control" name="insuranceProvidedBy">
+                                            <option value="0">--Select--</option>
+                                            @for (sa < -companiesList)
+                                            {
+                                                <option value="@sa.companyName">@sa.companyName</option>
+                                            }
+
+                                        </select>*@
+                                </div>
+                                <div class="col-md-2">
+                                    <label for=""><b>Premium (Rs.)<b></label>
+                                    @*<input type="text" name="premimum" value="" class="form-control numberOnly" />*@
+                                    @Html.TextBoxFor(model => model.insudisposition.premimum, new { @class = "form-control numberOnly" })
+                                </div>
+                                <div class="col-md-2">
+                                    <label for=""><b>Cover Note (No.)<b></label>
+                                    @Html.TextBoxFor(model => model.insudisposition.coverNoteNo, new { @class = "form-control" })
+                                    @*<input type="text" name="coverNoteNo" value="" class="form-control" />*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="radio ServicedOtherDealer">
+                            <label>
+                                @Html.RadioButtonFor(model => model.insudisposition.renewalDoneBy, "Renewed At Other Dealer", new { @id = "renewedOtherDealer" })
+                                @*<input type="radio" name="renewalDoneBy" value="Renewed At Other Dealer" id="renewedOtherDealer">*@
+                                Renewed At Other Dealer
+                            </label>
+                        </div>
+                        <div class="row animated  bounceInRight" style="display:none;" id="ServicedAtOtherDealerDiv">
+                            <div class="col-md-12">
+
+                                <div class="col-md-12">
+                                    <div class="radio">
+                                        <label>
+                                            @Html.RadioButtonFor(model => model.insudisposition.typeOfAutherization, "Other Dealer", new { @id = "Autorizedworkshopid",@onclick= "ajaxLoadDealerPanelList();" })
+
+                                            @*<input type="radio" name="typeOfAutherization" value="Other Dealer" id="Autorizedworkshopid" onclick="ajaxLoadDealerPanelList();">*@
+                                            Other Dealer
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="animated  bounceInRight" style="display:none;" id="AutorizedworkshopDIV">
+                                    <div class="col-md-12">
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label for="dealerName"><b>Dealer Name<b></label><br/>
+                                                @Html.DropDownListFor(m => m.insudisposition.dealerName, Enumerable.Empty<SelectListItem>(), "--Select--", new { @class = "form-control selectpicker", @id = "dealerNameId", })
+                                                @*<select class="form-control selectpicker" id="dealerNameId" name="dealerName">
+                                                    <option value="select">--SELECT--</option>
+
+
+                                                </select>*@
+                                            </div>
+                                        </div>
+
+                                        @*else
+                                            {
+
+                                                <div class="col-md-2">
+                                                    <label for="dealerName"><b>Dealer Name<b></label>
+                                                    <input type="text" name="dealerName" class="form-control textOnlyAccepted" />
+                                                </div>
+
+                                            }*@
+
+                                        <div class="col-md-3">
+                                            <label for="dateOfService"><b>Date of Renewal<b></label>
+                                            @Html.TextBoxFor(model => model.insudisposition.dateOfRenewal, new { @class = "datepicker form-control" })
+                                            @*<input type="text" name=dateOfRenewal class="datepicker form-control" />*@
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="mileageAtService"><b>Insurance Provider<b></label>
+                                            @*<select class="form-control" name="insuranceProvidedByOEM">
+                                                    <option value="0">--Select--</option>
+                                                    @for (sa < -companiesList)
+                                                    {
+                                                        <option value="@sa.companyName">@sa.companyName</option>
+                                                    }
+
+                                                </select>*@
+                                            @Html.DropDownListFor(m => m.listingForm.insuranceProvidedByOEM, new SelectList(Model.companiesList, "companyName", "companyName"), "--Select--", new { @class = "form-control ", @id = "insuranceProvidedByOEM" })
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="serviceType"><b>Type of Insurance <b></label>
+                                            @Html.DropDownListFor(model => model.insudisposition.typeOfInsurance, new SelectListItem[]{
+                     new SelectListItem() {Text = "--Select--", Value="0"},
+                     new SelectListItem() {Text = "PI", Value="PI"},
+                     new SelectListItem() {Text = "NPI", Value="NPI"},
+                                         }, new { @class = "form-control", @Required = "required", @id = "inBoundLeadSourceSelectVal" })
+
+                                            @*<select class="form-control" name="typeOfInsurance">
+                                                    <option value="0">--SELECT--</option>
+                                                    <option value="PI">PI</option>
+                                                    <option value="NPI">NPI</option>
+
+
+                                                </select>*@
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="radio">
+                                        <label>
+                                            @Html.RadioButtonFor(model => model.insudisposition.typeOfAutherization, "Self", new { @id = "NonAutorizedworkshopid" })
+                                            @*<input type="radio" name="typeOfAutherization" value="Self" id="NonAutorizedworkshopid">*@
+                                            Self
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="animated  bounceInRight" style="display:none;" id="NonAutorizedworkshopDiv">
+                                    <div class="col-md-12">
+                                        <div class="col-md-3">
+                                            <label for="dateOfRenewalNonAuth"><b>Date of Renewal<b></label>
+                                            @Html.TextBoxFor(model => model.listingForm.dateOfRenewalNonAuth, new { @class = "datepicker form-control" })
+                                            @*<input type="text" name="dateOfRenewalNonAuth" class="datepicker form-control" />*@
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="mileageAsOnDate"><b> Insurance Provider<b></label>
+                                            @Html.DropDownListFor(m => m.listingForm.insuranceProvidedUnAuth, new SelectList(Model.companiesList, "companyName", "companyName"), "--Select--", new { @class = "form-control ", @id = "insuranceProvidedUnAuth" })
+                                            @*<select class="form-control" name="insuranceProvidedUnAuth">
+                                                    <option value="0">--Select--</option>
+                                                    @for (sa < -companiesList)
+                                                    {
+                                                        <option value="@sa.companyName">@sa.companyName</option>
+                                                    }
+
+                                                </select>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="radio InfoNotAvailable">
+                            <label>
+                                @Html.RadioButtonFor(model => model.insudisposition.renewalDoneBy, "Info Not Available", new { })
+                                @*<input type="radio" name="renewalDoneBy" value="Info Not Available">*@
+                                Info Not Available
+                            </label>
+                        </div>
+                    </div>
+
+                    <!--   <div class="pull-right" >
+
+                      <button type="button" class="btn btn-primary" value="" id="nextToAlreadySrviceUpsell"/>Next</button>
+                    </div> -->
+                </div>
+
+                <div class="row animated  bounceInRight" id="LastQuestionAlreadyServ" style="display:none;">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <label>May I please take a moment to update your contact information? This will help us serve you better in future.</label>
+                            <br>
+                            <div class="col-md-2">
+                                <div class="radio-inline">
+                                    <label for="">
+                                        <input type="radio" name="radio7" value="" data-toggle="modal" data-target="#addBtn">
+                                        Yes
+                                    </label>
+                                </div>
+                                <div class="radio-inline">
+                                    <label for="feedbackNo">
+                                        <input type="radio" name="radio7" value="" checked>
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>CRE Remarks</label>
+                                    @*<textarea class="form-control characterLimit" rows="2" name="remarksList[2]"></textarea>*@
+                                    @Html.TextAreaFor(model => model.listingForm.remarksList[2], new { @class = "form-control characterLimit", @rows = "2" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Customer Feedback</label>
+                                    @*<textarea class="form-control characterLimit" rows="2" name="commentsList[2]"></textarea>*@
+                                    @Html.TextAreaFor(model => model.listingForm.customerfeedbackList[2], new { @class = "form-control characterLimit", @rows = "2" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
+                         <div class="pull-right" >
+                    <button type="button" class="btn btn-primary " id="BackToAlreadyServiceFeedBack">Back</button>
+                     <button type="submit" class="btn btn-primary" value="alreadyRenewed" name="typeOfsubmit" id="alreadyServiced"/>Submit</button>
+                    </div>
+                     -->
+                </div>
+
+
+                <div class="checkbox VehicleSold">
+                    <label>
+                        <input type="checkbox" class="NoService" name="renewalNotRequiredReason" value="Vehicle Sold" id="VehicleSold">
+                        Vehicle Sold
+                    </label>
+                </div>
+
+
+                <div class="row animated  bounceInRight" style="display:none;" id="VehicelSoldYesRNo">
+                    <div class="col-md-12">
+                        <label>	Do you have the contact details of the new owner ?</label>
+                        <br>
+                        <div class="radio-inline">
+                            <label for="">
+                                @Html.RadioButtonFor(model => model.listingForm.VehicleSoldYes, "VehicleSold Yes", new { @id = "VehicleSoldYesbtn" })
+                                @*<input type="radio" name="VehicleSoldYes" value="VehicleSold Yes" id="VehicleSoldYesbtn">*@
+                                Yes
+                            </label>
+                        </div>
+                        <div class="radio-inline">
+                            <label for="">
+                                @Html.RadioButtonFor(model => model.listingForm.VehicleSoldYes, "VehicleSoldYes No", new { @id = "VehicleSoldNobtn", @checked = "true" })
+                                @*<input type="radio" name="VehicleSoldYes" value="VehicleSoldYes No" id="VehicleSoldNobtn">*@
+                                No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="pull-right backToAllSNR">
+                        <button type="button" class="btn btn-primary" value="" id="backToAlreadyServicediv">Back</button>
+                        <button type="button" class="btn btn-primary" value="" id="NextToPurchaseNewcarNO">Next</button>
+                    </div>
+
+
+                </div>
+
+
+                <div class="row animated  bounceInRight" style="display:none;" id="VehicleSoldClickYes">
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Please confirm the name of the new owner. </label><br>
+                            <div class="form-group">
+                                <div class="col-xs-1">
+                                    @Html.DropDownListFor(model => model.listingForm.initial, new SelectListItem[]{
+                                   new SelectListItem() { Text="Mr.",Value="Mr."},
+                                   new SelectListItem() { Text="Ms.",Value="Ms."},
+                                   new SelectListItem() { Text = "Mrs.", Value = "Mrs." } }, new { @class = "form-control" })
+                                    @*<select class="form-control">
+                                            <option>Mr.</option>
+                                            <option>Ms.</option>
+                                            <option>Mrs.</option>
+
+                                        </select>*@
+                                </div>
+                                <div class="col-xs-2" style="margin-left: -28px;">
+                                    @Html.TextBoxFor(model => model.listingForm.customerFName, new { @class = "form-control onlyAlphabetOnly", @id = "customerFNameConfirm", @placeholder = "First Name" })
+                                    @*<input class="form-control onlyAlphabetOnly" id="customerFNameConfirm" name="customerFName" placeholder="First Name" type="text">*@
+                                </div>
+                                <div class="col-xs-2">
+                                    @Html.TextBoxFor(model => model.listingForm.customerLName, new { @class = "form-control onlyAlphabetOnly", @id = "customerLNameConfirm", @placeholder = "Last Name" })
+                                    @*<input class="form-control onlyAlphabetOnly" name="customerLName" placeholder="Last Name" id="customerLNameConfirm" type="text">*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-xs-2">
+                                @Html.TextBoxFor(model => model.listingForm.phoneList[0], new { @class = "form-control numberOnly", @maxlength = "10", @placeholder = "Mobile1", @id = "Mobile1" })
+                                @*<input class="form-control numberOnly" maxlength="10" name="phoneList[0]" placeholder="Mobile1" id="Mobile1" type="text">*@
+                            </div>
+                            <div class="col-xs-2">
+                                @Html.TextBoxFor(model => model.listingForm.phoneList[1], new { @class = "form-control numberOnly", @maxlength = "10", @placeholder = "Mobile2", @id = "Mobile2" })
+                                @*<input class="form-control numberOnly" maxlength="10" name="phoneList[1]" placeholder="Mobile2" id="Mobile2" type="text">*@
+                            </div>
+
+                            <div class="col-xs-1">
+                                @Html.TextBoxFor(model => model.listingForm.phoneList[2], new { @class = "form-control numberOnly", @maxlength = "4", @placeholder = "STD", @id = "STDCodeInput" })
+                                @*<input class="form-control numberOnly" maxlength="4" name="phoneList[2]" placeholder="STD" id="STDCodeInput" type="text">*@
+                            </div>
+                            <div class="col-xs-2">
+                                @Html.TextBoxFor(model => model.listingForm.phoneList[3], new { @class = "form-control numberOnly", @maxlength = "8", @placeholder = "Landline No.", @id = "LandlineInput" })
+                                @*<input class="form-control numberOnly" maxlength="8" name="phoneList[3]" placeholder="Landline No." id="LandlineInput" type="text">*@
+                            </div>
+                        </div>
+                    </div>
+                    </br>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="form-group">
+
+                                <div class="col-xs-2">
+                                    @*<textarea rows="2" class="form-control characterLimit" name="addressLine1" placeholder="Address Line1"></textarea>*@
+                                    @Html.TextAreaFor(model => model.listingForm.addressLine1, new { @rows = "2", @class = "form-control characterLimit", @placeholder = "Address Line1" })
+
+                                </div>
+                                <div class="col-xs-2">
+                                    @Html.TextAreaFor(model => model.listingForm.addressLine2, new { @class = "form-control characterLimit", @placeholder = "Address Line2", @rows = "2" })
+                                    @*<textarea class="form-control characterLimit" placeholder="Address Line2" name="addressLine2" rows="2"></textarea>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </br>
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="col-xs-2">
+                                @*<select class="form-control" name="state" placeholder="State" id="stateInput" onchange="getCityByStateSelection('stateInput','cityInput');">
+                                        <option value="0">--SELECT--</option>
+                                        @for (states < -statesList)
+                                        {
+
+                                            <option value="@states">@states</option>
+
+                                        }
+                                    </select>*@
+                                @Html.DropDownListFor(m => m.listingForm.state, new SelectList(ViewBag.citystates, "state", "state"), "--Select--", new { @placeholder = "State", @id = "stateInput", @class = "form-control", @onchange = "getCityByStateSelection('stateInput','cityInput');" })
+
+                            </div>
+                            <div class="col-xs-2">
+                                @Html.DropDownListFor(m => m.listingForm.city, Enumerable.Empty<SelectListItem>(), "--Select--", new { @class = "form-control", @placeholder = "City", @id = "cityInput" })
+
+                                @*<select class="form-control" name="city" placeholder="City" id="cityInput">
+                                    </select>*@
+                            </div>
+
+                            <div class="col-xs-2">
+                                @Html.TextBoxFor(model => model.listingForm.pincode, new { @class = "form-control numberOnly", @maxlength = "6", @value = "0", @placeholder = "Pin", @id = "PinInput" })
+                                @*<input class="form-control numberOnly" maxlength="6" name="pincode" value="0" placeholder="Pin" id="PinInput" type="text">*@
+                                <input type="hidden" name="country" value="India">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pull-right backToYesSNR ">
+                        <button type="button" class="btn btn-primary" value="" id="backToSNR">Back</button>
+                        <button type="button" class="btn btn-primary" value="" id="NextToPurchaseCar">Next</button>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row animated  bounceInRight" style="display:none;" id="VehicleSoldClickNo">
+                <div class="col-md-12">
+                    <label for=""><b>	Did you purchase another car?<b></label><br>
+                    <div class="radio-inline">
+                        <label for="">
+                            @Html.RadioButtonFor(model => model.listingForm.PurchaseYes, "Purchase Yes", new { @id = "PurchaseYes" })
+                            @*<input type="radio" name="PurchaseYes" value="Purchase Yes">*@
+                            Yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label for="">
+                            @Html.RadioButtonFor(model => model.listingForm.PurchaseYes, "Purchase No", new { @id = "PurchaseYes" })
+                            @*<input type="radio" name="PurchaseYes" value="Purchase No">*@
+                            No
+                        </label>
+                    </div>
+
+
+
+
+                    <div class="row animated  bounceInRight" style="display:none;" id="PurchaseClickYes">
+                        <div class="col-md-12">
+                            <div class="col-sm-2">
+                                <label for=""> New Car Registration No</label>
+                                @Html.TextBoxFor(model => model.listingForm.vehicleRegNo, new { @class = "form-control", @id = "vehicleRegNo", @Value = "" })
+                                @*<input class="form-control" name="vehicleRegNo" type="text">*@
+                            </div>
+                            <div class="col-sm-2">
+                                <label for=""> New Car Chassis No</label>
+                                @Html.TextBoxFor(model => model.listingForm.chassisNo, new { @class = "form-control", @id = "chassisNo", @Value = "" })
+                                @*<input class="form-control" name="vehicleRegNo" type="text">*@
+                            </div>
+                            <div class="col-sm-2">
+                                <label for=""> Brand</label>
+                                @Html.TextBoxFor(model => model.listingForm.variant, new { @class = "form-control", @id = "variant", @Value = "" })
+                                @*<input class="form-control" name="variant" type="text">*@
+                            </div>
+                            <div class="col-sm-2">
+                                <label for=""> Model</label>
+                                @Html.TextBoxFor(model => model.listingForm.model, new { @class = "form-control", @id = "model", @Value = "" })
+                                @*  <input class="form-control" name="model" type="text">*@
+                            </div>
+                            <div class="col-sm-2">
+                                <label for=""> Dealership Name</label>
+                                @Html.TextBoxFor(model => model.listingForm.dealershipName, new { @class = "form-control", @id = "dealershipName", @Value = "" })
+                                @*<input class="form-control" name="dealershipName" type="text">*@
+                            </div>
+                            <div class="col-sm-3">
+                                <label for=""> Purchase Date</label>
+                                @Html.TextBoxFor(model => model.listingForm.saleDate, new { @class = "form-control datepicker", @id = "saleDate", @Value = "" })
+                                @* <input class="form-control datepicker" name="saleDate" type="text" readonly>*@
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-primary" value="" id="BackToPleaseComfNewOwnre">Back</button>
+                    <!-- <button type="button" class="btn btn-primary" value="" id="nextToFinalEditInfoVS">next</button> -->
+                </div>
+            </div>
+
+            <div class="row animated  bounceInRight" id="VehicelSoldQuestion" style="display:none;">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        <label>May I please take a moment to update your contact information? This will help us serve you better in future.</label>
+                        <br>
+                        <div class="col-md-2">
+                            <div class="radio-inline">
+                                <label for="feedbackYes">
+                                    <input type="radio" name="radio3" value="" data-toggle="modal" data-target="#addBtn">
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="radio-inline">
+                                <label for="feedbackNo">
+                                    <input type="radio" name="radio3" value="" checked>
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>CRE Remarks</label>
+                                @Html.TextAreaFor(model => model.listingForm.remarksList[3], new { @class = "form-control characterLimit", @rows = "2" })
+                                @*<textarea class="form-control characterLimit" rows="2" name="remarksList[3]"></textarea>*@
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Customer Feedback</label>
+                                @Html.TextAreaFor(model => model.listingForm.customerfeedbackList[3], new { @class = "form-control characterLimit", @rows = "2" })
+                                @*<textarea class="form-control characterLimit" rows="2" name="commentsList[3]"></textarea>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-primary" id="BackToVSHVNewCar">Back</button>
+                    <button type="submit" class="btn btn-primary" value="vehicleSold" name="typeOfsubmit" id="vehicleSold" />Submit</button>
+                </div>
+            </div>
+
+
+
+
+            <div class="checkbox Dissatisfiedwithpreviousservice">
+                <label>
+                    <input type="checkbox" class="NoService" name="renewalNotRequiredReason" onclick="ajaxLeadOnDissatisfiedWithSales(29);" value="Dissatisfied with previous service" id="Dissatisfiedwithpreviousservice">
+                    Dissatisfied with previous service
+                </label>
+            </div>
+
+            <div class="row animated  bounceInRight" style="display:none;" id="txtDissatisfiedwithpreviousservice">
+                <div class="col-md-12">
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="lastServiceDateOfDWPS"><b>Last Service Date<b></label>
+                            @Html.TextBoxFor(model => model.insudisposition.lastServiceDate, new { @Value = lastServiceDate, @placeholder = "Enter From Date", @class = "form-control datepicker", @id = "lastServiceDateOfDWPS", @autocomplete = "off" })
+                            @* <input type="text" name="lastServiceDateOfDWPS" value="@{vehicleData.getLastServiceDate()}" placeholder="Enter From Date" class="form-control datepicker" />*@
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for=""><b>Service Advisor<b></label>
+                            @Html.TextBoxFor(model => model.insudisposition.serviceAdvisorID, new { @id = "serviceAdvisorID", @class = "form-control", @Value = Model.Latestservices.saName })
+                            @*<input type="text" name="serviceAdvisorID" value="@{latestService.getSaName()}" class="form-control" />*@
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for=""><b>Service Type<b></label>
+                            @Html.TextBoxFor(model => model.insudisposition.lastServiceType, new { @id = "lastServiceType", @class = "form-control", @Value = Model.Latestservices.serviceType })
+                            @*<input type="text" name="lastServiceType" class="form-control" />*@
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for=""><b>Assigned To<b></label>
+                            @Html.DropDownListFor(m => m.listingForm.assignedSA, Enumerable.Empty<SelectListItem>(), new { @class = "form-control", @id = "assignedToSA" })
+                            @*<select class="form-control" name="assignedSA" id="assignedToSA">
+                                    <option value="select">select</option>
+                                </select>*@
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for=""><b>Remarks<b></label>
+                            @*<textarea class="form-control characterLimit" rows="2" name="insRemarkDissatWithPreviousService"></textarea>*@
+                            @Html.TextAreaFor(model => model.insudisposition.remarksOfFB, new { @class = "form-control characterLimit", @rows = "2", @id = "insRemarkDissatWithPreviousService" })
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <!--   <div class="pull-right" >
+
+                  <button type="button" class="btn btn-primary" value="" id="NextDisatisfiedPrPopup"/>Next</button>
+                </div> -->
+            </div>
+            <div class="row animated  bounceInRight" id="DisatisfiedPreQuestion" style="display:none;">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        <label>May I please take a moment to update your contact information? This will help us serve you better in future.</label>
+                        <br>
+                        <div class="col-md-2">
+                            <div class="radio-inline">
+                                <label for="feedbackYes">
+                                    <input type="radio" name="radio1" value="" data-toggle="modal" data-target="#addBtn">
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="radio-inline">
+                                <label for="feedbackNo">
+                                    <input type="radio" name="radio1" value="" checked>
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>CRE Remarks</label>
+                                @Html.TextAreaFor(model => model.listingForm.remarksList[4], new { @class = "form-control characterLimit", @rows = "2" })
+                                @*<textarea class="form-control characterLimit" rows="2" name="remarksList[4]"></textarea>*@
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Customer Feedback</label>
+                                @Html.TextAreaFor(model => model.listingForm.customerfeedbackList[4], new { @class = "form-control characterLimit", @rows = "2" })
+                                @*<textarea class="form-control characterLimit" rows="2" name="commentsList[4]"></textarea>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-primary " id="BackToDissatisfiedPreviosInc">Back</button>
+                    <button type="submit" class="btn btn-primary" value="dissatifiedwithPreviousService" name="typeOfsubmit" id="dissatifiedwithPreviousService" />Submit</button>
+                </div>
+            </div>
+
+
+            <div class="checkbox Distancefrom">
+                <label>
+                    <input type="checkbox" class="NoService" name="renewalNotRequiredReason" value="Distance from Dealer Location" id="Distancefrom">
+                    Distance from Dealer Location
+                </label>
+            </div>
+            <div style="display:none;" class="animated  bounceInRight" id="DistancefromDealerLocationDIV">
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        <label for=""><b>city<b></label>
+                        @Html.TextBoxFor(model => model.insudisposition.cityName, new { @class = "form-control" })
+
+                        @*<input type="text" name="" class="form-control" />*@
+                    </div>
+
+
+                </div>
+
+                <!--  <div class="pull-right" >
+                    <button type="submit" class="btn btn-primary" value="dissatifiedwithPreviousService" name="typeOfsubmit" id="dissatifiedwithPreviousServices">Submit</button>
+                </div> -->
+            </div>
+            <div class="row animated  bounceInRight" id="DistanceFoRRQuestion" style="display:none;">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        <label>May I please take a moment to update your contact information? This will help us serve you better in future.</label>
+                        <br>
+                        <div class="col-md-2">
+                            <div class="radio-inline">
+                                <label for="feedbackYes">
+                                    <input type="radio" name="radio4" value="" data-toggle="modal" data-target="#addBtn">
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="radio-inline">
+                                <label for="feedbackNo">
+                                    <input type="radio" name="radio4" value="" checked>
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>CRE Remarks</label>
+                                @*<textarea class="form-control characterLimit" rows="2" name="remarksList[5]"></textarea>*@
+                                @Html.TextAreaFor(model => model.listingForm.remarksList[5], new { @class = "form-control characterLimit", @rows = "2" })
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Customer Feedback</label>
+                                @*<textarea class="form-control characterLimit" rows="2" name="commentsList[5]"></textarea>*@
+                                @Html.TextAreaFor(model => model.listingForm.customerfeedbackList[5], new { @class = "form-control characterLimit", @rows = "2" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-primary " id="BackToDissatisfiedDelaerLoc">Back</button>
+                    <button type="submit" class="btn btn-primary" value="dissatifiedwithPreviousService" name="typeOfsubmit" id="dissatifiedwithPreviousServices" />Submit</button>
+                </div>
+            </div>
+
+
+
+            <div class="checkbox DissatisfiedwithSalesID">
+                <label>
+                    <input type="checkbox" class="NoService" name="renewalNotRequiredReason" onclick="ajaxLeadOnDissatisfiedWithSales(26);" value="Dissatisfied with Sales" id="DissatisfiedwithSalesID">
+                    Dissatisfaction with Sales
+                </label>
+            </div>
+            <div class="row animated  bounceInRight" style="display:none;" id="DissatisfactionwithSalesREmarksDiv">
+                <div class="col-md-12">
+
+                    <div class="col-md-3">
+                        <label for="">Tag to</label>
+                        @Html.DropDownListFor(m => m.insudisposition.noServiceReasonTaggedTo, Enumerable.Empty<SelectListItem>(), new { @class = "form-control", @id = "noServiceReasonTaggedTo" })
+                        @*<select class="form-control" id="noServiceReasonTaggedTo" name="noServiceReasonTaggedTo">
+                                <option value="select">select</option>
+
+                            </select>*@
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="">Remarks</label>
+                        @Html.TextAreaFor(model => model.insudisposition.noServiceReasonTaggedToComments, new { @rows = "1", @id = "noServiceReasonTaggedToComments", @class = "form-control characterLimit" })
+                        @*<textarea type="text" rows="1" name="noServiceReasonTaggedToComments" class="form-control characterLimit"></textarea>*@
+                    </div>
+
+                </div>
+                <!--   <div class="pull-right" >
+                    <button type="button" class="btn btn-primary" value="" id="NextDisSatisSalePopup"/>Next</button>
+                </div> -->
+            </div>
+            <div class="row animated  bounceInRight" id="DisstisFiedSaleRQuestion" style="display:none;">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        <label>May I please take a moment to update your contact information? This will help us serve you better in future.</label>
+                        <br>
+                        <div class="col-md-2">
+                            <div class="radio-inline">
+                                <label for="feedbackYes">
+                                    <input type="radio" name="radio5" value="" data-toggle="modal" data-target="#addBtn">
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="radio-inline">
+                                <label for="feedbackNo">
+                                    <input type="radio" name="radio5" value="" checked>
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>CRE Remarks</label>
+                                @Html.TextAreaFor(model => model.listingForm.remarksList[6], new { @class = "form-control characterLimit", @rows = "2" })
+                                @*<textarea class="form-control characterLimit" rows="2" name="remarksList[6]"></textarea>*@
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Customer Feedback</label>
+                                @Html.TextAreaFor(model => model.listingForm.customerfeedbackList[6], new { @class = "form-control characterLimit", @rows = "2" })
+                                @*<textarea class="form-control characterLimit" rows="2" name="commentsList[6]"></textarea>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pull-right">
+
+                    <button type="button" class="btn btn-primary" id="backToDissSatiSalse" />Back</button>
+                    <button type="submit" class="btn btn-primary" value="dissatifiedwithPreviousService" name="typeOfsubmit" id="dissatifiedwithPService" />Submit</button>
+                </div>
+            </div>
+
+            <div class="checkbox DissatisfiedwithInsuranceId">
+                <label>
+                    <input type="checkbox" class="NoService" name="renewalNotRequiredReason" onclick="ajaxLeadOnDissatisfiedWithSales(27);" value="Dissatisfied with Insurance" id="DissatisfiedwithInsuranceId">
+                    Dissatisfaction with Insurance
+                </label>
+            </div>
+            <div class="row animated  bounceInRight" style="display:none;" id="DissatisfactionwithInsuranceREmarksDiv">
+                <div class="col-md-12">
+
+                    <div class="col-md-3">
+                        <label for="">Tag the case to</label>
+                        @Html.DropDownListFor(m => m.listingForm.noServiceReasonTaggedTo1, Enumerable.Empty<SelectListItem>(), new { @class = "form-control", @id = "noServiceReasonTaggedTo1" })
+                        @*<select class="form-control" id="noServiceReasonTaggedTo1" name="noServiceReasonTaggedTo1">
+                                <option value="select">select</option>
+                            </select>*@
+                    </div>
+                    <div class="col-md-3">
+                        <label for="">Remarks</label>
+                        @Html.TextAreaFor(model => model.listingForm.noServiceReasonTaggedToComments1, new { @rows = "1", @name = "noServiceReasonTaggedToComments1", @class = "form-control characterLimit" })
+                        @*<textarea type="text" rows="1" name="noServiceReasonTaggedToComments1" class="form-control characterLimit"></textarea>*@
+                    </div>
+
+
+                </div>
+                <!--  <div class="pull-right" >
+                    <button type="button" class="btn btn-primary" value="" id="NextDisSatInsurancPopup"/>Next</button>
+                </div> -->
+            </div>
+            <div class="row animated  bounceInRight" id="DisstisInsurancQuestion" style="display:none;">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        <label>May I please take a moment to update your contact information? This will help us serve you better in future.</label>
+                        <br>
+                        <div class="col-md-2">
+                            <div class="radio-inline">
+                                <label for="feedbackYes">
+                                    <input type="radio" name="radio6" value="" data-toggle="modal" data-target="#addBtn">
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="radio-inline">
+                                <label for="feedbackNo">
+                                    <input type="radio" name="radio6" value="" checked>
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>CRE Remarks</label>
+                                @Html.TextAreaFor(model => model.listingForm.remarksList[7], new { @class = "form-control characterLimit", @rows = "2" })
+                                @*<textarea class="form-control characterLimit" rows="2" name="remarksList[7]"></textarea>*@
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Cuatomer Remarks</label>
+                                @Html.TextAreaFor(model => model.listingForm.customerfeedbackList[7], new { @class = "form-control characterLimit", @rows = "2" })
+                                @*<textarea class="form-control characterLimit" rows="2" name="commentsList[7]"></textarea>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-primary" value="" id="bsckTodisInsu" />Back</button>
+                    <button type="submit" class="btn btn-primary" value="dissatifiedwithPreviousService" name="typeOfsubmit" id="dissatifiedwithService" />Submit</button>
+                </div>
+            </div>
+
+            <div class="checkbox ExcBillingId">
+                <label>
+                    <input type="checkbox" class="NoService" name="renewalNotRequiredReason" value="Excess Billing" id="ExcBillingId">
+                    Excess Billing
+                </label>
+
+            </div>
+            <div class="checkbox Stolen">
+                <label>
+                    <input type="checkbox" class="NoService" name="renewalNotRequiredReason" value="Stolen" id="Stolen">
+                    Stolen
+                </label>
+
+            </div>
+
+            <div class="checkbox Totalloss">
+                <label>
+                    <input type="checkbox" class="NoService" name="renewalNotRequiredReason" value="Total loss" id="Totalloss">
+                    Total loss/Damaged
+                </label>
+
+            </div>
+            <!-- <div class="pull-right animated  bounceInRight" style="display:none;" id="stolenHideShowSubmit">
+                <button type="submit" class="btn btn-primary" value="dissatifiedwithPreviousService" name="typeOfsubmit" id="stolenDamageSubmit"/>Submit</button>
+            </div> -->
+
+
+            <div class="checkbox OtherLast">
+                <label>
+                    <input type="checkbox" class="NoService" name="renewalNotRequiredReason" value="Other Service" id="Other">
+                    Other
+                </label>
+            </div>
+            <div class="animated  bounceInRight" style="display:none;" id="OtherSeriveRemarks">
+
+                <div class="col-md-3">
+                    <label for="comments">Enter other reason for no service</label>
+                    @Html.TextAreaFor(model => model.insudisposition.reason, new { @class = "form-control characterLimit", @rows = "1", @id = "commentsOtherRemarks" })
+                    @*<textarea class="form-control characterLimit" rows="1" id="commentsOtherRemarks" name="reason"></textarea>*@
+                </div>
+
+                <!--   <div class="pull-right" >
+                    <button type="button" class="btn btn-primary" value="" id="NextOthersPopup"/>Next</button>
+                </div> -->
+            </div>
+            <div class="row animated  bounceInRight" id="OthersLastQuestion" style="display:none;">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        <label>May I please take a moment to update your contact information? This will help us serve you better in future.</label>
+                        <br>
+                        <div class="col-md-2">
+                            <div class="radio-inline">
+                                <label for="feedbackYes">
+                                    <input type="radio" name="radio8" value="" data-toggle="modal" data-target="#addBtn">
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="radio-inline">
+                                <label for="feedbackNo">
+                                    <input type="radio" name="radio8" value="" checked>
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>CRE Remarks</label>
+                                @Html.TextAreaFor(model => model.listingForm.remarksList[8], new { @class = "form-control characterLimit", @rows = "2" })
+                                @*<textarea class="form-control characterLimit" rows="2" name="remarksList[8]"></textarea>*@
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Customer Feedback</label>
+                                @Html.TextAreaFor(model => model.listingForm.customerfeedbackList[8], new { @class = "form-control characterLimit", @rows = "2" })
+                                @*<textarea class="form-control characterLimit" rows="2" name="commentsList[8]"></textarea>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-primary" id="BacktoOtherInsu">Back</button>
+                    <button type="submit" class="btn btn-primary" value="dissatifiedwithPreviousService" name="typeOfsubmit" id="vehicleSoldStolen" />Submit</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="col-md-12">
+            <label>Is there an Upsell Opportunity ?</label>
+            <div class="form-group">
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(model => model.listingForm.LeadYesRNR, "Capture Lead Yes", new { @id = "LeadYesRNRID" })
+                        @*  <input type="radio" name="LeadYesRNR" value="Capture Lead Yes" id="LeadYesRNRID">*@
+                        Yes
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(model => model.listingForm.LeadYesRNR, "Capture Lead No", new { @id = "LeadNoRNRID", @checked = "true" })
+                        @* <input type="radio" name="LeadYesRNR" value="Capture Lead No" id="LeadNoRNRID" checked>*@
+                        No
+                    </label>
+                </div>
+            </div>
+            <div class="row animated  bounceInRight" style="display:none;" id="LeadDivRNR">
+                <div class="col-md-12" id="checkboxExist">
+                    @for (int i = 0; i < Model.tags.Count; i++)
+                    {
+                        <div class="col-md-6">
+                            <div class="checkbox">
+                                <label>
+
+                                    @Html.HiddenFor(m => m.listingForm.upsellleads[i].upsellId, new { Value = Model.tags[i].upsellLeadId, @id = "valueselectSBHidden" + Model.tags[i].upsellLeadId })
+                                    @Html.CheckBox("ckUpsell", false, new { @Value = Model.tags[i].upsellLeadId, @upsell_index = 0, @id = "AlreadyvalueselectSB" + Model.tags[i].upsellLeadId, @data_childDiv = @Model.tags[i].upsellType, @class = "LeadClass myOutCheckbox AlreadyupsellLeadSelectDivSB", @onClick = "loadLeadBasedOnUserLocation('AlreadyvalueselectSB" + Model.tags[i].upsellLeadId + "','AlreadyLeadSB" + Model.tags[i].upsellLeadId + "')" })
+                                    @Model.tags[i].upsellType
+                                </label>
+                            </div>
+                            <div class="row animated  bounceInRight" style="display:none;" id="AlReadyupsellLeadSelectSB_@Model.tags[i].upsellLeadId">
+                                <div class="col-md-6">
+                                    <label for="">Tag to</label>
+                                    @Html.DropDownListFor(m => m.listingForm.upsellleads[i].taggedTo, Enumerable.Empty<SelectListItem>(), "Select", new { @class = "form-control", @id = "AlreadyLeadSB" + Model.tags[i].upsellLeadId })
+                                    @*<select class="form-control" name="upsellLead[0].taggedTo" id="insuranceLead1">
+                                            <option>Select</option>
+                                        </select>*@
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="comments">Remarks</label>
+                                    @Html.TextAreaFor(m => m.listingForm.upsellleads[i].upsellComments, new { @class = "form-control characterLimit", @rows = "1", @id = "comments1" })
+                                    @*<textarea class="form-control characterLimit" rows="1" id="comments1" name="upsellLead[0].upsellComments"></textarea>*@
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Tag to & Remarks</label>
+                                <textarea rows="2" class="form-control characterLimit"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <label>Does Customer has a feedback / compliant ?</label>
+            <div class="form-group">
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.listingForm.CustomerfeedbackRNR, "Yes", new { @id = "CustomerfeedbackRNRIdYes", @onclick = "loadLeadBasedOnLocationDepartment(this);" })
+                        @*<input type="radio" name="CustomerfeedbackRNR" id="CustomerfeedbackRNRIdYes" onclick="loadLeadBasedOnLocationDepartment();" value="Yes">*@
+                        Yes
+                    </label>
+                </div>
+                <div class="radio-inline">
+
+                    <label>
+                        @Html.RadioButtonFor(m => m.listingForm.CustomerfeedbackRNR, "No", new { @id = "CustomerfeedbackRNRIdNo", @onclick = "loadLeadBasedOnLocationDepartment();", @checked = "true" })
+
+                        @*<input type="radio" name="CustomerfeedbackRNR" id="CustomerfeedbackRNRIdNo" value="No" checked>*@
+                        No
+                    </label>
+                </div>
+            </div>
+
+            @*<div class="form-group">
+                    <div class="radio-inline">
+                        <label>
+                            <input type="radio" name="LeadYesRNR" value="Capture Lead Yes" id="LeadYesRNRID">
+                            Yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            <input type="radio" name="LeadYesRNR" value="Capture Lead No" id="LeadNoRNRID" checked>
+                            No
+                        </label>
+                    </div>
+                </div>
+                <div class="row animated  bounceInRight" style="display:none;" id="LeadDivRNR">
+                    <div>
+                        <div class="col-md-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" class="EXCHANGE myOutCheckbox" name="upsellLead[6].upsellId" value="15" id="EXCHANGEIDInsu" onClick="loadLeadBasedOnUserLocation('EXCHANGEIDInsu','buyNewCarLead1Ins')" />
+                                    Exchange
+                                </label>
+                            </div>
+                            <div class="row animated  bounceInRight" style="display:none;" id="EXCHANGEIDSelectInsu">
+
+                                <div class="col-md-6">
+                                    <label for="">Tag to</label>
+                                    <select class="form-control" name="upsellLead[6].taggedTo" id="buyNewCarLead1Ins">
+                                        <option>Select</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="comments">Remarks</label>
+                                    <textarea class="form-control characterLimit" rows="1" name="upsellLead[6].upsellComments"></textarea>
+                                </div>
+                            </div>
+
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" class="LeadClass myOutCheckbox" name="upsellLead[7].upsellId" value="18" id="MaxicareIDCheckInsu" onClick="loadLeadBasedOnUserLocation('MaxicareIDCheckInsu','maxicareLeadIns')">
+                                    Extended Warranty
+                                </label>
+                            </div>
+                            <div class="row animated  bounceInRight" style="display:none;" id="MaxicareSelectInsu">
+
+                                <div class="col-md-6">
+                                    <label for="">Tag to</label>
+                                    <select class="form-control" name="upsellLead[7].taggedTo" id="maxicareLeadIns">
+                                        <option>Select</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="comments">Remarks</label>
+                                    <textarea class="form-control characterLimit" rows="1" name="upsellLead[7].upsellComments"></textarea>
+                                </div>
+
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" class="LeadClass myOutCheckbox" name="upsellLead[8].upsellId" value="20" id="ShieldIDInsu" onClick="loadLeadBasedOnUserLocation('ShieldIDInsu','warrantyLead1Ins')">
+                                    Service / BP
+                                </label>
+                            </div>
+                            <div class="row animated  bounceInRight" style="display:none;" id="ShieldSelectInsu">
+
+                                <div class="col-md-6">
+                                    <label for="">Tag to</label>
+                                    <select class="form-control" name="upsellLead[8].taggedTo" id="warrantyLead1Ins">
+                                        <option>Select</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="comments">Remarks</label>
+                                    <textarea class="form-control characterLimit" rows="1" name="upsellLead[8].upsellComments"></textarea>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" class="VAS myOutCheckbox" name="upsellLead[9].upsellId" value="14" id="RSAIDInsu" onClick="loadLeadBasedOnUserLocation('RSAIDInsu','vASLead1Ins')" />
+                                    RSA
+                                </label>
+                            </div>
+                            <div class="row animated  bounceInRight" style="display:none;" id="RSATagToSelectInsu">
+
+                                <div class="col-md-6">
+                                    <label for="">Tag to</label>
+                                    <select class="form-control" name="upsellLead[9].taggedTo" id="vASLead1Ins">
+                                        <option>Select</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="comments">Remarks</label>
+                                    <textarea class="form-control characterLimit" rows="1" name="upsellLead[9].upsellComments"></textarea>
+                                </div>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" class="LeadClass myOutCheckbox" name="upsellLead[10].upsellId" value="21" id="InsuranceIDCheckInsu" onClick="loadLeadBasedOnUserLocation('InsuranceIDCheckInsu','insuranceLead1Ins')">
+                                    Buy new car
+                                </label>
+                            </div>
+                            <div class="row animated  bounceInRight" style="display:none;" id="InsuranceSelectInsu">
+
+                                <div class="col-md-6">
+                                    <label for="">Tag to</label>
+                                    <select class="form-control" name="upsellLead[10].taggedTo" id="insuranceLead1Ins">
+                                        <option>Select</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="comments">Remarks</label>
+                                    <textarea class="form-control characterLimit" rows="1" name="upsellLead[10].upsellComments"></textarea>
+                                </div>
+
+                            </div>
+
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" class="UsedCar myOutCheckbox" name="upsellLead[11].upsellId" value="16" id="UsedCarIDInsu" onClick="loadLeadBasedOnUserLocation('UsedCarIDInsu','usedCarLead1Ins')" />
+                                    Other VAS
+                                </label>
+                            </div>
+                            <div class="row animated  bounceInRight" style="display:none;" id="UsedCarSelectInsu">
+
+                                <div class="col-md-6">
+                                    <label for="">Tag to</label>
+                                    <select class="form-control" name="upsellLead[11].taggedTo" id="usedCarLead1Ins">
+                                        <option>Select</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="comments">Remarks</label>
+                                    <textarea class="form-control characterLimit" rows="1" name="upsellLead[11].upsellComments"></textarea>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Tag to & Remarks</label>
+                                    <textarea rows="2" class="form-control characterLimit"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <label>Does Customer has a feedback / compliant ?</label>
+                <div class="form-group">
+                    <div class="radio-inline">
+                        <label>
+                            <input type="radio" name="CustomerfeedbackRNR" id="CustomerfeedbackRNRIdYes" onclick="loadLeadBasedOnLocationDepartment();" value="Yes">
+                            Yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+
+                        <label>
+                            <input type="radio" name="CustomerfeedbackRNR" id="CustomerfeedbackRNRIdNo" value="No" checked>
+                            No
+                        </label>
+                    </div>
+                </div>*@
+
+
+
+            @*<div style="display:none;" id="FeedBackYESDivRNR">
+                    <div class="animated  bounceInRight">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-3">
+                                    <label for="">Select Department<i class="lblStar">*</i></label>
+                                    <select class="form-control selected_department" id="selected_department" name="departmentForFB1" onchange="ajaxLeadTagByDepartment();">
+                                        <option>select</option>
+
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="">Tag to</label>
+                                    <select class="form-control" id="LeadTagsByLocation" name="complaintOrFB_TagTo1">
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="comments">Feedback/Comment</label>
+                                    <textarea class="form-control characterLimit" rows="1" name="remarksOfFB1"></textarea>
+                                </div>
+                                <br>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>*@
+
+            <div style="display:none;" id="FeedBackYESDivRNR">
+                <div class="animated  bounceInRight">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label for="">Select Department<i class="lblStar">*</i></label>
+                                @Html.DropDownListFor(m => m.insudisposition.departmentForFB, Enumerable.Empty<SelectListItem>(), new { @class = "form-control selected_department", @onchange = "ajaxLeadTagByDepartments();", @id = "selected_department" })
+                                @*<select class="form-control selected_department" onchange="ajaxLeadTagByDepartment();" id="selected_department1" name="departmentForFB">
+                                    </select>*@
+                            </div>
+                            <div class="col-md-3">
+                                <label for="">Tag to</label>
+                                @Html.DropDownListFor(m => m.insudisposition.complaintOrFB_TagTo, ComplaintOrFB_TagTo, new { @id = "LeadTagsByLocation", @class = "form-control" })
+                                @*<select class="form-control" name="complaintOrFB_TagTo" id="LeadTagsByLocation1" name="complaintOrFB_TagTo">
+
+                                        @{if (interOfCall.getSrdisposition() != null)
+                                            {
+
+                                                <option value={interOfCall.getSrdisposition().getComplaintOrFB_TagTo()} selected="selected">{interOfCall.getSrdisposition().getComplaintOrFB_TagTo()}</option>
+
+                                            }}
+                                    </select>*@
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="comments">Feedback/Comment</label>
+                                @Html.TextAreaFor(model => model.insudisposition.remarksOfFB, new { @class = "form-control characterLimit", @rows = "1", @id = "commentsOfFB" })
+                                @*<textarea class="form-control characterLimit" rows="1" id="commentsOfFB" name="remarksOfFB"></textarea>*@
+                            </div>
+                            <br>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+            <label>May we take a moment to update your contact information? This will help us serve you better in future. </label>
+            <div class="form-group">
+                <div class="radio-inline">
+                    <label for="feedbackYes">
+                        <input type="radio" name="CustomerFeedBackYes3" value="Customer Yes RNR" data-toggle="modal" data-target="#addBtn">
+                        Yes
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label for="feedbackNo">
+                        <input type="radio" name="CustomerFeedBackYes3" value="Customer No RNR" checked>
+                        No
+                    </label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">CRE Remarks</label>
+                        @Html.TextAreaFor(model => model.listingForm.remarksList[10], new { @class = "form-control characterLimit", @rows = "2" })
+                        @*<textarea rows="2" class="form-control characterLimit" name="remarksList[10]"></textarea>*@
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Customer Feedback</label>
+                        @Html.TextAreaFor(model => model.listingForm.customerfeedbackList[10], new { @class = "form-control characterLimit", @rows = "2" })
+                        @*<textarea rows="2" class="form-control characterLimit" name="commentsList[10]"></textarea>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pull-right">
+        <div class="col-md-12">
+            <button type="button" class="btn btn-primary" id="BackToMainInsu">Back</button>
+            <button type="submit" class="btn btn-primary" value="alreadyRenewed" name="typeOfsubmit" id="renewalId" />Submit</button>
+        </div>
+    </div>
+
+</div>
+<!--Out Bound Upsel Opportunity---------->
+
+<div class="row animated  bounceInRight" style="display: none;" id="CancelInsuAppo">
+    <div class="col-md-12">
+        <div class="col-sm-12" id="SMRInteractionFirst">
+            <label for="">Do you want to cancel?</label> <br>
+
+            <div class="radio-inline">
+                <label>
+                    <input type="radio" name="InsuranceAppointment" value="Insurance Appointment">
+                    Insurance Appointment
+                </label>
+            </div>
+
+
+
+        </div>
+        <br>
+        <div class="pull-right animated  bounceInRight" style="display:none;">
+            <button type="submit" class="btn btn-primary" value="pickUpCancel" name="typeOfsubmit">Submit</button>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="col-md-12 animated  bounceInRight" id="NoComments" style="display:none;">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="comments"><b>CRE Remarks<b></label>
+            @Html.TextAreaFor(model => model.listingForm.remarksList[9], new { @class = "form-control characterLimit", @rows = "2" })
+            @*<textarea class="form-control characterLimit" rows="2" name="remarksList[9]"></textarea>*@
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="comments"><b>Customer Feedback<b></label>
+            @Html.TextAreaFor(model => model.listingForm.customerfeedbackList[9], new { @class = "form-control characterLimit", @rows = "2" })
+            @*<textarea class="form-control characterLimit" rows="2" name="commentsList[9]"></textarea>*@
+        </div>
+    </div>
+</div>
+<div class="col-md-12 animated  bounceInRight" id="confirmInsuComments" style="display:none;">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="comments"><b>CRE Remarks<b></label>
+            @Html.TextAreaFor(model => model.listingForm.remarksList[11], new { @class = "form-control characterLimit", @id = "paidCREId", @rows = "2" })
+            @*<textarea class="form-control characterLimit" rows="2" id="paidCREId" name="remarksList[11]"></textarea>*@
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="comments"><b>Customer Feedback<b></label>
+            @Html.TextAreaFor(model => model.listingForm.customerfeedbackList[11], new { @class = "form-control characterLimit", @rows = "2", @id = "paidCUSId" })
+            @*<textarea class="form-control characterLimit" rows="2" id="paidCUSId" name="commentsList[11]"></textarea>*@
+        </div>
+    </div>
+    <div class="pull-right">
+        <br />
+        <button type="submit" class="btn btn-primary" value="Confirmed" name="typeOfsubmit" id="paidSubId" />Submit</button>
+    </div>
+</div>
+<!-- Others Flow -->
+
+<div class="col-md-12 animated  bounceInRight" id="InsuOthersDiv" style="display:none;">
+    <br />
+    <div class="row">
+
+        <div class="form-group">
+            <div class="radio-inline">
+                <label>
+                    @Html.RadioButtonFor(model => model.listingForm.othersINS, "DNC", new { @id = "DNC" })
+                    @*<input type="radio" name="othersINS" value="DNC" id="DNC">*@
+                    DNC
+                </label>
+            </div>
+
+            <div class="radio-inline">
+                <label>
+                    @Html.RadioButtonFor(model => model.listingForm.othersINS, "DNM", new { @id = "DNM" })
+                    @*<input type="radio" name="othersINS" value="DNM" id="DNM">*@
+                    DNM
+                </label>
+            </div>
+            <div class="radio-inline">
+                <label>
+                    @Html.RadioButtonFor(model => model.listingForm.othersINS, "Policy Drop", new { @id = "Policy Drop" })
+                    @*<input type="radio" name="othersINS" value="Policy Drop" id="Policy Drop">*@
+                    Policy Drop
+                </label>
+            </div>
+            <div class="radio-inline">
+                <label>
+                    @Html.RadioButtonFor(model => model.listingForm.othersINS, "Escalation", new { @id = "Escalation" })
+                    @*<input type="radio" name="othersINS" value="Escalation" id="Escalation">*@
+                    Escalation
+                </label>
+            </div>
+        </div>
+        <div class="col-md-12" id="escaltionDrop" style="display:none;">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="">SUP CRE</label>
+                    @*<select class="form-control" id="supCREList" name="supCREId">
+                        <option value="0">SELECT</option>
+
+                    </select>*@
+                    @Html.DropDownListFor(model => model.insudisposition.supCREId, new SelectListItem[]{
+                               new SelectListItem() {Text = "--Select--", Value="0"},}, new { @class = "form-control", @id = "supCREList" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" id="policyDropConfAdd" style="display:none;">
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="">Confirm Address</label>
+                    <div class="input-group">
+                        @if (Model.callinteraction.appointmentbooked != null)
+                        {
+                            @Html.DropDownListFor(m => m.insudisposition.policyDropAddress, new SelectList(Model.cust.addresses, "concatenatedAdress", "concatenatedAdress", Model.callinteraction.appointmentbooked.addressOfVisit), new { @class = "form-control", @id = "policyDropAddressId" })
+                        }
+                        else
+
+                        {
+                            @Html.DropDownListFor(m => m.insudisposition.policyDropAddress, new SelectList(Model.cust.addresses, "concatenatedAdress", "concatenatedAdress"), new { @class = "form-control", @id = "policyDropAddressId" })
+                        }
+                        @*<select class="form-control" name="policyDropAddress" id="policyDropAddressId">
+
+                                @if (customerData.getPreferredAdress() != null)
+                                {
+                                    <option value="@customerData.getPreferredAdress().getConcatenatedAdress(),@customerData.getPreferredAdress().getCity(),@customerData.getPreferredAdress().getPincode()">@customerData.getPreferredAdress().getConcatenatedAdress(),@customerData.getPreferredAdress().getCity(),@customerData.getPreferredAdress().getPincode()</option>
+                                }
+
+                            </select>*@
+                        <span class="input-group-addon" style="cursor:pointer; color:#dd4b39; padding: 1px 12px;" data-target="#AddNewAddressPopup" data-toggle="modal" data-backdrop="static" data-keyboard="false"><i class="fa fa-pencil fa-2x"></i> </span>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="">Pincode</label>
+                    @Html.TextBoxFor(model => model.insudisposition.policyPincode, new { @class = "numberOnly form-control", @id = "pincodeIdpolicy", @maxlength = "6", @rows = "1" })
+                    @*<input type="text" class="form-control numberOnly" id="pincodeIdpolicy" name="policyPincode" maxlength="6" rows="1" />*@
+                </div>
+            </div>
+
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="">Location</label>
+                    @if (Model.callinteraction.insuranceassignedinteraction != null && Model.callinteraction.insuranceassignedinteraction.pd_locationId != null)
+                    {
+                        @Html.DropDownListFor(m => m.insudisposition.locationId, new SelectList(Model.FieldwalkinlocationList, "id", "name", Model.callinteraction.insuranceassignedinteraction.pd_locationId), "--Select--", new { @class = "form-control", @id = "dropLocation" })
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(m => m.insudisposition.locationId, new SelectList(Model.FieldwalkinlocationList, "id", "name"), "--Select--", new { @class = "form-control", @id = "dropLocation" })
+                    }
+                    @*<select class="form-control" id="fieldLocation" name="locationId">
+                            @for (sa < -walkinlocationList)
+                            {
+                                @if (sa.getTypeOfLocation() == "1")
+                                {
+                                    <option value="@sa.getId()">@sa.getName()</option>
+                                }
+                            }
+                        </select>*@
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <label for="">Date</label>
+                @Html.TextBoxFor(model => model.insudisposition.policayDropDate, new { @class = "form-control", @id = "insdate1234567" })
+                @* <input type="text" name="policayDropDate" class="form-control" id="insdate1234567" />*@
+            </div>
+            <div class="col-md-2">
+                <label for="">Prefered Time</label>
+                @Html.TextBoxFor(model => model.insudisposition.policayDropTime, new { @class = "timepicker_7 form-control  ", @id = "policayDropTime", @Value = onlineapptmntDate })
+                @*<input type="text" name="policayDropTime" class="timepicker_7 form-control" value="12:00" />*@
+            </div>
+
+
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">CRE Remarks</label>
+                    @Html.TextAreaFor(model => model.listingForm.remarksList[13], new { @class = "form-control characterLimit", @rows = "2", @id = "creOtherId" })
+                    @*<textarea class="form-control characterLimit" rows="2" id="creOtherId" name="remarksList[13]"></textarea>*@
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">Customer Feedback</label>
+                    @Html.TextAreaFor(model => model.listingForm.customerfeedbackList[13], new { @class = "form-control characterLimit", @rows = "2", @id = "cusOtherId" })
+                    @*<textarea rows="2" class="form-control characterLimit" id="cusOtherId" name="commentsList[13]"></textarea>*@
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="pull-right">
+        <button type="submit" class="btn btn-primary" value="othersINS" name="typeOfsubmit" id="otherSubmit" />Submit</button>
+    </div>
+</div>
+
+
+
+
+
+<!-- Others Flow -->
+@*<div class="col-md-12 animated  bounceInRight" id="InsuOthersDiv" style="display:none;">
+        <br />
+        <div class="row">
+
+            <div class="form-group">
+                <div class="radio-inline">
+                    <label>
+                        <input type="radio" name="othersINS" value="DNC" id="DNC">
+                        DNC
+                    </label>
+                </div>
+
+                <div class="radio-inline">
+                    <label>
+                        <input type="radio" name="othersINS" value="DNM" id="DNM">
+                        DNM
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label>
+                        <input type="radio" name="othersINS" value="Policy Drop" id="Policy Drop">
+                        Policy Drop
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label>
+                        <input type="radio" name="othersINS" value="Escalation" id="Escalation">
+                        Escalation
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-12" id="escaltionDrop" style="display:none;">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="">SUP CRE</label>
+                        <select class="form-control" id="supCREList" name="supCREId">
+                            <option value="0">SELECT</option>
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" id="policyDropConfAdd" style="display:none;">
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="">Confirm Address</label>
+                        <div class="input-group">
+                            <select class="form-control" name="policyDropAddress" id="policyDropAddressId">
+
+                                @if (customerData.getPreferredAdress() != null)
+                                {
+                                    <option value="@customerData.getPreferredAdress().getConcatenatedAdress(),@customerData.getPreferredAdress().getCity(),@customerData.getPreferredAdress().getPincode()">@customerData.getPreferredAdress().getConcatenatedAdress(),@customerData.getPreferredAdress().getCity(),@customerData.getPreferredAdress().getPincode()</option>
+                                }
+
+                            </select>
+                            <span class="input-group-addon" style="cursor:pointer; color:#dd4b39; padding: 1px 12px;" data-target="#AddNewAddressPopup" data-toggle="modal" data-backdrop="static" data-keyboard="false"><i class="fa fa-pencil fa-2x"></i> </span>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="">Pincode</label>
+                        <input type="text" class="form-control numberOnly" id="pincodeIdpolicy" name="policyPincode" maxlength="6" rows="1" />
+                    </div>
+                </div>
+
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="">Location</label>
+                        <select class="form-control" id="fieldLocation" name="locationId">
+                            @for (sa < -walkinlocationList)
+                            {
+                                @if (sa.getTypeOfLocation() == "1")
+                                {
+                                    <option value="@sa.getId()">@sa.getName()</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <label for="">Date</label>
+                    <input type="text" name="policayDropDate" class="form-control" id="insdate1234567" />
+                </div>
+                <div class="col-md-2">
+                    <label for="">Prefered Time</label>
+                    <input type="text" name="policayDropTime" class="timepicker_7 form-control" value="12:00" />
+                </div>
+
+
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">CRE Remarks</label>
+                        <textarea class="form-control characterLimit" rows="2" id="creOtherId" name="remarksList[13]"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Customer Feedback</label>
+                        <textarea rows="2" class="form-control characterLimit" id="cusOtherId" name="commentsList[13]"></textarea>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="pull-right">
+            <button type="submit" class="btn btn-primary" value="othersINS" name="typeOfsubmit" id="otherSubmit" />Submit</button>
+        </div>
+    </div>*@
+<!--  Inbound Call-->
+
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+
+
+
+    @*$(document).ready(function () {
+
+        var _getValue = '@renType';
+
+        if (_getValue != null) {
+                // loop through all those with selectLoop class
+                $(".selectLoop").each(function () {
+
+                    console.log("hello");
+                    // get the selected value and store to variable
+                    if (img != false)
+
+                        var selected = "@Model.callinteraction.appointmentbooked.renewalType";
+
+                    // loop through all the option inside the select
+                    $(this).find("option").each(function () {
+
+                        // check if the value attribute matches the selected variable
+                        if ($(this).attr("value") == selected) {
+
+                            // if match, assign the option's selected attribute to true
+                            $(this).attr("selected", true);
+                        }
+                    });
+                });
+            }
+ });*@
+    //$('.myOutCheckbox').click(function () {
+    //    var checkeds = $(this).is(':checked');
+    //    var divId = $(this).attr("data-childDiv")
+    //    if (checkeds) {
+    //        $('#' + divId).css({ 'display': 'block' });
+    //    } else {
+
+    //        //Lobibox.notify('warning', {
+    //        //    continueDelayOnInactiveTab: true,
+    //        //    msg: 'Please check one of these.'
+
+    //        //});
+    //        $('#' + divId).css({ 'display': 'none' });
+    //        //return false;
+    //    }
+    //});
+    $("input[type='checkbox']").on('change', function () {
+        if ($(this).attr('id') == "EXCHANGEID") {
+            $('#hdnExchange').val($(this).attr('id'));
+        }
+        else if ($(this).attr('id') == "MaxicareIDCheck") {
+            $('#hdnExchange').val($(this).attr('id'));
+        } else if ($(this).attr('id') == "UsedCarID") {
+            $('#hdnExchange').val($(this).attr('id'));
+        } else if ($(this).attr('id') == "InsuranceIDCheck") {
+            $('#hdnExchange').val($(this).attr('id'));
+        } else if ($(this).attr('id') == "VASID") {
+            $('#hdnExchange').val($(this).attr('id'));
+        } else if ($(this).attr('id') == "ShieldID") {
+            $('#hdnExchange').val($(this).attr('id'));
+        }
+
+        else if ($(this).attr('id') == "AlreadyServiced") {
+            $('#chkrenewalNotRequired').val($(this).attr('value'));
+
+        }
+        else if ($(this).attr('id') == "VehicleSold") {
+            $('#chkrenewalNotRequired').val($(this).attr('value'));
+        } else if ($(this).attr('id') == "Dissatisfiedwithpreviousservice") {
+            $('#chkrenewalNotRequired').val($(this).attr('value'));
+        } else if ($(this).attr('id') == "Distancefrom") {
+            $('#chkrenewalNotRequired').val($(this).attr('value'));
+        } else if ($(this).attr('id') == "DissatisfiedwithSalesID") {
+            $('#chkrenewalNotRequired').val($(this).attr('value'));
+        } else if ($(this).attr('id') == "ExcBillingId") {
+            $('#chkrenewalNotRequired').val($(this).attr('value'));
+        } else if ($(this).attr('id') == "Stolen") {
+            $('#chkrenewalNotRequired').val($(this).attr('value'));
+        } else if ($(this).attr('id') == "Totalloss") {
+            $('#chkrenewalNotRequired').val($(this).attr('value'));
+        }
+        else if ($(this).attr('id') == "DissatisfiedwithInsuranceId") {
+            $('#chkrenewalNotRequired').val($(this).attr('value'));
+        }
+        else if ($(this).attr('id') == "Other") {
+            $('#chkrenewalNotRequired').val($(this).attr('value'));
+        }
+
+    });
+
+     $(document).ready(function () {
+        var typeofApptmnt = '@typeofApptmnt';
+
+         var nominidname ='@nomineeName';
+         var nomineage = '@nomineeAge';
+         var nomineerelation = '@nomineeRelation';
+         var appointee = '@appointeName';
+         var pur='@purpose';
+
+         if (nominidname !== "" || nomineage != "" || nomineerelation != "" || appointee != "") {
+            $("#nomineeDiv").show();
+         }
+
+         if (typeofApptmnt == "Walk-in") {
+              $("#NEWFieldID").show();
+        $("#NEWWalkinID").hide();
+        $("#NEWOnlineID").show();
+         }
+         else if (typeofApptmnt == "Field") {
+             $("#purposefield").html(pur);
+              $("#NEWWalkinID").show();
+        $("#NEWFieldID").hide();
+        $("#NEWOnlineID").show();
+         }
+         else if(typeofApptmnt == "Online") {
+        $("#NEWFieldID").hide();
+        $("#NEWWalkinID").hide();
+        $("#NEWOnlineID").show();
+         }
+    });
+</script>

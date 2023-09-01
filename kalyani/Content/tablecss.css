@@ -1,0 +1,75 @@
+.btn-primary {
+    width: 35px;
+    height: 35px;
+    /*background-color: #4ECDC4;
+    border-color: #4ECDC4;*/
+    background-color: #3c8dbc;
+        border-color: #3c8dbc;
+    box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12);
+    border-radius: 50%;
+}
+.btn-primary:hover {
+    /*background-color: #379a93;*/
+    border-color: #3c8dbc;
+    background-color: rgb(17, 82, 147);
+}
+
+.fa-plus {
+    padding-top: 9px;
+    /*padding-top: 12px;*/
+}
+.fa-reply {
+    padding-top: 10px;
+}
+
+.ml-15 {
+    margin-left: 15px;
+}
+.btn-info {
+    width: 30px;
+    height: 23px;
+    /*width: 40px;
+        height: 25px;*/
+    background-color: #00c0ef;
+    border-color: #00c0ef;
+    box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12);
+    border-radius: 12%;
+}
+
+    .fa-edit {
+        padding-top: 5px;
+    }
+
+    .btn-info:hover {
+        background-color: #00acd6;
+    }
+
+.btn-danger {
+    /*width: 40px;
+        height: 25px;*/
+    width: 30px;
+    height: 23px;
+    background-color: rgb(220, 0, 78);
+    box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12);
+    border-radius: 12%;
+}
+
+        .btn-danger:hover {
+            background-color: rgb(154, 0, 54);
+        }
+.btn-danger1 {
+    /*width: 40px;
+    height: 25px;*/
+    color:#fff;
+    background-color: rgb(220, 0, 78);
+    box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12);
+    border-radius: 12%;
+}
+
+    .btn-danger1:hover {
+        color: #fff;
+        background-color: rgb(154, 0, 54);
+    }
+    thead {
+        background-color: antiquewhite;
+    }

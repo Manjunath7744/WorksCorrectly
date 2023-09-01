@@ -1,0 +1,554 @@
+﻿@model AutoSherpa_project.Models.wyzuser
+@{
+    ViewBag.Title = "CreDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("uploadWyzuserFile", "SuperAdmin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <b>CRE Details</b>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"><b>Instructions</b></h3>
+                                </div>
+                                <div class="panel-body">
+                                    <ul>
+                                        <li>The maximum file size for uploads is <strong>5999 KB</strong> </li>
+                                        <li>Only file types of xlsx are allowed </li>
+                                        <li>Roles -<b> CRE , CREManager </b> </li>
+                                        <li>Download the format to upload&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" id="btn" class="btn btn-info" onclick="DownloadExcel()" title="Sample Format"><i class="glyphicon glyphicon-download"></i>Sample Format</button>                                    </li>
+                                    </ul>
+                                    <table class="table table-striped table-bordered table-hover" id="tbl_fileUploadWorkshops">
+                                        <thead>
+                                            <tr>
+                                                <th>Shop Name</th>
+                                                <th>WorkShop Code</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"><b>Module Details</b></h3>
+                                </div>
+                                <div class="panel-body">
+                                    
+                                    <table class="table table-striped table-bordered table-hover" id="tbl_moduletype">
+                                        <thead>
+                                            <tr><th>ModuleType</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td>SMR</td></tr>
+                                            <tr><td>INS</td></tr>
+                                            <tr><td>PSF</td></tr>
+                                            <tr><td>INSSuperCRE</td></tr>
+                                            <tr><td>SMRSuperCRE</td></tr>
+                                            <tr><td>SuperAdmin</td></tr>
+                                            <tr><td>POSTSALES</td></tr>
+                                            <tr><td>PSFCOMPLAINTMANAGER</td></tr>
+                                            <tr><td>POSTSALESCOMPLAINTMANAGER</td></tr>
+                                        </tbody>
+                                    </table>
+                                    <span style="color:red"><b>Please Enter the Same ModuleType in Excel</b></span>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><br /><br />
+
+
+                                        <div class="col-md-12">
+                                            <div class="form-horizontal ">
+                                                <div class="form-group">
+                                                    <label class="col-md-2" style="font-size:medium">Upload Format</label>
+                                                    <div class="col-md-3">
+                                                        <input type="file" name="file" id="uploadFormat" class="form-control " autocomplete="off" />
+                                                    </div>
+                                                    <button type="submit" id="download" class="btn btn-success">Upload</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+            </div>
+        </div>
+  
+}
+<div class="container-fluide">
+    <div class="row">
+
+
+        <div class="col-lg-12 panelsm">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <b>Upload Details</b>
+                </div>
+                <div class="panel-body panelsm">
+                    <div class="panel panel-default">
+                        <table id="tbluserUploads" class="table table-striped table-bordered  table-hover" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>File Name</th>
+                                    <th>Uploaded File</th>
+                                    <th>Discarde File</th>
+                                    <th>Duplicate Usernames</th>
+                                    <th>Duplicate Extension</th>
+                                    <th>Not ExitingManager</th>
+
+                                    <th>Total Records</th>
+                                    <th>Uploaded/Discarded</th>
+                                    <th>Uploaded Date</th>
+                                    <th>Uploaded Time</th>
+
+                                </tr>
+                            </thead>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="succesupload" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" style="width:580px;">
+        <div class="panel-heading" style="background-color: #337ab7; color:#fff">
+            CRE Upload Details
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div style="background-color: #fefefe;padding: 40px;">
+            <table id="tblsuccesfile" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Details</td>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+            <div class="pull-right">
+                <button type="button" class=" btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+{
+
+    @if (ViewBag.isexception == true)
+    {
+        <script type="text/javascript">
+        Lobibox.notify('info', {
+            delay: 4 * 2000,
+            msg: '@ViewBag.exception'
+        });
+        </script>
+    }
+
+    @if (ViewBag.issuccess == true)
+    {
+        <script type="text/javascript">
+
+        Lobibox.notify('success', {
+            delay: 4 * 2000,
+            msg: '@ViewBag.totaluploaded'
+        });
+
+    var codePath = window.location.href;
+    codePath = codePath.toLowerCase();
+            var callIndex = codePath.indexOf('superadmin');
+            var callPath = codePath.substr(callIndex, (codePath.length - 1));
+            codePath = codePath.replace(callPath, '');
+            var discardedPath;
+            var uploadedPath;
+            var duplicateCREPath;
+                var uploadDetails = @Html.Raw(ViewBag.outputtable);
+
+    if (uploadDetails.discardedPath != null) {
+        discardedPath = uploadDetails.discardedPath.substr(uploadDetails.discardedPath.indexOf('UploadedFiles'));
+        discardedPath = codePath + discardedPath;
+        discardedPath = "<a href='" + discardedPath + "' download>Discarde File</a>";
+    }
+    else {
+        discardedPath = "-";
+    }
+    if (uploadDetails.uploadedPath != null) {
+        uploadedPath = uploadDetails.uploadedPath.substr(uploadDetails.uploadedPath.indexOf('UploadedFiles'));
+        uploadedPath = codePath + uploadedPath;
+        uploadedPath = "<a href='" + uploadedPath + "' download>Uploaded File</a>";
+    }
+    else {
+        uploadedPath = "-";
+    }
+    if (uploadDetails.duplicateCREPath != null) {
+        duplicateCREPath = uploadDetails.duplicateCREPath.substr(uploadDetails.duplicateCREPath.indexOf('UploadedFiles'));
+        duplicateCREPath = codePath + duplicateCREPath;
+        duplicateCREPath = "<a href='" + duplicateCREPath + "' download>Duplicate File</a>";
+    }
+    else {
+        duplicateCREPath = "-";
+            }
+            if (uploadDetails.nomanagerpath != null) {
+                nomanagerpath = uploadDetails.nomanagerpath.substr(uploadDetails.nomanagerpath.indexOf('UploadedFiles'));
+                nomanagerpath = codePath + nomanagerpath;
+                nomanagerpath = "<a href='" + nomanagerpath + "' download>Manager Not Exists File</a>";
+    }
+    else {
+                nomanagerpath = "-";
+    }
+            if (uploadDetails.duplicateExtensionCREPath != null) {
+                duplicateExtensionCREPath = uploadDetails.duplicateExtensionCREPath.substr(uploadDetails.duplicateExtensionCREPath.indexOf('UploadedFiles'));
+                duplicateExtensionCREPath = codePath + duplicateExtensionCREPath;
+                duplicateExtensionCREPath = "<a href='" + duplicateExtensionCREPath + "' download>Duplicate Extension</a>";
+    }
+    else {
+                duplicateExtensionCREPath = "-";
+    }
+
+ var output=  " <tr><td>File Name</td><td>" + uploadDetails.fileName + "</td></tr>" +
+    "<tr><td>Total Records </td><td>" + uploadDetails.totalRecords + "</td></tr>" +
+     "<tr><td>Total Uploaded/Discarded </td><td>" + uploadDetails.totalUploaded + "/" + uploadDetails.totalDiscarded + "</td></tr>" +
+     "<tr><td>Discarded File </td><td>" + discardedPath + "</td></tr>" +
+        "<tr><td>Uploaded File </td><td>"+ uploadedPath +"</td></tr>" +
+     "<tr><td>Managet Not Exist File </td><td>" + nomanagerpath +"</td></tr>" +
+     "<tr><td>Duplicate Extension </td><td>" + duplicateExtensionCREPath +"</td></tr>" +
+        "<tr><td>Duplicate Username</td><td>" + duplicateCREPath + "</td></tr>";
+
+    $('#tblsuccesfile tbody').append(output);
+            $('#succesupload').modal('show');
+        </script>
+    }
+
+    <script>
+        var succesfileLink;
+        var errorfileLink;
+        var duplicateusernames;
+        $(document).ready(function () {
+            GetUploads();
+            loadWorkshops();
+            $('form').on('submit', function () {
+                $('#mainLoader').css({ 'display': 'block' });
+            });
+        });
+        $('.numberOnly').keypress(function (e) {
+
+            if (isNaN(this.value + "" + "." + String.fromCharCode(e.charCode))) {
+                return false;
+            }
+
+        });
+
+        function GetUploads() {
+            var codePath = window.location.href;
+            codePath = codePath.toLowerCase();
+            var callIndex = codePath.indexOf('superadmin');
+            var callPath = codePath.substr(callIndex, (codePath.length - 1));
+            codePath = codePath.replace(callPath, '');
+            $("#tbluserUploads").DataTable(
+                {
+                    "destroy": true,
+                    "ajax": {
+                        "url": siteRoot + "/SuperAdmin/creGetUploads",
+                        "type": "GET",
+                        "datatype": "json",
+                        "error": function (xhr, error, thrown) { console.log(xhr, error, thrown); }
+                    },
+                    "columns": [
+                        { "data": "fileName", },
+                        {
+                            "data": "uploadedPath", "render": function (data, type, row) {
+
+
+                                if (row.uploadedPath != null) {
+
+                                    var downloadPath = row.uploadedPath.substr(row.uploadedPath.indexOf('UploadedFiles'));
+                                    return "<a href='" + codePath + downloadPath + "' class='downloadFiles' download>" + row.fileName + "</a>";
+
+                                }
+                                else {
+                                    return "-";
+                                }
+
+                            }
+                        },
+                        {
+                            "data": "discardedPath", "render": function (data, type, row) {
+                                if (row.discardedPath != null) {
+                                    var downloadPath = row.discardedPath.substr(row.discardedPath.indexOf('UploadedFiles'));
+                                    return "<a href='" + codePath + downloadPath + "' class='downloadFiles' download>" + row.fileName + "</a>";
+
+                                }
+                                else {
+                                    return "-";
+                                }
+
+
+                            }
+                        },
+                        {
+                            "data": "duplicateCREPath", "render": function (data, type, row) {
+                                if (row.duplicateCREPath != null) {
+
+                                    var downloadPath = row.duplicateCREPath.substr(row.duplicateCREPath.indexOf('UploadedFiles'));
+                                    return "<a href='" + codePath + downloadPath + "' class='downloadFiles' download>" + row.fileName + "</a>";
+
+                                }
+                                else {
+                                    return "-";
+                                }
+
+                            }
+                        },
+                        {
+                            "data": "duplicateExtensionCREPath", "render": function (data, type, row) {
+                                if (row.duplicateExtensionCREPath != null) {
+
+                                    var downloadPath = row.duplicateExtensionCREPath.substr(row.duplicateExtensionCREPath.indexOf('UploadedFiles'));
+                                    return "<a href='" + codePath + downloadPath + "' class='downloadFiles' download>" + row.fileName + "</a>";
+
+                                }
+                                else {
+                                    return "-";
+                                }
+
+                            }
+                        },
+                        {
+                            "data": "nomanagerpath", "render": function (data, type, row) {
+                                if (row.nomanagerpath != null) {
+
+                                    var downloadPath = row.nomanagerpath.substr(row.nomanagerpath.indexOf('UploadedFiles'));
+                                    return "<a href='" + codePath + downloadPath + "' class='downloadFiles' download>" + row.fileName + "</a>";
+
+                                }
+                                else {
+                                    return "-";
+                                }
+
+                            }
+                        },
+
+
+                        { "data": "totalRecords" },
+                        {
+                            "data": "Action", render: function (data, type, row) {
+                                return row.totalUploaded + "/" + row.totalDiscarded;
+                            }
+                        },
+
+                        {
+                            "data": "uploadedDate", "render": function (data, type, row) {
+                                return parseJsonDateTime(row.uploadedDate);
+                            }
+                        },
+                        { "data": "uploadedTime" }
+                    ],
+                    "processing": "true",
+                    "serverSide": true,
+                    "scrollX": "true",
+                    "scrollY": "480",
+                    "paging": true,
+                    "searching": true,
+                    "language": {
+                        "processing": "Loading Please Wait.....!"
+                    },
+                    "initComplete": function (data) {
+                        var exception = data.json.exception;
+                        if (exception != "" && exception != null) {
+                            Lobibox.notify('warning', {
+                                continueDelayOnInactiveTab: true,
+                                msg: exception
+                            });
+                        }
+                    }
+                });
+        }
+
+        function openpopupmodal(wyzuserId, phonenumber, imei1, imei2) {
+            $('#txtwyzuserId').val(wyzuserId);
+            if (phonenumber.length > 0 && phonenumber != "null") {
+                $('#popUpPhone').val(phonenumber.slice(3));
+            }
+            else {
+                $('#popUpPhone').val("");
+            }
+            if (imei1 === "null") {
+                imei1 = "";
+            }
+            if (imei2 === "null") {
+                imei2 = "";
+            }
+            $('#popUpimei').val(imei1);
+            $('#popUpimei1').val(imei2);
+            $("#myModal").modal("show");
+
+        }
+
+
+
+        function updatePhoneAndIMEI() {
+
+            var newPhone = $("#popUpPhone").val();
+            var newImei = $("#popUpimei").val();
+            var newImei1 = $("#popUpimei1").val();
+            var wyzid = $('#txtwyzuserId').val();
+            if (newPhone.length < 10) {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Enter Valid Phone Number.'
+                });
+                return false;
+            } if (newImei.length > 0 && newImei.length < 10) {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'IMEI 1 Number length should be 15'
+                });
+                return false;
+            } if (newImei1.length > 0 && newImei1.length < 10) {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'IMEI 2 Number length should be 15'
+                });
+                return false;
+            }
+            $('#mainLoader').css({ 'display': 'block' });
+            $.ajax({
+                url: siteRoot + "/SuperAdmin/editPhoneAndIMEI/",
+                type: 'post',
+                dataType: 'json',
+                data: { id: wyzid, newPhone: newPhone, newImei: newImei, newImei1: newImei1 },
+                success: function (res) {
+                    if (res.success) {
+                        $('#mainLoader').css({ 'display': 'none' });
+                        $("#popUpPhone").val("");
+                        $("#popUpimei").val("");
+                        $("#popUpimei1").val("");
+
+                        Lobibox.notify('success', {
+                            msg: "User updated successfully"
+                        });
+                        $("#myModal").modal("hide");
+                        GetDetails();
+                        GetUploads();
+                        $('#mainLoader').css({ 'display': 'none' });
+                    }
+                    else {
+                        Lobibox.notify('error', {
+                            msg: res.exception
+                        });
+                        $('#mainLoader').css({ 'display': 'none' });
+
+                    }
+                }
+            });
+        }
+
+        function DownloadExcel() {
+
+            $.ajax({
+                type: "POST",
+                url: siteRoot + "/SuperAdmin/ExcelExport/",
+                data: {},
+
+                cache: false,
+                success: function (data) {
+                    debugger;
+                    window.location = siteRoot + '/FileUpload/Download/';
+                },
+                error: function (data) {
+                    Materialize.toast("Something went wrong. ", 3000, 'rounded');
+                }
+            });
+        }
+        function saveComplete() {
+
+        }
+        function saveFailure() {
+
+        }
+        function loadWorkshops() {
+
+            if ($.fn.dataTable.isDataTable('#tbl_fileUploadWorkshops')) {
+                t.destroy();
+            }
+            t = $("#tbl_fileUploadWorkshops").DataTable({
+                processing: true,
+                serverSide: false,
+                info: true,
+                ajax: {
+                    url: siteRoot + "/FileUpload/loadWorkshops",
+                    data: {}
+                },
+                columns: [
+                    { "data": "workshopName" },
+                    { "data": "code" },
+                ],
+                order: [],
+                "scrollY": "200px",
+                "pageLength": 100,
+                select: true,
+                responsive: true,
+            });
+        }
+
+                        //function loadDealerDetails() {
+
+                        //    $("#tbldealerDetails").DataTable(
+                        //        {
+                        //            "destroy": true,
+                        //            processing: true,
+                        //            serverSide: false,
+                        //            info: true,
+                        //            "ajax": {
+                        //                "url": siteRoot + "/SuperAdmin/loadDealerDetails",
+                        //                "type": "GET",
+                        //                "datatype": "json"
+
+                        //            },
+                        //            "columns": [
+                        //                { "data": "DealerCode", },
+                        //                { "data": "DealerName" }
+                        //            ],
+                        //            order: [],
+                        //            "scrollY": "200px",
+                        //            "pageLength": 100,
+                        //            select: true,
+                        //            responsive: true,
+                        //            "initComplete": function (data) {
+                        //                var exception = data.json.exception;
+                        //                if (exception != "" && exception != null) {
+                        //                    Lobibox.notify('warning', {
+                        //                        continueDelayOnInactiveTab: true,
+                        //                        msg: exception
+                        //                    });
+                        //                }
+                        //            }
+                        //        });
+
+                        //}
+    </script>
+}
+
+

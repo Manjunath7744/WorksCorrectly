@@ -1,0 +1,1476 @@
+﻿
+@{
+    ViewBag.Title = "AddCRE";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<html>
+<head>
+    <style>
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+       /* div.container {
+            width: 80%;
+        }*/
+    </style>
+    <style>
+        .required:after {
+            content: " *";
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="panel panel-primary">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-2">
+                    <label class="required"> Role</label>
+                    <select id="role" name="role" class="form-control" onchange="roleSelected(this.value);">
+                        <option value=""> --Select--</option>
+                        @if (Session["UserRole"].ToString() == "SuperAdmin" || Session["UserRole"].ToString() == "Admin")
+                        {
+                            <option value="CREManager"> CRE Manager</option>
+                        }
+                        <option value="CRE"> CRE</option>
+                        <option value="Service Advisor">Service Advisor</option>
+                        @*@if (Session["LoginUser"].ToString() == "Insurance")
+                            {
+                                <option value="Insurance Agent">Insurance Agent</option>
+                            }
+                            else if (Session["LoginUser"].ToString() == "Service")
+                            {
+                                <option value="Service Advisor">Service Advisor</option>
+                            }
+                            <option value="Admin"> Admin</option>
+                            <option value="RM"> RM</option>
+                            <option value="WM"> WM</option>*@
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="required"> CRE Name</label>
+                    <input type="text" id="creName" name="creName" class="form-control textboxes" autocomplete="off" />
+                </div>
+                <div class="col-md-2">
+                    <label class="required"> User Name</label>
+                    <input type="text" id="userName" name="userName" readonly onfocus="this.removeAttribute('readonly');" onblur="this.setAttribute('readonly','');" onchange="usernameDuplication(this);" onkeypress="return blockSpecialChar(event)" class="form-control textboxes" autocomplete="off" />
+                </div>
+                <div class="col-md-2">
+                    <label class="required"> Password</label>
+                    <input type="text" id="pass" name="pass" class="form-control password" autocomplete="new-password" />
+                </div>
+                @*<div class="col-md-2">
+                        <label class="required"> Confirm Password</label>
+                        <div style="display:flex; justify-content:center;align-items:center">
+                            <input type="password" id="confirmPass" name="confirmPass" class="form-control password" />&nbsp;
+                            <i class="fa fa-eye icon" id="togglePassword"></i>
+                        </div>
+                    </div>*@
+                <div>
+                    <label class="required">Calling Type</label>
+                    <br />
+                    &nbsp; GSM @Html.RadioButton("callingType", "gsm", new { @id = "gsmRadio", @onclick = "radioBtnClick(this.value);" })
+                    &nbsp; Android @Html.RadioButton("callingType", "android", new { @id = "androidRadio", @onclick = "radioBtnClick(this.value);" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label class="required"> Location</label>
+                    <br />
+                    @Html.DropDownList("location", (MultiSelectList)new SelectList(ViewBag.Locations, "id", "name"), new { @id = "location", @multiple = "multiple", @class = "selectpicker show-tick form-control", @data_live_search = "true", @data_hide_disabled = "true", @data_virtual_scroll = "false" })
+                </div>
+                <div class="col-md-2">
+                    <label class="required"> Workshop</label>
+                    <br />
+                    @Html.DropDownList("workshop", (MultiSelectList)new SelectList(ViewBag.Workshop, "id", "name"), new { @id = "workshop", @multiple = "multiple", @class = "selectpicker show-tick form-control", @data_live_search = "true", @data_hide_disabled = "true", @data_virtual_scroll = "false" })
+                </div>
+                <div class="col-md-2">
+                    <label> Phone Number</label>
+                    <input type="number" id="phoneNumber" name="phoneNumber" class="form-control textboxes phoneValidation" autocomplete="off" />
+                </div>
+                <div class="col-md-2" id="imeiDiv">
+                    <label> IMEI Number</label>
+                    <input type="number" id="IMEI" name="IMEI" class="form-control textboxes IMEIValidation" autocomplete="off" />
+                </div>
+                <div class="col-md-2">
+                    <label class="required"> Module Type</label>
+                    <select id="moduleType" name="moduleType" class="form-control">
+                        <option value=""> --Select--</option>
+                        @*@if (Session["UserRole"].ToString() == "Admin")
+                            {
+                                if (Session["LoginUser"].ToString() == "Insurance")
+                                {
+                                    <option value="2"> INS</option>
+                                }
+                                else if (Session["LoginUser"].ToString() == "Service")
+                                {
+                                    <option value="1"> SMR</option>
+                                    <option value="4"> PSF</option>
+                                }
+                            }
+                            else
+                            {
+                                if (Session["LoginUser"].ToString() == "Insurance")
+                                {
+                                    <option value="2"> INS</option>
+                                }
+                                else if (Session["LoginUser"].ToString() == "Service")
+                                {
+                                    <option value="1"> SMR</option>
+                                    <option value="4"> PSF</option>
+                                }
+                            }*@
+                        @if (Session["LoginUser"].ToString() == "Insurance")
+                        {
+                            <option value="2"> INS</option>
+                        }
+                        else if (Session["LoginUser"].ToString() == "Service")
+                        {
+                            <option value="1"> SMR</option>
+                            <option value="4"> PSF</option>
+                        }
+                    </select>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-2" id="creManagerDiv" style="display:block">
+                    <label id="creManagerLabel">CRE Managers</label>
+                    @Html.DropDownList("CRE Manager", new SelectList(ViewBag.CreManagers, "name", "name"), "--Select--", new { @id = "creManager", @class = "form-control creManagerDDL" })
+                </div>
+                <div class="col-md-2" id="gsmipDiv" style="display:block">
+                    <label id="gsmipLabel"> GSM IP</label>
+                    <br />
+                    @Html.DropDownList("GSM IP", new SelectList(ViewBag.GSMIP, "id", "name"), "--Select--", new { @id = "GSMIP", @class = "form-control GSMIP", @onchange = "getSIP(this);" })
+                </div>
+                <div class="col-md-2 sipExtensionDivCls" id="sipExtensionDiv" style="display:none">
+                    <label> SIP Extension</label>
+                    <br />
+                    <select id="sipExtension" class="sipExtensionCls form-control selectpicker">
+                        <option value="">--Select--</option>
+                    </select>
+                </div>
+                <div class="col-md-2 SIPIdDivCls" id="SIPIdDiv" style="display:none">
+                    <label> SIP ID</label>
+                    <input type="text" id="SIPID" name="SIPID" class="form-control textboxes SIPIDCls" autocomplete="off" />
+                </div>
+                @if (Session["LoginUser"].ToString() == "Service"  &&(Session["UserRole"].ToString() == "Admin" || Session["UserRole"].ToString() == "SuperAdmin"))
+
+                {
+                    <div class="col-md-2 CRE-user-add-fields">
+                        <label id="creServiceTypeLabelCampaign">Campaign</label>
+                        @Html.DropDownList("Campaign", (MultiSelectList)new SelectList(ViewBag.CRECampaigns, "id", "name"), new { @id = "creCampaign", @multiple = "multiple", @class = "selectpicker show-tick form-control creCampaignDDL", @data_live_search = "true", @data_hide_disabled = "true", @data_virtual_scroll = "false" })
+                    </div>
+                <div class="col-md-2 CRE-user-add-fields" style="display:block">
+                    <label id="creServiceTypeLabel">Service Types</label>
+                    @Html.DropDownList("Service Types", (MultiSelectList)new SelectList(ViewBag.CREServiceTypes, "id", "name"), new { @id = "creServiceType", @multiple = "multiple", @class = "selectpicker show-tick form-control creServiceTypeDDL", @data_live_search = "true", @data_hide_disabled = "true", @data_virtual_scroll = "false" })
+                </div>
+                <div class="col-md-2  CRE-user-add-fields" style="display:block">
+                    <label id="CREROAgeingLabel">Ro Ageing</label>
+                    @Html.DropDownList("CRE RoeAge", (MultiSelectList)new SelectList(ViewBag.CREROAgeingList, "id", "name"), new { @id = "creRoeaging", @multiple = "multiple", @class = "selectpicker show-tick form-control creRoeagingDDL", @data_live_search = "true", @data_hide_disabled = "true", @data_virtual_scroll = "false" })
+                </div>
+                <div class="col-md-2 CRE-user-add-fields" style="display:block">
+                    <label id="creCategoriesLabel">Categories</label>
+                    @Html.DropDownList("CRE Categories", (MultiSelectList)new SelectList(ViewBag.CRECategories, "id", "name"), new { @id = "creCategories", @multiple = "multiple", @class = "selectpicker show-tick form-control creCaegoriesDDL", @data_live_search = "true", @data_hide_disabled = "true", @data_virtual_scroll = "false" })
+                </div>
+                }
+                <div class="col-md-2 " style="display:none">
+                    <label id="creFieldOneLabel">Field One</label>
+                    @Html.DropDownList("CRE FieldOne", new SelectList(ViewBag.CREFieldOneList, "id", "name"), "--Select--", new { @id = "creFieldOne", @class = "form-control creFieldOneDDL" })
+                </div>
+                <div class="col-md-2 " style="display: none">
+                    <label id="creFieldTwoLabel">FieldTwo</label>
+                    @Html.DropDownList("CRE FieldTwo", new SelectList(ViewBag.CREFieldTwoList, "id", "name"), "--Select--", new { @id = "creFieldTwo", @class = "form-control creFieldTwoDDL" })
+                </div>
+                <div class="col-md-2" style="display: flex;padding-top: 24px;">
+                    <br />
+                    <label></label>
+                    <input type="button" id="submit" name="submit" class="form-control btn btn-primary btn-sm" value="Submit" onclick="getValue();" />&nbsp;&nbsp;
+                    <input type="button" id="clear" name="clear" class="form-control btn btn-warning btn-sm" value="Clear" onclick="clearData();" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 panelsm">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <b>CRE DETAILS</b>
+                    <button style="background-color:red;float:right;height:30px;width:100px;margin-top:-5px;" onclick="cleardatatablefilters();" title="CLEAR FILTER">CLEAR</button>
+                </div>
+                <div class="panel-body">
+                    <div class="panel panel-default">
+
+                        <div class="tab-content" id="Tabs">
+                            <br />
+                            <div class="row">
+
+                                <div class="col-md-2">
+                                    <label>Roles</label>
+                                    <select id="rolesFilter" class="form-control" onchange="showhideroleswise(this.value);">
+                                        <option value="">--Select--</option>
+                                        <option value="CRE">CRE</option>
+                                        @if (Session["LoginUser"].ToString() == "Service")
+                                        {
+                                            <option value="PSFCRE">PSF CRE</option>
+                                            <option value="PSFComplaintCre">PSF Complaint Cre</option>
+                                        }
+
+                                        @if (Session["UserRole"].ToString() != "CREManager")
+                                        {
+                                            <option value="CREManager">CRE Manager</option>
+
+                                            if (Session["LoginUser"].ToString() == "Service")
+                                            {
+
+                                                <option value="PSFCREManager">PSF CRE Manager</option>
+                                            }
+
+
+                                        }
+                                        <option value="ServiceAdvisor">Service Advisor</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2" id="creManagerFilterDiv" style="display:none">
+                                    <label>CRE Managers</label>
+                                    <div id="PSFDiv" style="display:none">
+                                        @if (Session["LoginUser"].ToString() == "Service")
+                                        {
+                                            @Html.DropDownList("psfcreManagerFilter", new SelectList(ViewBag.PSFCreManagers, "name", "name"), "--Select--", new { @id = "psfcreManagerFilter", @class = "form-control", @onchange = "showhideroleswise('PSFCREManagerddl');" })
+
+                                        }
+
+                                    </div>
+                                    <div id="INSSMRDiv" style="display:none">
+                                        @Html.DropDownList("CreManagerFilter", new SelectList(ViewBag.CreManagers, "name", "name"), "--Select--", new { @id = "creManagerFilter", @class = "form-control", @onchange = "showhideroleswise('CREManagerddl');" })
+                                    </div>
+
+
+                                </div>
+                                <div class="col-md-2" id="creActiveDiv" style="display:block">
+                                    <label>User Status</label>
+                                    <select id="ddlwyzuserstatus" class="form-control" onchange="showhideroleswise('others');">
+                                        <option value="false">Active</option>
+                                        <option value="true">Deactive</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label></label>
+                                    <button name="dwnloadAll" value="Download" onclick="downloadAllWyzuser();" id="dwnloadAll" class=" dwnloadAll form-control btn btn-info">Download</button>
+                                </div>
+                                @*<div class="col-md-2" id="dwnloadForCreManagerDiv" style="display:none">
+                                    <label></label>
+                                    <button name="dwnloadForCreManager" value="dwnloadForCreManager" onclick="dwnloadForCreManager();" id="dwnloadForCreManager" class="dwnloadForCreManager form-control btn btn-info">Download</button>
+                                </div>*@
+                            </div>
+                            <div class="table-responsive">
+                                <div class="row" style="color:red;display:none" id="displaycremanagerPassDiv">
+                                    <div class="col-md-6"></div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label class="">Manager UserName - </label>
+                                            <span class="" id="spnmanagerusername"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label class="">Phone No - </label>
+                                            <span class="" id="spnmanagerphone"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label class="">Password - </label>
+                                            <span class="" id="spnmanagerpassword"></span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <br />
+                                <br />
+                                <table class="table table-striped table-bordered table-hover" style="width:100%" id="creTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Update</th>
+                                            <th>Deactivate</th>
+                                            <th>Reactivate</th>
+                                            <th>CRE Name</th>
+                                            <th>Location</th>
+                                            <th>Workshop</th>
+                                            <th>User Name</th>
+                                            <th>Password</th>
+                                            <th>Phone Number</th>
+                                            <th>IMEI Number</th>
+                                            <th>SIP Id</th>
+                                            <th>CRE Manager</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <!--End tab content-->
+            </div><!--End panel body-->
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="myModal" role="dialog" data-backdrop="static">
+        <div class="modal-dialog" style="width:580px;">
+            <div class="panel-heading" style="background-color: #337ab7; color:#fff">
+                <b>Update Phone and IMEI number</b>
+                <label></label>
+                <button type="button" class="close" onclick="popUpClose();" data-dismiss="modal">X@*<img src="@routes.Assets.at("images/close1.png")">*@</button><br>
+            </div>
+            <div style="background-color: #fefefe;padding: 30px;">
+                <div class="row" id="manualWyzuser" style="display:block;">
+                    <div class="col-md-6">
+                        <div>
+                            <div>
+                                <label>Phone Number</label>
+                                <input type="text" id="popUpPhone" onchange="updating();" class="form-control phoneValidation" autocomplete="off" style="width:250px" />
+                            </div>
+                            <div>
+                                <label>IMEI Number</label>
+                                <input type="text" id="popUpImei" onchange="updating();" class="form-control IMEIValidation" autocomplete="off" style="width:250px" />
+                                <input type="hidden" id="wyzId" class="form-control" />
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <label>Password</label>
+                                <input type="password" id="popUpPass" onchange="updating();" class="form-control password" autocomplete="off" style="width:250px" />
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <label> GSM IP</label>
+                                @Html.DropDownList("GSM IP", new SelectList(ViewBag.GSMIP, "id", "name"), "--Select--", new { @id = "popUpGSMIP", @class = "form-control GSMIP", @onchange = "getSIP(this),updating();", style = "width: 250px;" })
+                            </div>
+                            <div id="popUpsipExtensionDiv" class="sipExtensionDivCls" style="display:none">
+                                <label> SIP Extension</label><br />
+                                <select id="popUpSipExtension" onchange="updating();" class="sipExtensionCls form-control selectpicker sipChangePop" style="width:250px">
+                                </select>
+                            </div>
+                            <div id="popUpSIPIdDiv" class="SIPIdDivCls" style="display:none">
+                                <label> SIP ID</label>
+                                <input type="text" id="popUpSIPID" name="SIPID" onchange="updating();" class="form-control textboxes extensionId SIPIDCls sipChangePop" autocomplete="off" style="width:250px" disabled="disabled" />
+                            </div>
+                        </div>
+                        <div>
+                            @if (Session["UserRole"].ToString() == "SuperAdmin" || Session["UserRole"].ToString() == "Admin")
+                            {
+                                <div id="popCreManagerDiv" style="display:block;width:250px">
+                                    <label id="popCreManagerLabel">CRE Managers</label>
+                                    @Html.DropDownList("CRE Manager", new SelectList(ViewBag.CreManagers, "name", "name"), "--Select--", new { @id = "popCreManager", @class = "form-control popCreManagerDDL", @onchange = "updating();" })
+                                </div>
+                            }
+                            <div class="col-md-2" style="display:block;width:250px">
+                                <label> Workshop</label>
+                                @Html.DropDownList("workshop", (MultiSelectList)new SelectList(ViewBag.Workshop, "id", "name"), new { @id = "popWorkshop", @multiple = "multiple", @class = "selectpicker show-tick form-control", @data_live_search = "true", @data_hide_disabled = "true", @data_virtual_scroll = "false", @onchange = "updating();" })
+                            </div>
+                        </div>
+                    </div>
+                    @if (Session["LoginUser"].ToString() == "Service" && (Session["UserRole"].ToString() == "Admin" || Session["UserRole"].ToString() == "SuperAdmin"))
+
+                    {
+                        <div class="col-md-6 cre-fields">
+                            <div>
+                                <label id="creServiceTypeLabel">Campaign</label>
+                                @Html.DropDownList("Campaign", (MultiSelectList)new SelectList(ViewBag.CRECampaigns, "id", "name"), new { @id = "popcreCampaign", @multiple = "multiple", @class = "selectpicker popcreCampaignDDL popCREUserControl show-tick form-control", @data_live_search = "true", @data_hide_disabled = "true", @data_virtual_scroll = "false", @onchange = "updating();" })
+
+                            </div>
+                            <div>
+                                <label id="creServiceTypeLabel">Service Types</label>
+                                @Html.DropDownList("Service Types", (MultiSelectList)new SelectList(ViewBag.CREServiceTypes, "id", "name"), new { @id = "popcreServiceType", @multiple = "multiple", @class = "selectpicker popcreServiceTypeDDL popCREUserControl show-tick form-control", @data_live_search = "true", @data_hide_disabled = "true", @data_virtual_scroll = "false", @onchange = "updating();" })
+                            </div>
+                            <div class=" CRE-user-fields" style="display:block">
+                                <label id="CREROAgeingLabel">RoeAgeing</label>
+                                @Html.DropDownList("CRE RoeAgeing", (MultiSelectList)new SelectList(ViewBag.CREROAgeingList, "id", "name"), new { @id = "popcreRoAge", @multiple = "multiple", @class = "selectpicker popcreRoeagingDDL popCREUserControl show-tick form-control", @data_live_search = "true", @data_hide_disabled = "true", @data_virtual_scroll = "false", @onchange = "updating();" })
+                            </div>
+                            <div class="CRE-user-fields" style="display:block">
+                                <label id="creCategoriesLabel">Categories</label>
+                                @Html.DropDownList("CRE Categories", (MultiSelectList)new SelectList(ViewBag.CRECategories, "id", "name"), new { @id = "popcreCategory", @multiple = "multiple", @class = "selectpicker popcreCaegoriesDDL popCREUserControl show-tick form-control", @data_live_search = "true", @data_hide_disabled = "true", @data_virtual_scroll = "false", @onchange = "updating();" })
+                            </div>
+
+                            <div class="CRE-user-fields" style="display:none">
+                                <label id="creFieldOneLabel">Field One</label>
+                                @Html.DropDownList("CRE FieldOne", new SelectList(ViewBag.CREFieldOneList, "id", "name"), "--Select--", new { @id = "popcreFieldOne", @class = "form-control popcreFieldOneDDL popCREUserControl" })
+                            </div>
+                            <div class="CRE-user-fields" style="display:none">
+                                <label id="creFieldTwoLabel">FieldTwo</label>
+                                @Html.DropDownList("CRE FieldTwo", new SelectList(ViewBag.CREFieldTwoList, "id", "name"), "--Select--", new { @id = "popcreFieldTwo", @class = "form-control popcreFieldTwoDDL popCREUserControl" })
+                            </div>
+
+                        </div>
+                    }
+
+                    </div>
+                <div align="right">
+                    <button class="btn btn-primary" id="submitPopUp" onclick="popUpValidation();" disabled="disabled">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deactivatePopUp" role="dialog" data-backdrop="static">
+        <div class="modal-dialog" style="width:580px;">
+            @*<div class="panel-heading" style="background-color: #337ab7; color:#fff">
+                        <b>Update Phone and IMEI number</b>
+                        <label></label>
+                        <button type="button" class="close" onclick="popUpClose();" data-dismiss="modal">X@*<img src="@routes.Assets.at("images/close1.png")"></button><br>
+                </div>*@
+            <div style="background-color: #fefefe;padding: 30px;">
+                <div class="row" id="manualWyzuser" style="display:block;">
+                    <div>
+                        <text>Data in CRE call bucket will be blocked after this action.Do you want to continue?</text>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn btn-danger" id="deactivateNo" data-dismiss="modal">No</button>
+                    <button class="btn btn-success" id="deactivateYes" onclick="deactivateCreAndSA(userId);">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="myactivateCREModal" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header flex-column">
+                    <div class="icon-box">
+                        <i class="material-icons">&#xE5CD;</i>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+                    </div>
+                    <h4 class="modal-title w-100">Are you sure You want to Reactivate?</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="txtwyzuserID" />
+
+                    <div class="form-group">
+                        <label> GSM IP</label>
+                        @Html.DropDownList("reactivatepopGSMIP", new SelectList(ViewBag.GSMIP, "id", "name"), "--Select--", new { @id = "reactivatepopGSMIP", @class = "form-control", @onchange = "getSIP(this);showhidesipdetails();", style = "width: 250px;" })
+                    </div>
+                    <div id="sipextensionDiv" class="form-group" style="display:none">
+                        <label> SIP Extension</label><br />
+                        <select id="reactivatepopUpSipExtension" class="sipExtensionCls form-control selectpicker">
+                        </select>
+                    </div>
+                    <div id="sipidDiv" class="form-group" style="display:none">
+                        <label> SIP ID</label>
+                        <input type="text" id="txtreactiveSIPID" name="txtreactiveSIPID" onchange="updating();" class="form-control numberOnly" autocomplete="off" maxlength="6" placeholder="SIP ID" min="0" max="8" />
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <input type="submit" id="btnsmstempupdate" class="btn btn-success" value="Activate" onclick="reactivareCREId()">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
+@section scripts{
+    <script>
+        var loc = "", work = "", cre = "", user = "", pass = "", role = "", modType = "", phone = "", imei = "", locationList = "", workshopList = "", creManager = "", gsmip = "", sipExtension = "", sipID = "", callingType = "", radioBtnVal = "", filterBy = "", userId = "", creManagerFilterVal = "", CRECampaignIds = "", CRECategoryIds = "", CREServiceTypeIds = "", CREROAgeingIds = "", CREFieldOneId = "", CREFieldTwoId = "";
+
+        $(document).ready(function ()
+        {
+            $("#userName").empty();
+            $("#pass").empty();
+            var sessionVal = '@Session["UserRole"].ToString()';
+
+            if (sessionVal == "CREManager")
+            {
+                $("#creManagerFilterDiv").css({ "display": "none" });
+            }
+            //getCreTableData(onLoad);
+            table = $('#creTable').DataTable({
+                searching: true
+            });
+        });
+
+        function clearData() {
+            $(".textboxes").val(" ");
+            $("#location").multiselect("deselectAll", false).multiselect("refresh");
+            $("#workshop").multiselect("deselectAll", false).multiselect("refresh");
+            $("#moduleType").prop("selectedIndex",0);
+            $("#role").prop("selectedIndex", 0);
+            $("#pass").val("");
+            $("#creManager").val("");
+            $("#GSMIP").prop('selectedIndex',0);
+            $(".sipExtensionDivCls").css("display", "none");
+            $(".SIPIdDivCls").css("display", "none");
+            $(".SIPID").val("");
+            $("#popUpGSMIP").val("");
+            $("#popUpSIPID").attr("disabled", "disabled");
+            $("input[name='callingType']:checked").prop("checked", false);
+
+            $("#popCreManager").prop("selectedIndex", 0);
+            $("#popWorkshop").prop("selectedIndex", 0);
+            $("#dwnloadForCreManager").css({ 'display': 'none' })
+            $("#creCampaign").multiselect("deselectAll", false).multiselect("refresh");
+            $("#creCategories").multiselect("deselectAll", false).multiselect("refresh");
+            $("#creServiceType").multiselect("deselectAll", false).multiselect("refresh");
+            $("#creRoeaging").multiselect("deselectAll", false).multiselect("refresh");
+
+            $(".popCREUserControl").prop("selectedIndex", 0);
+
+        }
+
+        function roleSelected(ele) {
+            console.log(ele);
+            if (ele == "CREManager") {
+                $("#creManagerDiv").css({ "display": "none" });
+            } else {
+                $("#creManagerDiv").css({ "display": "block" });
+                $("#creManagerLabel").addClass("required");
+            }
+
+            if (ele == "CRE") {
+                $(".CRE-user-add-fields").css({ "display": "block" });
+            }
+            else {
+                $(".CRE-user-add-fields").css({ "display": "none" });
+            }
+        }
+
+        function radioBtnClick(ele) {
+            radioBtnVal = ele;
+            if (radioBtnVal == "gsm") {
+                $("#gsmipLabel").addClass("required");
+                $("#gsmipDiv").css({ "display": "block" });
+                $("#imeiDiv").css({ "display": "none" });
+            } else if (radioBtnVal == "android") {
+                $("#gsmipDiv").css({ "display": "none" });
+                $("#imeiDiv").css({ "display": "block" });
+            }
+        }
+
+        function getSIP(ele) {
+            var GSMIPselected = ele.value;
+            if (GSMIPselected != "") {
+                $('#mainLoader').css({ 'display': 'block' });
+                $.ajax({
+                    url: siteRoot + "/AddCRE/getSIPExtension/",
+                    type: 'get',
+                    dataType: 'json',
+                    data: { value: GSMIPselected },
+                    success: function (res) {
+                        $(".sipExtensionCls").empty();
+                        $(".sipExtensionCls").append('<option value="' + "" + '">' + "--Select--" + '</option>');
+                        if (res.data != null) {
+                            for (i = 0; i < res.data.length; i++) {
+                                $(".sipExtensionCls").append('<option value="' + res.data[i].name + '">' + res.data[i].name + '</option>')
+                            }
+                        }
+                        $(".sipExtensionCls").multiselect('rebuild');
+                        $(".sipExtensionDivCls").css("display","block");
+                        $(".SIPIdDivCls").css("display","block");
+                        $('#mainLoader').css({ 'display': 'none' });
+                    }
+                })
+            }
+            else {
+                //$("#sipExtension").attr('disabled', 'disabled');
+                $(".sipExtensionDivCls").css("display", "none");
+                $(".SIPIdDivCls").css("display", "none");
+                $(".SIPID").val("");
+            }
+        }
+
+        $("#SIPID").focusout(function () {
+            var sipid = $("#SIPID").val();
+            var tenantId=$("#GSMIP option:selected").val();
+            sipDuplication(sipid,tenantId);
+        });
+
+
+        function sipDuplication(sipid, tenantId) {
+            var success = false;
+            $('#mainLoader').css({ 'display': 'block' });
+                $.ajax({
+                    url: siteRoot + "/AddCRE/SIPduplication/",
+                    async: false,
+                    type: 'get',
+                    dataType: 'json',
+                    data: { value: sipid,tenantId:tenantId },
+                    success: function (res) {
+                        if (res.success == false) {
+                            $(".SIPIDCls").val("");
+                            Lobibox.notify('warning', {
+                                msg: 'Please provide a different SIP ID,This SIP ID is assigned to'+" "+res.data
+                            });
+                            success = false;
+                        }
+                        else {
+                            success = true;
+                        }
+                        $('#mainLoader').css({ 'display': 'none' });
+                }
+                });
+            return success;
+        }
+
+
+        function usernameDuplication(item) {
+            var username = $(item).val();
+            if (username != "") {
+                $('#mainLoader').css({ 'display': 'block' });
+                $.ajax({
+                url: siteRoot + "/AddCRE/usernameDuplication/",
+                type: 'get',
+                dataType: 'json',
+                data: { value: username },
+                success: function (res) {
+                    if (!res.success) {
+                        $("#userName").val("");
+                        Lobibox.notify('warning', {
+                        msg: "User Name already exists!!"
+                    });
+                    }
+                    $('#mainLoader').css({ 'display': 'none' });
+                }
+            });
+            }
+        }
+
+
+        //eye icon to toggle b/w password visibility
+        $(".icon").hover(function () {
+            $(".password").attr("type", "text");
+        }, function () {
+            $(".password").attr("type", "password");
+        });
+
+        //validation for phone number
+        $(".phoneValidation").focusout(function () {
+            var phone = $(this).val();
+            if (phone.startsWith("+91")) {
+                phone = phone.replace("+91", "");
+            }
+            if (phone != "") {
+                var filter = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
+            if (phone.length == 10) {
+                if (!filter.test(phone)) {
+                    $("#phoneNumber").val("");
+                     $("#popUpPhone").val("");
+                    Lobibox.notify('warning', {
+                        msg: "Please provide valid phone number"
+                    });
+                }
+                else {
+                    //phoneNumberDuplication(phone);
+                }
+            }
+            else {
+                $("#phoneNumber").val("");
+                 $("#popUpPhone").val("");
+                Lobibox.notify('warning', {
+                        msg: "Phone number must have 10 digits"
+                    });
+            }
+            }
+        });
+
+        //validation for imei number
+        $(".IMEIValidation").focusout(function () {
+            var imei = $(this).val();
+            if (imei != "") {
+                var filter = /^(?!\b(.)\1+\b)\d{15}$/gi;
+                if (imei.length == 15) {
+                    if (!filter.test(imei)) {
+                        $("#IMEI").val("");
+                        $("#popUpImei").val("");
+                        Lobibox.notify('warning', {
+                            msg: "Please provide valid IMEI number"
+                        })
+                    }
+                    else {
+                        //IMEIDuplication(imei);
+                    }
+                } else {
+                    $("#IMEI").val("");
+                    $("#popUpImei").val("");
+                Lobibox.notify('warning', {
+                        msg: "IMEI number must have 15 digits"
+                    })
+            }
+            }
+        });
+
+
+        function getValue() {
+            cre = $("#creName").val();
+            user = $("#userName").val();
+            pass = $("#pass").val();
+            //confirmPass = $("#confirmPass").val();
+            role = $("#role").val();
+            modType = $("#moduleType").val();
+            phone = $("#phoneNumber").val();
+            imei = $("#IMEI").val();
+            gsmip = $("#GSMIP").val();
+            sipExtension = $("#sipExtension").val();
+            sipID = $("#SIPID").val();
+            callingType = $("input[name='callingType']:checked").val();
+
+            CRECampaignIds = ($("#creCampaign").val() || []).join(',');
+            CRECategoryIds = ($("#creCategories").val() || []).join(',');
+            CREServiceTypeIds = ($("#creServiceType").val() || []).join(',');
+            CREROAgeingIds = ($("#creRoeaging").val() || []).join(',');
+
+            var location = $("#location").val()
+            if (location != null) {
+                locationList = location.join(',');
+                if (location.length > 1) {
+                    loc = locationList[0];
+                }
+                else {
+                    loc = location.toString();
+                }
+            }
+            var workshop = $("#workshop").val()
+            if (workshop != null) {
+                workshopList = workshop.join(',');
+                if (workshop.length > 1) {
+                    work = workshopList[0];
+                }
+                else {
+                    work = workshop.toString();
+                }
+
+            }
+            var phoneAndImei = true;
+            if (radioBtnVal == "android") {
+                if (phone != "" && imei != "") {
+                    phoneAndImei = phoneAndIMEIDuplication(phone,imei);
+                }
+            }
+            creManager = $("#creManager").val();
+            if (cre != " " && user != "" && pass != "" /*&& confirmPass != ""*/ && role != "" && modType != "" && loc != "" && work != "" && (gsmip == "" || (gsmip != "" && sipID != "" && sipExtension != "")) && callingType != undefined && (((role == "CRE" || role=="Service Advisor") && creManager != "") ||(role == "CREManager" && creManager == ""))) {
+
+                if (phoneAndImei == true) {
+                    submitData();
+                }
+                else {
+                    $("#phoneNumber").val("");
+                    $("#IMEI").val("");
+                    //clearData();
+                }
+            }
+            else {
+                Lobibox.notify("warning", {
+                    msg:"enter all fields"
+                });
+            }
+
+        }
+
+        function phoneAndIMEIDuplication(phone, imei) {
+            var success = false;
+            $('#mainLoader').css({ 'display': 'block' });
+            $.ajax({
+                url: siteRoot + "/AddCRE/phoneAndImeiDuplication/",
+                async: false,
+                dataType: 'json',
+                type: 'post',
+                data: { phone: phone, imei: imei },
+                success: function (res) {
+                    if (res.success == false) {
+                        Lobibox.notify('warning', {
+                            //msg: "this combination of Phone Number and IMEI Number already exists"
+                            msg: "it is assigned to"+""+ res.data
+                        });
+                        success = false;
+                    }
+                    else {
+                        success = true;
+                    }
+                    $('#mainLoader').css({ 'display': 'none' });
+                }, error: function (error) {
+                    alert(error);
+                    console.log(error);
+                    //return false;
+                }
+            });
+            return success;
+        }
+
+        function submitData() {
+
+
+            var obj = {
+                creName: cre,
+                userName: user,
+                password: pass,
+                //confirmPass:confirmPass ,
+                firstLocation: loc,
+                firstWorkshop: work,
+                role: role,
+                moduleType: modType,
+                phoneNumber: phone,
+                IMEI: imei,
+                locations: locationList,
+                workshops: workshopList,
+                creManager: creManager,
+                sipExtensionId: sipExtension,
+                sipID: sipID,
+                gsmip: gsmip,
+                callingType: callingType,
+                CRECampaignId: CRECampaignIds,
+                CREServiceTypeId: CREServiceTypeIds,
+                CREROAgeingId: CREROAgeingIds,
+                CRECategoryId: CRECategoryIds,
+                CREFieldOneId: ($("#creFieldOne").val() || 0),
+                CREFieldTwoId: ($("#creFieldTwo").val() || 0)
+
+            }
+            $('#mainLoader').css({ 'display': 'block' });
+            $.ajax({
+                url: siteRoot + "/AddCRE/submitData/",
+                type: 'post',
+                dataType: 'json',
+                data: { values: JSON.stringify(obj) },
+                success: function (result)
+                {
+                    if (result.success == true) {
+                        clearData();
+                       // getCreTableData("onSubmit");
+                        Lobibox.notify('success', {
+                            msg: "New CRE registered successfully"
+                        });
+                    }
+                    else if  (result.success == false) {
+                        Lobibox.notify('warning', {
+                            msg: result.error
+                        });
+                    }
+                    $('#mainLoader').css({ 'display': 'none' });
+                }
+            });
+        }
+
+        //var dataaTbl = null;
+        function getcreDetails(roleType, mangername, unavailable) {
+            //if ($.fn.dataTable.isDataTable('#creTable')) {
+            //    dataTbl.draw();
+            //}
+
+            //else
+            {
+
+                dataTbl = $("#creTable").DataTable({
+                    destroy: true,
+                "bServerSide": true,
+                "sAjaxSource": siteRoot + "/AddCRE/getcreDetails/",
+                'bProcessing': true,
+                "fnServerData": function (sSource, aoData, fnCallback)
+                {
+                    aoData.push({ "name": "roleType", "value": roleType });
+                    aoData.push({ "name": "managertUsername", "value": mangername });
+                    aoData.push({ "name": "isavailable", "value": unavailable });
+                    $.ajax({
+
+                        type: "Get",
+                        data: aoData,
+                        url: sSource,
+                        success: fnCallback
+                    })
+                },
+                    "aoColumns": [
+                        {
+                            "mData": "processingStartedDT", "render": function (data, type, row) {
+                                console.log(row);
+                                return `<button class="btn btn-info"  onclick="popUP(this,${row.wyzId},'${row.creManager}','${row.workshopIds}','${row.CRECampaignId}','${row.CRECategoryId}','${row.CREServiceTypeId}','${row.CREROAgeingId}','${row.CREFieldOneId}','${row.CREFieldTwoId}');" >Update</button>`
+                            }
+                        },
+
+                        {
+                            "mData": "processingEndedDT", "render": function (data, type, row) {
+                                return `<button class="btn btn-warning"  onclick="deactivateCreAndSAPopUp(${row.wyzId});" >Deactivate</button>`
+                            }
+                        },
+
+                        {
+                            "mData": "processingEndedDT", "render": function (data, type, row) {
+                                return `<button class="btn btn-success"  onclick="confirmreactivateCRE(${row.wyzId});" >Reactivate</button>`
+                            }
+                        },
+                    { "mData": "creName", "name": "creName" },
+                        { "mData": "location", "name": "location" },
+                        //{ "mData": "workshop", "name": "workshop" },
+
+                        {
+                            "mData": "workshop", "render": function (data, type, row) {
+                                return `<label title=${row.workshop}>${row.workshop.substr(0,25)}</label>`
+                            }
+                            },
+                    { "mData": "userName", "name": "userName" },
+                    { "mData": "passWord", "name": "passWord" },
+                    { "mData": "phoneNumber", "name": "phoneNumber" },
+                    { "mData": "IMEI", "name": "IMEI" },
+                    { "mData": "extensionId", "name": "extensionId" },
+                    { "mData": "creManager", "name": "creManager" }
+
+
+                    ],
+                dom: 'lBfrtip',
+                buttons: [
+
+                    {
+                        extend: 'excelHtml5',
+                        filename: 'downloadDetails'
+                    }
+
+                    ],
+                 //"lengthMenu": [10, 25, 50, "All"],
+                "initComplete": function (settings, json) {
+                    if (json.managerName == "" && json.managerPassword == "") {
+                        $("#displaycremanagerPassDiv").hide();
+                    }
+                    else {
+                        $('#spnmanagerusername').text(json.managerName);
+                        $('#spnmanagerpassword').text(json.managerPassword);
+                        $('#spnmanagerphone').text(json.managerPhone);
+                        $("#displaycremanagerPassDiv").show();
+
+                    }
+                    if (unavailable == "false") {
+                        dataTbl.columns(0).visible(true);
+                        dataTbl.columns(1).visible(true);
+                        dataTbl.columns(2).visible(false);
+
+                    }
+                    else if (unavailable == "true") {
+                        dataTbl.columns(0).visible(false);
+                        dataTbl.columns(1).visible(false);
+                        dataTbl.columns(2).visible(true);
+
+                    }
+                }
+
+            });
+        }
+
+        }
+
+        //executed when update button is clicked in the get cre tbl
+        var IMEI = "",Phone="",Password="",ExtensionID="",SIPextension="";
+        function popUP(ele, id, creManager, workshop, CRECampaignId, CRECategoryId, CREServiceTypeId, CREROAgeingId, CREFieldOneId, CREFieldTwoId) {
+            clearData();
+            IMEI = $(ele).closest('tr').find('td:eq(8)').text();
+            Phone = $(ele).closest("tr").find("td:eq(7)").text();
+            Password = $(ele).closest("tr").find("td:eq(6)").text();
+            ExtensionID = $(ele).closest("tr").find("td:eq(9)").text();
+            SIPextension=$("#popUpSipExtension");
+            $("#popUpPhone").val(Phone);
+            $("#popUpImei").val(IMEI);
+            $(".extensionId").val(ExtensionID);
+            $("#wyzId").val(id);
+            $("#popUpPass").val(Password);
+            //$("#popUpConfirmPass").val(Password);
+            // $("#popCreManager").val();
+            //$("#popWorkshop").val();
+            //$('#popCreManager option[text="' + creManager + '"]').prop("selected", true);
+            $('#popCreManager option:contains("' + creManager + '")').prop("selected", true);
+            $('#popWorkshop option:contains("' + workshop + '")').prop("selected", true);
+           
+            if (CRECampaignId != '')
+            {
+                $('#popcreCampaign').val((CRECampaignId || []).split(','));
+            }
+            if (CRECategoryId != '')
+            {
+                $('#popcreCategory').val((CRECategoryId || []).split(','));
+            }
+            if (CREServiceTypeId != '')
+            {
+                $('#popcreServiceType').val((CREServiceTypeId || []).split(','));
+            }
+                if (CREROAgeingId != '')
+                {
+                $('#popcreRoAge').val((CREROAgeingId || []).split(','));
+            }
+            $('#popCreManager').val(creManager);
+
+            //$('#popcreCampaign').val(CRECampaignId);
+            $('#popcreFieldTwo').val(CREFieldTwoId);
+            $('#popcreFieldOne').val(CREFieldOneId);
+            var array = workshop.split(',');
+
+            jQuery("#popWorkshop").val(array);
+            //$('#popWorkshop').val(['1', '2']);
+
+            $("#popWorkshop").multiselect("rebuild").multiselect("refresh");
+            $("#popcreCampaign").multiselect("rebuild").multiselect("refresh");
+            $("#popcreCategory").multiselect("rebuild").multiselect("refresh");
+            $("#popcreServiceType").multiselect("rebuild").multiselect("refresh");
+            $("#popcreRoAge").multiselect("rebuild").multiselect("refresh");
+            $("#myModal").modal("show");
+        }
+
+        //submit button in the pop up is enabled only if the values are changed
+        function updating() {
+             $("#submitPopUp").removeAttr("disabled");
+            //var imeiPop = $("#popUpImei").val();
+            //var phonePop = $("#popUpPhone").val();
+            //var passPop = $("#popUpPass").val(Password);
+            //var passConfirmPop = $("#popUpConfirmPass").val(Password);
+            //if (imeiPop == IMEI || phonePop == Phone || passPop == Password || passConfirmPop == Password) {
+            //    $("#submitPopUp").removeAttr("disabled");
+            //} else {
+            //    $("#submitPopUp").attr("disabled");
+            //}
+        }
+
+        var phoneAndimeiSuccess = true, sipAndExtensionIdSuccess = true;;
+
+        //validation for duplication of the combination of imei and phone number
+        $("#popUpPhone,#popUpImei").change(function () {
+             var newPhone = $("#popUpPhone").val();
+            var newImei = $("#popUpImei").val();
+            if ((newPhone != "" || newPhone == "XXXXXXXXXX") && newImei != "") {
+                var functionValue = phoneAndIMEIDuplication(newPhone, newImei)
+                if (functionValue == true) {
+                    phoneAndimeiSuccess = true;
+                }
+                else {
+                    phoneAndimeiSuccess = false;
+                }
+            }
+        });
+
+        //popUpSIPID is only enabled when SIP Extension has a value
+        $("#popUpSipExtension").change(function () {
+            $("#popUpSIPID").removeAttr("disabled");
+        });
+
+        //validation for combination of sip id and tenant id
+         $("#popUpSIPID").focusout(function () {
+            var sipidPop = $("#popUpSIPID").val();
+             var tenantIdPop = $("#popUpGSMIP option:selected").val();
+
+             if (sipidPop == "0") {
+                 sipAndExtensionIdSuccess = true;
+             } else {
+                 var success = sipDuplication(sipidPop, tenantIdPop);
+                 if (success == true) {
+                    sipAndExtensionIdSuccess = true;
+                 }
+                 else {
+                      sipAndExtensionIdSuccess = false;
+                 }
+             }
+
+        });
+
+        function popUpValidation() {
+            if (phoneAndimeiSuccess == true && sipAndExtensionIdSuccess == true) {
+                updatePhoneAndIMEI();
+            }
+            else if (phoneAndimeiSuccess == false && sipAndExtensionIdSuccess == false) {
+                Lobibox.notify('warning', {
+                    msg: "Please provide proper data for Phone & IMEI Number and SIP ID & SIP Extension"
+                });
+            }
+            else if (phoneAndimeiSuccess == false) {
+                Lobibox.notify('warning', {
+                    msg: "Please provide proper data for Phone & IMEI Number"
+                });
+            }else if (sipAndExtensionIdSuccess == false) {
+                Lobibox.notify('warning', {
+                    msg: "Please provide proper data for SIP ID & SIP Extension"
+                });
+            }
+        }
+        function updatePhoneAndIMEI() {
+            var id = $("#wyzId").val();
+            var newPhone = $("#popUpPhone").val();
+            var newImei = $("#popUpImei").val();
+            var newPass = $("#popUpPass").val();
+            var extensionId = $(".extensionId").val();
+            var gsmipPop = $("#popUpGSMIP").val();
+            let creCatergory = ($("#popcreCategory").val() || []).join(',');
+            let creCampaign=($("#popcreCampaign").val() || []).join(',');
+            var serviceType = ($("#popcreServiceType").val() || []).join(',');
+            var roAge = ($("#popcreRoAge").val() || []).join(',');
+            var fieldTwo=$("#popcreFeildTwo").val() || 0;
+            var fieldOne=$("#popcreFieldOne").val() || 0;
+
+
+            //var newConfirmPass = $("#popUpConfirmPass").val();
+            //if (newPass == newConfirmPass) {
+            //    newPass = newPass;
+            //}
+            var sipExtension = $("#popUpSipExtension").val();
+            var creManager = $("#popCreManager").val();
+            var workShop = $("#popWorkshop").val();
+            if (workShop == null || workShop == undefined || workShop == "") {
+                Lobibox.notify('warning', {
+                    msg: "Please Select Workshops"
+                });
+                return false;
+            }
+            var wrkShopStr = workShop.toString();
+            $('#mainLoader').css({ 'display': 'block' });
+            $.ajax({
+                url: siteRoot + "/AddCRE/editPhoneAndIMEI/",
+                type: 'post',
+                dataType: 'json',
+                data: { id: id, newPhone: newPhone, newImei: newImei, newPass: newPass, extnId: extensionId, sipExtension: sipExtension, gsmipPop: gsmipPop, creManager: creManager, workShop: wrkShopStr, CRECampaignId: creCampaign, CREServiceTypeId: serviceType, CREROAgeingId: roAge, CRECategoryId: creCatergory, CREFieldOneId: fieldOne, CREFieldTwoId: fieldTwo },
+                success: function (res)
+                {
+                    if (res.success)
+                    {
+                        $("#popUpImei").val("");
+                        $("#wyzId").val("");
+                        $("#popUpPhone").val("");
+                        $(".extensionId").val("");
+                        $("#popCreManager").val("");
+                        $("#popWorkshop").val("");
+                        $("#myModal").modal("hide");
+                        phoneAndimeiSuccess == true;
+                        sipAndExtensionIdSuccess == true;
+                        $("#submitPopUp").attr("disabled", "disabled");
+                        Lobibox.notify('success', {
+                            msg: "User updated successfully, Please ask the CRE to RELOGIN!!!"
+                        });
+                        showhideroleswise("others");
+
+                    }
+                    else {
+                        Lobibox.notify('error', {
+                            msg: res.exception
+                        });
+                    }
+                    $('#mainLoader').css({ 'display': 'none' });
+                }
+            });
+        }
+
+        function popUpClose() {
+            $("#SIPIdDiv").css("display", "none");
+            $("#sipExtensionDiv").css("display", "none");
+        }
+
+        //function filterByRolesAndCreManager(ele,filterBy) {
+        //    creManagerFilterVal = ele;
+        //    if (filterBy == "creManager") {
+        //        $("#rolesFilter").prop('selectedIndex', 0);
+        //        $("#dwnloadForCreManagerDiv").css({ 'display': 'none'})
+        //    } else if (filterBy == "role") {
+        //        $("#creManagerFilter").prop('selectedIndex', 0);
+        //        $("#dwnloadForCreManagerDiv").css({'display': 'none'})
+        //    }
+        //    getCreTableData(ele);
+        //}
+
+        function deactivateCreAndSAPopUp(id) {
+            $("#deactivatePopUp").modal("show");
+            userId = id;
+        }
+
+        function deactivateCreAndSA(id) {
+            $('#mainLoader').css({ 'display': 'block' });
+            $.ajax({
+                url: siteRoot + "/AddCRE/deactivateCreAndSA/",
+                type: 'post',
+                dataType: 'json',
+                data: { value: id },
+                success: function (res) {
+                    if (res.success == true) {
+                        $("#deactivatePopUp").modal("hide");
+                        $('#mainLoader').css({ 'display': 'none' });
+                        Lobibox.notify('success', {
+                            msg: res.exception
+                        });
+                        showhideroleswise("others");
+
+                    }
+                    else if (res.success == false) {
+                        $("#deactivatePopUp").modal("hide");
+                        $('#mainLoader').css({ 'display': 'none' });
+                        Lobibox.notify('warning', {
+                            msg: res.exception
+                        });
+                    }
+                },
+                error: function (res) {
+                    if (res.success) {
+                        Lobibox.notify('error', {
+                            msg: res.exception
+                        });
+                    }
+                }
+            });
+        }
+
+
+        function dwnloadForCreManager() {
+             $('#mainLoader').css({ 'display': 'block' });
+            $.ajax({
+                url: siteRoot + "/AddCRE/getCreTable/",
+                type: 'post',
+                dataType: 'json',
+                data: {value:creManagerFilterVal,dwnLoad:"Yes"},
+                success: function (res) {
+                    //if (res.success == true) {
+                    window.location = siteRoot + "/AddCRE/DownloadForCreManager/";
+                     $('#mainLoader').css({ 'display': 'none' });
+                        //}
+                        //else if (res.success == false) {
+                        //    Lobibox.notify('warning', {
+                        //        msg: res.error
+                        //    });
+                        //}
+                }
+            });
+        }
+        function blockSpecialChar(e) {
+            var k;
+            document.all ? k = e.keyCode : k = e.which;
+            return ((k > 64 && k < 91) || (k > 94 && k < 123) || (k >= 48 && k <= 57));
+        }
+
+        //chethan starts
+
+        function showhideroleswise(roleType) {
+
+
+            if (roleType == "CREManagerddl") {
+
+                var mangername = $('#creManagerFilter').val();
+
+            }
+            else if (roleType == "PSFCREManagerddl") {
+                var mangername = $('#psfcreManagerFilter').val();
+
+            }
+
+
+            var unavailable = $('#ddlwyzuserstatus').val();
+            var rls = $('#rolesFilter').val();
+
+            $('#creTable').DataTable().destroy();
+            $('#creTable tbody ').empty();
+            table = $('#creTable').DataTable({
+                searching: true
+            });
+            if (roleType == "ServiceAdvisor")
+            {
+                $("#creManagerFilter").prop("selectedIndex", 0);
+
+                $('#creManagerFilterDiv').hide();
+                getcreDetails(roleType, "", unavailable);
+            }
+            else if (roleType == "CRE")
+            {
+                $("#creManagerFilter").prop("selectedIndex", 0);
+                $('#creManagerFilterDiv').hide();
+                getcreDetails(roleType, "", unavailable);
+            }
+            else if (roleType == "CREManagerddl")
+
+            {
+
+                getcreDetails("CREManager", mangername, unavailable);
+            }
+            else if (roleType == "CREManager")
+            {
+                $("#creManagerFilter").prop("selectedIndex", 0);
+
+                $('#creManagerFilterDiv').show();
+                $('#INSSMRDiv').show();
+                $('#PSFDiv').hide();
+                return false;
+            }
+            else if (roleType == "others")
+            {
+                if (rls == "CREManager" && mangername == "") {
+                    return false;
+                }
+                getcreDetails(rls, mangername, unavailable);
+            }
+            else if (roleType == "PSFCRE") {
+                $("#psfcreManagerFilter").prop("selectedIndex", 0);
+                $('#creManagerFilterDiv').hide();
+                getcreDetails(roleType, "", unavailable);
+            }
+            else if (roleType == "PSFComplaintCre") {
+                $("#psfcreManagerFilter").prop("selectedIndex", 0);
+                $('#creManagerFilterDiv').hide();
+                getcreDetails(roleType, "", unavailable);
+            }
+
+            else if (roleType == "PSFCREManagerddl") {
+                getcreDetails("PSFCREManager", mangername, unavailable);
+            }
+            else if (roleType == "PSFCREManager") {
+                $("#psfcreManagerFilter").prop("selectedIndex", 0);
+
+                $('#creManagerFilterDiv').show();
+                $('#INSSMRDiv').hide();
+                $('#PSFDiv').show();
+                return false;
+            }
+
+
+        }
+
+        function confirmreactivateCRE(wyzuserId) {
+            $('#txtwyzuserID').val(wyzuserId);
+            $('#myactivateCREModal').modal('show');
+            $('#sipextensionDiv').hide();
+            $('#sipidDiv').hide();
+            $("#reactivatepopGSMIP").prop("selectedIndex", 0);
+            $("#reactivatepopUpSipExtension").multiselect("deselectAll", false).multiselect("refresh");
+            $('#txtreactiveSIPID').val('');
+
+        };
+
+        function reactivareCREId() {
+
+            var validation = false;
+            var wyzuserId = $('#txtwyzuserID').val();
+            var sipId = $('#txtreactiveSIPID').val();
+            var gsmipaddres = $('#reactivatepopGSMIP').val();
+
+
+            if (gsmipaddres == "") {
+                validation = true;
+            }
+            else {
+                if (sipId == "") {
+                    Lobibox.notify('warning', {
+                        msg: 'Please Add Sip ID..'
+                    });
+                    validation = false;
+
+                    return false;
+                }
+                else {
+                    validation = true;
+                }
+            }
+            if (validation == true) {
+
+                if (wyzuserId != "")
+                {
+                    $('#mainLoader').css({ 'display': 'block' });
+
+                $('#myactivateCREModal').modal('hide');
+
+                $.ajax({
+                    url: siteRoot + "/AddCRE/reactivareCREId/",
+                    async: false,
+                    type: 'get',
+                    dataType: 'json',
+                    data: { wyzuserId: wyzuserId, sipId: sipId },
+                    success: function (res) {
+                        if (res.success == true) {
+                            Lobibox.notify('success', {
+                                msg: 'CRE Activated Successfully.'
+                            });
+                            $('#mainLoader').css({ 'display': 'none' });
+
+                            showhideroleswise("others");
+                        }
+                        else if (res.success == false) {
+                            Lobibox.notify('warning', {
+                                msg: res.message
+                            });
+                            $('#mainLoader').css({ 'display': 'none' });
+
+                        }
+                    }
+                });
+
+            }
+        }
+        }
+
+        $('.numberOnly').keypress(function (e) {
+
+            if (isNaN(this.value + "" + "." + String.fromCharCode(e.charCode))) {
+                return false;
+            }
+
+        });
+
+        function cleardatatablefilters() {
+            $("#rolesFilter").prop("selectedIndex", 0);
+            $("#creManagerFilter").prop("selectedIndex", 0);
+            $("#psfcreManagerFilter").prop("selectedIndex", 0);
+            $("#ddlwyzuserstatus").prop("selectedIndex", 0);
+
+            $('#creTable').DataTable().destroy();
+            $('#creTable tbody ').empty();
+            table = $('#creTable').DataTable({
+                searching: true
+            });
+        }
+
+        function showhidesipdetails() {
+
+            $("#reactivatepopUpSipExtension").multiselect("deselectAll", false).multiselect("refresh");
+            $('#txtreactiveSIPID').val('');
+            var gsmipaddres = $('#reactivatepopGSMIP').val();
+            if (gsmipaddres == "") {
+                $('#sipextensionDiv').hide();
+                $('#sipidDiv').hide();
+            }
+            else {
+                $('#sipextensionDiv').show();
+                $('#sipidDiv').show();
+            }
+        }
+
+        function downloadAllWyzuser() {
+            var mangername = $('#creManagerFilter').val();
+            var unavailable = $('#ddlwyzuserstatus').val();
+            var rls = $('#rolesFilter').val();
+
+            $('#mainLoader').css({ 'display': 'block' });
+            $.ajax({
+                url: siteRoot + "/AddCRE/downloadAllWyzuser/",
+                type: 'post',
+                dataType: 'json',
+                data: { mangername: mangername, unavailable: unavailable, rls: rls},
+                success: function (res) {
+                    if (res.success == true) {
+                        window.location = siteRoot + "/AddCRE/DownloadALLAddCre/";
+                        $('#mainLoader').css({ 'display': 'none' });
+                    }
+                    else if (res.success == false) {
+                        Lobibox.notify('warning', {
+                            msg: res.exception
+                        });
+                        $('#mainLoader').css({ 'display': 'none' });
+
+                    }
+                }
+            });
+        }
+
+    </script>
+}
+

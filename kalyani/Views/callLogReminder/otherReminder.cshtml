@@ -1,0 +1,613 @@
+﻿
+@{
+    ViewBag.Title = "otherReminder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    td, th {
+        border: 1px solid black;
+        overflow: hidden;
+        text-align: center !important;
+    }
+    .dashImg1 {
+        width: 37px;
+    }
+
+</style>
+<div class="row">
+    <div class="col-sm-2">
+        <!-- small box -->
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h3 id="creMMissedCount"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                <p> Missed Calls</p>
+            </div>
+            <div class="icon"> <i class="ion-android-call"></i> </div>
+
+            <!--<span class="pull-left" data-toggle="modal" data-target=".myModal1">View Details</span>-->
+        </div>
+    </div>      <!-- ./col -->
+    <div class="col-sm-2 col-half-offset">
+        <!-- small box -->
+        <div class="small-box bg-orange">
+            <div class="inner">
+                <h3 id="creMIncomingCount"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                <p> Incoming Calls</p>
+            </div>
+            <div class="icon"> <i class="ion-android-checkbox-outline"></i> </div>
+        </div>
+    </div>        <!-- ./col -->
+    <div class="col-sm-2 col-half-offset">
+        <!-- small box -->
+        <div class="small-box bg-red">
+            <div class="inner">
+                <h3 id="creMOutgoingCount"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                <p> Outgoing Calls</p>
+            </div>
+            <div class="icon"> <i class="ion-person-add"></i> </div>
+        </div>
+    </div>        <!-- ./col -->
+    <div class="col-sm-2 col-half-offset">
+        <!-- small box -->
+        <div class="small-box bg-blue" style="height:102px;width:186px;">
+            <div class="inner">
+                <h4><b><div id="curDate" style="padding:10px;">@DateTime.Now.ToString("dd/MM/yyyy")</div></b></h4>
+            </div>
+            <div class="icon"> <i class="fa fa-calendar"></i> </div>
+        </div>
+    </div>
+
+
+
+    <!-- ./col -->
+</div>
+
+<div>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            Other Call Log Information
+            <button style="background-color:red;float:right;height:30px;width:100px;margin-top:-5px;" onclick="clearbucketfilters();" title="CLEAR FILTER">CLEAR FILTER</button>
+        </div>
+        <div class="panel-body">
+            <ul class="nav nav-tabs">
+                <li class="active bucket" id="li-missedCallBuc" data-bucket="1">
+                    <a class="nav-link" id="missedCallBuc-tab" data-toggle="tab" href="#missedCallBuc" role="tab" aria-controls="home" aria-selected="true">Missed Calls</a>
+                </li>
+                <li class="bucket" id="li-incomingCallBuc" data-bucket="2">
+                    <a class="nav-link" id="incomingCallBuc-tab" data-toggle="tab" href="#incomingCallBuc" role="tab" aria-controls="home" aria-selected="true">Incoming Calls</a>
+                </li>   
+                <li class="bucket" id="li-outgoingCallBuc" data-bucket="3">
+                    <a class="nav-link" id="outgoingCallBuc-tab" data-toggle="tab" href="#outgoingCallBuc" role="tab" aria-controls="home" aria-selected="true">Outgoing Calls</a>
+                </li>
+
+            </ul>
+            <div class="tab-content">
+                <div class="panel panel-default" style="border-top: #fff;">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-2" id="cityDiv">
+                                <div class="form-group">
+                                    <label>City </label>
+                                    @Html.DropDownList("ddlLocation", new SelectList(ViewBag.ddllocation, "id", "location"), "--Select--", new { @class = "form-control filter", @data_field = "city", @id = "city", @onchange = "ajaxLoadWorkshopByCity();", @change = "filter(); " })
+                                </div>
+                            </div>
+                            <div class="col-md-2" id="workshopDiv">
+                                <div class="form-group">
+                                    <label>WorkShop Location </label>
+                                    <select class="form-control filter" id="workshop" name="workshopId" data-field="workshopLoc" onchange="ajaxCallToLoadCRESByWorkshop();"></select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2" id="cresDiv">
+                                <label>Select CRE's </label>
+                                <div class="form-group">
+                                    <select class="selectpicker filter form-control" data-column-index="7" data-field="CRES" id="ddlCreIds" name="ddlCreIds" onchange="getfilters(this)" multiple></select>
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="col-md-2" id="fromDateDiv">
+                                <label>From Date : </label>
+                                <input type="text" class="filter form-control datePicker" data-field="fromDate" data-column-index="1" id="fromduedaterange" onchange="getfilters(this)" name="fromduedaterange" readonly>
+                            </div>
+                            <div class="col-md-2" id="toDateDiv">
+                                <label>To Date : </label>
+                                <input type="text" class="filter form-control datePicker" data-field="toDate" data-column-index="2" id="toduedaterange" onchange="getfilters(this)" name="toduedaterange" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    <div class="tab-pane fade in active" id="missedCallBuc">
+
+                        <div class="panel-body inf-content">
+                            <div class="dataTable_wrapper">
+                                <div>
+                                    <table class="table table-striped table-bordered table-hover" id="tblmissedCallsServerDataMR" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Call Date</th>
+                                                <th>Customer Name</th>
+                                                <th>Vehicle RegNo.</th>
+                                                <th>Mobile Number</th>
+                                                <th>CRE Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="buttons6"></div>
+                    </div>
+
+                    <div class="panel panel-default tab-pane fade" id="incomingCallBuc">
+                        <div class="panel-body inf-content">
+                            <div class="dataTable_wrapper">
+                                <div>
+                                    <table class="table table-striped table-bordered table-hover" id="tblincomingCallsServerDataMR" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Call Date</th>
+                                                <th>Customer Name</th>
+                                                <th>Vehicle RegNo.</th>
+                                                <th>Mobile Number</th>
+                                                <th>CRE Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="buttons7"></div>
+                    </div>
+
+                    <div class="panel panel-default tab-pane fade" id="outgoingCallBuc">
+                        <div class="panel-body inf-content">
+                            <div class="dataTable_wrapper">
+                                <div>
+                                    <table class="table table-striped table-bordered table-hover" id="tbloutgoingCallsServerDataMR" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Call Date</th>
+                                                <th>Customer Name</th>
+                                                <th>Vehicle RegNo.</th>
+                                                <th>Mobile Number</th>
+                                                <th>CRE Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="buttons8"></div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <span class="code" id="tblException" style="font-size:11pt;font-weight:bold;"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!--End tab content-->
+        </div><!--End panel body-->
+    </div>
+
+</div>
+
+@section scripts
+{
+   <script>
+        var presentBucket = "", filtDist = {}, callAjaxClear = 0, callfromTab = 0;
+
+       function callotherreminderCount() {
+           $.ajax({
+               type: "POST",
+               url: siteRoot + "/callLogReminder/otherReminderDashboardCounts/",
+               data: {},
+               cache: false,
+               success: function (res) {
+                   if (res.success == true) {
+                       $('#creMMissedCount').text(res.missed);
+                       $('#creMIncomingCount').text(res.incoming);
+                       $('#creMOutgoingCount').text(res.outgoing);
+                       
+                   }
+                   else {
+                       Lobibox.notify('warning', {
+                           msg: res.error
+                       });
+                   }
+               },
+               error: function (data) {
+                   alert("Cann't load Dashboard count, Error occured while processing data");
+               }
+           });
+       }
+
+       $(document).ready(function () {
+           callotherreminderCount();
+            //getDataFor==1 ----> 1,2,3 is bucket number
+         $(".datePicker").datepicker({
+                autoclose: true,
+                dateFormat: 'yy/mm/dd',
+            });
+
+            if (localStorage.length > 0) {
+                filtDist = JSON.parse(localStorage.getItem("otherReminder"));
+                if (filtDist != null) {
+                    renderFilterData();
+                }
+                else {
+                    presentBucket = 1;
+                    filtDist = {};
+                    bindmissedCall();
+                }
+            }
+            else {
+                presentBucket = 1;
+                bindmissedCall();
+            }
+
+ 
+        });
+
+        //re-render the filtered element
+        function renderFilterData() {
+            //debugger;
+            for (var key in filtDist) {
+                if (key !== "getDataFor" && key !== "isFiltered") {
+                    var element = $('.filter[data-field="' + key + '"]');
+                    $(element).val(filtDist[key]);
+                }
+            }
+            if (filtDist["getDataFor"] != null) {
+                presentBucket = filtDist["getDataFor"];
+                var liElement = $('.bucket[data-bucket="' + presentBucket + '"]');
+                var id = liElement[0].id;
+                //removing current style
+                $('li.bucket').removeClass('active');
+                $('div.fade').removeClass('show active in');
+
+                //applying new style
+                $('#' + id).addClass('active');
+                $('#' + id.split('-')[1]).addClass('show active in');
+
+                manageFilters(presentBucket);
+                makeAjaxCall();
+            }
+        }
+
+
+        $('li.bucket').on('click', function () {
+
+            var id = $(this).attr('id');
+            //removing current style
+            $('li.bucket').removeClass('active');
+            $('div.fade').removeClass('show active in');
+
+            //applying new style
+            $('#' + id).addClass('active');
+            $('#' + id.split('-')[1]).addClass('show active in');
+            presentBucket = $(this).attr('data-bucket');
+            makeAjaxCall();
+
+        })
+
+
+        function makeAjaxCall() {
+            if (presentBucket == 1) {
+                bindmissedCall();
+
+            }
+              else if (presentBucket == 2) {
+                bindincommingCall();
+            }
+             else if (presentBucket == 3) {
+                bindoutgoingCall();
+            }
+        }
+
+  
+
+        //Clear Buckets data
+       function clearbucketfilters() {
+                    
+            $('#city').val('');
+            $('#workshop').val('');
+
+            $('#workshop').prop('selectedIndex', 0);
+ $("#ddlCreIds").empty();
+            $("#ddlCreIds").multiselect('refresh');
+
+                
+            $('#fromduedaterange').val('');
+            $('#toduedaterange').val('');
+            filtDist = {};
+
+            makeAjaxCall();
+        }
+
+
+        //Function to access filter data
+        function getfilters(item) {
+            //debugger;
+            var field = $(item).attr('data-field');
+            var data = $(item).val();
+            if (field == "CRES") {
+                 data = $('#ddlCreIds option:selected').toArray().map(item => item.text).join();
+            }
+
+            if (filtDist[field] === undefined) {
+                filtDist[field] = data;
+                if (data != "") {
+                    filtDist["isFiltered"] = true;
+                }
+                else {
+                    if($('#city').val() === "" &&
+                        $('#workshop').val() === "" &&
+                        $('#ddlCreIds').val() === "" &&
+                        $('#fromduedaterange').val() === "" &&
+                        $('#toduedaterange').val() === "" &&
+                    $('#search').val() === "")  {
+                        filtDist["isFiltered"] = false;
+                    }
+                }
+            }
+            else {
+                filtDist[field] = data;
+                if (data != "") {
+                    filtDist["isFiltered"] = true;
+                }
+                else if ($('#city').val() === "" &&
+                        $('#workshop').val() === "" &&
+                        $('#ddlCreIds').val() === "" &&
+                        $('#fromduedaterange').val() === "" &&
+                    $('#search').val() === "") {
+                    filtDist["isFiltered"] = false;
+                }
+
+            }
+            //calling ajax function
+            makeAjaxCall();
+        }
+
+
+        //********************* Adding Filter Data *************************
+
+        function recordFilters() {
+            localStorage.setItem("otherReminder", JSON.stringify(filtDist));
+        }
+
+
+
+        //--------------------------- Binding Data To Table ---------------------------------------
+
+        //***************** Scheduler Table *****************************
+       function bindmissedCall()
+       {
+            //debugger;
+            filtDist["getDataFor"] = 1;
+            $('#tblmissedCallsServerDataMR').DataTable({
+                "destroy": true,
+                bom:"Blfrtip",
+                "ajax": {
+                    "url": siteRoot+"/callLogReminder/getOtherBucket/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { otherreminderData: JSON.stringify(filtDist) }
+                },
+
+                "columns": [
+                    
+                    {
+                        "data": "call_date", "render": function (data, type, row)
+                        {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                    { "data": "dailedNoIs", "name": "dailedNoIs" },
+                    { "data": "username", "name": "username" }
+                ],
+                "initComplete": function (data) {
+                    $('#tblException').text(data.json.exception);
+
+                }, dom: 'lBfrtip',
+                buttons: [
+                    'copyHtml5',
+                    {
+                        extend: 'excelHtml5',
+                        filename: 'missedCallData'
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        filename: 'missedCallData'
+                    }
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "lengthMenu": [100, 200, 500, 1000],
+                "pageLength": 100,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+       function bindincommingCall()
+       {
+            //debugger;
+            filtDist["getDataFor"] = 2;
+            $('#tblincomingCallsServerDataMR').DataTable({
+                "destroy": true,
+                bom:"Blfrtip",
+                "ajax": {
+                    "url": siteRoot+"/callLogReminder/getOtherBucket/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { otherreminderData: JSON.stringify(filtDist) }
+                },
+
+                "columns": [
+                    {
+                        "data": "call_date", "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                    { "data": "dailedNoIs", "name": "dailedNoIs" },
+                    { "data": "username", "name": "username" }
+                ],
+                "initComplete": function (data) {
+                    $('#tblException').text(data.json.exception);
+
+                }, dom: 'lBfrtip',
+                buttons: [
+                    'copyHtml5',
+                    {
+                        extend: 'excelHtml5',
+                        filename: 'incomingcallData'
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        filename: 'incomingcallData'
+                    }
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "lengthMenu": [100, 200, 500, 1000],
+                "pageLength": 100,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+       function bindoutgoingCall()
+       {
+            //debugger;
+            filtDist["getDataFor"] = 3;
+            $('#tbloutgoingCallsServerDataMR').DataTable({
+                "destroy": true,
+                bom:"Blfrtip",
+                "ajax": {
+                    "url": siteRoot+"/callLogReminder/getOtherBucket/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { otherreminderData: JSON.stringify(filtDist) }
+                },
+
+                "columns": [
+                    {
+                        "data": "call_date", "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                    { "data": "dailedNoIs", "name": "dailedNoIs" },
+                    { "data": "username", "name": "username" }
+                ],
+                "initComplete": function (data) {
+                    $('#tblException').text(data.json.exception);
+
+                }, dom: 'lBfrtip',
+                buttons: [
+                    'copyHtml5',
+                    {
+                        extend: 'excelHtml5',
+                        filename: 'outgoingcallData'
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        filename: 'outgoingcallData'
+                    }
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "lengthMenu": [100, 200, 500, 1000],
+                "pageLength": 100,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+
+    function ajaxLoadWorkshopByCity() {
+
+
+        var selectedCity = document.getElementById('city').value;
+        var urlLink = siteRoot+ "/callLogReminder/listWorkshops/";
+
+        $.ajax({
+            type: 'POST',
+            url: urlLink,
+            datatype: 'json',
+            data: { selectedCity: selectedCity },
+            cache: false,
+            success: function (workshoplist) {
+
+                if (workshoplist != null) {
+                    $('#workshop').empty();
+                    var dropdown = document.getElementById("workshop");
+                    dropdown[0] = new Option('select', '0');
+
+                    for (var i = 0; i < workshoplist.length; i++) {
+                        $('#workshop').append('<option value="' + workshoplist[i].id + '">' + workshoplist[i].workshopName + '</option>');
+                    }
+                }
+            }, error(error) {
+                console.log(error);
+            }
+        });
+    }
+
+
+    function ajaxCallToLoadCRESByWorkshop() {
+        var workshopId = document.getElementById('workshop').value;
+        var urlLink = siteRoot+ "/callLogReminder/getCRESListBasedOnWorkshop/";
+        $.ajax({
+            type: 'POST',
+            url: urlLink,
+            datatype: 'json',
+            data: { workshopId: workshopId, crefor: "Other" },
+            cache: false,
+            success: function (crelist) {
+                console.log(crelist);
+                $('#ddlCreIds').empty();
+                var dropdown = document.getElementById("ddlCreIds");
+                for (var i = 0; i < crelist.length; i++) {
+                    dropdown[dropdown.length] = new Option(crelist[i].creName, crelist[i].id);
+                    $("#ddlCreIds").addClass('selectpicker');
+                    $('#ddlCreIds').multiselect('rebuild');
+                }
+            }, error(error) {
+
+                }
+            });
+    }
+        </script>
+}

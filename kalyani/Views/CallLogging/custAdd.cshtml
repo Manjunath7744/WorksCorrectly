@@ -1,0 +1,178 @@
+﻿@model AutoSherpa_project.Models.ViewModels.CallLoggingViewModel
+<div class="modal fade" id="AddNewAddressPopup" role="dialog">
+    <div class="modal-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><img src="~/public/images/close1.png"></button>
+                <h4 class="modal-title"><b style="text-align:center; color:Red;">Add New Address</b></h4>
+            </div>
+            <div class="modal-body mbheight" style="color:black;">
+                @Html.TextBoxFor(m => m.addressesAdd.ddlId, new { @Value = "permanentAddress,AddressMSSId", @type = "hidden" })
+                <div class="row" id="AddAddressDiv">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="comments"><b>Add Address1</b></label><span style="color:red"> *</span>
+                            @Html.TextAreaFor(m => m.addressesAdd.addressLine1, new { @class = "form-control characterLimit", @rows = "1", @id = "AddAddress1All" })
+                            @*<textarea class="form-control characterLimit" rows="1" id="AddAddress1All" name="address1New"></textarea>*@
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="comments"><b>Add Address2<b></label>
+                            @Html.TextAreaFor(m => m.addressesAdd.addressLine2, new { @class = "form-control characterLimit", @rows = "1", @id = "AddAddress2All" })
+                            @*<textarea class="form-control characterLimit" rows="1" id="AddAddress2All" name="address2New"></textarea>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label><b>State</b></label>
+                            @Html.DropDownListFor(m => m.addressesAdd.state, Model.citystatesList, "--Select--", new { @class = "form-control", @id = "AddAddrMMSState", @onchange = "getCityByStateSelection('AddAddrMMSState','cityInputPopup3');" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label><b>City</b></label>
+                            @Html.DropDownListFor(m => m.addressesAdd.city, Enumerable.Empty<SelectListItem>(), "--Select--", new { @class = "form-control", @id = "cityInputPopup3" })
+                            @*<select class="form-control" name="cityNew" placeholder="City" id="cityInputPopup3"></select>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="comments"><b>PinCode</b></label>
+                            @Html.TextBoxFor(m => m.addressesAdd.pincode, new { @class = "form-control numberOnly", @value = "0", @id = "PinCode1MMS", @maxlength = "6" })
+                            @*<input type="text" class="form-control numberOnly" name="pincodeNew" value="0" id="PinCode1MMS" maxlength="6" />*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-success" name="submit" value="SaveAddress" id="AddAddrMMSSaveMe" />
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+
+<div class="modal fade" id="driver_modal4" role="dialog">
+    <div class="modal-dialog modal-xs">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span style="color:red;background-color:white;border-radius:50%;">x</span></button>
+                <h4 class="modal-title">ADD EMAIL</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                       
+                            @Html.TextBoxFor(m => m.emailAdd.ddlId, new { @Value = "email,ddl_email", @type = "hidden" ,@id="emailId"})
+                            @Html.TextBoxFor(model => model.emailAdd.emailAddress, new { @class = "form-control email", @maxlength = "60", @min = "5", @max = "60", @id = "myEmailNum" })
+                            @* <input type="text" name="myEmailNum" class="form-control email" maxlength="60" min="5" max="60" id="myEmailNum">*@
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-success" name="submit" value="SaveEmail" id="saveEmailCust" />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="myModalAddPhone" role="dialog">
+    <div class="modal-dialog modal-xs">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><img src="~/public/images/close1.png"></button>
+                <h4 class="modal-title">ADD PHONE NUMBER</h4>
+            </div>
+
+            @Html.TextBoxFor(m => m.phoneAdd.ddlId, new { @Value = "preffered_contact_num,ddl_phone_no", @type = "hidden" })
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="col-xs-4">
+                            <label>New Phone No.</label><br>
+                            @Html.TextBoxFor(model => model.phoneAdd.phoneNumber, new { @class = "form-control numberOnly", @maxlength = "12", @min = "10", @max = "12", @id = "myPhoneNum" })<br />
+                            <span id="phErro" style="color:red;font-size:10pt;"></span>
+                            @*   <input type="text" name="myPhoneNum" class="form-control numberOnly" maxlength="10" min="10" max="10" id="myPhoneNum">*@
+                        </div>
+                        <div class="col-xs-8">
+                            <label>Remarks/Reason for adding</label><br>
+                            @Html.TextAreaFor(model => model.phoneAdd.remarks, new { @class = "form-control characterLimit", @id = "myPhoneRemark" })
+                            @*  <textarea name="myPhoneRemark" class="form-control characterLimit" id="myPhoneRemark"></textarea>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-default" name="submit" value="SavePhone" id="savePhoneCust" />
+                @*<button type="button" class="btn btn-default" data-dismiss="modal" id="savePhoneCust">SAVE</button>*@
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- remarks on delete or preference change -->
+
+<div class="modal fade" id="myModalUpdatePhone" role="dialog">
+    <div class="modal-dialog modal-xs">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="padding:1px;text-align:center;color:red;">
+                <button type="button" class="close" data-dismiss="modal"><img src="~/public/images/close1.png"></button>
+                <h5 class="modal-title">DELETE CONTACT</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+
+                        <div class="col-xs-8">
+                            <label>Remarks/Reason for updation</label><br>
+                            @Html.TextAreaFor(model => model.phoneAdd.remarks, new { @class = "form-control characterLimit", @id = "myPhnRemark" })
+                            @*<textarea name="myPhnRemark" class="form-control characterLimit" id="myPhnRemark"></textarea>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="dltPhoneCust" name="submit" value="DeletePhone">Delete</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $("#myPhoneNum").keypress(function (e) {
+            var key = e.keyCode || e.which;
+            console.log(key + "");
+            if (/*(key >= 97 && key <= 122) || (key >= 65 && key <= 90) ||*/ (key >= 48 && key <= 57) || key == 32) {
+                //No Action
+            }
+            else {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Only alphabates are allowed.'
+                });
+
+                return false;
+            }
+        });
+
+    </script>
+}

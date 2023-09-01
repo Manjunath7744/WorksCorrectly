@@ -1,0 +1,151 @@
+﻿@model AutoSherpa_project.Models.psfquestions
+@{
+    ViewBag.Title = "addPSFquestions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Ajax.BeginForm("Save", "SuperAdmin", new AjaxOptions { HttpMethod = "POST", OnSuccess = "complete" }))
+{
+
+    Html.RenderPartial("_psfQuestions");
+
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <b id="pnlHead">PSF Details</b>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="dataTable_wrapper">
+                        <table class="table table-striped table-bordered table-hover" style="width:100%" id="myDatatable">
+
+                            <thead>
+                                <tr>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                    <th>Question No</th>
+                                    <th>Question</th>
+                                    <th>IS Active</th>
+                                    <th>Display Type</th>
+                                    <th>DDL Range</th>
+                                    <th>DDL Options</th>
+                                    <th>Radio Options</th>
+                                    <th> Campaign Id</th>
+                                    <th>Binding Var</th>
+                                    <th>Qs Mandatory</th>
+                                    <th>Visited Customer Category</th>
+                                    <th>Pickup Customer Category</th>
+
+                                </tr>
+                            </thead>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+{
+
+    <script>
+        $(document).ready(function () {
+
+            loaddt();
+
+        });
+        function loaddt() {
+            $('#myDatatable').DataTable().destroy();
+            $('#myDatatable tbody ').empty();
+            var OTable = $('#myDatatable').DataTable({
+
+
+                "ajax": {
+                    "url": '/SuperAdmin/getPSFquestions',
+                    "type": "get",
+                    "datatype": "json",
+                    "destroy": "true"
+                },
+                "columns": [
+                    {
+                        "data": "id", "width": "50px", "render": function (data) {
+                            return '<a class ="Save" href="/SuperAdmin/addPSFquestions/' + data + '">Edit</a>';
+                        }
+                    },
+                    {
+                        "data": "id", "width": "50px", "render": function (data) {
+                            return '<a class ="Delete" onclick=\'Deletedata(' + data + ')\'>Delete</a>';
+                        }
+                    },
+                    { "data": "question_no", "question_no": true },
+                    { "data": "question", "question": true },
+                    { "data": "isActive", "isActive": true },
+                    { "data": "display_type", "display_type": true },
+                    { "data": "ddl_range", "ddl_range": true },
+                    { "data": "ddl_options", "ddl_options": true },
+                    { "data": "radio_options", "radio_options": true },
+                    { "data": "campaignid", "campaignid": true },
+                    { "data": "binding_var", "binding_var": true },
+                    { "data": "qs_mandatory", "qs_mandatory": true },
+                    { "data": "visited_cust_cat", "visited_cust_cat": true },
+                    { "data": "pickup_cust_cat", "pickup_cust_cat": true }
+
+                ],
+                // "processing": "true",
+                "serverSide": false,
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": true,
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+
+
+                },
+            })
+        }
+        function Deletedata(id) {
+
+            var con = confirm("Are you sure you want to delete this??")
+            if (con) {
+                $.ajax({
+                    type: "POST",
+                    url: "/SuperAdmin/Deletedata/",
+                    data: { id: id },
+                    cache: false,
+                    success: function (data) {
+                        alert(data);
+                        loaddt();
+                    }
+                });
+            }
+
+
+        }
+
+
+        function complete(data) {
+            clearControls();
+            Lobibox.notify('info', {
+                msg: 'Submitted successfully!'
+            });
+            loaddt();
+        }
+        $('.numberOnly').keypress(function (e) {
+
+            if (isNaN(this.value + "" + "." + String.fromCharCode(e.charCode))) {
+                return false;
+            }
+
+        });
+
+    </script>
+}
+

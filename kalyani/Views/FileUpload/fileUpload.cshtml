@@ -1,0 +1,757 @@
+﻿
+@{
+    ViewBag.Title = "fileUpload";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    .tableBorder {
+        border: 2px purple solid;
+        margin: 9px;
+    }
+</style>
+<script src="~/public/javascripts/jquery.js"></script>
+<link href="~/public/css/jquery.fileupload-ui.css" rel="stylesheet" />
+<link href="~/public/css/jquery.fileupload.css" rel="stylesheet" />
+<input type="hidden" id="uploadIds">
+@*<input type="hidden" id="username" name="username" value="Model.userId">
+    <input type="hidden" id="dealername" name="dealername" value="@dealer">*@
+
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="col-md-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><b>Instructions</b></h3>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        <li>The maximum file size for uploads is <strong>5999 KB</strong> </li>
+                        <li>Only file types of xlsx are allowed </li>
+                        <li>You can <strong>drag &amp; drop</strong> files from your desktop on this webpage. </li>
+                        <li id='workshopCodeDesciption'><b>Workshops</b>
+                        <br />
+                        <br />
+                            <div class="">
+                                <table class="table table-striped table-bordered table-hover" id="tbl_fileUploadWorkshops">
+                                    <thead>
+                                        <tr>
+                                            <th>Workshop Name</th>
+                                            <th>Workshop Code</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                           
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" id="autoPlanView" style="display:none">
+            <div class="panel panel-info">
+                <div class="panel-heading"><h3 class="panel-title"><b>Assignment Plan List</b></h3></div>
+                <div class="panel-body">
+                    <div class="panel panel-default">
+                        <div class="panel-body inf-content">
+                            <div>
+                                <div>
+                                    <table class="table table-striped table-bordered table-hover" id="assignmentPlanList" style="width:100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>Campaign&nbsp;Name</th>
+                                                <th>Location</th>
+                                                <th>Wyzuser&nbsp;Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id='tbodyid'></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div id="noData" style="display:none;">
+                            </div>
+                            <div>
+                                <center>
+
+                                    <button type="button" id="changePlan" class='btn btn-sm btn-primary' onclick='window.location.href = siteRoot+"/Assignment/AssignmentPlan"' style='display:none;'>Change Plan</button>
+
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading"><b>Manage Upload files</b></div>
+    <div class="panel-body">
+
+
+
+        <!-- The file upload form used as target for the file upload widget -->
+        <form id="fileupload" action="/postfile" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+            <input type="hidden" id="uploadTypeHidden" name="uploadTypeHidden" value="test"></input>
+            <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+
+            <br>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="col-md-3">
+                        <label>Upload Type : </label>
+                        @Html.DropDownList("uploadType", new SelectList(ViewBag.uploadList, "id", "uploadtypes"), "Select", new { @class = "form-control m-b selectpickerupload", @id = "uploadType", @data_field = "uploadType", @onchange = "autoAssignmentPlanView();" })
+                        <br />
+                    </div>
+
+                    <div class="col-md-2" id="sales_id">
+                        <label>Type Of Workshop : </label>
+                        <select name="locType" id="locType_id" class="form-control m-b" onchange="workshopsBasedOnLocAndType('location_id');">
+                            <option value="2">SERVICE</option>
+                            <option value="1">SALES</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2" id="loc_id">
+                        <label>Location : </label>
+                        @Html.DropDownList("location", new SelectList(ViewBag.locationList, "id", "locationName"), "Select", new { @class = "form-control m-b ", @id = "location_id", @data_field = "location_id", @onchange = "workshopsBasedOnLocAndType('location_id');" })
+                    </div>
+                    <div class="col-md-2" id="workS_id">
+                        <label>Workshop : </label>
+                        <select name="workshop_id" id="workshop_id" class="form-control m-b" onchange="autoAssignmentPlans();" required>
+                            <option value="0">--SELECT--</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2" style="display:none;" id="CampIDDis">
+                        <label>Campaign Name : </label>
+                        <select name="campaignName" id="CampaignId" class="form-control m-b" onchange="autoAssignmentPlans();"></select>
+                    </div>
+                    <div class="col-md-1" style="display:none;width: 12.499999995%;" id="campaignFromDate">
+                        <label>From Date : </label>
+                        <input type="text" class="datepickerFilter form-control m-b" name="campaignFromDate" readonly>
+                    </div>
+                    <div class="col-md-1" style="display:none;width: 12.499999995%;" id="campaignToDate">
+                        <label>To Date : </label>
+                        <input type="text" class="datepickerFilter form-control m-b" name="campaignToDate" readonly>
+                    </div>
+
+                </div>
+            </div>
+            <br>
+            <div class="row fileupload-buttonbar">
+                <div class="col-lg-7">
+                    <span>
+                        <a href="#" id="sampleExcel">
+                            <button type="button" id="btn" class="btn btn-primary" style="background-color: DodgerBlue;" onclick="DownloadExcel()" title="Sample Format">
+                                <i class="glyphicon glyphicon-download"></i>Sample Format
+                            </button>
+                        </a>
+                    </span>
+                    <!-- The fileinput-button span is used to style the file input field as button -->
+                    <span class="btn btn-success fileinput-button">
+                        <i class="glyphicon glyphicon-plus"></i>
+                        <span>Add files...</span>
+                        <input type="file" name="uploadfile" multiple>
+                    </span>
+                    <button type="submit" class="btn btn-primary start">
+                        <i class="glyphicon glyphicon-upload"></i>
+                        <span>Start upload</span>
+                    </button>
+                    <button type="button" class="btn btn-danger delete">
+                        <i class="glyphicon glyphicon-trash"></i>
+                        <span>Delete</span>
+                    </button>
+                    <input type="checkbox" class="toggle">
+                    <span></span>
+                    <!--<button class="btn btn-success wyzprocess" data-type="POST" data-url="{%=file.processUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+                        <i class="glyphicon glyphicon-check"></i>
+                        <span>Submit For Reporting</span>
+                    </button>
+                    <input type="checkbox" class="poggle">-->
+                    <!-- The global file processing state -->
+                    <span class="fileupload-process"></span>
+                </div>
+                <!-- The global progress state -->
+                <div class="col-lg-5 fileupload-progress fade">
+                    <!-- The global progress bar -->
+                    <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+                    </div>
+                    <!-- The extended global progress state -->
+                    <div class="progress-extended">&nbsp;</div>
+                </div>
+            </div>
+            <!-- The table listing the files available for upload/download -->
+            <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
+        </form>
+
+
+    </div>
+    <!-- The blueimp Gallery widget -->
+    @*<div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls" data-filter=":even">
+            <div class="slides"></div>
+            <h3 class="title"></h3>
+            <a class="prev">�</a>
+            <a class="next">�</a>
+            <a class="close">�</a>
+            <a class="play-pause"></a>
+            <ol class="indicator"></ol>
+        </div>*@
+</div>
+
+
+<div class="modal fade" id="uploadStatusPopup" role="dialog">
+    <div class="modal-dialog modal-md">
+
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="font-size:15px; color: blue; text-align:center"><b>UPLOAD STATUS</b> </h4>
+            </div>
+            <div class="modal-body">
+                <div class="table table-responsive">
+                    <table class="table table-striped table-bordered table-hover" id="uploadlist"></table>
+                </div>
+                <div>
+                    <center>
+                        <button type="button" class="btn btn-sm btn-primary" data-backdrop="static" data-keyboard="false" onclick="uploadAssignmentPlanCheck();">OK</button>
+                    </center>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="uploadErrorStatusPopup" role="dialog">
+    <div class="modal-dialog modal-md" style="overflow-y: initial !important;">
+
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><img src="~/public/images/close1.png" /></button>
+                <h4 class="modal-title" style="font-size:15px; color: blue; text-align:center"><b>ERROR STATUS</b> </h4>
+            </div>
+            <div class="modal-body" style="max-height: calc(100vh - 150px);overflow-y: auto;">
+                <div class="table table-responsive">
+                    <table class="table table-striped table-bordered table-hover" id="errorlist"></table>
+                </div>
+                <div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/BlueIMPFiles");
+@section scripts
+{
+
+
+
+    <script type="text/javascript">
+
+
+        function showErrors() {
+            $("#uploadErrorStatusPopup").modal("show");
+        }
+
+
+
+        function getResultIntable(idIs, msg) {
+            //console.log("getResultIntable : " + idIs);
+            $('#uploadIds').val(idIs);
+            var selectedType = idIs;
+            //console.log(selectedType);
+            var table = document.getElementById('uploadlist');
+            var rowCount = table.rows.length;
+            $("#uploadlist").empty();
+
+            var urlLink = siteRoot + "/FileUpload/getUploadsListById/";
+
+            if (msg == "" || msg == null) {
+                $('#shwErrorMsg').val(msg);
+                $.ajax({
+                    type: 'POST',
+                    url: urlLink,
+                    datatype: 'json',
+                    data: { upId: selectedType },
+                    cache: false,
+                    success: function (res) {
+
+                        //console.log("Hello" + res.strUploadData);
+                        if (res.success == true) {
+                            $.each(res.strUploadData, function (key, value) {
+                                tr = $('<tr/>');
+                                if (key.fileNme) {
+                                    tr.append('<td style="color: red;" align="center"><a href= ' + key + '></a></td>')
+                                }
+
+                                tr.append('<td style="color: red;" align="center">' + key + '</td>')
+                                tr.append('<td align="center">:</td>')
+                                tr.append('<td align="center">' + value + '</td>')
+                                $("#uploadlist").append(tr);
+                                //console.log( key + "=" + value ); // min=List<> , can iterate over list if you need to .
+
+
+
+                            });
+                            //console.log(res.errorExcel);
+                            //if (res.errorExcel != null || res.errorExcel == "") {
+                            //    $.each(res.errorExcel, function (key, value) {
+                            //        tr = $('<tr/>');
+                            //        if (key.fileNme) {
+                            //            tr.append('<td style="color: red;" align="center"><a href= ' + key + '></a></td>')
+                            //        }
+
+                            //        tr.append('<td style="color: red;" align="center">' + key + '</td>')
+                            //        tr.append('<td align="center">:</td>')
+                            //        tr.append('<td align="center">' + value + '</td>')
+                            //        $("#errorlist").append(tr);
+
+
+                            //    });
+                            //}
+                        }
+                        else {
+                            alert(res.error);
+                        }
+                    }, error(error) {
+
+                    }
+                });
+            }
+            else {
+                Lobibox.notify('error', {
+                    msg: msg
+                });
+                return false;
+
+            }
+        }
+
+
+    </script>
+    <!-- The template to display files available for upload -->
+    <script id="template-upload" type="text/x-tmpl">
+        {% for (var i=0, file; file=o.files[i]; i++) { %}
+        <tr class="template-upload fade">
+            <td>
+                <p class="name">{%=file.name%}</p>
+                <strong class="error text-danger"></strong>
+            </td>
+            <td>
+                <p class="size">Processing...</p>
+                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
+            </td>
+            <td>
+                {% if (!i && !o.options.autoUpload) { %}
+                <button class="btn btn-primary start" disabled>
+                    <i class="glyphicon glyphicon-upload"></i>
+                    <span>Start</span>
+                </button>
+                {% } %}
+                {% if (!i) { %}
+                <button class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Cancel</span>
+                </button>
+                {% } %}
+            </td>
+            <td>&nbsp;</td>
+        </tr>
+        {% } %}
+    </script>
+    <!-- The template to display files available for download -->
+    <script id="template-download" type="text/x-tmpl">
+        {% for (var i=0, file; file=o.files[i]; i++) { %}
+        <tr class="template-download fade">
+            <td>
+                <p class="name">
+                    {% if (file.url) { %}
+                    <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
+                    {% } else { %}
+                    <span>{%=file.name%}</span>
+                    {% } %}
+                </p>
+                {% if (file.error) { %}
+                <div><span class="label label-danger">Error</span> {%=file.error%}</div>
+                {% } %}
+
+            </td>
+
+            <td>
+                <span class="size">{%=o.formatFileSize(file.size)%}</span>
+            </td>
+            <td>
+                {% if (file.deleteUrl) { %}
+                <button class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}" {% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}' {% } %}>
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Delete</span>
+                </button>
+                <input type="checkbox" name="delete" value="1" class="toggle">
+
+
+                {% } else { %}
+                <button class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Cancel</span>
+                </button>
+                {% } %}
+            </td>
+            <td>
+                {% if (file.deleteUrl) { %}
+                <button class="btn btn-success wyzprocess" onclick="validateForm();" data-type="POST" data-url="{%=file.processUrl%}" {% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}' {% } %}>
+                    <i class="glyphicon glyphicon-check"></i>
+                    <span>Click to Submit</span>
+                </button>
+
+                {% } %}
+            </td>
+        </tr>
+        {% } %}
+    </script>
+
+    <script>
+
+
+        $(document).ready(function () {
+            loadWorkshops();
+        });
+        function loadWorkshops() {
+
+            if ($.fn.dataTable.isDataTable('#tbl_fileUploadWorkshops'))
+            {
+                t.destroy();
+            }
+            t = $("#tbl_fileUploadWorkshops").DataTable({
+                processing: true,
+                serverSide: false,
+                info: true,
+                ajax: {
+                    url: siteRoot + "/FileUpload/loadWorkshops",
+                    data: {}
+                },
+                columns: [
+                    { "data": "workshopName" },
+                    { "data": "code" },
+                ],
+                order: [],
+                "scrollY": "200px",
+                "pageLength": 100,
+                select: true,
+                responsive: true,
+            });
+        }
+        //function loadWorkshops() {
+        //    var note = "<b>Workshop Codes - </b><br><div style='overflow-x:scroll'><div style='/* width:1390px; */min-width: 100px;display: flex;max-height: 1390px;'><table border='1' id='0' class='table-bordered tableBorder'><tr><th style='padding-right:10px;'>Workshop&nbsp;Name&nbsp;&nbsp;&nbsp;</th><th>WorkshopCode</th></tr>";
+
+        //    $.ajax({
+        //        type: "POST",
+        //        url: siteRoot + "/FileUpload/loadWorkshops",
+        //        data: {},
+
+        //        cache: false,
+        //        success: function (res) {
+        //            //console.log(res);
+        //            var totalWorkshop = res.data.length;
+        //            $('#workshopCodeDesciption').empty();
+        //            for (var i = 0; i < res.data.length; i++) {
+        //                note += "<tr><td style='padding-right:10px;'>" + res.data[i].workshopName + "</td><td>" + res.data[i].code + "</td></tr>";
+        //                if (i != 0 && (i % 10 == 0)) {
+        //                    note += "</table>";
+        //                    //note = note + '</div>';
+        //                    //$('#workshopCodeDesciption').append(note);
+        //                    // document.getElementById('workshopCodeDesciption').innerHTML = note;
+        //                    note += "<table border='1' id='" + i + "' class='table-bordered tableBorder'><tr><th style='padding-right:10px;'>Workshop&nbsp;Name&nbsp;&nbsp;&nbsp;</th><th>WorkshopCode</th></tr>";
+        //                }
+        //            }
+
+        //            $('#workshopCodeDesciption').append(note + '</div></div>');
+
+
+
+        //        },
+        //        error: function (data) {
+        //            Materialize.toast("Something went wrong. ", 3000, 'rounded');
+        //        }
+        //    });
+        //}
+
+
+        function validateForm() {
+            var utype = $('#uploadType').val();
+            if (utype == '4' || utype == '5') {
+                var campId = $('#CampaignId').val();
+                if (campId == "0") {
+                    Lobibox.notify('error', {
+                        msg: 'Select Campaign.'
+                    });
+                    return false;
+                }
+            }
+            else if (utype == '3') {
+                var workshopId = $('#workshop_id').val();
+                if (workshopId == "0") {
+                    Lobibox.notify('error', {
+                        msg: 'Select Workshop.'
+                    });
+                    return false;
+                }
+            }
+        }
+
+        function autoAssignmentPlanView() {
+            $('#noData').html('');
+            ajaxCampaignList();
+            var utype = $('#uploadType').val();
+            if (utype == '3' || utype == '4' || utype == '5') {
+                document.getElementById("autoPlanView").style.display = "block";
+            }
+            else {
+                document.getElementById("autoPlanView").style.display = "none";
+            }
+        }
+
+        function ajaxCampaignList() {
+            var uploadTypeList = document.getElementById("uploadType");
+            var uploadType = uploadTypeList.options[uploadTypeList.selectedIndex].text;
+
+            //$("#sampleExcel").attr("href", "/downloadSampleExcel/" + uploadType + "");
+            var urlLink = siteRoot + "/FileUpload/getCampaignNamesByUpload/";
+
+            $.ajax({
+                type: 'POST',
+                url: urlLink,
+                datatype: 'json',
+                data: { uploadType: uploadType },
+                cache: false,
+                success: function (camp) {
+                    if (camp.campAjaxList.length != 0) {
+
+                        document.getElementById("CampIDDis").style.display = "block";
+                        document.getElementById("campaignFromDate").style.display = "none";
+                        document.getElementById("campaignToDate").style.display = "none";
+                        document.getElementById("loc_id").style.display = "none";
+                        document.getElementById("workS_id").style.display = "none";
+                        document.getElementById("sales_id").style.display = "none";
+
+                        $('#CampaignId').empty();
+                        var dropdown = document.getElementById("CampaignId");
+                        dropdown[0] = new Option('--SELECT--', '0');
+
+                        for (var i = 0; i < camp.campAjaxList.length; i++) {
+
+                            dropdown[dropdown.length] = new Option(camp.campAjaxList[i].campName, camp.campAjaxList[i].campId);
+                        }
+                    }
+                    else {
+                        document.getElementById("CampIDDis").style.display = "none";
+                        document.getElementById("campaignFromDate").style.display = "none";
+                        document.getElementById("campaignToDate").style.display = "none";
+                        document.getElementById("loc_id").style.display = "block";
+                        document.getElementById("workS_id").style.display = "block";
+                        document.getElementById("sales_id").style.display = "block";
+                    }
+                },
+                error(error) {
+                    alert(error);
+
+                }
+            });
+
+        }
+
+        function sendSMS(uploadId) {
+            var user = $('#username').val();
+            var dealer = $('#dealername').val();
+            var urlLink = "/sendSMS/" + uploadId + "/" + user + "/" + dealer;
+            //console.log("urlLink : " + urlLink);
+
+            $.ajax({
+                url: urlLink
+            }).done(function (cities) {
+                //alert();
+            });
+        }
+
+
+
+        function autoAssignmentPlans() {
+            var utype = $('#uploadType').val();
+            if (utype == '3' || utype == '4' || utype == '5') {
+                document.getElementById("changePlan").style.display = "block";
+                var campId = $('#CampaignId').val();
+                var workshopId = $('#workshop_id').val();
+                var campName = $('#CampaignId option:selected').text();
+                var workshopName = $('#workshop_id option:selected').text();
+                var url = "/assignmentPlanList/" + utype + "/" + campId + "/" + workshopId;
+                //alert(url);
+                $('#assignmentPlanList').DataTable({
+                    "destroy": true,
+                    "ajax": {
+                        "url": siteRoot + "/FileUpload/getAssignmentPlanList/",
+                        "type": "POST",
+                        "datatype": "json",
+                        "data": { uploadTypeId: utype, campaignId: campId, workshopId: workshopId, campaignName: campName }
+                    },
+                    "columns": [
+
+                        {
+                            "data": "campaignName", retnder: function (data, type, row) {
+                                return data;
+                            }
+                        },
+                        { "data": "locationName", "name": "locationName" },
+                        { "data": "CreName", "name": "CreName" }
+                    ],
+                    "initComplete": function (data) {
+                        var totalRecords = $("#assignmentPlanList").dataTable().fnGetData().length;
+                        //alert(totalRecords);
+                        if (totalRecords === 0) {
+                            if (utype == '4' || utype == '5') {
+                                $('#noData').html('<span><b>No Auto Assignment Plan</b> is available for <b>' + campName + '</b> campaign. Click on <b>Change Plan</b> button to add Plans</span><br>');
+                            }
+                            else {
+                                $('#noData').html('<span><b>No Auto Assignment Plan</b> is available for <b>' + workshopName + '</b> location. Click on <b>Change Plan</b> button to add Plans</span><br>');
+                            }
+                            document.getElementById('noData').style.display = "block";
+                        }
+                        else {
+                            document.getElementById('noData').style.display = "none";
+                        }
+                    }
+                });
+            }
+
+            $('#assignmentPlanList').on('shown.bs.collapse', function () {
+                $($.fn.dataTable.tables(true)).DataTable()
+                    .columns.adjust();
+            });
+        }
+
+        function uploadAssignmentPlanCheck() {
+            var utype = $('#uploadType').val();
+            var uId = $('#uploadIds').val();
+            if (utype == '3' || utype == '4' || utype == '5') {
+                var urlLink = siteRoot + "/FileUpload/getUploadedStatusDetails/" + uId;
+                //alert(urlLink);
+                $.ajax({
+                    type: 'POST',
+                    url: urlLink,
+                    datatype: 'json',
+                    data: { uploadId: uId },
+                    cache: false,
+                    success: function (res) {
+                        if (utype == '4' || utype == '3') {
+
+                            window.location = siteRoot + '/Assignment/SMRPSFAssignment/' + uId;
+                        }
+                        else {
+                            window.location = siteRoot + '/Assignment/InsuranceAssignment/' + uId;
+                        }
+                    }, error(error) {
+
+                    }
+                });
+            }
+            else {
+                $('#uploadStatusPopup').modal('hide');
+            }
+        }
+
+
+        //workshop load by city and type in upload
+
+        function workshopsBasedOnLocAndType(sel) {
+            var cityId = document.getElementById(sel).value;
+            var locType = document.getElementById('locType_id').value;
+            if (cityId == 0) {
+                $('#workshop_id').empty();
+                var loc = '<option value="0">--SELECT--</option>';
+                $('#workshop_id').append(loc);
+            }
+            else {
+                //var urlLink="/CRE/listWorkshopsByID/"+cityId+"";
+                var urlLink = siteRoot + "/FileUpload/listWorkshopsByIdAndType/";
+
+
+                $.ajax({
+                    type: 'POST',
+                    url: urlLink,
+                    datatype: 'json',
+                    data: { cityId: cityId, locType: locType },
+                    cache: false,
+                    success: function (data) {
+                        //console.log(data.workshops.length);
+                        if (data != null) {
+                            $('#workshop_id').empty();
+                            var dropdown = document.getElementById("workshop_id");
+                            dropdown[dropdown.length] = new Option("--SELECT--", "0");
+                            //console.log(data.length)
+                            for (var i = 0; i < data.workshops.length; i++) {
+                                dropdown[dropdown.length] = new Option(data.workshops[i].name, data.workshops[i].id);
+                            }
+                        }
+                    }, error(error) {
+
+                    }
+                });
+            }
+        }
+
+        function DownloadExcel() {
+            var utype = $('#uploadType').val();
+            var name = $("#uploadType option:selected").text();
+            if (utype == "Select" || utype == "") {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please Select Upload Type.'
+                });
+            }
+            else {
+
+                $.ajax({
+                    type: "POST",
+                    url: siteRoot + "/FileUpload/ExcelExport/",
+                    data: { utype: utype, name: name },
+
+                    cache: false,
+                    success: function (data) {
+                        debugger;
+                        window.location = siteRoot + '/FileUpload/Download/';
+                    },
+                    error: function (data) {
+                        Materialize.toast("Something went wrong. ", 3000, 'rounded');
+                    }
+                });
+            }
+        }
+        function DownloadFile(uploadId) {
+
+            $.ajax({
+                type: "POST",
+                url: siteRoot + "/FileUpload/downloadFile/",
+                data: { uploadId: uploadId },
+
+                cache: false,
+                success: function (data) {
+                    debugger;
+                    window.location = siteRoot + '/FileUpload/Download/';
+                },
+                error: function (data) {
+                    Materialize.toast("Something went wrong. ", 3000, 'rounded');
+                }
+            });
+        }
+    </script>
+}
+

@@ -1,0 +1,471 @@
+﻿@model AutoSherpa_project.Models.ViewModels.AssignmentViewModal
+@{
+    ViewBag.Title = "SMRPSFAssignment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model.uploadId > 0)
+{
+    <div class="panel panel-primary" id="uploadDetails" style="display:none">
+        <div class="panel-heading">
+            <strong>Upload Details</strong>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <div class="col-md-6" style="border: 1px black;border-spacing: 2px;">
+                        <div>
+                            <label><h4><b>Upload Status (<span id="uploadsource"></span>)</b></h4></label><br>
+                            <div>
+                                <font style="font-size: small;color:green;">Total Uploaded :  <b id="totalUploaded" style="display:inline;"></b></font>
+                            </div>
+                            <div>
+                                <font style="font-size: small;color:green;">Total Assigned Calls :  <b id="totalAssigned" style="display:inline;"></b></font>
+                            </div>
+                            <div>
+                                <font style="font-size: small;color:green;">Total Calls Need To Be Assign :  <b id="totalUnassigned" style="display:inline;"></b></font>
+                            </div>
+                            <div>
+                                <font style="font-size: small;color:green;">Already Available Calls Before Upload:  <b id="totalAlradyAvail" style="display:inline;"></b></font>
+                            </div>
+                            <div>
+                                <font style="font-size: small;color:red;">Total Rejected:  <b id="totalError" style="display:inline;"></b></font>
+                            </div>
+                            <div>
+                                <font style="font-size: small;color:red;">Rejected Due To Excel Error:  <b id="totalExcelError" style="display:inline;"></b></font>
+                            </div>
+                            <div>
+                                <font style="font-size: small;color:red;">Rejected Due To Incorrect Workshop ID:  <b id="totalRejectWID" style="display:inline;"></b></font>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3" style="border: 1px black;border-spacing: 2px;">
+                        <div>
+                            <label><h4><b>Auto Assigned Calls</b></h4></label><br>
+                            <div id="assignedCalls">
+                                @if (Model.changeAssignDetails.Count > 0)
+                                {
+                                    foreach (var ass_details in Model.changeAssignDetails)
+                                    {
+                                        if (ass_details.assignPlan == "Yes")
+                                        {
+                                            <div id="@ass_details.category"><font style="font-size:small">@ass_details.category: <b style="display:inline">@ass_details.count</b></font></div>
+                                        }
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3" style="border: 1px black;border-spacing: 2px;">
+                        <div>
+                            <label><h4><b>Need To Be Assigned</b></h4></label><br>
+                            <div id="unAssignedCalls">
+                                @if (Model.changeAssignDetails.Count > 0)
+                                {
+                                    foreach (var ass_details in Model.changeAssignDetails)
+                                    {
+                                        if (ass_details.assignPlan != "Yes")
+                                        {
+                                            <div id="@ass_details.category"><font style="font-size:small">@ass_details.category: <b style="display:inline">@ass_details.count</b></font></div>
+                                        }
+                                    }
+                                }
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <strong>Call Allocation | To Assign Calls</strong>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+
+
+            <div class="col-sm-2 campaignTypeDiv">
+                <div class="form-group">
+                    <label>Assignment Type :</label>
+                    @*<select class="form-control" data-field="AllCampign" onchange="manageFilter(this.id)" id="CampaignTypeData">
+                @foreach (var item in ViewBag.campAllList)
+                {
+                    if (Session["LoginUser"].ToString() == "Service")
+                    {
+                        if (item.campaignType == "Campaign" || item.campaignType == "PSF")
+                        {
+                            <option value="@item.id">@item.campaignType</option>
+                        }
+                    }
+                    if (Session["LoginUser"].ToString() == "Insurance")
+                    {
+                        if (item.campaignType == "Insurance")
+                        {
+                            <option value="@item.id">@item.campaignType</option>
+                            }
+                        }
+                    }
+                }
+                </select>*@
+                    @Html.DropDownList("CampaignTypeData", new SelectList(ViewBag.campAllList, "id", "campaignType"), "--Select--", new { @class = "form-control", @data_field = "AllCampign", @onchange = "manageFilter(this.id)", @id = "CampaignTypeData" })
+                </div>
+            </div>
+
+
+            <div class="col-sm-2 campaignTypePSF" style="display: none;">
+                <label>Select PSF Type :</label>
+                @Html.DropDownList("CampaignNamePSF", new SelectList(ViewBag.campListPSF, "id", "campaignName"), "--Select--", new { @class = "form-control", @data_field = "PSFCampign", @id = "CampaignNamePSF" })
+            </div>
+            <div class="col-sm-2" id="campaignByName" style="display: none">
+                <div class="form-group">
+                    <label for="">Select Campaign Name :</label>
+                    @Html.DropDownList("campaignName", new SelectList(ViewBag.campTypeList, "id", "campaignName"), "--Select--", new { @class = "form-control", @data_field = "CampignName", @id = "campaignName" })
+                </div>
+            </div>
+
+
+            <div class="col-sm-2 fromDiv">
+                <div class="form-group">
+                    <label>From Date :</label>
+                    <input type="text" class="datePicker form-control" placeholder="Enter From Date" data-field="from_date" id="singleData" name="singleData" readonly>
+                </div>
+            </div>
+            <div class="col-sm-2 locationSelect">
+
+                <label for="cityName">Select City :</label>
+                @Html.DropDownList("location", new SelectList(ViewBag.locations, "name", "name"), "--Select--", new { @class = "form-control", @data_field = "location", @id = "location", @onchange = "ajaxCallToLoadWorkShopByCity('location','workshop');" })
+            </div>
+            <div class="col-sm-2 workshopSel">
+                <label for="workshopId">Select Workshop :</label>
+                @Html.DropDownList("workshopId", Enumerable.Empty<SelectListItem>(), "--Select--", new { @class = "form-control", @data_field = "workshop", @id = "workshop" })
+            </div>
+
+
+            <div class="col-sm-2 campaignTypePSF" style="display: none;">
+                <div class="form-group">
+                    <label>Vehicle Category :</label>
+
+                    <select class="form-control" id="model" data-field="vehicle_category" name="model">
+                        <option value="">All</option>
+                        <option value="1">Commercial</option>
+                        <option value="0">Non-Commercial</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-2">
+                <br>
+                <button type="submit" id="" name="selectedFile" class="btn btn-sm btn-primary viewAssignCalls btn-block" value="viewAssignCalls">
+                    ViewCalls
+                </button>
+            </div>
+            <div class="col-md-3 selectcre" style="display: none;" id="selectCREDiv">
+                <label for="data">Select CRE's :</label>
+                <div class="form-group">
+                    @Html.DropDownList("creList", new SelectList(ViewBag.creList,"creName", "usernameWithFirstname"), new { @class = "selectpicker form-control", @id = "creList",@multiple="multiple" })
+                </div>
+            </div>
+            <div class="col-sm-3 assgnBtn" style="display: none;" id="assignCallsDiv">
+                <label></label>
+                <button type="submit" class="btn btn-sm btn-primary assignCall btn-block"
+                        id="" name="selectedFile"
+                        value="assignCalls">
+                    Assign Calls
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">List Of Calls To Assign</div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="dataTable_wrapper">
+                    <table class="table table-striped table-bordered table-hover" id="assignedTable">
+                        <thead>
+                            <tr>
+                                <th>Customer Name</th>
+                                <th>Mobile Number</th>
+                                <th>Vehicle RegNo.</th>
+                                <th>Model</th>
+                                <th>Variant</th>
+                                <th>Next Service Date</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+@section scripts{
+
+<script src="~/public/javascripts/ajaxCallScripts.js"></script>
+
+    <script type="text/javascript">
+        var uploadId = @Model.uploadId;
+        $(document).ready(function () {
+            if (uploadId > 0) {
+                document.getElementById('uploadDetails').style.display = "block";
+                $.ajax({
+                type: 'POST',
+                url: siteRoot + '/Assignment/getUploadDetails/',
+                datatype: 'json',
+                data: { uploadId:'@Model.uploadId' },
+                cache: false,
+                success: function (res) {
+                    if (res.success == true) {
+                        if (res.data.length > 0) {
+                            $('#uploadsource').html(res.data[0].campaignName);
+                            $('#totalUploaded').html(res.data[0].totalUploaded);
+                            $('#totalAssigned').html(res.data[0].totalAssigned);
+                            $('#totalUnassigned').html(res.data[0].totalUnassigned);
+                            $('#totalAlradyAvail').html(res.data[0].alreadyInBucket);
+                            $('#totalError').html(res.data[0].totalRejected);
+                            $('#totalExcelError').html(res.data[0].excelError);
+                            $('#totalRejectWID').html(res.data[0].rejectedInvalidWorkshopId);
+                        }
+
+                        chnageuploadIdCREWise();
+                    }
+                    else {
+                        alert(res.error);
+                    }
+                }, error(error) {
+
+                }
+            });
+            }
+        });
+
+        function chnageuploadIdCREWise() {
+            $.ajax({
+                type: 'POST',
+                url: siteRoot + '/Assignment/getUploadedAssignedCallDetailsCrewise/',
+                datatype: 'json',
+                data: { uploadId:'@Model.uploadId' },
+                cache: false,
+                success: function (res) {
+                    if (res.success == true) {
+                        if (res.data.length > 0) {
+                            for (var i = 0; i < res.data.length; i++) {
+                                document.getElementById(res.data[i].locationName).title += res.data[i].CreName + ' - ' + res.data[i].totalAssigned + '\n';
+                            }
+                        }
+                    }
+                    else {
+                        alert(res.error);
+                    }
+                }, error(error) {
+                      
+                }
+            });
+        }
+       
+
+        
+        function manageFilter(ele) {
+            var value = $('#'+ele+' option:selected').text();
+            if (value === "PSF") {
+                $('.campaignTypePSF').css({ 'display': 'block' });
+                $('#campaignByName').css({ 'display': 'none' });
+            }
+            else if (value === "Campaign") {
+                $('#campaignByName').css({ 'display': 'block' });
+                $('.campaignTypePSF').css({ 'display': 'none' });
+            }
+            else {
+                $('#campaignByName').css({ 'display': 'none' });
+                $('.campaignTypePSF').css({ 'display': 'none' });
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+        $('.viewAssignCalls').click(function () {
+
+            var city = $("#location").val();
+            var workshop = $("#workshop").val();
+            var fromDate = $("#singleData").val();
+            var toDate = $("#tranferData").val();
+            var campaignTypeIs = $("#CampaignTypeData").val();
+
+            var campName = $("#campaignName").val();
+            var psfName = $("#CampaignNamePSF").val();
+            var Vehicle_modelname = $("#model").val();
+
+
+            if (fromDate != '' && toDate != '' && city != '' && workshop != '') {
+
+                //$.blockUI();
+                var filterData = JSON.stringify({
+                    AllCampaign: campaignTypeIs,
+                    PSFCampaign: psfName,
+                    CampaignName: campName,
+                    location: city,
+                    workshop: workshop,
+                    from_date: fromDate,
+                    to_date: toDate,
+                    vehicle_model: Vehicle_modelname
+                });
+                
+                $('#assignedTable').dataTable({
+                    "destroy": true,
+                    "ajax": {
+                        'type': 'POST',
+                        'url': siteRoot + '/Assignment/getAssignList/',
+                        'datatype':'json',
+                        'data': { filterData: filterData }
+                    },
+                    "columns": [
+                        { 'data': 'customer_name', 'name': 'customer_name' },
+                        { 'data': 'Mobile_number', 'name': "Mobile_number" },
+                        { "data": 'vehicle_RegNo', 'name': 'vehicle_RegNo' },
+                        { "data": "veh_model", 'name': 'veh_model' },
+                        { "data": "variant", 'name': 'variant' },
+                        { "data": "nextservicedate", 'name': 'nextservicedate' }
+                    ],
+                    "serverSide": "true",
+                    "processing": "true",
+                    "serverSide": true,
+                    "scrollX": "true",
+                    "scrollY": "300",
+                    "paging": "true",
+                    "searching": false,
+                    "language": {
+                        "processing": "Loading Please Wait.....!"
+                    }
+                });
+                //$.unblockUI();
+                $('.assgnBtn').css("display", "block");
+                $('.selectcre').css("display", "block");
+                return true;
+            } else {
+
+                if (city == 'select' || city == '') {
+
+                    Lobibox.notify('warning', {
+                        msg: "Please select the city"
+                    });
+                    return false;
+
+                }
+                if (workshop == 'select' || workshop == '') {
+
+                    Lobibox.notify('warning', {
+                        msg: "Please select the workshop"
+                    });
+                    return false;
+
+                }
+
+
+                if (fromDate == '') {
+
+                    Lobibox.notify('warning', {
+                        msg: "Please enter the start date"
+                    });
+                    return false;
+
+                }
+                if (toDate == '') {
+
+                    Lobibox.notify('warning', {
+                        msg: "Please enter the End date"
+                    });
+                    return false;
+
+                }
+
+            }
+        });
+
+        $('.assignCall').click(function () {
+            
+
+            var city = $("#location").val();
+            var workshop = $("#workshop").val();
+            var fromDate = $("#singleData").val();
+            var toDate = $("#tranferData").val();
+            var campaignTypeIs = $("#CampaignTypeData").val();
+
+            var campName = $("#campaignName").val();
+            var psfName = $("#CampaignNamePSF").val();
+            var modelname = $("#model").val();
+
+           
+            var selected_cres;
+            var x = document.getElementById("creList");
+            var j = 0;
+            for (var i = 0; i < x.options.length; i++) {
+                if (x.options[i].selected == true) {
+                    if (j == 0)
+                        selected_cres = x.options[i].value;
+                    else
+                        selected_cres = selected_cres + ","
+                            + x.options[i].value;
+                    
+                    j++;
+                }
+            }
+
+
+            var urlLink = siteRoot +"/Assignment/assignCallToUser/"
+
+            $.ajax({
+                type: 'POST',
+                url: urlLink,
+                data: {
+                    city:city,
+                    workshop:workshop,
+                    fromDate:fromDate,
+                    toDate:toDate,
+                    campaignTypeIs:campaignTypeIs,
+                    campName:campName,
+                    psfName:psfName,
+                    selected_cres:selected_cres,
+                    modelname:modelname
+                },
+                success: function (res) {
+                    if (res.success == true) {
+                        Lobibox.notify('success', {
+                            msg: "Assigned Successfully"
+                        });
+
+                        window.setTimeout(function () {
+                            window.location.reload();
+                        }, 3000);
+                    }
+                    else {
+                        Lobibox.notify('warning', {
+                            msg: "Something went wrong"
+                        });
+                    }
+                },
+                error: function () {
+                    
+                }
+
+            });
+        });
+    </script>
+}

@@ -1,0 +1,698 @@
+﻿
+@{
+    ViewBag.Title = "postsalesComplaintLogs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+    .dashImg1 {
+        width: 37px;
+    }
+
+    .dashImg2 {
+        width: 20px;
+    }
+
+    * {
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    .panel-body, .nav, table.table-bordered.dataTable {
+        font-size: 9pt;
+    }
+</style>
+<div class="container-fluide">
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3 id="freshPSF"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                    <p>Fresh PSF</p>
+                </div>
+                <div class="icon">
+                    <i class="ion-android-call"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-half-offset">
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3 id="pendingFollow"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                    <p>Pending Follow Ups</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-half-offset">
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3 id="nonContactsloader"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                    <p>Non Contacts</p>
+                </div>
+                <div class="icon">
+                    <i class="ion-person-add"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-half-offset">
+            <div class="small-box" style="background-color:#806517;">
+                <div class="inner">
+                    <p style="margin:0 0 1px;color:#fff;">Surveys&nbsp;-&nbsp;<span id="surveys"><img class="dashImg2" src="~/public/img/loading.gif" /></span></p>
+                    <p style="margin:0 0 1px;color:#fff;">Contacts&nbsp;-&nbsp;<span id="contacts"><img class="dashImg2" src="~/public/img/loading.gif" /></span></p>
+                    <p style="margin:0 0 1px;color:#fff;">Total Calls&nbsp;-&nbsp;<span id="totalCalls"><img class="dashImg2" src="~/public/img/loading.gif" /></span></p>
+                    <p style="margin:0 0 -5px;color:#fff;">Date&nbsp;-&nbsp;@DateTime.Today.ToShortDateString()</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Complaint List
+                    <button style="background-color:red;float:right;height:30px;width:100px;margin-top:-5px; " onclick="clearFilters();" title="CLEAR FILTER">CLEAR&nbsp;FILTER</button>
+                </div>
+                <div class="panel-body">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist" style="background-color: #dcc1c1;">
+                        <li class="active bucket" id="li-NewComplaints" data-bucket="1">
+                            <a class="nav-link active" id="NewComplaints-tab" data-toggle="tab" href="#NewComplaints" role="tab" aria-controls="home"
+                               aria-selected="true">New Complaints</a>
+                        </li>
+                        <li class="bucket" id="li-FollowUpRequired" data-bucket="2">
+                            <a class="nav-link active" id="FollowUpRequired-tab" data-toggle="tab" href="#FollowUpRequired" role="tab" aria-controls="home"
+                               aria-selected="true">Follow Up Required</a>
+                        </li>
+                        <li class="bucket" id="li-nonContacts" data-bucket="3">
+                            <a class="nav-link active" id="nonContacts-tab" data-toggle="tab" href="#nonContacts" role="tab" aria-controls="home"
+                               aria-selected="true">Non Contacts</a>
+                        </li>
+                        <li class="bucket" id="li-futureFollowUpRequired" data-bucket="5">
+                            <a class="nav-link active" id="futureFollowUpRequired-tab" data-toggle="tab" href="#futureFollowUpRequired" role="tab" aria-controls="home"
+                               aria-selected="true">Future FollowUp </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="Tabs">
+                        <div class="panel panel-default" style="border-top: #fff;">
+                            <div class="panel-body">
+                                <div id="forDateschedule" style="display:block">
+                                    <div class="col-md-3" id="SchedulefromBillDate">
+                                        <label>From Delivery Date : </label>
+                                        <input type="text" class="filter form-control datepicExpiryFromDropDown" placeholder="Enter From Bill Date" data-field="FromBillDate" data-column-index="1" onchange="getfilters(this)" id="frombilldaterange" name="frombilldaterange" readonly>
+                                    </div>
+                                    <div class="col-md-3" id="ScheduletoBillDate">
+                                        <label>To Delivery Date : </label>
+                                        <input type="text" class="filter form-control datepicExpiryToDropDown" placeholder="Enter To Bill Date" data-field="ToBillDate" data-column-index="2" onchange="getfilters(this)" id="tobilldaterange" name="tobilldaterange" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" id="modelDiv">
+                                    <label>Model</label><br />
+                                    @Html.DropDownList("ddlWorkshop", new SelectList(ViewBag.ddlmodel, "model", "model"), "Select", new { @class = "filter form-control selectpicker", @id = "model", @data_field = "model", @onchange = "getfilters(this);" })
+                                </div>
+                                <div class="col-md-3" id="modelCatDiv">
+                                    <label>Model Category</label>
+                                    <select class="filter form-control" id="ddlmodelCategory" onchange="getfilters(this);" data-column-index="5" data-field="ddlmodelCategory" name="ddlmodelCategory" >
+                                        <option value="">--Select--</option>
+                                        <option value="Arena">Arena</option>
+                                        <option value="Nexa">Nexa</option>
+                                        @*<option value="3">Commercial</option>
+                <option value="4">No Mapping</option>*@
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3" id="modelDiv">
+                                    <label>Dealer</label><br />
+                                    @Html.DropDownList("ddldealername", new SelectList(ViewBag.ddldealerName, "dealershipName", "dealershipName"), "Select", new { @class = "filter form-control selectpicker", @id = "ddldealername", @data_field = "ddldealername", @onchange = "getfilters(this);" })
+                                </div>
+
+                                <div class="col-md-3" id="modelDiv">
+                                    <label>Sales Outlet</label><br />
+                                    @Html.DropDownList("ddlserviceoutlet", new SelectList(ViewBag.ddloutlet, "vipDealer", "vipDealer"), "Select", new { @class = "filter form-control selectpicker", @id = "ddlserviceoutlet", @data_field = "ddlserviceoutlet", @onchange = "getfilters(this);" })
+                                </div>
+
+                                @*<div class="row">
+            <div class="col-md-2" id="workshop">
+                <label>Workshop</label>
+                @Html.DropDownList("ddlWorkshop", new SelectList(ViewBag.ddlWorkshop, "workshopId", "workshopName"), "Select", new { @class = "filter form-control", @id = "workshopDDL", @data_field = "workshop", @onchange = "getfilters(this);" })
+            </div>
+        </div>*@
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default tab-pane fade active in" id="NewComplaints" role="tabpanel" aria-labelledby="NewComplaints-tab">
+                            <div>
+                                <table id="tblNewComplaints" class="table table-dark table-responsive" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>Customer Name</th>
+                                            <th>Mobile Number</th>
+                                            <th>Chassis No</th>
+                                            <th>Vehicle Register No</th>
+                                            <th>Model Category</th>
+                                            <th>Campaign</th>
+                                            <th>Complaint Issue Date</th>
+                                            <th> Sale Date</th>
+                                            <th>Model</th>
+                                            <th>Dealer Name</th>
+                                            <th>Sales Outlet</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default tab-pane fade" id="FollowUpRequired" role="tabpanel" aria-labelledby="FollowUpRequired-tab">
+                            <div>
+                                <table id="tblFollowUpRequired" class="table table-bordered" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>Customer Name</th>
+                                            <th>Mobile Number</th>
+                                            <th>Chassis No</th>
+                                            <th>Vehicle Register No</th>
+                                            <th>Model Category</th>
+                                            <th>Campaign</th>
+                                            <th>Complaint Issue Date</th>
+                                            <th> Sale Date</th>
+                                            <th>Model</th>
+                                            <th>Dealer Name</th>
+                                            <th>Sales Outlet</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default tab-pane fade" id="nonContacts" role="tabpanel" aria-labelledby="nonContacts-tab">
+                            <div>
+                                <table id="tblnonContacts" class="table table-bordered" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>Customer Name</th>
+                                            <th>Mobile Number</th>
+                                            <th>Chassis No</th>
+                                            <th>Vehicle Register No</th>
+                                            <th>Model Category</th>
+                                            <th>Campaign</th>
+                                            <th>Complaint Issue Date</th>
+                                            <th> Sale Date</th>
+                                            <th>Model</th>
+                                            <th>Dealer Name</th>
+                                            <th>Sales Outlet</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default tab-pane fade" id="futureFollowUpRequired" role="tabpanel" aria-labelledby="Rework-tab">
+                            <div>
+                                <table id="tblfutureFollowUpRequired" class="table table-bordered" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>Customer Name</th>
+                                            <th>Mobile Number</th>
+                                            <th>Chassis No</th>
+                                            <th>Vehicle Register No</th>
+                                            <th>Model Category</th>
+                                            <th>Campaign</th>
+                                            <th>Complaint Issue Date</th>
+                                            <th> Sale Date</th>
+                                            <th>Model</th>
+                                            <th>Dealer Name</th>
+                                            <th>Sales Outlet</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <span id="tblException" style="font-size:12pt;font-weight:bold"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+
+    @if (ViewBag.dispositionResult != null && ViewBag.dispoError == false)
+    {
+        <script type="text/javascript">
+        Lobibox.notify('info', {
+            delay: 4 * 7000,
+            msg: '@ViewBag.dispositionResult'
+        });
+        </script>
+    }
+
+    @if (ViewBag.dispositionResult != null && ViewBag.dispoError == true)
+    {
+        <script type="text/javascript">
+        Lobibox.notify('info', {
+            delay: 4 * 7000,
+            msg: '@ViewBag.dispositionResult'
+        });
+        </script>
+    }
+
+    <script>
+
+       var dealerCode = '@Session["DealerCode"].ToString()';
+        var callLogingAction = "";
+
+         callLogingAction="/Home/redirectToCallLogging";
+
+        var currentBucket = "";
+        $(document).ready(function ()
+        {
+            $.ajax({
+                type: "POST",
+                url: siteRoot + "/postSalesDetails/loadComplaintDashboardCounts/",
+                data: {},
+                cache: false,
+                success: function (res) {
+                    if (res.success == true) {
+                        $('#freshPSF').text(res.freshPSF);
+                        $('#pendingFollow').text(res.pendingFollow);
+                        $('#nonContactsloader').text(res.nonContacts);
+                        $('#ReworkLoader').text(res.Rework);
+                        $('#surveys').text(res.surveys);
+                        $('#contacts').text(res.contacts);
+                        $('#totalCalls').text(res.totalCalls);
+                    }
+                    else {
+                        Lobibox.notify('warning', {
+                            msg: res.error
+                        });
+                    }
+                },
+                error: function (data) {
+                    alert("Cann't load Dashboard count, Error occured while processing data");
+                }
+            });
+
+
+            if (localStorage.length > 0) {
+                filtDist = JSON.parse(localStorage.getItem("PsfComplaintFilter"));
+                if (filtDist != null) {
+                    renderFilterData();
+                    localStorage.removeItem("PsfComplaintFilter");
+                }
+                else {
+                    currentBucket = 1;
+                    filtDist = {};
+                    showTable(currentBucket);
+                }
+
+            }
+            else {
+                currentBucket = 1;
+                showTable(currentBucket);
+            }
+        });
+        $('.datepicExpiryFromDropDown').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            autoclose: true,
+            dateFormat: 'yy-mm-dd',
+            //maxDate: new Date(),
+            onSelect: function (date) {
+                $('.datepicExpiryToDropDown').datepicker("destroy");
+                $('.datepicExpiryToDropDown').datepicker("destroy");
+                $('.datepicExpiryToDropDown').datepicker({
+                    autoclose: true,
+                    dateFormat: 'yy-mm-dd',
+                    minDate: $('.datepicExpiryFromDropDown').datepicker('getDate')
+                });
+                $(this).trigger('change'); var dt1 = $('.datepicExpiryFromDropDown').datepicker('getDate');
+                var dt2 = $('.datepicExpiryToDropDown').datepicker('getDate');
+                if (dt2 <= dt1) {
+                    var minDate = $('#dt2').datepicker('option', 'minDate');
+                    $('.datepicExpiryToDropDown').datepicker('setDate', null);
+                }
+            }
+        })
+
+        $('.datepicAppointmentFromDropDown').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            autoclose: true,
+            dateFormat: 'yy-mm-dd',
+            //maxDate: new Date(),
+            onSelect: function (date) {
+                $('.datepicAppointmentToDropDown').datepicker("destroy");
+                $('.datepicAppointmentToDropDown').datepicker("destroy");
+                $('.datepicAppointmentToDropDown').datepicker({
+                    autoclose: true,
+                    dateFormat: 'yy-mm-dd',
+                    minDate: $('.datepicAppointmentFromDropDown').datepicker('getDate')
+                });
+                $(this).trigger('change'); var dt1 = $('.datepicAppointmentFromDropDown').datepicker('getDate');
+                var dt2 = $('.datepicAppointmentToDropDown').datepicker('getDate');
+                if (dt2 <= dt1) {
+                    var minDate = $('#dt2').datepicker('option', 'minDate');
+                    $('.datepicAppointmentToDropDown').datepicker('setDate', null);
+                }
+            }
+        })
+
+
+        var filtDist = {};
+        $('li.bucket').click(function () {
+            var id = $(this).attr('id');
+            $('li.bucket').removeClass('active');
+            $('div.fade').removeClass('show active in');
+            $('#' + id).addClass('active');
+            $('#' + id.split('-')[1]).addClass('show active in');
+            currentBucket = $(this).attr('data-bucket');
+            showTable(currentBucket);
+           // clearFilters();
+        });
+        function renderFilterData() {
+            //debugger;
+            for (var key in filtDist) {
+                if (key !== "bucketId" && key !== "isFiltered") {
+                    var element = $('.filter[data-field="' + key + '"]');
+                    $(element).val(filtDist[key]);
+                }
+            }
+            if (filtDist["bucketId"] != null) {
+                currentBucket = filtDist["bucketId"];
+                var liElement = $('.bucket[data-bucket="' + currentBucket + '"]');
+                var id = liElement[0].id;
+                //removing current style
+                $('li.bucket').removeClass('active');
+                $('div.fade').removeClass('show active in');
+
+                //applying new style
+                $('#' + id).addClass('active');
+                $('#' + id.split('-')[1]).addClass('show active in');
+
+                showTable(currentBucket);
+            }
+        }
+        function showTable(bucketId) {
+
+            if (bucketId == 1) {
+                               bindNewComplaints(bucketId);
+            }
+            else if (bucketId == 2) {
+                bindFollowUpRequired(bucketId);
+            }
+            else if (bucketId == 3) {
+                bindNonContacts(bucketId);
+            }
+            else if (bucketId == 4) {
+                bindRework(bucketId);
+            }
+            else if (bucketId == 5) {
+                bindFutureFollowUpRequired(bucketId);
+            }
+        }
+        function getfilters(item) {
+            var field = $(item).attr('data-field');
+            var data = $(item).val();
+            if (filtDist[field] === undefined) {
+                filtDist[field] = data;
+
+                if (data != "") {
+                    filtDist["isFiltered"] = true;
+                }
+                 
+
+                else if ($('#tobCalldaterange33').val() === "" && $('#fromCalldaterange22').val() === "" && $('#tobilldaterange').val() === "" && $('#frombilldaterange').val() === "" && $('#workshop').val() == "0" && $('#ageing').val() == "" && $('#customerCategoryDDL').val() == "" && $('#serviceTypeDDL').val() == "" && $('#ddldealername').val() == "" && $('#ddlserviceoutlet').val() == "")
+                {
+                    filtDist["isFiltered"] = false;
+                }
+            }
+            else {
+                filtDist[field] = data;
+                if (data != "") {
+                    filtDist["isFiltered"] = true;
+                }
+                else if ($('#tobCalldaterange33').val() === "" && $('#fromCalldaterange22').val() === "" && $('#tobilldaterange').val() === "" && $('#frombilldaterange').val() === "" && $('#workshop').val() == "0" && $('#ageing').val() == "" && $('#customerCategoryDDL').val() == "" && $('#serviceTypeDDL').val() == "" && $('#ddldealername').val() == "" && $('#ddlserviceoutlet').val() == "")
+                {
+                    filtDist["isFiltered"] = false;
+                }
+            }
+            showTable(currentBucket);
+        }
+        function recordFilter() {
+            localStorage.setItem("PsfComplaintFilter", JSON.stringify(filtDist));
+        }
+    function bindNewComplaints(bucketID)
+    {
+            filtDist["bucketId"] = bucketID;
+            $('#tblNewComplaints').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/postSalesDetails/getpostSalesBuckets/",
+                    "type": 'post',
+                    "datatype": 'json',
+                    "data": {
+                        psfValues: JSON.stringify(filtDist)
+                    }
+                },
+                "columns": [
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            return `<a class="fa fa-pencil-square" href="${siteRoot}${callLogingAction}/CRE%2csalesfeedback%2c${row.customer_id}%2c${row.vehicle_id}%2c${row.psfassignedInteraction_id}%2c${9000}%2c${1}%2c${row.modelcat}" style="font-size: 24pt;color: red;" onclick="recordFilter();"> </a>`
+                        }
+                    },
+                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "Mobile_number", "name": "Mobile_number" },
+                    { "data": "chassis", "name": "chassis" },
+                    { "data": "vehicleReg", "name": "vehicleReg" },
+                    { "data": "modelcat", "name": "modelcat" },
+                    { "data": "campaignName", "name": "campaignName" },
+                    {
+                        "data": "complaintDate", render: function (data, type, row) {
+                            return reverDate(data)
+                        }
+                    },
+                    {
+                        "data": "saledate", render: function (data, type, row) {
+                            return reverDate(data)
+                        }
+                    },
+                    { "data": "model", "name": "model" },
+                    { "data": "dealershipName", "name": "dealershipName" },
+                    { "data": "dlryoutlet", "name": "dlryoutlet" }
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+               // stateSave: true,
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                },
+                "initComplete": function (data) {
+                    $('#tblException').text(data.json.exception);
+                    // filtercountDisplay();
+
+                }
+            });
+        }
+        function bindFollowUpRequired(bucketID) {
+            filtDist["bucketId"] = bucketID;
+            $('#tblFollowUpRequired').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/postSalesDetails/getpostSalesBuckets/",
+                    "type": 'post',
+                    "datatype": 'json',
+                    "data": { psfValues: JSON.stringify(filtDist) }
+                },
+                "columns": [
+                    {
+                        "data": "Action", render: function (data, type, row)
+                        {
+                            return `<a class="fa fa-pencil-square" href="${siteRoot}${callLogingAction}/CRE%2csalesfeedback%2c${row.customer_id}%2c${row.vehicle_id}%2c${row.psfassignedInteraction_id}%2c${9000}%2c${1}%2c${row.modelcat}" style="font-size: 24pt;color: red;" onclick="recordFilter();"> </a>`
+                        }
+                    },
+                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "Mobile_number", "name": "Mobile_number" },
+                    { "data": "chassis", "name": "chassis" },
+                    { "data": "vehicleReg", "name": "vehicleReg" },
+                    { "data": "modelcat", "name": "modelcat" },
+                    { "data": "campaignName", "name": "campaignName" },
+                    {
+                        "data": "complaintDate", render: function (data, type, row) {
+                            return reverDate(data)
+                        }
+                    },
+                    {
+                        "data": "saledate", render: function (data, type, row) {
+                            return reverDate(data)
+                        }
+                    },
+                    { "data": "model", "name": "model" },
+                    { "data": "dealershipName", "name": "dealershipName" },
+                    { "data": "dlryoutlet", "name": "dlryoutlet" }
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                },
+                "initComplete": function (data) {
+                    $('#tblException').text(data.json.exception);
+
+                }
+            });
+        }
+        function bindNonContacts(bucketID) {
+            filtDist["bucketId"] = bucketID;
+            $('#tblnonContacts').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/postSalesDetails/getpostSalesBuckets/",
+                    "type": 'post',
+                    "datatype": 'json',
+                    "data": { psfValues: JSON.stringify(filtDist) }
+                },
+                "columns": [
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            return `<a class="fa fa-pencil-square" href="${siteRoot}${callLogingAction}/CRE%2csalesfeedback%2c${row.customer_id}%2c${row.vehicle_id}%2c${row.psfassignedInteraction_id}%2c${9000}%2c${1}%2c${row.modelcat}" style="font-size: 24pt;color: red;" onclick="recordFilter();"> </a>`
+                        }
+                    },
+                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "Mobile_number", "name": "Mobile_number" },
+                    { "data": "chassis", "name": "chassis" },
+                    { "data": "vehicleReg", "name": "vehicleReg" },
+                    { "data": "modelcat", "name": "modelcat" },
+                    { "data": "campaignName", "name": "campaignName" },
+                    {
+                        "data": "complaintDate", render: function (data, type, row) {
+                            return reverDate(data)
+                        }
+                    },
+                    {
+                        "data": "saledate", render: function (data, type, row) {
+                            return reverDate(data)
+                        }
+                    },
+                    { "data": "model", "name": "model" },
+                    { "data": "dealershipName", "name": "dealershipName" },
+                    { "data": "dlryoutlet", "name": "dlryoutlet" }
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                },
+                "initComplete": function (data) {
+                    $('#tblException').text(data.json.exception);
+                    // filtercountDisplay();
+
+                }
+            });
+        }
+
+        function bindFutureFollowUpRequired(bucketID) {
+            filtDist["bucketId"] = bucketID;
+            $('#tblfutureFollowUpRequired').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/postSalesDetails/getpostSalesBuckets/",
+                    "type": 'post',
+                    "datatype": 'json',
+                    "data": { psfValues: JSON.stringify(filtDist) }
+                },
+                "columns": [
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            return `<a class="fa fa-pencil-square" href="${siteRoot}${callLogingAction}/CRE%2csalesfeedback%2c${row.customer_id}%2c${row.vehicle_id}%2c${row.psfassignedInteraction_id}%2c${9000}%2c${1}%2c${row.modelcat}" style="font-size: 24pt;color: red;" onclick="recordFilter();"> </a>`
+                        }
+                    },
+                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "Mobile_number", "name": "Mobile_number" },
+                    { "data": "chassis", "name": "chassis" },
+                    { "data": "vehicleReg", "name": "vehicleReg" },
+                    { "data": "modelcat", "name": "modelcat" },
+                    { "data": "campaignName", "name": "campaignName" },
+                    {
+                        "data": "complaintDate", render: function (data, type, row) {
+                            return reverDate(data)
+                        }
+                    },
+                    {
+                        "data": "saledate", render: function (data, type, row) {
+                            return reverDate(data)
+                        }
+                    },
+                    { "data": "model", "name": "model" },
+                    { "data": "dealershipName", "name": "dealershipName" },
+                    { "data": "dlryoutlet", "name": "dlryoutlet" }
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                },
+                "initComplete": function (data) {
+                    $('#tblException').text(data.json.exception);
+                    // filtercountDisplay();
+
+                }
+            });
+        }
+
+
+        function clearFilters() {
+            $('#workshopDDL option:first').prop('selected', true);
+            filtDist = {};
+
+            $('#tobilldaterange').val('');
+            $('#frombilldaterange').val('');
+            $('#workshop').prop('selectedIndex', 0);
+            $('#ddlmodelCategory').prop('selectedIndex', 0);
+            $('#model').removeClass('selectpicker');
+            $('#model').prop('selectedIndex', 0);
+            $('#model').addClass('selectpicker');
+            $('#model').multiselect('rebuild');
+
+
+            $('#ddldealername').removeClass('selectpicker');
+            $('#ddldealername').prop('selectedIndex', 0);
+            $('#ddldealername').addClass('selectpicker');
+            $('#ddldealername').multiselect('rebuild');
+
+            $('#ddlserviceoutlet').removeClass('selectpicker');
+            $('#ddlserviceoutlet').prop('selectedIndex', 0);
+            $('#ddlserviceoutlet').addClass('selectpicker');
+            $('#ddlserviceoutlet').multiselect('rebuild');
+
+            filtDist = {}
+            showTable(currentBucket);
+
+        }
+    </script>
+}

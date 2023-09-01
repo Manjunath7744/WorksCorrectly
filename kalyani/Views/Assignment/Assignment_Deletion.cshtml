@@ -1,0 +1,450 @@
+﻿
+@{
+    ViewBag.Title = "Assignment_Deletion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Assigned Call Interaction Details
+            </div>
+            <div class="panel-body">
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label for="campaignType">Module Type<i style="color:red">*</i> </label><br>
+                        <select id="moduleAssign" name="moduleAssign" class="form-control" onchange="onmoduleChange();" required>
+                            <option value="0">--Select--</option>
+                            @if (Session["LoginUser"].ToString() == "Service")
+                            {
+                                <option value="Campaign">Service</option>
+                                <option value="PSF">PSF</option>
+                            }
+                            @if (Session["LoginUser"].ToString() == "Insurance")
+                            {
+                                <option value="Insurance">Insurance</option>
+                            }
+                            
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label for="userName">CRE<i style="color:red">*</i> </label><br>
+                        <select id="usernameAssiged" name="usernameAssiged" class="form-control selectpicker" required multiple>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Select Campaign Name<i style="color:red">*</i></label><br>
+                        <select id="campaignNameAssign" class="form-control selectpicker" multiple>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label for="location">Location</label><br>
+                        @Html.DropDownList("location", new SelectList(ViewBag.locationList, "name", "name"), "--Select--", new { @class = "form-control", @id = "location", @onchange = "ajaxCallToLoadWorkShopByCity('location','workshop');" })
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label for="workshop">WorkShop</label><br>
+                        @Html.DropDownList("workshopId", Enumerable.Empty<SelectListItem>(), "--Select--", new { @class = "form-control", @id = "workshop" })
+                    </div>
+                </div>
+
+                <div class="col-md-2 campaignStartdate" style="display:block;" id="campaignFromAssignDiv">
+                    <div class="form-group">
+                        <label for="seldate" id="labelFromDate">Select Upload From Date</label><br>
+                        <input type="text" class="form-control datePicker" id="campaignFromAssign" readonly />
+                    </div>
+                </div>
+                <div class="col-md-2 campaignExpiry" style="display:block;" id="campaignToAssignDiv">
+                    <div class="form-group">
+                        <label for="seldateExp" id="labelToDate">Select Upload To Date</label><br>
+                        <input type="text" class="form-control datePicker" id="campaignToAssign" readonly />
+                    </div>
+                </div>
+
+                <div class="col-md-2" style="display:none;" id="billFromAssignDiv">
+                    <div class="form-group">
+                        <label for="seldate">Select Bill From Date</label><br>
+                        <input type="text" class="form-control datePicker" id="billFromAssign" readonly />
+                    </div>
+                </div>
+                <div class="col-md-2" style="display:none;" id="billToAssignDiv">
+                    <div class="form-group">
+                        <label for="seldateExp">Select Bill To Date</label><br>
+                        <input type="text" class="form-control datePicker" id="billToAssign" readonly />
+                    </div>
+                </div>
+                <button style="float:right; margin-right:20px; margin-top:10px; width:120px;" class="expand btn btn-primary" onclick="OnSuccess();">View</button>
+                <div class="modal fade" id="view" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="panel-heading" style="background-color: #337ab7; color:#fff">
+                            <b>Assigned Call Interaction For No Call Made</b>
+                            <button type="button" class="close" data-dismiss="modal"><img src="~/public/images/close1.png"></button><br>
+                        </div>
+                        <div style="background-color: #fefefe;padding: 30px;">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <table id="noCallDetails" class="table table-striped table-bordered table-hover" style="overflow:auto;">
+                                            <thead>
+                                                <tr>
+                                                    <th style="border:1px solid black;">Cre&nbsp;Name</th>
+                                                    <th style="border:1px solid black;">Location</th>
+                                                    <th style="border:1px solid black;">Campaign&nbsp;Name</th>
+                                                    <th style="border:1px solid black;">Customer&nbsp;Name</th>
+                                                    <th style="border:1px solid black;">Chassis&nbsp;No.</th>
+                                                    <th style="border:1px solid black;">Model&nbsp;No.</th>
+                                                    <th style="border:1px solid black;">Vehicle Registration&nbsp;No.</th>
+                                                    <th style="border:1px solid black;">Bill&nbsp;Date</th>
+                                                    <th style="border:1px solid black;">Policy&nbsp;Due&nbsp;Date</th>
+                                                    <th style="border:1px solid black;">Uploaded&nbsp;Date</th>
+                                                    <th style="border:1px solid black;" hidden>id</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tablebody"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <center>
+                                <button class="btn btn-primary" id="clearAssigns"><font color="#FFFFFF">Clear</font></button>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <script src="~/public/javascripts/ajaxCallScripts.js"></script>
+    <script type="text/javascript">
+        function onmoduleChange() {
+            var moduleName = $('#moduleAssign').val();
+            if (moduleName == 'Insurance') {
+                document.getElementById('labelFromDate').innerHTML = 'Select Expiry From Date ';
+                document.getElementById('labelToDate').innerHTML = 'Select Expiry To Date ';
+            }
+            else {
+                document.getElementById('labelFromDate').innerHTML = 'Select Upload From Date ';
+                document.getElementById('labelToDate').innerHTML = 'Select Upload To Date ';
+            }
+            clearValues();
+            ajaxCampaignCREByModule();
+        }
+
+
+        function clearValues() {
+            var todate = document.getElementById('campaignFromAssign');
+            todate.value = todate.defaultValue;
+
+            var todate = document.getElementById('campaignToAssign');
+            todate.value = todate.defaultValue;
+
+            var todate = document.getElementById('billFromAssign');
+            todate.value = todate.defaultValue;
+
+            var todate = document.getElementById('billToAssign');
+            todate.value = todate.defaultValue;
+
+            $("#usernameAssiged option:selected").each(function () {
+                $(this).removeAttr("selected");
+                $('#usernameAssiged').multiselect('rebuild');
+            });
+            $('#usernameAssiged').multiselect("deselectAll", false).multiselect('refresh');
+            $("#location option:selected").each(function () {
+                $(this).removeAttr("selected");
+            });
+            $("#workshop option:selected").each(function () {
+                $(this).removeAttr("selected");
+            });
+            $('#campaignNameAssign').multiselect("deselectAll", false).multiselect('refresh');
+        }
+
+        //*******************************View Click ********************************88
+        function OnSuccess() {
+            var moduleName = document.getElementById("moduleAssign").value;
+            var selObj = document.getElementById('campaignNameAssign');
+            var wyzuserList = document.getElementById("usernameAssiged");
+
+            var wyzuserId, selected = [];
+
+            for (var i = 0, l = wyzuserList.options.length; i < l; i++) {
+                if (wyzuserList.options[i].selected) {
+                    selected.push(wyzuserList.options[i].value);
+                }
+            }
+            wyzuserId = selected.join(',');
+            selected = [];
+            for (var i = 0, l = selObj.options.length; i < l; i++) {
+                if (selObj.options[i].selected) {
+                    selected.push(selObj.options[i].value);
+                }
+            }
+            var campaignName = selected.join(',');
+            if (moduleName == '0') {
+                $("#successView").removeAttr("href");
+                $("#view").hide();
+                Lobibox.notify('warning', {
+                    msg: 'Please select Module'
+                });
+                return false;
+            }
+            else if (wyzuserId.length < 1) {
+                $("#successView").removeAttr("href");
+                $("#view").hide();
+                Lobibox.notify('warning', {
+                    msg: 'Please select CRE'
+                });
+                return false;
+            }
+            else if (campaignName.length < 1) {
+                $("#successView").removeAttr("href");
+                $("#view").hide();
+                Lobibox.notify('warning', {
+                    msg: 'Please select Campaign'
+                });
+                return false;
+            }
+
+            else {
+                $("#successView").attr("href", "#view");
+                $("#view").modal('show');
+                var location = document.getElementById("location").value;
+
+                var fromDate = "";
+                var toDate = "";
+                if (moduleName == "PSF") {
+                    fromDate = document.getElementById("billFromAssign").value;
+                    toDate = document.getElementById("billToAssign").value;
+                }
+                else {
+                    fromDate = document.getElementById("campaignFromAssign").value;
+                    toDate = document.getElementById("campaignToAssign").value;
+                }
+                if (fromDate == null || fromDate == "") {
+                    fromDate = "0";
+                }
+                if (toDate == null || toDate == "") {
+                    toDate = "0";
+                }
+                
+                var urlLink = siteRoot +"/Assignment/assignedInteractionData/";
+                $('#noCallDetails').dataTable({
+                    "destroy": true,
+                    "paging": false,
+                    "searching": false,
+                    "ordering": false,
+                    "ajax": {
+                        "url": urlLink,
+                        "type": "POST",
+                        "datatype": "json",
+                        "data": { wyzuserId: wyzuserId, location: location, moduleName: moduleName, campaignName: campaignName, fromDate: fromDate, toDate: toDate, callPurpose:1}
+                    },
+                    "columns": [
+                        { "data": "wyzUserName", "name": "wyzUserName" },
+                        { "data": "locations", "name": "locations"},
+                        { "data": "campaignName", "name": "campaignName" },
+                        { "data": "customerName", "name": "customerName" },
+                        { "data": "chassisNo", "name": "chassisNo" },
+                        { "data": "model", "name": "model" },
+                        { "data": "vehicleRegNo", "name": "vehicleRegNo" },
+                        {
+                            "data": "billDate", render: function (data, type, row) {
+                                if (moduleName === "PSF") {
+                                    return parseJsonDateTime(data);
+                                }
+                                else {
+                                    return "-";
+                                }
+                            }
+                        },
+                        {
+                            "data": "policyDueDate", render: function (data, type, row) {
+                                if (moduleName === "Insurance") {
+                                    return parseJsonDateTime(data);
+                                }
+                                else {
+                                    return "-";
+                                }
+                            }
+                        },
+                        {
+                            "data": "uploadDate", render: function (data, type, row) {
+                                    return parseJsonDateTime(data);
+                            }
+                        },
+                        {
+                            "data": "id", render: function (data, type, row) {
+                                return `<input type="hidden" name="assignmentId" value="${row.noCallAssignId}"/>`;
+                            }
+                        }
+                    ],
+                    "serverSide": "true",
+                    "processing": "true",
+                    "scrollX": "true",
+                    "scrollY": "300",
+                    "language": {
+                        "processing": "Loading Please Wait.....!"
+                    }
+                });
+                return false;
+                $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                    $($.fn.dataTable.tables(true)).DataTable()
+                        .columns.adjust();
+                });
+            }
+        }
+
+        $('#clearAssigns').click(function () {
+            //$.blockUI();
+            $('#view').modal('hide');
+            var wyzuserList = document.getElementById("usernameAssiged");
+
+            var wyzuserId, selected = [];
+
+            for (var i = 0, l = wyzuserList.options.length; i < l; i++) {
+                if (wyzuserList.options[i].selected) {
+                    selected.push(wyzuserList.options[i].value);
+                }
+            }
+            wyzuserId = selected.join(',');
+            selected = [];
+            var fromDate = "";
+            var toDate = "";
+            var moduleName = document.getElementById("moduleAssign").value;
+            var location = document.getElementById("workshop").value;
+            if (moduleName == "PSF") {
+                fromDate = document.getElementById("billFromAssign").value;
+                toDate = document.getElementById("billToAssign").value;
+            }
+            else {
+                fromDate = document.getElementById("campaignFromAssign").value;
+                toDate = document.getElementById("campaignToAssign").value;
+            }
+
+            var selObj = document.getElementById('campaignNameAssign'),
+                selected = [];
+
+            for (var i = 0, l = selObj.options.length; i < l; i++) {
+                if (selObj.options[i].selected) {
+                    selected.push(selObj.options[i].value);
+                }
+            }
+            var campaignName = selected.join(',');
+
+            if (fromDate == null || fromDate == "") {
+                fromDate = "0";
+            }
+            if (toDate == null || toDate == "") {
+                toDate = "0";
+            }
+            if (location == null || location == "") {
+                location = "0";
+            }
+            var urlPath = siteRoot + "/Assignment/assignedInteractionData/";
+
+            $.ajax({
+                type: 'POST',
+                url: urlPath,
+                data: { wyzuserId: wyzuserId, location: location, moduleName: moduleName, campaignName: campaignName, fromDate: fromDate, toDate: toDate, callPurpose:2 },
+                cache: false,
+                success: function (res) {
+                    if (res.success == true) {
+                        $("#view").hide();
+                        Lobibox.notify('success', {
+                            msg: 'Deleted.'
+                        });
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000);
+
+                    }
+                    else {
+                        Lobibox.notify('warning', {
+                            msg: 'something went wrong.'
+                        });
+                    }
+                }, error(error) {
+
+                }
+            });
+        });
+
+    </script>
+
+    <script type="text/javascript">
+        function ajaxCampaignCREByModule() {
+
+            var sel = document.getElementById('moduleAssign').value;
+            if (sel == "PSF") {
+                document.getElementById("campaignFromAssignDiv").style.display = "none";
+                document.getElementById("campaignToAssignDiv").style.display = "none";
+                document.getElementById("billFromAssignDiv").style.display = "block";
+                document.getElementById("billToAssignDiv").style.display = "block";
+            }
+            else {
+                document.getElementById("campaignFromAssignDiv").style.display = "block";
+                document.getElementById("campaignToAssignDiv").style.display = "block";
+                document.getElementById("billFromAssignDiv").style.display = "none";
+                document.getElementById("billToAssignDiv").style.display = "none";
+            }
+            var urlLink = siteRoot + "/Assignment/listCampaignAndCRE/";
+
+
+            $.ajax({
+                type: 'POST',
+                url: urlLink,
+                datatype: 'json',
+                data: { moduleType: sel },
+                cache: false,
+                success: function (res) {
+                    if (res.success === true) {
+                        if (res != null) {
+                            $('#usernameAssiged').empty();
+                            $('#campaignNameAssign').empty();
+                        }
+                        var dropdown = document.getElementById("campaignNameAssign");
+                        for (var i = 0; i < res.campaign.length; i++) {
+                            dropdown[dropdown.length] = new Option(res.campaign[i].campaignName, res.campaign[i].id);
+                            $("#campaignNameAssign").addClass('selectpicker');
+                            $('#campaignNameAssign').multiselect('rebuild');
+                           
+
+                        }
+
+                        var dropdown1 = document.getElementById("usernameAssiged");
+                        dropdown1[0] = new Option('Not Assigned', '0');
+                        for (var i = 0; i < res.cres.length; i++) {
+                            dropdown1[dropdown1.length] = new Option(res.cres[i].userName, res.cres[i].id);
+                        }
+                        $("#usernameAssiged").addClass('selectpicker');
+                        $('#usernameAssiged').multiselect('rebuild');
+                    }
+                    else {
+                        Lobibox.notify('warning', {
+                            continueDelayOnInactiveTab: true,
+                            msg: res.error
+                        });
+                    }
+                }, error(error) {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Something went wrong'
+                    });
+                }
+            });
+            
+        }
+    </script>
+}

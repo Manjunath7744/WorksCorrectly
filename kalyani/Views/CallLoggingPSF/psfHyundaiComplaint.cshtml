@@ -1,0 +1,545 @@
+﻿
+@model AutoSherpa_project.Models.ViewModels.CallLoggingViewModel
+
+@{
+
+    string address = "";
+    if (Model.cust.addresses.FirstOrDefault(m => m.isPreferred == true) != null && Model.cust.addresses.FirstOrDefault(m => m.isPreferred == true).concatenatedAdress != null)
+    {
+        address = Model.cust.addresses.FirstOrDefault(m => m.isPreferred == true).concatenatedAdress;
+    }
+    else
+    {
+        address = "NA";
+    }
+}
+
+@*---------------Note: Main binding model is  psfinteraction ................*@
+<div class="panel-body">
+    <div class="col-md-12">
+        <div class="form-group">
+
+            <div id="PSFconnectCall1">
+                <label for=""><b>Are you able to connect with the customer ?</b></label>
+                <br>
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.psfinteraction.isContacted, "Yes")
+                        @*<input type="radio" name="isContacted" value="Yes">*@
+                        Yes
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.psfinteraction.isContacted, "No")
+                        @*<input type="radio" name="isContacted" value="No">*@
+                        No
+                    </label>
+                </div>
+            </div>
+
+            <div style="display:none;" class="row animated  bounceInRight" id="PSFNotSpeachDiv">
+                <br>
+                <div class="col-md-12">
+                    <label for=""><b>Choose reason for not being able to talk to customer:</b></label>
+                    <br>
+                    <div class="radio">
+                        <label>
+                            @Html.RadioButtonFor(m => m.psfinteraction.PSFDispositon, "Ringing No response", new { @Value = "Ringing No response" })
+                            Ringing No response
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            @Html.RadioButtonFor(m => m.psfinteraction.PSFDispositon, "Busy", new { @Value = "Busy" })
+                            Busy
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            @Html.RadioButtonFor(m => m.psfinteraction.PSFDispositon, "Switched Off / Unreachable", new { @Value = "Switched Off / Unreachable" })
+                            Switched Off / Unreachable
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            @Html.RadioButtonFor(m => m.psfinteraction.PSFDispositon, "Invalid Number", new { @Value = "Invalid Number" })Invalid Number
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            @Html.RadioButtonFor(m => m.psfinteraction.PSFDispositon, "NoOther", new { @Value = "NoOther" })
+                            Other
+                        </label>
+                    </div>
+
+
+                    <div class="row animated  bounceInRight" style="display:none;" id="PSFOtherDivShow">
+                        <div class="col-md-4">
+                            <label><b>Please Specify</b></label>
+                            @Html.TextAreaFor(m => m.psfinteraction.OtherComments, new { @class = "form-control OtherComments characterLimit", @rows = "1" })
+                        </div>
+                    </div>
+                    <div class="pull-right">
+
+                        <button type="submit" class="btn btn-info" id="talkCustomerSubmit">Submit</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:none;" class="row animated  bounceInRight" id="PSFYesTalkFirstFlow">
+                <div class="col-md-12">
+                    <p>Namaskar ! I am <b>@Model.wyzuser.userName</b></p>
+                    <p>We want to take your feedback on the performance of your <b>@Model.vehi.model</b>, <b>@Model.vehi.vehicleRegNo</b> </p>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.listingForm.maindisposition, "Complaint Resolution Status", new { @Value = "ResolvedStatus", @id = "ResolvedId" })
+                            @*<input type="radio" name="maindisposition" value="ResolvedStatus" id="ResolvedId">*@
+                            Complaint Resolution Status
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.listingForm.maindisposition, "Call Me Later", new { @Value = "Call Me Later", @id = "PSFNoNamaskarbtn" })
+                            @*<input type="radio" name="maindisposition" value="Call Me Later" id="PSFNoNamaskarbtn" class="PSFNoNamaskarbtn">*@
+                            Follow Up Later
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+            <br>
+
+            <div style="display:none;" class="row animated  bounceInRight" id="PSFYesTalk">
+                <div class="col-md-12">
+
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.psfinteraction.PSFDispositon, "No Resolution - Closed", new { @Value = "No Resolution - Closed", @id = "NoResolutionId" })
+                            @*<input type="radio" name="disposition" value="No Resolution - Closed" id="NoResolutionId">*@
+                            Complaint Not valid/Customer educated
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.psfinteraction.PSFDispositon, "Schedule a re-visit", new { @Value = "Re-Work", @id = "ReWorkIdSch" })
+                            @*<input type="radio" name="disposition" value="Re-Work" id="ReWorkIdSch">*@
+                            Schedule a re-visit
+                        </label>
+                    </div>
+
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.psfinteraction.PSFDispositon, "Resolved", new { @Value = "Resolved", @id = "ResolvedId" })
+                            @*<input type="radio" name="disposition" value="Resolved" id="ResolvedId">*@
+                            Resolved
+                        </label>
+                    </div>
+
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.psfinteraction.PSFDispositon, "Escaltion to CEO", new { @Value = "Escaltion to CEO", @id = "ConfirmStatusId" })
+                            @*<input type="radio" name="disposition" value="ConfirmStatus" id="ConfirmStatusId">*@
+                            Escaltion to CEO
+                        </label>
+                    </div>
+                    @*@if (Session["DealerCode"].ToString() != "BRIDGEWAYMOTORS") {
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.psfinteraction.PSFDispositon, "Home visit", new { @Value = "Re-Work", @id = "ReWorkId" })
+                            @*<input type="radio" name="disposition" value="Re-Work" id="ReWorkId">
+                            Home visit
+                        </label>
+                    </div>
+
+                    <div class="radio-inline">
+                        <label>
+                            <input type="checkbox" name="RootCauseOfProblem" value="RootCauseOfProblem" id="RootCauseOfProblem" checked="">
+                            Root cause for problems?
+                        </label>
+                    </div>
+                    }*@
+                </div>
+            </div>
+            <br>
+            
+            <div style="display:none;" class="row animated  bounceInRight" id="PSFYesNamaskarYesDiv">
+                <div class="col-md-12">
+
+                    <p>How would you rate your overall experience with the service center based on your recent visit ?</p>
+
+                    <!-- <div class="radio-inline">
+                <label>
+                    <input type="radio" name="modeOfService" value="PSFSelf Yes" id="PSF1Yess">
+                    Yes </label>
+            </div>
+            <div class="radio-inline">
+                <label>
+                    <input type="radio" name="modeOfService" value="PSFSelf No" id="PSF1Noo">
+                    No </label>
+            </div> -->
+
+                    <div class="row animated  bounceInRight" id="PsfSelfDriveInNo1">
+
+                        <div class="col-md-3">
+                            <label>FeedBack Rating</label>
+                            <select class="form-control" id="dropDownCheckedSelect1" name="modeOfServiceDone" onchange="loadCampaignUser();">
+                                <option value="0">--Select--</option>
+                                <option value="Excellent">Excellent</option>
+                                <option value="Very Good">Very Good</option>
+                                <option value="Good">Good</option>
+                                <option value="Average">Average</option>
+                                <option value="Poor">Poor</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+
+                            <label>Compliant Category</label>
+                            <select class="form-control" id="cre_Compliant_Category_id" name="cre_Compliant_Category_id">
+                                <option value="0" selected="">--Select--</option>
+
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-3" style="display:none;" id="complaintCRESelect">
+                            <label>Complaint CRE : </label>
+                            <select class="form-control" id="creComplaintCRE" name="complaint_creid">
+                                <option value="0">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-info" id="BackTospeak">Back</button>
+                        <!-- <button type="submit" class="btn btn-info" name="NextToPSFDriveIN" value="" id="NextToPSFDriveIN">Next</button> -->
+                        <button type="submit" class="btn btn-info" id="BackTo10thQuestionMMSSubmit0">Submit</button>
+                    </div>
+
+                </div>
+            </div>
+            <!-- --No Resolution -->
+
+            <div style="display:none;" class="row animated  bounceInRight" id="NoResolutionClosedSelId">
+                <div class="col-md-12">
+
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-info" id="BackTospeakResolution">Back</button>
+                        <!-- <button type="submit" class="btn btn-info" name="NextToPSFDriveIN" value="" id="NextToPSFDriveIN">Next</button> -->
+                        <button type="submit" class="btn btn-info" id="noresolutionSubmit">Submit</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- After Resoution -->
+
+            <div style="display:none;" class="row animated  bounceInRight" id="ConfirmStatusDivId">
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-info" id="BackToAfterresolution">Back</button>
+                        <!-- <button type="submit" class="btn btn-info" name="NextToPSFDriveIN" value="" id="NextToPSFDriveIN">Next</button> -->
+                        <button type="submit" class="btn btn-info" id="noAfterresolution">Submit</button>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- Re- work flow -->
+
+            <div style="display:none;" class="row animated  bounceInRight" id="ReworkDivId">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Workshop:</label>
+                        @if (ViewBag.workshops != null)
+                        {
+                            @Html.DropDownListFor(m => m.rework.workshop_id, new SelectList(ViewBag.workshops, "id", "name"), "--Select--", new { @class = "form-control", @id = "workshop_id_Data" })
+                        }
+                        else
+                        {
+                            @:-Workshop Error
+                        }
+                        @*<select class="form-control" name="workshop_id" id="workshop_id_Data">
+                        <option value="0">--Select--</option>
+
+
+                    </select>*@
+                    </div>
+                </div>
+                @*<div class="col-md-2">
+                <div class="form-group">
+                    <label>Apt Date:</label>
+                    <input type="text" name="serviceScheduledDate" id="schDateId" class="datepickerPlus30Days form-control hasDatepicker" readonly="">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Apt Time:</label>
+                    <input type="text" name="serviceScheduledTime" id="schTimeId" class="timePickRange7to20 form-control hasTimepicker" readonly="">
+                </div>
+            </div>*@
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Apt DateTime:<sub style="color:red">*</sub></label>
+                        @Html.TextBoxFor(m => m.rework.reworkDateAndTime, new { @class = "form-control datetimePicker", id = "schDateId", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Visit Type<sub style="color:red">*</sub></label>
+                        @Html.DropDownListFor(m => m.rework.visittype, new List<SelectListItem> {
+                                    new SelectListItem{Value="Appointment(Walk-in)",Text="Appointment(Walk-in)"},
+                                    new SelectListItem{Value="PickUp",Text="PickUp"},
+                                    new SelectListItem{Value="Home Visit",Text="Home Visit"}}, "--Select--", new { @class = "form-control", @id = "txtVisitType" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Address:<sub style="color:red">*</sub></label>
+                        @Html.TextBoxFor(m => m.rework.reworkAddress, new { @Value = address, @class = "form-control", @id = "AddressMSSId" })
+                    </div>
+                </div>
+                @*<div class="col-md-2">
+                <div class="form-group">
+                    <label>Address:</label>
+                    <input type="text" name="reworkAddress" id="AddressMSSId" class="form-control" value="">
+                </div>
+            </div>*@
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <br>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#AddNewAddressPopup">Add New Address</button>
+
+                    </div>
+
+                </div>
+
+                <br>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-info" id="BackToRework">Back</button>
+                    <button type="submit" class="btn btn-info" id="reWorkSubmit">Submit</button>
+                </div>
+
+            </div>
+            <!-- Resolved work flow -->
+            <div style="display:none;" class="row animated  bounceInRight" id="ResolvedDivId">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Attended On:</label>
+                        @Html.TextBoxFor(m => m.rework.resolutionDateAndTime, new { @class = "form-control datetimePickerAttended", id = "dateandtimepicker", @readonly = "readonly" })
+                        @*<input type="text" name="serviceScheduledDateIn" id="dateandtimepicker" class="form-control" readonly="">*@
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Attended by:</label>
+                        @Html.TextBoxFor(m => m.rework.resolvedBy, new { @id = "resolvedById", @class = "form-control" })
+                        @*<input type="text" name="resolvedBy" id="resolvedById" class="form-control">*@
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Action Taken<i class="lblStar">*</i></label>
+                        @*<select class="form-control" id="resolutionModeId" name="resolutionMode">
+                        <option value="0">--Select--</option>
+                        <option value="Resolved on Phone">Resolved on Phone</option>
+                        <option value="Home Visit">Home Visit</option>
+                        <option value="Resolved by revisit">Resolved by revisit</option>
+
+                    </select>*@
+
+                        @Html.DropDownListFor(m => m.rework.resolutionMode, new List<SelectListItem> {
+                              new SelectListItem{Value="Phone",Text="Phone" },
+                              new SelectListItem{Value="Email",Text="Email" },
+                              new SelectListItem{Value="Home Visit",Text="Home Visit" },
+                              new SelectListItem{Value="Re-visit",Text="Re-visit" }
+                                  }, "--Select--", new { @class = "form-control", @id = "resolutionModeId" })
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Exact Nature of complaint:<i class="lblStar">*</i></label>
+                        @Html.TextBoxFor(m => m.rework.Benefits, new { @id = "benefId", @class = "form-control" })
+                        @*<input type="text" name="Benefits" id="benefId" class="form-control" value="">*@
+                    </div>
+                </div>
+
+                <br>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-info" id="BackToResolved">Back</button>
+                    <button type="submit" class="btn btn-info" id="reSolvedSubmit">Submit</button>
+                </div>
+
+            </div>
+            <!------------------Call Me Latter----------------->
+
+            <div style="display:none;" class="row animated  bounceInRight" id="PSFYesNamaskarNoDiv">
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="followUpDate">Date:</label>
+                        @*<input type="text" name="psfFollowUpDate" id="selDate" class="datepicMandYDropDown form-control hasDatepicker" readonly="">*@
+                        @Html.TextBoxFor(m => m.psfinteraction.psfFollowUpDate, new { @id = "selDate", @class = "datePickerrangeto form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="followUpTime">Time:</label>
+                        @Html.TextBoxFor(m => m.psfinteraction.psfFollowUpTime, new { @id = "FollowUpTime", @class = "timepicker_7 form-control", @readonly = "readonly" })
+                        @*<input type="text" name="psfFollowUpTime" id="FollowUpTime" class="timePickRange7to20 form-control hasTimepicker" readonly="">*@
+                    </div>
+                </div>
+                <br>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-info" id="BackToDidUtlakPSF">Back</button>
+                    <button type="submit" class="btn btn-info" id="notCallMeLaterSubmit">Submit</button>
+                </div>
+
+            </div>
+            <div style="display:none;" class="row animated  bounceInRight" id="remarksDivDisplay">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Customer Feedback : </label><br>
+                        @Html.TextAreaFor(m => m.psfinteraction.comments, new { @class = "form-control characterLimit remarks1", @id = "custFB" })
+                        @*<textarea class="form-control characterLimit" id="custFB" name="comments" rows="2"></textarea>*@
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>CRE Remark : </label><br>
+                        @Html.TextAreaFor(m => m.psfinteraction.remarks, new { @class = "form-control characterLimit remarks1", @id = "creRemarks" })
+                        @*<textarea class="form-control characterLimit" id="creRemarks" name="remarksList[0]" rows="2"></textarea>*@
+                    </div>
+                </div>
+
+            </div>
+            <div style="display:none;" class="row animated  bounceInRight" id="rootCauseCheck">
+                @*@if (Session["DealerCode"].ToString() != "BRIDGEWAYMOTORS")
+                {
+                    <div class="col-md-12">
+
+                        <div class="row animated  bounceInRight">
+                            <div class="col-md-3">
+                                <label>RC Issue Type</label>
+                                <select class="form-control" id="rootCauseId" name="rootCause" onchange="subdata();">
+                                    <option value="0">--Select--</option>
+                                    @*<option value="Delay">Delay</option>
+                               <option value="Service Quality">Service Quality</option>
+        <option value="SA Related">SA Related</option>
+        <option value="Service Initiation">Service Initiation</option>
+        <option value="Washing Cleaning">Washing Cleaning</option>
+                                    <option value="Others">Others</option>
+                                </select>
+
+                                    @Html.DropDownListFor(m => m.psfinteraction.rootCause, new SelectList(ViewBag.rcIssueType, "name", "name"), "--Select--", new { @class = "form-control", @id = "rootCauseId", @onchange = "subdata(this);" })
+
+                                    @Html.TextBoxFor(m => m.psfinteraction.rootSubCause, new { @type = "hidden", id = "rootSubCauseHd" })
+</div>
+                            <div class="col-md-3">
+                                <label>RC Sub Issue Type</label>
+                                <br />
+                                <select class="form-control selectpicker" id="rootsubtype" multiple>
+                                </select>
+
+                                @Html.DropDownListFor(m => m.psfinteraction.rootSubCause, new List<SelectListItem> {
+                        new SelectListItem{Value="Pick and Drop Delay",Text="Pick and Drop Delay" },
+                        new SelectListItem{Value="Walk in Delay",Text="Walk in Delay" }
+                            }, "--Select--", new { @class = "form-control selectpicker", @id = "", @multiple = "multiple" })
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                }*@
+                </div>
+
+            <!--------------------------Not Interested------------------------>
+
+
+            <div style="display:none;" class="row animated  bounceInRight" id="NotInterestedBtns">
+
+                <div class="pull-right">
+                    <br>
+                    <button type="button" class="btn btn-info" id="BackToDidUtlakPSF1">Back</button>
+                    <button type="submit" class="btn btn-info" id="notInterestedSubmit">Submit</button>
+                </div>
+            </div>
+
+        </div><!-----panel Group End---->
+    </div>
+</div>
+
+<!---panel Body End--->
+
+
+@Scripts.Render("~/public/javascripts/jquery-3.2.1.min.js")
+@Scripts.Render("~/public/CallLogFiles/psfHyundaiComplaint.js")
+
+<script>
+     $(document).ready(function () {
+        var psfType = '@ViewBag.typeOfPSF';
+
+        if (psfType == "7") {
+            $('#interHeading').text('PSF 3RD DISPOSITION FORM');
+        }
+        else {
+            $('#interHeading').text('PSF Complaint DISPOSITION FORM');
+        }
+
+        $('#imgInter').attr('src', siteRoot + "/public/images/INTERACTION HISTORY.png");
+     });
+
+
+    function subdata() {
+
+        var PSFtest = $('#rootCauseId').val();
+        $.ajax({
+            url: siteRoot + "/CallLoggingPSF/getRCSub/",
+            type: 'post',
+            dataType: 'json',
+            data: { rc: PSFtest },
+            success: function (res) {
+                if (res.success == true) {
+
+                    if (res.data.length > 0) {
+                        $('#rootsubtype').empty();
+                        $("#rootsubtype").empty();
+                        $("#rootsubtype").multiselect('destroy');
+                       
+
+                        $('#rootsubtype').append(`<option value>--Select--</option>`);
+                        for (var i = 0; i < res.data.length; i++) {
+                            $('#rootsubtype').append(`<option value='${res.data[i].name}'>${res.data[i].name}</option>`);
+                        }
+                        $("#rootsubtype").multiselect();
+                    }
+                }
+                else {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: res.exception
+                    });
+                }
+            },
+            error: function (ex) {
+                alert(ex);
+                console.log(ex);
+            }
+        });
+    }
+
+</script>

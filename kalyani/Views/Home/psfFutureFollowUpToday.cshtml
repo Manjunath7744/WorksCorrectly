@@ -1,0 +1,163 @@
+﻿@model IEnumerable<AutoSherpa_project.Models.ViewModels.PSFFollowupNotificationModel>
+
+@{
+    ViewBag.Title = "psfFutureFollowUpToday";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    td, th {
+        border: 1px solid black;
+        overflow: hidden;
+        text-align: center !important;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                @if (Session["LoginUser"].ToString() != "PSFComMgr")
+                {
+                    if (Session["OEM"].ToString() == "MARUTI SUZUKI")
+                    {
+                        @Html.ActionLink("Back", "PSFDetails", "PSF", new {@id=6 }, new { @class = "fa fa-arrow-left btn btn-primary btn-xs pull-right" })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Back", "PSFDetails", "PSF", new { @id = 3 }, new { @class = "fa fa-arrow-left btn btn-primary btn-xs pull-right" })
+                    }
+
+                }
+                else
+                {
+                    @Html.ActionLink("Back", "psfComplaintDetails", "PSF", null, new { @class = "fa fa-arrow-left btn btn-primary btn-xs pull-right" })
+                }
+
+                Follow Up Required Calls Of Today
+            </div>
+
+            <div class="panel-body">
+                <div class="dataTable_wrapper">
+                    <div style="overflow-x: auto">
+                        <table class="table table-striped table-bordered table-hover" id="psfDatatable">
+                            <thead>
+                                <tr>
+                                    <th>Disposition Form</th>
+                                    <th>Customer Name</th>
+                                    <th>Mobile Number</th>
+                                    <th>Vehicle RegNo.</th>
+                                    <th>Chassis No.</th>
+                                    <th>RO No.</th>
+                                    <th>Campaign Name</th>
+                                    <th>Workshop</th>
+                                    <th>FollowUp Time</th>
+                                    <th>Bill Date</th>
+                                    @if (Session["LoginUser"].ToString() == "PSFComMgr")
+                                    {
+                                        <th>Issue Dtae</th>
+                                        <th>Ageing</th>
+                                        <th>Apt Date</th>
+                                        <th>Apt Time</th>
+                                        <th>Apt Status</th>
+                                        <th>Rework Mode</th>
+                                        <th>Attempts</th>
+                                        <th>Last Disposition</th>
+                                    }
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null)
+                                {
+                                    foreach (var post in Model)
+                                    {
+                                <tr>
+                                    @if (Session["LoginUser"].ToString() != "PSFComMgr")
+                                    {
+                                        <td>@Html.ActionLink(" ", "redirectToCallLogging", "Home", new { @id = "CRE," + post.customer_id + "," + post.vehicle_id + "," + post.psfAssignedInteraction_id + "," + 0 + "," + post.campaign_id }, new { @class = "fa fa-pencil-square", @data_toggel = "tooltip", @title = "Disposition", @style = "font-size:30px;color:#DD4B39;" })</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@Html.ActionLink(" ", "redirectToCallLogging", "Home", new { @id = "CRE," + post.customer_id + "," + post.vehicle_id + "," + post.psfAssignedInteraction_id + "," + 900 + "," + 0 }, new { @class = "fa fa-pencil-square", @data_toggel = "tooltip", @title = "Disposition", @style = "font-size:30px;color:#DD4B39;" })</td>
+                                    }
+                                    <td>@post.customer_name</td>
+                                    <td>@post.Mobile_number</td>
+                                    <td>@post.vehicle_RegNo</td>
+                                    <td>@post.chassisno</td>
+                                    <td>@post.RONumber</td>
+                                    <td>@post.campaignName</td>
+                                    <td>@post.workshop</td>
+                                    <td>@post.psfFollowUpTime</td>
+                                    <td>
+                                        @if (post.BillDate != null)
+                                        {
+                                            @Convert.ToDateTime(post.BillDate).ToString("dd-MM-yyyy")
+                                        }
+                                    </td>
+                                    @if (Session["LoginUser"].ToString() == "PSFComMgr")
+                                    {
+                                        <td>
+                                            @if (post.issuedate != null)
+                                            {
+                                                @Convert.ToDateTime(post.issuedate).ToString("dd-MM-yyyy")
+                                            }
+
+                                        </td>
+                                        <td>@post.ageing</td>
+                                        <td>
+                                            @if (post.aptdate != null)
+                                            {
+                                                @Convert.ToDateTime(post.aptdate).ToString("dd-MM-yyyy")
+                                            }
+                                        </td>
+                                        <td>@post.apttime</td>
+                                        <td>@post.aptstatus</td>
+                                        <td>@post.reworkMode</td>
+                                        <td>@post.attempts</td>
+                                        <td>@post.Last_disposition</td>
+                                    }
+
+                                </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <span id="spanException" class="text-danger" style="font-size:13pt"></span>
+        </div>
+    </div>
+</div>
+
+@section scripts
+   {
+
+    @if (ViewBag.error != null)
+    {
+        <script>
+            $('#spanException').text('@ViewBag.error');
+        </script>
+    }
+    else
+    {
+        <script>
+            $('#spanException').text('');
+        </script>
+    }
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#psfDatatable").addClass("nowrap");
+            $("#psfDatatable").dataTable({
+                //destroy: true
+                responsive: true,
+                columnDefs: [
+                    { targets: [-7, -3], className: 'dt-body-right' }
+                ]
+            });
+        });
+
+    </script>
+
+}

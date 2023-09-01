@@ -1,0 +1,683 @@
+﻿@model AutoSherpa_project.Models.ViewModels.CustomerViewModel
+@{
+    ViewBag.Title = "addCustomer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    AjaxOptions options = new AjaxOptions();
+    options.HttpMethod = "POST";
+    options.OnSuccess = "TabSuccess";
+    options.OnFailure = "TabFailure";
+}
+
+@Styles.Render("~/bundles/datepicker")
+@using (Ajax.BeginForm("addCustomer", "Customer", new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "OnSuccess",
+    OnFailure = "OnFailure"
+}))
+{
+    HtmlHelper.UnobtrusiveJavaScriptEnabled = true;
+
+    @Html.AntiForgeryToken();
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Add Customer
+            </div>
+            <div class="panel-body">
+                <div class="row">
+
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="customerName">Customer Name<i style="color:red">*</i>:</label>
+                            @Html.TextBoxFor(model => model.customer.customerName, new { @class = "form-control", @id = "txtName", @Required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+
+                        <div class="form-group">
+                            <label for="customerPhone">Customer Phone<i style="color:red">*</i>:</label>
+                            @Html.TextBoxFor(model => model.phone.phoneNumber, new { @class = "form-control", @id = "txtPhone", @Required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="customerEmail">Customer Email:</label>@*, @onkeypress = "validateEmail(this.value)"*@
+                            @Html.TextBoxFor(model => model.email.emailAddress, new { @class = "form-control", @id = "txtEmail" })
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="customerAddress">Customer Address:</label>
+                            @Html.TextAreaFor(model => model.address.concatenatedAdress, new { @class = "form-control", @rows = "1", @id = "txtAddress" })
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="vehicleRegNo">Vehicle Reg No<i style="color:red">*</i>:</label>
+                            @Html.TextBoxFor(model => model.vehicle.vehicleRegNo, new { @class = "form-control", @id = "txtRegno", @autocomplete = "false", @onchange = "ajaxCall(this);", @data_val = "1", @Required = "required" })
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="chassisNo">Chassis/VIN No<i style="color:red">*</i>:</label>
+                            @if (@Session["OEM"].ToString() == "MARUTI SUZUKI")
+                            {
+                                @Html.TextBoxFor(model => model.vehicle.chassisNo, new { @class = "form-control", @id = "txtchassisNo", @autocomplete = "false", @data_val = "2", @Required = "required" })
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(model => model.vehicle.chassisNo, new { @class = "form-control", @id = "txtchassisNo", @autocomplete = "false", @onchange = "ajaxCall(this);", @data_val = "2", @Required = "required" })
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3" style="display:none" id="maruthdiv">
+                        <div class="form-group">
+                            <label for="chassisNo">Engine No<i style="color:red">*</i>:</label>
+                            @Html.TextBoxFor(model => model.vehicle.engineNo, new { @class = "form-control alphabetsNumberOnly", @id = "txtengineNo", @autocomplete = "false", @onchange = "ajaxCall(this);", @data_val = "3" })
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="form-group">
+
+                            <label for="model">Model<i style="color:red">*</i>:</label>
+                            @Html.TextBoxFor(model => model.vehicle.model, new { @class = "form-control", @id = "txtModel", @Required = "required" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="milege">Mileage<i style="color:red">*</i>:</label>
+                            @Html.TextBoxFor(model => model.vehicle.odometerReading, new { @class = "form-control", @type = "number", @id = "txtMileage", @Required = "required" })
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="customerName">Location<i style="color:red">*</i>: </label>
+                            @Html.DropDownListFor(model => model.vehicle.location_cityId, new SelectList(ViewBag.locationList, "id", "name"), "--Select--", new { @class = "form-control", @Required = "required", @id = "ddlCityId", @onchange = "FindworkshopByCity()" })
+                        </div>
+                    </div>
+                    <div class="col-md-3 workshopSel">
+
+                        <label for="workshopId">Select Workshop<i style="color:red">*</i>:</label>
+                        @Html.DropDownListFor(model => model.vehicle.vehicleWorkshop_id, new SelectList(ViewBag.workShop, "id", "name"), "--Select--", new { @class = "form-control", @Required = "required", @id = "ddlworkshopId" })
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Sales Date:</label><br>
+                            @Html.TextBoxFor(model => model.vehicle.saleDate, new { @placeholder = "Enter Sales Date", @autocomplete = "false", @readonly = "readonly", @class = "form-control datePickerFilterFrom", @id = "txtDate", @Required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Policy expiry Date :</label><br>
+                            @Html.TextBoxFor(model => model.vehicle.policyDueDate, new { @placeholder = "Policy Expiry Date", @autocomplete = "false", @readonly = "readonly", @class = "form-control datePickerFilterFrom", @id = "policyexpirydate", @Required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Insurance Company<i style="color:red">*</i>:</label><br>
+                            @Html.DropDownListFor(model => model.vehicle.insuranceCompanyName, new SelectList(ViewBag.insurancecompanylist, "id", "name"), "--Select--", new { @class = "form-control", @id = "insurancecompanyId", @Required = "required" })
+                        </div>
+                    </div>
+
+
+                    @if (@Session["DealerCode"].ToString() == "INDUS" && @Session["UserRole1"].ToString() == "2")
+                    {
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Due Date<i style="color:red">*</i>:</label><br>
+                                @Html.TextBoxFor(model => model.vehicle.duedatetenure, new { @placeholder = "Enter Due Date", @autocomplete = "false", @readonly = "readonly", @class = "form-control datePickerDueDateforIndusAddCustomerINS", @id = "dueDate", @Required = "required" })
+                            </div>
+                        </div>
+                    }
+
+                </div>
+                @*<div class="row" id="serviceadvisorDiv1" style="display:none;">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>RO Date:</label><br>
+                                @Html.TextBoxFor(model => model.roDate, new { @placeholder = "Enter RO Date", @autocomplete = "false", @readonly = "readonly", @class = "form-control datepicker", @id = "txtroDate" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>RO Number:</label><br>
+                                @Html.TextBoxFor(model => model.roNumber, new { @placeholder = "Enter RO Number", @autocomplete = "false", @class = "form-control alphabetsNumberOnly ", @id = "txtroNumber" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Service Advisor Name:</label><br>
+                                @Html.TextBoxFor(model => model.saName, new { @placeholder = "Enter SA Name", @autocomplete = "false",  @class = "form-control alphabetsOnly", @id = "txtSAName" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>RO Status:</label><br>
+                                @Html.DropDownListFor(model => model.roStatus, new SelectList(new List<SelectListItem> {
+                                 new SelectListItem() {Text = "--Select--", Value=""},
+                                 new SelectListItem() {Text = "OPEN", Value="OPEN"},
+                                 new SelectListItem() {Text = "CLOSED", Value="CLOSED"},
+                                 new SelectListItem() {Text = "BILLED", Value="BILLED"},
+                                 new SelectListItem() {Text = "DELIVERED", Value="DELIVERED"},
+                                 new SelectListItem() {Text = "CANCEL", Value="CANCEL"}}, "Value", "Text"), new { @class = "form-control", @id = "txtroStatus" })
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="serviceadvisorDiv2"  style="display:none;">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Service Type:</label><br>
+                                @Html.DropDownList("ddlserviceTypes", new SelectList(ViewBag.serviceTypeLists, "serviceTypeName", "serviceTypeName"), "--Select--", new { @class = "form-control filter",  @id = "ddlserviceTypes" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Visit Type:</label><br>
+                                @Html.TextBoxFor(model => model.visitType, new { @placeholder = "Enter Visit Type", @autocomplete = "false", @class = "form-control alphabetsOnly", @id = "txtvisittype" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Technician:</label><br>
+                                @Html.TextBoxFor(model => model.technician, new { @placeholder = "Technician", @autocomplete = "false", @class = "form-control alphabetsOnly", @id = "txtvisittype" })
+                            </div>
+                        </div>
+                    </div>*@
+                <div class="col-lg-3 pull-right">
+                    <div class="form-group">
+                        <label for="">&nbsp;</label>
+                        <input type="submit" class="btn btn-primary btn-block" id="btnsub" value="Submit" onclick="return validatingCustomerForm()">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+@section  scripts
+{
+    <script>
+
+        $(document).ready(function () {
+
+           
+               var dealerCode = '@Session["OEM"]';
+               //var dealerCode = "KALYANIMOTORS";
+            if (dealerCode == "MARUTI SUZUKI") {
+                $("#maruthdiv").css("display", "block")
+
+            }
+            var dealerName = '@Session["DealerCode"].ToString()';
+            if (dealerName == "POPULAR")
+            {
+                $("#maruthdiv").css("display", "block")
+
+            }
+            if (dealerName != "INDUS") {
+            $('#txtName').on("cut copy paste", function (e) {
+                e.preventDefault();
+            });
+
+            $('#txtPhone').on("cut copy paste", function (e) {
+                e.preventDefault();
+            });
+            }
+
+            var role = '@Session["UserRole"].ToString()';
+            //if (role == "Service Advisor") {
+            //    $('#serviceadvisorDiv1').css({ 'display': 'block' });
+            //    $('#serviceadvisorDiv2').css({ 'display': 'block' });
+            //}
+            //else {
+            //    $('#serviceadvisorDiv1').css({ 'display': 'none' });
+            //    $('#serviceadvisorDiv2').css({ 'display': 'none' });
+            //}
+
+        });
+
+           function FindworkshopByCity() {
+
+
+        var cityId = $('#ddlCityId').val();
+        //console.log(CategoryId);
+                $("#ddlworkshopId").html("");
+        $.ajax({
+            url: '@Url.Action("FillWorkshopDropdown")',
+            type: "POST",
+            dataType: "JSON",
+            data: { cityId: cityId },
+            success: function (response) {
+                console.log(response);
+                if (response.workshopList.length>0) {
+                    $("#ddlworkshopId").html("");
+                    $.each(response.workshopList, function (index, value) {
+                        $("#ddlworkshopId").append(
+                            $('<option></option>').val(value.id).html(value.workshopName));
+                    });
+                }
+                else {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'No Workshops found for selected Location .'
+                    });
+                    return false;
+                }
+            }
+        });
+    }
+
+        function validatingCustomerForm(){
+
+			var custName=$("#txtName").val();
+			var custPhone=$("#txtPhone").val();
+			var custRegn=$("#txtRegno").val();
+			var custchassi=$("#txtchassisNo").val();
+			var custModel=$("#txtModel").val();
+            var custMilege = $("#txtMileage").val();
+            var oem = '@Session["OEM"]';
+			//var oem=$("#txtMileage").val();
+			var cit=$("#ddlCityId").val();
+			var workshop=$("#ddlworkshopId").val();
+			//alert(workshop);
+            var engineNo = $('#txtengineNo').val();
+            var saleDate = $('#txtDate').val();
+            var dueDate = $('#dueDate').val();
+            var insurancecompany = $('#insurancecompanyId').val();
+           
+			//console.log("cit : "+cit);
+			//console.log("check char is : "+custRegn.substring(1, 2));
+			//console.log("check char : "+isCharNumber(custRegn.substring(1, 2)));
+
+            //if (custchassi.length > 12) {
+            //    Lobibox.notify('warning', {
+            //        continueDelayOnInactiveTab: true,
+            //        msg: 'Chassis number length should be 12'
+            //    });
+            //    return false;
+            //}
+
+           
+            if (custName == '' && custPhone == '' && custRegn == '' && custModel == '' && custMilege == '' && cit == "") {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please Enter The Mandatory Fields .'
+                });
+                return false;
+
+            }
+            else if (insurancecompany == '') {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please Select insurance Company'
+                });
+            }
+        
+           
+            else if (dueDate == '') {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please Select Due Date'
+                });
+                return false;
+            }
+                
+            else if (cit == '') {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please Select City'
+                });
+                return false;
+            }
+
+            else if (workshop == '') {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please Select Workshop'
+                });
+                return false;
+            } else if (custName == '') {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please Enter Name'
+                });
+                return false;
+
+            } else if (custPhone == '') {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please Enter Phone Number'
+                });
+                return false;
+
+            } 
+            else if (custPhone.length < 10) {
+
+
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Invalid Phone No.'
+                });
+
+                return false;
+
+
+            } else if (custModel == '') {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please Enter Model No.'
+                });
+                return false;
+
+            }
+            else if (oem == 'MARUTI SUZUKI' && engineNo == '') {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please Enter Engine No.'
+                });
+                return false;
+
+            }
+            else if (custMilege == '') {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please Enter Milege'
+                });
+                return false;
+
+            }
+            else if (oem == 'MAHINDRA') {
+                if (custRegn != null && custRegn.length < 8) {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Enter valid Vehicle Reg number'
+                    });
+                    return false;
+                }
+                //else if(isCharNumber(custRegn.substring(1, 2))) {
+                //	Lobibox.notify('warning', {
+                //		continueDelayOnInactiveTab: true,
+                //		msg: 'Enter valid Vehicle Reg number'
+                //	});
+                //	return false;
+                //}
+                else if (custchassi != null && custchassi.length < 17) {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Enter valid chassis/VIN number'
+                    });
+
+                    return false;
+
+                }
+
+
+
+            } else if (oem != 'MAHINDRA' && oem != 'MARUTI SUZUKI') {
+                if (custRegn != null && custRegn.length < 8) {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Enter valid Vehicle Reg number'
+                    });
+
+                    return false;
+                } else if (custchassi != null && custchassi.length < 17) {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Enter valid chassis/VIN number'
+                    });
+
+                    return false;
+
+                }
+
+            }
+            else if (oem == 'MARUTI SUZUKI') {
+                if (custRegn != null && custRegn.length < 8) {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Enter valid Vehicle Reg number,Max length is 8 check it.'
+                    });
+
+                    return false;
+                } else if (custchassi != null && (custchassi.length < 5 || custchassi.length>8)) {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Enter valid chassis/VIN number, Min is 5 & Max is 8'
+                    });
+
+                    return false;
+
+                } else if (engineNo != null && (engineNo.length < 5 || engineNo.length>8)) {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Enter valid Engine number, Min is 5 & Max is 8'
+                    });
+
+                    return false;
+
+                }
+
+            }
+            $('#mainLoader').css({ 'display': 'block' });
+        }
+
+
+	 $("#txtName").keypress(function (e) {
+            var code = e.keyCode || e.which;
+            if ((code < 65 || code > 90) && (code < 97 || code > 122) && code != 32 && code != 46)
+            {
+
+                return false;
+            }
+        });
+	 $(".alphabetsOnly").keypress(function (e) {
+            var code = e.keyCode || e.which;
+            if ((code < 65 || code > 90) && (code < 97 || code > 122) && code != 32 && code != 46)
+            {
+
+                return false;
+            }
+        });
+	 $(".alphabetsNumberOnly").keypress(function (e) {
+         var keyCode = e.keyCode || e.which;
+         var regex = /^[A-Za-z0-9]+$/;
+
+         //Validate TextBox value against the Regex.
+         var isValid = regex.test(String.fromCharCode(keyCode));
+         if (!isValid) {
+             return false;
+         }
+        });
+
+        $('#txtEmail').blur(function () {
+            var customerEmail = $(this).val();
+            var re = /^(([^<>()[\]\\.,;:\s@@\"]+(\.[^<>()[\]\\.,;:\s@@\"]+)*)|(\".+\"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/igm;
+            if (re.test(customerEmail)) {
+
+            } else {
+                $('#txtEmail').val('');
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Invalid Email Address.'
+                });
+                return false;
+            }
+        });
+
+        $(document).ready(function () {
+
+            $('.datepicker').datepicker({
+                duration: "slow",
+                showOptions: { direction: "up" },
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,//this option for allowing user to select month
+                changeYear: true //this option for allowing user to select from year range
+
+            });
+        });
+
+
+        $('#txtchassisNo').on('keyup', function (e) {
+            if ($(this).val().length > 17) {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Chassis Number length should be 17'
+                });
+
+                $(this).val($(this).val().slice(0, 17));
+            }
+        });
+
+        $('#txtPhone').on('keypress', function (e) {
+            var $this = $(this);
+            var regex = new RegExp("^[0-9\b]+$");
+            var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+            // for 10 digit number only
+            if ($this.val().length > 12) {
+                e.preventDefault();
+                return false;
+            }
+            //if (e.charCode < 54 && e.charCode > 47) {
+            //    if ($this.val().length == 0) {
+            //        e.preventDefault();
+            //        return false;
+            //    } else {
+            //        return true;
+            //    }
+            //}
+            if (regex.test(str)) {
+                return true;
+            }
+            e.preventDefault();
+            return false;
+        });
+
+        function OnSuccess(res) {
+            var userRole = '@Session["UserRole"].ToString()';
+
+            if (res.success == false) {
+                clearControls();
+                Lobibox.notify('info', {
+                    msg: 'Submitted successfully!'
+                });
+
+                if (userRole != "Admin") {
+                    var loginUser = '@Session["LoginUser"].ToString()';
+                    if (loginUser == "Service" && userRole !="Service Advisor") {
+                        window.location.href = `${siteRoot}/Home/redirectToCallLogging/CRE%2cS%2c${res.custId}%2c${res.vehId}`;
+                    }
+                    else if (loginUser == "Service" && userRole == "Service Advisor") {
+                        window.location.href = `${siteRoot}/SACallLogging/SACallLogging/CRE%2cS%2c${res.custId}%2c${res.vehId}`;
+                    }
+                    else {
+                        window.location.href = `${siteRoot}/Home/redirectToCallLogging/CRE%2cI%2c${res.custId}%2c${res.vehId}`;
+                    }
+                }
+            }
+            else if (res.success == false) {
+               
+                Lobibox.notify('warning', {
+                    msg: res.error
+                });
+                $('#mainLoader').css({ 'display': 'none' });
+            }
+        }
+        function OnFailure(error) {
+            console.log(error)
+	   Lobibox.notify('info', {
+            msg: 'Something Went Wrong!'
+            });
+            $('#mainLoader').css({ 'display': 'none' });
+        }
+        function clearControls() {
+            $('#txtName').val('');
+            $('#txtPhone').val('');
+            $('#txtEmail').val('');
+            $('#txtAddress').val('');
+            $('#txtMileage').val('');
+            $('#txtModel').val('');
+            $('#txtchassisNo').val('');
+            $('#txtRegno').val('');
+            $('#ddlworkshopId').val('');
+            $('#ddlCityId').val('');
+            $('#txtDate').val('');
+            $('#txtengineNo').val('');
+        }
+
+        function ajaxCall(ele) {
+            var id = $(ele).attr('data-val');
+            var oem = '@Session["OEM"].ToString()';
+            if(oem == "MARUTI SUZUKI")
+            {
+                var chas = $('#txtchassisNo').val();
+                var chasnumberconcat = "E" + $(ele).val()+"C"+chas;
+                var details = chasnumberconcat + "," + id;
+            }
+            else
+            {
+                var details = $(ele).val() + "," + id;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("checkVehicle")',
+                datatype: 'json',
+                cache: false,
+                data: { data: details },
+                success: function (res) {
+                    if (res.success == true) {
+                        if (res.cameFor === "vehReg") {
+                            $('#txtRegno').val('');
+                            $('#txtRegno').focus();
+                              Lobibox.notify('error', {
+						msg: 'This Vehicle Reg no already exist cannot add to database'
+						});
+						return false;
+                        }
+                        if (res.cameFor === "chassis") {
+                            $('#txtchassisNo').val('');
+                            $('#txtchassisNo').focus();
+                              Lobibox.notify('error', {
+						msg: 'This chassis no already exist cannot add to database'
+						});
+						return false;
+                        }
+                        if (res.cameFor === "engine") {
+                            $('#txtengineNo').val('');
+                                //$('#txtengineNo').focus();
+                              Lobibox.notify('error', {
+						msg: 'This Engine no already exist cannot add to database'
+						});
+						return false;
+                        }
+
+                    }
+
+                },
+
+                error: function (ex) {
+
+                }
+            });
+        }
+
+    </script>
+
+}

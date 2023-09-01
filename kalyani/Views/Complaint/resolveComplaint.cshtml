@@ -1,0 +1,873 @@
+﻿@model AutoSherpa_project.Models.ViewModels.ComplaintViewModel
+@{
+    ViewBag.Title = "resolveComplaint";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                COMPLAINT RESOLUTION MODULE
+            </div>
+            <div class="panel-body">
+                <h4 style="text-align: center;color:red;"><b>OPEN COMPLAINTS</b></h4>
+                <table id="baseTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>View</th>
+                            <th>COMPLAINT No.</th>
+                            <th>STATUS</th>
+                            <th>ISSUE DATE</th>
+                            <th>AGING (Days)</th>
+                            <th>REGISTERED BY</th>
+                            <th>SOURCE</th>
+                            <th>FUNCTION</th>
+                            <th>CATEGORY</th>
+                            <th>VEHICLE No.</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @*@for (post < -complaintData)
+                            {
+
+                                <tr id="rowclass" class="rowclass@post.getComplaintNumber()">
+                                    <td id="compNum">@post.getComplaintNumber()</td>
+                                    <td id="status">@post.getComplaintStatus()</td>
+                                    <td id="issueDate">@post.getIssueDate()</td>
+                                    <td id="x">@post.getAgeOfComplaint()</td>
+                                    <td id="userName">@post.getWyzUser().getUserName()</td>
+                                    <td id="y">@post.getFunctionName()</td>
+                                    <td id="z">@post.getSourceName()</td>
+
+                                    <td id="a">@post.getSubcomplaintType()</td>
+
+                                    <td id="vREgNO">@post.getVehicleRegNo()</td>
+
+                                    <td><a class="getModel" data-id="@post.getComplaintNumber()" href="" data-toggle="modal" data-target="#OpenComplaintPopup" data-backdrop="static" data-keyboard="false"><i class="fa fa-arrow-circle-right"></i>&nbsp;View</a></td>
+
+                                </tr>
+                            }*@
+                    </tbody>
+                </table>
+
+                <h4 style="text-align: center;color:red;"><b>CLOSED  COMPLAINTS</b></h4>
+                <table id="complaint" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>View</th>
+                            <th>COMPLAINT No.</th>
+                            <th>STATUS</th>
+                            <th>ISSUE DATE</th>
+                            <th>AGING (Days)</th>
+                            <th>REGISTERED BY</th>
+                            <th>SOURCE</th>
+                            <th>FUNCTION</th>
+                            <th>CATEGORY</th>
+                            <th>VEHICLE No.</th>
+                            <!--                <th>MOBILE No.</th>
+                    <th>ASSIGNED TO</th>-->
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @*@for (post < -compalintDataclosed)
+                            {
+
+                                <tr id="rowclass" class="rowclass @post.getComplaintNumber()">
+                                    <td id="compNumclosed">@post.getComplaintNumber()</td>
+                                    <td id="statusclosed">@post.getComplaintStatus()</td>
+                                    <td id="issueDateclosed">@post.getIssueDate()</td>
+                                    <td id="xclosed">@post.getAgeOfComplaint()</td>
+                                    <td id="userNameclosed">@post.getWyzUser().getUserName()</td>
+                                    <td id="yclosed">@post.getFunctionName()</td>
+                                    <td id="zclosed">@post.getSourceName()</td>
+
+                                    <td id="aclosed">@post.getSubcomplaintType()</td>
+
+                                    <td id="vREgNOclosed">@post.getVehicleRegNo()</td>
+
+                                    <td><a class="getModelclosed" data-id="@post.getComplaintNumber()" href="" data-toggle="modal" data-target="#ClosedComplaintPopup" data-backdrop="static" data-keyboard="false"><i class="fa fa-arrow-circle-right"></i>&nbsp;View</a></td>
+
+                                </tr>
+
+                            }*@
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hdncomplaint" />
+<!-- Open Complain Popup -->
+<div class="modal fade" id="OpenComplaintPopup" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" style="opacity:2;">
+                    <img src="~/public/images/close1.png">
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+                <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" style="text-align: center;"><b>OPEN COMPLAINT RESOLUTION FORM<b></div>
+                        <div id="" class="panel">
+
+                            <div class="panel-body">
+                                <h4 style="color: #E80B0B;"><b>CUSTOMER DETAILS :<b></h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <table class="table table-condensed table-responsive table-user-information">
+                                            <tbody>
+
+                                                <tr>
+                                                    <td><strong> VEHICLE NUMBER*:</strong></td>
+                                                    <td id="veh_num_pop" class="text-primary"></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td><strong>CUSTOMER NAME:</strong></td>
+                                                    <td id="cust_name_pop" class="text-primary"></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td><strong>MOBILE No: </strong></td>
+                                                    <td id="cust_phone_pop" class="text-primary"></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td><strong>EMAIL: </strong></td>
+                                                    <td id="cust_email" class="text-primary"></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td><strong>ADDRESS: </strong></td>
+                                                    <td id="addressName" class="text-primary"></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td><strong>CHASSIS No: </strong></td>
+                                                    <td id="chassisno" class="text-primary"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <table class="table table-condensed table-responsive table-user-information">
+                                            <tbody>
+
+                                                <tr>
+                                                    <td><strong>MODEL:</strong></td>
+                                                    <td id="model" class="text-primary"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>VARIANT: </strong></td>
+                                                    <td id="variant" class="text-primary"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>SALE DATE: </strong></td>
+                                                    <td id="saledate" class="text-primary"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>LAST SERVICE: </strong></td>
+                                                    <td id="lastserv" class="text-primary"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>SERVICE ADVISOR : </strong></td>
+                                                    <td id="serviceadvisor" class="text-primary"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>WORKSHOP: </strong></td>
+                                                    <td id="workshopOpen" class="text-primary"></td>
+                                                </tr>
+
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <h4 style="color: #E80B0B;"><b>COMPLAINT INFORMATION:<b></h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <table class="table table-condensed table-responsive table-user-information">
+                                            <tbody>
+
+                                                <tr>
+                                                    <td><strong> FUNCTION:</strong></td>
+                                                    <td id="function" class="text-primary"> </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td><strong>CATEGORY:</strong></td>
+                                                    <td id="complaintType" class="text-primary"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td rowspan="2"><strong>DESCRIPTION:</strong></td>
+                                                    <td id="description" class="text-primary"></td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <table class="table table-condensed table-responsive table-user-information">
+                                            <tbody>
+
+                                                <tr>
+                                                    <td><strong>SOURCE:</strong></td>
+                                                    <td id="source" class="text-primary">  </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>SUB CATEGORY 1: </strong></td>
+                                                    <td id="subcomplaintType" class="text-primary"></td>
+                                                </tr>
+
+
+
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <h4 style="color: #E80B0B;"><b>ASSIGN COMPLAINT :<b></h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <table class="table table-condensed table-responsive table-user-information">
+                                            <tbody>
+
+                                                <tr>
+                                                    <td><strong> CITY:</strong></td>
+                                                    <td class="text-primary" id="cityName"> </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td><strong>OWNERSHIP:</strong></td>
+                                                    <td class="text-primary" id="assignOwnership"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>ESCALATION 1:</strong></td>
+                                                    <td class="text-primary"></td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <table class="table table-condensed table-responsive table-user-information">
+                                            <tbody>
+
+                                                <tr>
+                                                    <td><strong>FUNCTION:</strong></td>
+                                                    <td class="text-primary" id="function">  </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>PRIORITY: </strong></td>
+                                                    <td class="text-primary" id="prorityName"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>ESCALATION 2:</strong></td>
+                                                    <td class="text-primary"></td>
+                                                </tr>
+
+
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <h4 style="color: #E80B0B;"><b>COMPLAINT RESOLUTION<b></b></b></h4>
+
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label for="complaintStatus">COMPLAINT STATUS</label>
+
+                                            <select id="complaintStatus" class="form-control" name="complaintStatus">
+
+
+                                                <option value="Closed">Closed</option>
+                                                <option value="Open">Open</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label for="customerStatus">CUSTOMER STATUS</label>
+
+                                            <select id="customerStatus" class="form-control" name="customerStatus">
+
+                                                <option value="Satisfied">Satisfied</option>
+                                                <option value="Dissatisfied">Dissatisfied</option>
+                                                
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label for="actionTaken">ACTION TAKEN </label>
+                                            <input type="text" id="actionTaken" class="form-control" name="actionTaken" autocomplete="off" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label for="resolutionBy">RESOLUTION By: </label>
+                                            <input type="text" id="resolutionBy" class="form-control" name="resolutionBy" value="" autocomplete="off" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="reasonfor">REASON FOR </label>
+                                            <textarea type="text" id="reasonfor" class="form-control characterLimit" name="reasonfor" autocomplete="off"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-right">
+                        <button type="button" id="resolve_save"  class="btn btn-success resolve_save" data-dismiss="modal">Update</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Closed complaint Popup -->
+@*<div class="modal fade" id="ClosedComplaintPopup" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+         Modal content
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" class="crossBtnCorner"><img src=""></button>
+
+            </div>
+            <div class="modal-body">
+
+
+                <div class="panel-group">
+
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" style="text-align: center;"><b>CLOSED COMPLAINT RESOLUTION FORM<b></div>
+                        <div id="" class="panel">
+
+                            <div class="panel-body">
+
+
+
+
+
+                                <h4 style="color: #E80B0B;"><b>CUSTOMER DETAILS :<b></h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <table class="table table-condensed table-responsive table-user-information">
+                                            <tbody>
+
+                                                <tr>
+                                                    <td><strong> VEHICLE NUMBER*:</strong></td>
+                                                    <td id="veh_num_popClosed" class="text-primary"></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td><strong>CUSTOMER NAME:</strong></td>
+                                                    <td id="cust_name_popClosed" class="text-primary"></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td><strong>MOBILE No: </strong></td>
+                                                    <td id="cust_phone_popClosed" class="text-primary"></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td><strong>EMAIL: </strong></td>
+                                                    <td id="cust_emailClosed" class="text-primary"></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td><strong>ADDRESS: </strong></td>
+                                                    <td id="addressNameClosed" class="text-primary"></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td><strong>CHASSIS No: </strong></td>
+                                                    <td id="chassisnoClosed" class="text-primary"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <table class="table table-condensed table-responsive table-user-information">
+                                            <tbody>
+
+                                                <tr>
+                                                    <td><strong>MODEL:</strong></td>
+                                                    <td id="modelClosed" class="text-primary"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>VARIANT: </strong></td>
+                                                    <td id="variantClosed" class="text-primary"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>SALE DATE: </strong></td>
+                                                    <td id="saledateClosed" class="text-primary"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>LAST SERVICE: </strong></td>
+                                                    <td id="lastservClosed" class="text-primary"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>SERVICE ADVISOR : </strong></td>
+                                                    <td id="serviceadvisorClosed" class="text-primary"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>WORKSHOP: </strong></td>
+                                                    <td id="workshopClosed" class="text-primary"></td>
+                                                </tr>
+
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <h4 style="color: #E80B0B;"><b>COMPLAINT INFORMATION:<b></h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <table class="table table-condensed table-responsive table-user-information">
+                                            <tbody>
+
+                                                <tr>
+                                                    <td><strong> FUNCTION:</strong></td>
+                                                    <td id="functionClosed" class="text-primary"> </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td><strong>CATEGORY:</strong></td>
+                                                    <td id="complaintTypeClosed" class="text-primary"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td rowspan="2"><strong>DESCRIPTION:</strong></td>
+                                                    <td id="descriptionClosed" class="text-primary"></td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <table class="table table-condensed table-responsive table-user-information">
+                                            <tbody>
+
+                                                <tr>
+                                                    <td><strong>SOURCE:</strong></td>
+                                                    <td id="sourceClosed" class="text-primary">  </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>SUB CATEGORY 1: </strong></td>
+                                                    <td id="subcomplaintTypeClosed" class="text-primary"></td>
+                                                </tr>
+
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <h4 style="color: #E80B0B;"><b>ASSIGN COMPLAINT :<b></h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <table class="table table-condensed table-responsive table-user-information">
+                                            <tbody>
+
+                                                <tr>
+                                                    <td><strong> CITY:</strong></td>
+                                                    <td class="text-primary" id="cityNameClosed"> </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td><strong>OWNERSHIP:</strong></td>
+                                                    <td class="text-primary" id="ownershipClosed"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>ESCALATION 1:</strong></td>
+                                                    <td class="text-primary"></td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <table class="table table-condensed table-responsive table-user-information">
+                                            <tbody>
+
+                                                <tr>
+                                                    <td><strong>FUNCTION:</strong></td>
+                                                    <td class="text-primary" id="functionNameClosed">  </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>PRIORITY: </strong></td>
+                                                    <td class="text-primary" id="priorityClosed"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>ESCALATION 2:</strong></td>
+                                                    <td class="text-primary"></td>
+                                                </tr>
+
+
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <div>
+                                        <div class="row">
+
+                                            <h4 style="color: #E80B0B;"><b>COMPLAINT RESOLUTION<b></b></b></h4>
+                                            <div class="col-lg-3">
+                                                <div class="form-group">
+                                                    <label for="complaintStatusClosed">COMPLAINT STATUS</label>
+                                                    @Html.TextBoxFor(m => m.complaintStatus, new {@id="complaintStatusClosed",@class="form-control",@name="complaintStatusClosed",@autocomplete="off" })
+                                                    <input type="text" id="complaintStatusClosed" class="form-control" name="complaintStatusClosed" autocomplete="off" readonly />
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="form-group">
+                                                    <label for="customerStatusClosed">CUSTOMER STATUS</label>
+                                                    <input type="text" id="customerStatusClosed" class="form-control" name="customerStatusClosed" autocomplete="off" readonly />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3">
+                                                <div class="form-group">
+                                                    <label for="actionTakenClosed">ACTION TAKEN </label>
+                                                    <input type="text" id="actionTakenClosed" class="form-control" name="actionTakenClosed" autocomplete="off" readonly />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3">
+                                                <div class="form-group">
+                                                    <label for="resolutionByClosed">RESOLUTION By: </label>
+                                                    <input type="text" id="resolutionByClosed" class="form-control" name="resolutionByClosed" value="" autocomplete="off" readonly />
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="reasonforClosed">REASON FOR </label>
+                                                    <textarea id="reasonforClosed" class="form-control characterLimit" name="reasonforClosed" autocomplete="off"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-right">
+                                            <input type="submit" id="resolve_save_closed" class="btn btn-success " value="Update" />
+                                             <button type="button" id="resolve_save_closed" onclick="UpdateComplaint(1);" class="btn btn-success resolve_save_closed" data-dismiss="modal">Update</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                        </div>
+
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>*@
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            ajaxsearchResolvedComplaint();
+        });
+
+  //Data-Filter Ajax Function
+        function ajaxsearchResolvedComplaint() {
+      
+                    bindfilteredData("Open");
+                    bindClosedData("Closed");
+
+                }
+
+         function parseJsonDateTime(datetime) {
+                var ConDate = "";
+                if (datetime != null) {
+                    ConDate = new Date(parseInt(datetime.substr(6)));
+
+                    if (ConDate.getMonth() < 10) {
+                        ConDate = ConDate.getFullYear() + '-0' + (parseInt(ConDate.getMonth()) + 1) + '-' + ConDate.getDate();
+                    }
+                    else {
+                        ConDate = ConDate.getFullYear() + '-' + (parseInt(ConDate.getMonth()) + 1) + '-' + ConDate.getDate();
+                    }
+
+                    return ConDate;
+                }
+                else {
+                    return ConDate;
+                }
+            }
+
+
+
+        function bindfilteredData(complaintType) {
+            
+            var table = $('#baseTable').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": '@Url.Action("getOpenComplaints")',
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { complaintType: complaintType},
+                },
+                "columns": [
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            return `<a class="getModel"  style="font-size: 11pt;color: blue;" onclick="ajaxsearchComplaintByView('${row.complaintNumber}','${row.vehicleRegNo}');" data-toggle="modal" data-target="#OpenComplaintPopup" data-backdrop="static" data-keyboard="false"><i class="fa fa-arrow-circle-right"></i>&nbsp;View </a>`
+                        }
+                    },
+                    { "data": "complaintNumber", "name": "complaintNumber" },
+                    { "data": "complaintStatus", "name": "complaintStatus" },
+                    {
+                        "data": "issueDate", render: function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "ageOfComplaint", "name": "ageOfComplaint" },
+                    { "data": "wyzUser_id", "name": "wyzUser_id" },
+                    { "data": "functionName", "name": "functionName" },
+                    { "data": "sourceName", "name": "sourceName" },
+                    { "data": "subcomplaintType", "name": "subcomplaintType" },
+                    { "data": "vehicleRegNo", "name": "vehicleRegNo" }
+                   
+
+                ],
+                "initComplete": function (data) {
+                    $('#tblException').text(data.json.exception);
+                },
+                "bLengthChange": false,
+
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+        function bindClosedData(complaintType) {
+            
+            var table = $('#complaint').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": '@Url.Action("getOpenComplaints")',
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { complaintType: complaintType},
+                },
+                "columns": [
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            return `<a class="getModel"  style="font-size: 11pt;color: blue;" onclick="ajaxsearchComplaintByView('${row.complaintNumber}','${row.vehicleRegNo}');" data-toggle="modal" data-target="#OpenComplaintPopup" data-backdrop="static" data-keyboard="false"><i class="fa fa-arrow-circle-right"></i>&nbsp;View </a>`
+                        }
+                    },
+                    { "data": "complaintNumber", "name": "complaintNumber" },
+                    { "data": "complaintStatus", "name": "complaintStatus" },
+                    {
+                        "data": "issueDate", render: function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "ageOfComplaint", "name": "ageOfComplaint" },
+                    { "data": "wyzUser_id", "name": "wyzUser_id" },
+                    { "data": "functionName", "name": "functionName" },
+                    { "data": "sourceName", "name": "sourceName" },
+                    { "data": "subcomplaintType", "name": "subcomplaintType" },
+                    { "data": "vehicleRegNo", "name": "vehicleRegNo" }
+                   
+
+                ],
+                "initComplete": function (data) {
+                    $('#tblException').text(data.json.exception);
+                },
+                "bLengthChange": false,
+
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+
+
+        function ajaxsearchComplaintByView(complaintNum, vehicleRegNum) {
+            $('#hdncomplaint').val(complaintNum);
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("getOpenClosedComplaints")',
+                datatype: 'json',
+                cache: false,
+                data: { complaintNum: complaintNum,vehicleRegNum:vehicleRegNum},
+                success: function (res) {
+
+                   openClosedComplaintDetails(res.data);
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+
+                    //alert(xhr.responseText);
+                }
+                });
+        }
+
+
+        function openClosedComplaintDetails(data) {
+
+            if (data.length > 0) {
+
+                $("#veh_num_pop").html(data[0].vehicleNumber);
+                $("#cust_phone_pop").html(data[0].phone);
+                $("#cust_name_pop").html(data[0].customerNames);
+                $("#cust_email").html(data[0].email);
+                $("#serviceadvisor").html(data[0].serviceadvisor);
+                $("#addressName").html(data[0].preferredAdress);
+                $("#chassisno").html(data[0].chasiNum);
+                $("#saledate").html(parseJsonDateTime(data[0].saleDates));
+                $("#variant").html(data[0].variants);
+                $("#model").html(data[0].models);
+                $("#function").html(data[0].function);
+
+                $("#compstatus").html(data[0].compStatus);
+                $("#serviceadvisor").html(data[0].serviceAdvisor);
+                $("#source").html(data[0].source);
+                $("#description").html(data[0].descriptions);
+                $("#subcomplaintType").html(data[0].subcat);
+                $("#complaintType").html(data[0].cat);
+                $("#function").html(data[0].functionName);
+                $("#assignOwnership").html(data[0].assignedUser);
+                $("#prorityName").html(data[0].priority);
+                $("#cityName").html(data[0].city);
+                $("#lastserv").html(parseJsonDateTime(data[0].lastService));
+                $("#workshop").html(data[0].workshops);
+                $("#OpenComplaintPopup").modal("show");
+                //alert(data[0].compllaintStatus);
+                if (data[0].compllaintStatus === "Closed") {
+
+                    $('#complaintStatus').val(data[0].comstat).change();
+                    $('#customerStatus').val(data[0].status).change();
+                    $("#resolutionBy").val(data[0].resolutionBy);
+                    $("#reasonfor").val(data[0].desc);
+                    $("#actionTaken").val(data[0].actionTakens);
+
+                                $('#complaintStatus').attr('readonly', true);
+                                $('#customerStatus').attr('readonly', true);
+                                $('#resolutionBy').attr('readonly', true);
+                                $('#actionTaken').attr('readonly', true);
+
+                }
+                else {
+                    $('#complaintStatus').attr('readonly', false);
+                                $('#customerStatus').attr('readonly', false);
+                                $('#resolutionBy').attr('readonly', false);
+                                $('#actionTaken').attr('readonly', false);
+
+
+
+                }
+            }
+        }
+
+
+
+
+
+        $('#resolve_save').click(function () {
+
+    var complaintStatus = document.getElementById('complaintStatus').value;
+    var customerStatus = document.getElementById('customerStatus').value;
+    var actionTaken = document.getElementById('actionTaken').value;
+    var resolutionBy = document.getElementById('resolutionBy').value;
+    var reasonfor = document.getElementById('reasonfor').value;
+                  var complaintNum = $('#hdncomplaint').val();
+
+
+    var insuranceQuotaInfo = {
+        "complaintStatus": complaintStatus,
+        "customerStatus": customerStatus,
+        "actionTaken": actionTaken,
+        "resolutionBy": resolutionBy,
+        "reasonfor": reasonfor,
+
+    };
+    var insuranceQuota_Info = [];
+    insuranceQuota_Info.push(insuranceQuotaInfo);
+    jsonData = JSON.stringify(insuranceQuotaInfo);
+    var urlPath = "../Complaint/UpdateComplaintResolution";
+
+
+    $.ajax({
+        type: 'POST',
+        url: urlPath,
+        datatype: 'json',
+        data: { jsonData: jsonData,complaintNum:complaintNum},
+        cache: false,
+        success: function (res) {
+            if (res.success == true) {
+                ajaxsearchResolvedComplaint();
+                $('#complaintStatus').val('');
+                $('#customerStatus').val('');
+                $('#actionTaken').val('');
+                $('#resolutionBy').val('');
+                $('#reasonfor').val('');
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Complaint Updated successfully'
+                });
+            }
+        }, error(error) {
+
+        }
+    });
+});
+    </script>
+}

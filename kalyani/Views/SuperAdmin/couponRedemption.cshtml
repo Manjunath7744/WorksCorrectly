@@ -1,0 +1,339 @@
+﻿@model AutoSherpa_project.Models.ViewModels.CallLoggingViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <input type="hidden" id="assignId" value="0">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading"><b>Search Coupon</b></div>
+            <div class="panel-body">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Search Pattern</label>
+                                    <input type="text" id="txtcouponCode" class="form-control" autocomplete="off" data-column-index="0" placeholder="#Coupon Code" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>&nbsp;</label>
+                                    <button type="submit" id="btnsearchCoupon" class="btn btn-primary start btn-block" onclick="getCouponSearch()">
+                                        <i class="fa fa-search"></i>
+                                        <span>Search</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div><div class="panel panel-default" id="tblDiv">
+                            <div class="panel-body">
+                                <div class="dataTable_wrapper">
+
+                                    <table class="table table-striped table-bordered table-hover" style="width:100%" id="couponRedemptiontype">
+
+                                        <thead>
+                                            <tr>
+                                                <th>Coupon</th>
+                                                <th>Issue Date</th>
+                                                <th>Expiry Date</th>
+                                                <th>Chassis No</th>
+                                                <th>Reg No</th>
+                                                <th>Customer Name</th>
+                                                <th>CRE Name</th>
+                                                <th>Redemption Date</th>
+                                                <th>Status</th>
+                                                <th>Redeem</th>
+                                                <th>Reject</th>
+                                                <th>Send SMS</th>
+                                            </tr>
+                                        </thead>
+
+                                    </table>
+                                    <span id="tblException"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    <div class="modal fade" id="otpredemptionModal" tabindex="-1" role="dialog" aria-labelledby="otpredemptionModal"  data-backdrop="static" aria-hidden="true">
+            <div class="modal-dialog modal-sm vertical-align-center">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title " align="center" id="exampleModalLabel">Please enter One-Time Password to Redeem Coupon</h4>
+
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class=" col-md-offset-3 col-md-5 mx-auto">
+                                <input align="center" class="form-control" type="password" id="txtotp" maxlength="4"><br />
+                                <label align="center">and</label>
+                            </div>
+                        </div>
+                        <div class="row" style="display:block">
+                            <div class=" col-md-offset-3 col-md-5 mx-auto">
+                                <input type="text" align="center" class="form-control" id="txtjcnumber" placeholder="JC Number"><br />
+                                <label align="center">and</label>
+                            </div>
+                        </div>
+                       
+                        @*<div class="row" style="display:block">
+            <div class=" col-md-offset-3 col-md-5 mx-auto">
+                <input type="text" align="center" class="form-control" id="txtcouponworkshop" placeholder="workshop">
+            </div>
+        </div>*@
+                        <div class="row" id="txtcouponworkshop">
+                            <div class=" col-md-offset-3 col-md-5 mx-auto">
+                                <label>workshop location: </label>
+                                @Html.DropDownList("ddlworkshop", new SelectList(ViewBag.ddlworkshop, "workshopid", "workshopname"), "select", new { @class = "form-control selectpicker", @id = "ddlworkshop", @data_field = "workshop_id", @style = "border:  1px solid blue;", @placeholder = "workshop code" })
+                            </div>
+                        </div>
+                        <h6 align="center" id="spnOTPPhoneNumber" style="color:cornflowerblue"></h6>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" value="Resend" id="btnotpresend" class="btn btn-info " />
+                        <input type="submit" value="Redeem" id="btnotpsubmit" class="btn btn-success" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    @section scripts
+{
+        <script>
+        var couponCode = document.getElementById("txtcouponCode");
+
+        var DealerRole = '@Session["UserRole1"].ToString()';
+        var role = '@Session["UserRole"].ToString()';
+        $(document).ready(function () {
+            $('#couponRedemptiontype').DataTable({
+                responsive: true,
+                "destroy": true,
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "false",
+                "searching": false,
+
+            });
+        });
+
+        couponCode.addEventListener("keyup", function (event) {
+
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                document.getElementById("btnsearchCoupon").click();
+
+            }
+        });
+   
+        function getCouponSearch() {
+            var couponValue = $('#txtcouponCode').val();
+                var coupontable = $("#couponRedemptiontype").DataTable(
+                    {
+                        "bDestroy": true,
+                    "ajax": {
+                        "url": siteRoot + "/SuperAdmin/GetCouponRedemption/",
+                        "type": "POST",
+                        "data": { couponValue:couponValue },
+                        "datatype": "json",
+                    },
+                    "columns": [
+                        { "data": "couponcode", "name": "couponcode" },
+                        {
+                            "data": "issuedate", render: function (data, type, row) {
+                                return parseJsonDateTime(data);
+                            }
+                        },
+                        {
+                            "data": "couponexpirydate", render: function (data, type, row) {
+                                return parseJsonDateTime(data);
+                            }
+                        },
+                        { "data": "ChassisNo", "name": "ChassisNo" },
+                        { "data": "vehicleRegNo", "name": "vehicleRegNo" },
+                        { "data": "customerName", "name": "customerName" },
+                        { "data": "Crename", "name": "Crename" },
+                        {
+                            "data": "redemptionDate", render: function (data, type, row) {
+                                return parseJsonDateTime(row.redemptiondate);
+                            }
+                        },
+                        {
+                            "data": "status", "name": "status", render: function (data, type, row) {
+                                var expiryDate = new Date(row.couponexpirydate);
+                                var curDate = new Date();
+                                if (expiryDate < curDate) {
+                                    return "EXPIRED";
+                                }
+                                else {
+                                    return data;
+                                }
+                            }
+                        }, 
+                        {
+                            "data": "Action", "name": "Coupon Action", render: function (data, type, row) {
+                                var couponstatus = "";
+                                var expiryDate = new Date(row.couponexpirydate);
+                                var curDate = new Date();
+                                if (expiryDate < curDate) {
+                                    return "";
+                                }
+                                else if (row.status == "PENDING") {
+
+                                    return `<button text="REDEEM" class="btn btn-success" onclick="statusRedeem(${row.couponintraction_id},'OTP')">REDEEM</button>`
+                                }
+                                else {
+                                    return "";
+                                }
+
+                            }
+                        },
+                        {
+                            "data": "Action", "name": "Coupon Action", render: function (data, type, row) {
+                                var couponstatus = "";
+                                var expiryDate = new Date(row.couponexpirydate);
+                                var curDate = new Date();
+                                if (expiryDate < curDate) {
+                                    return ""
+                                }
+                               else if (row.status == "PENDING") {
+
+                                    return `<button text="REJECT" class="btn btn-danger" onclick="statusRedeem(${row.couponintraction_id},'REJECT')">REJECT</button >`
+                                }
+                                else {
+                                    return "";
+                                }
+
+                            }
+                        },
+                        {
+                            "data": "Action", "name": "Coupon Action", render: function (data, type, row) {
+                                var couponstatus = "";
+                                var expiryDate = new Date(row.couponexpirydate);
+                                var curDate = new Date();
+                                if (expiryDate < curDate) {
+                                    return "";
+                                }
+                             else   if (row.status == "PENDING") {
+
+                                    return `<button class="btn btn-default" text="REJECT" onclick="statusRedeem(${row.couponintraction_id},'SENDSMS')"><i class="fa fa-comments"  aria-hidden="true"></i></button >`
+                                }
+                                else {
+                                    return "";
+                                }
+
+                            }
+                        }
+                        ],
+
+                        "initComplete": function (data, json) {
+                            if (DealerRole == "2" && role=="CREManager") {
+                                coupontable.columns(9).visible(false)
+                            }
+                            else if (DealerRole == "1" && (role == "CREManager" || role == "WM")) {
+                                coupontable.columns(10).visible(false)
+                                coupontable.columns(11).visible(false)
+                            }
+                            else {
+                                coupontable.columns(9).visible(false)
+                                coupontable.columns(10).visible(false)
+                            }
+                            $('#tblException').text(data.json.exception);
+                        },
+                    "serverSide": false,
+                    "scrollX": "true",
+                    "scrollY": "300",
+                    "paging": true,
+                        "searching": false,
+                        responsive: true,
+                    "language": {
+                        "processing": "Loading Please Wait.....!"
+
+
+                    },
+
+                });
+        }
+
+
+
+            function statusRedeem(id, couponstatus) {
+                $('#mainLoader').fadeIn('slow');
+                var enteredOTP = $('#txtotp').val();
+                var JCNumber = $('#txtjcnumber').val();
+                //var coupon_Workshop = $('#txtcouponworkshop').val();
+                var coupon_Workshop = $('#ddlworkshop').val();
+                $.ajax({
+                    type: 'POST',
+                    "url": siteRoot + "/SuperAdmin/couponStatusRedeem",
+                    datatype: 'json',
+                    data: { id: id, couponstatus: couponstatus, enteredOTP: enteredOTP, JCNumber: JCNumber, coupon_Workshop: coupon_Workshop },
+                    success: function (res) {
+                        if (res.success == true) {
+
+                            if (couponstatus == "OTP") {
+                                $('#btnotpresend').removeAttr('onclick');
+                                $('#btnotpresend').attr('onClick', 'statusRedeem(' + id +',"OTP");');
+                                $('#btnotpsubmit').removeAttr('onclick');
+                                $('#btnotpsubmit').attr('onClick', 'statusRedeem('+id+',"REDEEMED");');
+                                $('#spnOTPPhoneNumber').text("A One-Time Password has been sent to "+res.phoneNumber);
+                                $('#otpredemptionModal').modal('show');
+                            }
+                            //if ((res.JCNumber == "" || res.JCNumber == null) && (res.coupon_Workshop == "" || res.coupon_Workshop == null)) {
+                            //    Lobibox.notify('info', {
+                            //        continueDelayOnInactiveTab: true,
+                            //        msg: 'Please enter all the above'
+                            //    });
+                            //}
+                            if (res.message == "Reedemed successful") {
+                                $('#otpredemptionModal').modal('hide');
+                                clearotpPopup();
+                            }
+                            
+                            Lobibox.notify('info', {
+                                continueDelayOnInactiveTab: true,
+                                msg: res.message
+                            });
+                            $('#mainLoader').fadeOut('slow');
+
+                        }
+                        else if (res.success == false) {
+                            Lobibox.notify('warning', {
+                                continueDelayOnInactiveTab: true,
+                                msg: res.message
+                            });
+
+                        }
+                        getCouponSearch();
+                        $('#mainLoader').fadeOut('slow');
+
+
+                    }, error(error) {
+                        $('#mainLoader').fadeOut('slow');
+
+                    }
+                });
+
+            }
+            $('#otpredemptionModal').on('hidden.bs.modal', function (e) {
+                clearotpPopup();
+            });
+            function clearotpPopup() {
+                $('#txtotp').val('');
+                $('#txtjcnumber').val('');
+                $('#txtcouponworkshop').val('');
+                $('#btnotpresend').removeAttr('onclick');
+                $('#btnotpsubmit').removeAttr('onclick');
+            }
+        </script>
+    }
+

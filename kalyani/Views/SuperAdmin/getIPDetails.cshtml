@@ -1,0 +1,621 @@
+﻿
+@{
+    ViewBag.Title = "getIPDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <b id="pnlHead">IPAddress Filters</b>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        @Html.Label("Select Role")
+                        <select id="roleType" class="form-control" onchange="getCreName()">
+                            <option value="">--Select-- </option>
+                            <option value="Admin">Admin</option>
+                            <option value="CRE">CRE</option>
+                            <option value="CREManager">CREManager</option>
+                            <option value="RM">RM</option>
+                            <option value="WM">WM</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+
+                        @Html.Label("Select User")
+                        
+                        
+                        @*<span class="multiselect-native-select">
+                        <select id="cressNames" class="form-control selectpicker" onchange="getIpAddress()"></select>*@
+                        @*<div class="btn-group" style="width: 182px;">
+                         <button type="button" class="multiselect dropdown-toggle btn btn-default" data-toggle="dropdown" title="None selected" style="width: 100%; overflow: hidden; text-overflow: ellipsis;">
+                         <span class="multiselect-selected-text">None selected</span> 
+                          <b class="caret"></b></button>
+                          <ul class="multiselect-container dropdown-menu" style="max-height: 250px; overflow: hidden auto;"></ul>
+                          </div>
+                        </span>*@
+
+                        <select id="cressNames" class="form-control selectpicker" multiple @*onchange="getIpAddress()"*@> </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label for="ipadress1">Ip Address 1:</label>
+                        <b><input type="text" id="ipadress1" name="ipadress1" class="form-control" onblur="checkIpAd1(this)" autocomplete="off" /></b>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="ipadress2">Ip Address 2:</label>
+                        <b><input type="text" id="ipadress2" name="ipadress2" class="form-control" onblur="checkIpAd2(this)" autocomplete="off" /></b>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="ipadress3">Ip Address 3:</label>
+                        <b><input type="text" id="ipadress3" name="ipadress3" class="form-control" onblur="checkIpAd3(this)" autocomplete="off" /></b>
+                    </div>
+
+                </div>
+
+                <div class="row" style="margin-top:15px;margin-bottom:10px;">
+
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-sm btn-primary" onclick="saveDetails()">Save</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header flex-column">
+                <div class="icon-box">
+                    <i class="material-icons">&#xE5CD;</i>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+                </div>
+
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="txtcreId">
+                <div class="row">
+
+
+                    <div class="col-md-8 col-md-offset-1">
+                        <div class="form-group">
+                            <label for="">Add IP</label><span style="color:red;"> (Note:Give IPAddresses comma Separated)</span>
+                             <b><input type="text" id="addip" name="addip" class="form-control" autocomplete="off" /></b>
+
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-offset-3">
+                        <div class="form-group">
+
+                            <label for=""></label>
+                            <input type="button" id="saveUpdatedDetails" onclick="saveUpdatedDetails();" value="SUBMIT" class="form-control btn btn-warning" />
+
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-1">
+                        <div class="form-group">
+                            <label for="">Remove IP</label>
+                            <b><select name="removeIP" id="removeIP" class="form-control"></select></b>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-md-offset-3">
+                        <div class="form-group">
+
+                            <label for=""></label>
+                            <input type="button" id="removeIpdetails" onclick="removeIpdetails();" value="REMOVE IP" class="form-control btn btn-warning" />
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="row" id='divTable'>
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                IP Details
+            </div>
+            <div class="panel-body">
+                <div style="width:100%; margin:0 auto" class="tablecontainer">
+                    <table id="tblIDetails" class="table table-bordered" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Role</th>
+                                <th>Name</th>
+                                <th>Ip Address</th>
+                                <th>Status</th>
+                                <th>Delete All</th>
+                                <th>Update</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+
+                    </table>
+                    <span id="tblException"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+
+{
+    <script>
+
+
+        function getCreName() {
+
+            var roleType = $('#roleType').val();
+            $('#cressNames').empty();
+            $("#cressNames").multiselect('refresh');
+
+
+            $.ajax({
+                type: 'POST',
+                url: siteRoot + "/SuperAdmin/getCreName",
+                datatype: 'json',
+                cache: false,
+                data: { roleType: roleType },
+                success: function (res) {
+                    if (res.success == true) {
+
+                        var cressNames = $('#cressNames');
+                        $(cressNames).empty();
+                        if (res.data.length > 0) {
+
+                            for (var i = 0; i < res.data.length; i++) {
+                                $(cressNames).append(`<option value='${res.data[i].id}'>${res.data[i].name}</option>`)
+                            }
+
+                            $("#cressNames").multiselect('rebuild');
+
+                        }
+
+                    }
+                    else {
+                        Lobibox.notify('warning', {
+                            continueDelayOnInactiveTab: true,
+                            msg: res.exception
+                        });
+                    }
+                },
+
+                error: function (ex) {
+                    console.log(ex);
+                    alert(ex);
+                }
+            });
+
+        }
+
+
+        //function getIpAddress() {
+
+        //    var creId = $('#cressNames').val();
+        //    $.ajax({
+        //        type: 'POST',
+        //        url: siteRoot + "/SuperAdmin/getIpAddress",
+        //        datatype: 'json',
+        //        cache: false,
+        //        data: { creId: creId },
+        //        success: function (res) {
+        //            if (res.success == true) {
+        //                $('#ipadress').val(res.ipAddress);
+        //            }
+        //            else if (res.success == false) {
+        //                Lobibox.notify('warning', {
+        //                    continueDelayOnInactiveTab: true,
+        //                    msg: res.exception
+        //                });
+        //            }
+        //        }
+
+        //    });
+        //}
+
+        $(document).ready(function () {
+            getDetails();
+
+        });
+
+        function getDetails() {
+
+            $('#tblIDetails').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/SuperAdmin/getDetails/",
+                    "type": 'post',
+                    "datatype": 'json',
+                    "data": {}
+                },
+                "columns": [
+                    { "data": 'role', "name": 'role', width: '200px' },
+                    { "data": 'userName', "name": 'userName', width: '200px' },
+                    { "data": 'ipAddress', "name": 'ipAddress', width: '200px' },
+                    {
+                        "data": "status", width: '200px', render: function (data, type, row) {
+                            var Status = row.ipAddress;
+                            if (Status == null || Status == "") {
+
+                                return 'Deactive';
+                            }
+                            else {
+                                return 'Active';
+                            }
+                        }
+                    },
+                    {
+                        "data": "creId", render: function (data, type, row) {
+                            return `<button class="btn btn-danger" onclick="deleteall(${row.id})"; >Delete All</button>`;
+                           
+                        }
+                    },
+                    {
+                        "data": "id", render: function (data, type, row) {
+                            return `<button class="btn btn-info" onclick="getaddipdetails(${row.id})"; >Update</button>`;
+                            
+
+                        }
+                    }
+
+
+                ],
+                dom: 'lBfrtip',
+                buttons: [
+
+                    {
+                        extend: 'excelHtml5',
+                        filename: 'downloadDetails'
+                    }
+
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                },
+                "initComplete": function (data) {
+                    $('#tblException').text(data.json.exception);
+                }
+            });
+        }
+
+
+        function validateIP(values) {
+
+            if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(values)) {
+                return (true)
+            }
+            return (false)
+        }
+
+        function saveDetails() {
+            var items = [];
+
+            items.push($('#ipadress1').val());
+            items.push($('#ipadress2').val());
+            items.push($('#ipadress3').val());
+
+            var ipAddress = items.filter(Boolean).join(",");
+            creId = $('#cressNames option:selected').toArray().map(item => item.value).join();
+          
+            if (creId == null || roleType == "" || creId == "") {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please select CRE Details.'
+                });
+                return false;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: siteRoot + "/SuperAdmin/creMultipleUserIp",
+                datatype: 'json',
+                cache: false,
+                data: { creIds: creId, ipAddress: ipAddress },
+                success: function (res) {
+                    if (res.success == true) {
+                        getDetails();
+                        clearControls();
+
+
+                        Lobibox.notify('success', {
+                            continueDelayOnInactiveTab: true,
+                            msg: 'Saved Successfully.'
+                        });
+
+                    }
+                    else {
+                        Lobibox.notify('warning', {
+                            continueDelayOnInactiveTab: true,
+                            msg: res.exception
+                        });
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                    alert(err);
+                }
+            });
+
+        }
+
+        function getaddipdetails(creId) {
+
+            $('#txtcreId').val(creId);
+
+            $.ajax({
+                type: 'POST',
+                url: siteRoot + "/SuperAdmin/getIpAddress",
+                datatype: 'json',
+                cache: false,
+                data: { creId: creId },
+                success: function (res) {
+                    if (res.success == true) {
+                        $('#addip').val(res.ipAddress);
+                        var ipadresslist = res.ipAddress.split(',');
+
+                        if (ipadresslist.length > 0) {
+                            for (var i = 0; i < ipadresslist.length; i++) {
+                                $(removeIP).append(`<option value='${ipadresslist[i]}'>${ipadresslist[i]}</option>`)
+                            }
+                        }
+
+                        $('#myModal').modal('show');
+
+                    }
+                    else if (res.success == false) {
+                        Lobibox.notify('warning', {
+                            continueDelayOnInactiveTab: true,
+                            msg: res.exception
+                        });
+                    }
+                }
+
+            });
+        }
+        function saveUpdatedDetails() {
+            var creId = $('#txtcreId').val();
+
+            var updatedipadress = $('#addip').val();
+            if (updatedipadress != "") {
+                var temp = updatedipadress.split(",");
+
+                for (i = 0; i < temp.length; i++) {
+
+                    if (validateIP(temp[i])) {
+
+                    }
+                    else {
+                        Lobibox.notify('warning', {
+                            continueDelayOnInactiveTab: true,
+                            msg: 'Invalid Ip.'
+                        });
+                        return false;
+                    }
+                }
+            }
+
+
+
+            $.ajax({
+                type: 'POST',
+                url: siteRoot + "/SuperAdmin/saveDetails",
+                datatype: 'json',
+                cache: false,
+                data: { id: creId, ipAddress: updatedipadress },
+                success: function (res) {
+                    if (res.success == true) {
+                        $('#removeIP').empty();
+                       var ipadresslist = updatedipadress.split(',');
+
+                        if (ipadresslist.length > 0) {
+                            for (var i = 0; i < ipadresslist.length; i++) {
+                                $(removeIP).append(`<option value='${ipadresslist[i]}'>${ipadresslist[i]}</option>`)
+                            }
+                        }
+
+                        
+                        getDetails();
+                        clearControls();
+
+
+                        Lobibox.notify('success', {
+                            continueDelayOnInactiveTab: true,
+                            msg: 'Saved Successfully.'
+                        });
+
+                    }
+                    else {
+                        Lobibox.notify('warning', {
+                            continueDelayOnInactiveTab: true,
+                            msg: res.exception
+                        });
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                    alert(err);
+                }
+            });
+
+        }
+        function removeIpdetails() {
+
+            var creId = $('#txtcreId').val();
+            var x = document.getElementById("removeIP");
+            x.remove(x.selectedIndex);
+            
+            var option_all = $("#removeIP option").map(function () {
+                return $(this).text();
+            }).get().join(',');
+
+
+            
+            $.ajax({
+                type: 'POST',
+                url: siteRoot + "/SuperAdmin/deleteDetails",
+                datatype: 'json',
+                cache: false,
+                data: { id: creId, ipAddress: option_all },
+                success: function (res) {
+                    if (res.success == true) {
+                        $('#removeIP').empty();
+                        $('#addip').val('');
+                        $('#addip').val(res.ipaddress);
+
+                        var ipadresslist = res.ipaddress.split(',');
+
+                        if (ipadresslist.length > 0) {
+                            for (var i = 0; i < ipadresslist.length; i++) {
+                                $(removeIP).append(`<option value='${ipadresslist[i]}'>${ipadresslist[i]}</option>`)
+                            }
+                        }
+
+                        Lobibox.notify('info', {
+                            continueDelayOnInactiveTab: true,
+                            msg: 'Removed Successfully'
+                        });
+
+                    }
+                    else if (res.success == false) {
+                        Lobibox.notify('warning', {
+                            continueDelayOnInactiveTab: true,
+                            msg: res.exception
+                        });
+
+                    }
+                }
+
+            });
+        }
+
+        function deleteall(creId) {
+            var ipAddress = "";
+            var con = confirm("Are you sure you want to delete this??")
+            if (con) {
+                $.ajax({
+                    type: 'POST',
+                    url: siteRoot + "/SuperAdmin/deleteDetails",
+                    datatype: 'json',
+                    cache: false,
+                    data: { id: creId, ipAddress: ipAddress },
+                    success: function (res) {
+                        getDetails();
+                        if (res.success == true) {
+
+                            Lobibox.notify('info', {
+                                continueDelayOnInactiveTab: true,
+                                msg: 'Deleted Successfully'
+                            });
+
+                        }
+                        else if (res.success == false) {
+                            Lobibox.notify('warning', {
+                                continueDelayOnInactiveTab: true,
+                                msg: res.exception
+                            });
+
+                        }
+                    }
+
+                });
+            }
+        }
+
+        function clearControls() {
+
+            $('#ipadress1').val('');
+            $('#ipadress2').val('');
+            $('#ipadress3').val('');
+            $('#roleType').prop('selectedIndex', 0);
+            $("#cressNames").empty();
+            $("#cressNames").multiselect('rebuild');
+
+        }
+
+        function checkIpAd1(vals) {
+            var ipaddr1 = vals.value;
+            if (ipaddr1 != "") {
+                if (validateIP(ipaddr1)) {
+
+                }
+                else {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Invalid Ip.'
+                    });
+                    $('#ipadress1').val('');
+                    $('#ipadress1').focus();
+
+                    return false;
+                }
+            }
+        }
+        function checkIpAd2(vals) {
+            var ipaddr2 = vals.value;
+            if (ipaddr2 != "") {
+                if (validateIP(ipaddr2)) {
+
+                }
+                else {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Invalid Ip.'
+                    });
+                    $('#ipadress2').val('');
+                    $('#ipadress2').focus();
+
+                    return false;
+                }
+            }
+        }
+
+        function checkIpAd3(vals) {
+            var ipaddr3 = vals.value;
+            if (ipaddr3 != "") {
+                if (validateIP(ipaddr3)) {
+
+                }
+                else {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Invalid Ip.'
+                    });
+                    $('#ipadress3').val('');
+                    $('#ipadress3').focus();
+
+                    return false;
+                }
+            }
+        }
+
+    </script>
+}
+

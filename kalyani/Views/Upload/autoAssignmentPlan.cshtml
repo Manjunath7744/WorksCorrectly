@@ -1,0 +1,396 @@
+﻿
+@{
+    ViewBag.Title = "autoAssignmentPlan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    td, th {
+        border: 1px solid black;
+        overflow: hidden;
+        width: 30px;
+        text-align: center !important;
+    }
+
+    input[type="checkbox"]:checked {
+        box-shadow: 0 0 0 2px #4a89dc;
+    }
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="col-md-7">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Call Assignment Plans
+                </div>
+                <div class="panel-body">
+                    <div class="panel panel-default">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#smr" data-toggle="tab" id="TabSMR" onclick="assignmentPlanDataMR('SMR');"><b>SMR</b></a> </li>
+                            <li><a href="#psf" data-toggle="tab" id="TabPSF" onclick="assignmentPlanDataMR('PSF');"><b>PSF</b></a> </li>
+                            <li><a href="#ins" data-toggle="tab" id="TabINS" onclick="assignmentPlanDataMR('INS');"><b>INS</b></a> </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="panel panel-default tab-pane fade in active" id="smr">
+                                <div class="panel-body inf-content">
+
+                                    <div class="dataTable_wrapper">
+                                        <div>
+                                            <table class="table table-striped table-bordered table-hover table-responsive" id="tblassignmentPlanTableSMR" width="100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="border:1px solid black;">Campaign&nbsp;Name</th>
+                                                        <th style="border:1px solid black;">Location</th>
+                                                        <th style="border:1px solid black;">Wyzuser&nbsp;Name</th>
+                                                        <th style="border:1px solid black;">Created&nbsp;Date</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="buttons1"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-5">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Delete/Update Assignment Plan
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="moduleType">Module Type</label>
+                                <select class="form-control" onchange="ajaxCampaignByModuleAutoAssgPlan();" id="moduleName">
+                                    <option value="0">--Select--</option>
+                                    <option value="SMR">Service</option>
+                                    <option value="PSF">PSF</option>
+                                    <option value="Insurance">Insurance</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4" id="campaignDiv">
+                            <div class="form-group">
+                                <label for="campaign">Campaign Type</label><br>
+                                <select id="CampaignTypesDiv" class="form-control">
+                                    <option value="0">--Select--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="location">Location</label>
+                                @Html.DropDownList("locationAssiged", new SelectList(ViewBag.locationList, "id", "locationName"), "Select", new { @class = "form-control", @id = "locationAssiged",  @onchange = "ajaxWorkShopByCity();" })
+                                @*<select id="locationAssiged" class="form-control" onclick="ajaxWorkShopByCity();">
+                                    <option value="0">--Select--</option>
+                                    @for (location_List < -locationList)
+            {
+                <option value="@location_List.getName()">@location_List.getName()</option>
+            }
+                                </select>*@
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="workshop">WorkShop</label>
+                                <select id="workshopAssiged" class="form-control" onchange="ajaxWyzuserByCity();">
+                                    <option value="0">--Select--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label></label>
+                                <div>
+                                    <button type="button" style="float:right;display:block;" class="expand btn btn-sm btn-primary"><a href="#" onclick="OnSuccessPlan();" data-toggle="modal" style='color:#ffffff;'>VIEW</a></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Model popup assignment plan -->
+
+                    <div class="modal fade" id="planView" role="dialog">
+                        <div class="modal-dialog modal-lg">
+                            <div class="panel-heading" style="background-color: #337ab7; color:#fff">
+                                <b>Auto Assignment Plan</b>
+                                <label></label>
+                                <button type="button" class="close" data-dismiss="modal">@*<img src="@routes.Assets.at("images/close1.png")">*@</button><br>
+
+                            </div>
+                            <div>
+                                <div class="col-sm-12" style="background-color: #FFFFFF;padding:20px;">
+
+                                    <div id="wyzlist" class='row'></div>
+
+
+                                </div>
+                                <div style="background-color: #FFFFFF;padding:30px;">
+                                    <center><button type="button" class='btn btn-sm btn-primary' onclick='deleteUpdateAssignmentPlan();' style='color:#ffffff;'>Apply</button></center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        	window.onload = assignmentPlanDataMR('SMR');
+
+        function ajaxWorkShopByCity(){
+    
+    var selectedCity=document.getElementById('locationAssiged').value;
+    var urlLink="/Upload/getWorkshopListByLoca/";
+  $.ajax({
+        type: 'POST',
+        url: urlLink,
+        datatype: 'json',
+        data: {selectedCity: selectedCity },
+        cache: false,
+      success: function (work_list) {
+          alert(work_list);
+            if (work_list != null) {
+            $('#workshopAssiged').empty();
+            var dropdown = document.getElementById("workshopAssiged"); 
+            dropdown[0]= new Option('--Select--','0');
+       for(var i=0;i<work_list.length;i++){
+           
+        dropdown[dropdown.length] = new Option(work_list[i].workshopName,work_list[i].id);
+       }
+    }
+        }, error(error) {
+
+        }
+    }); 
+        }
+
+
+ 
+
+function ajaxCampaignByModuleAutoAssgPlan() {
+		var sel = document.getElementById('moduleName').value;
+		if(sel == "SMR") {
+			sel = "Campaign";
+		}
+    var urlLink = "/Upload/getListCampaign/";
+    $.ajax({
+        type: 'POST',
+        url: urlLink,
+        datatype: 'json',
+        data: {  campaign: sel },
+        cache: false,
+        success: function (res) {
+            	if (res != null) {
+	           $('#CampaignTypesDiv').empty();
+	       }
+	     var dropdown = document.getElementById("CampaignTypesDiv");
+	     for(var i=0;i<res.length ;i++){
+	  	       dropdown[i] = new Option(res[i].campaignName,res[i].id); 
+	     }
+        }, error(error) {
+
+        }
+    });
+	}
+
+
+        
+function OnSuccessPlan() {
+	event.preventDefault();
+	var moduleName = $('#moduleName').val();
+	var campaignName = $('#CampaignTypesDiv').val();
+	var workshopName = $("#workshopAssiged").val();
+	//alert("moduleName " +moduleName+ " campaignName " +campaignName+ " workshopName " +workshopName);
+	if(moduleName== '0' && campaignName == '0' && workshopName == '0'){
+
+		Lobibox.notify('warning', {
+            continueDelayOnInactiveTab: true,
+            msg: 'Please provide all values'
+        });
+        return false;
+	}
+	else{
+	    $('#planView').modal('show');
+
+	}
+        }
+
+
+        
+function ajaxWyzuserByCity(){
+	var moduleName = $('#moduleName').val();
+    var selectedCity=document.getElementById('locationAssiged').value;
+	var campaignName = $('#CampaignTypesDiv').val();
+    var selectedCity=document.getElementById('locationAssiged').value;
+
+    var urlLink = "/Upload/getWyzuserListWithPlannedByLocation/";
+    $.ajax({
+        type: 'POST',
+        url: urlLink,
+        datatype: 'json',
+        data: { cityId:selectedCity,moduleName:moduleName, campaignId: campaignName },
+        cache: false,
+        success: function (dataIs) {
+            $('#wyzlist').empty();
+            console.log(dataIs);
+        var assignlist;
+        var wyzuserlist;
+        if(dataIs.DriverList.length > 0) {
+        	assignlist =  '<div class="col-sm-3"> <label> <input type="checkbox" name="wyzusersList" value="' +dataIs.DriverList[0].id + '" checked>&nbsp;'+dataIs.DriverList[0].userName +'</label> </div>';
+        	for(var i=1; i < dataIs.DriverList.length; i++) {
+        		assignlist +=  '<div class="col-sm-3"> <label> <input type="checkbox" name="wyzusersList" value="' +dataIs.DriverList[i].id + '" checked>&nbsp;'+dataIs.DriverList[i].userName +'</label> </div>';
+    		}
+        }
+    	if (dataIs.CREList.length > 0) {
+    		wyzuserlist =  '<div class="col-sm-3"> <label> <input type="checkbox" name="wyzusersList" value="' +dataIs.CREList[0].id + '">&nbsp;'+dataIs.CREList[0].userName +'</label> </div>';
+           for(var i=1; i < dataIs.CREList.length; i++) {
+        	   wyzuserlist +=  '<div class="col-sm-3"> <label> <input type="checkbox" name="wyzusersList" value="' +dataIs.CREList[i].id + '">&nbsp;'+dataIs.CREList[i].userName +'</label> </div>';
+   			}
+    	}
+    	if(typeof(assignlist) == "undefined" && typeof(wyzuserlist)!=="undefined") {
+    		document.getElementById('wyzlist').innerHTML = wyzuserlist;
+    	}
+    	else if(typeof(assignlist)!=="undefined" && typeof(wyzuserlist)=="undefined") {
+    		document.getElementById('wyzlist').innerHTML = assignlist;
+    	}
+    	else if(typeof(assignlist)!=="undefined" && typeof(wyzuserlist)!=="undefined") {
+    		document.getElementById('wyzlist').innerHTML = assignlist+wyzuserlist;
+    	}
+    	else {
+    		document.getElementById('wyzlist').innerHTML = '<label>No CREs for this location</label>';
+    	}
+        }, error(error) {
+
+        }
+    });
+        }
+        
+        function parseJsonDateTime(datetime) {
+            var ConDate = "";
+            if (datetime != null) {
+                ConDate = new Date(parseInt(datetime.substr(6)));
+
+                if (ConDate.getMonth() < 10) {
+                    ConDate = ConDate.getFullYear() + '-0' + (parseInt(ConDate.getMonth()) + 1) + '-' + ConDate.getDate();
+                }
+                else {
+                    ConDate = ConDate.getFullYear() + '-' + (parseInt(ConDate.getMonth()) + 1) + '-' + ConDate.getDate();
+                }
+
+                return ConDate;
+            }
+            else {
+                return ConDate;
+            }
+        }
+
+
+                function assignmentPlanDataMR(module) {
+            //debugger;
+            $('#tblassignmentPlanTableSMR').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": "/Upload/getAllAutoAssignmentPlans/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { module:module}
+                },
+                "columns": [
+                    
+                    { "data": "campaignName", "name": "campaignName" },
+                    { "data": "locationName", "name": "locationName" },
+                            { "data": "CreName", "name": "CreName" },
+        {
+            "data": "uplodedCurrentDate", "render": function (data, type, row) {
+                return parseJsonDateTime(data);
+            }
+        }                ],
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+
+ 
+
+
+function deleteUpdateAssignmentPlan() {
+	var selected_planIds = new Array();
+	var selectedCity = document.getElementById('locationAssiged').value;
+	var moduleName = $('#moduleName').val();
+	var workshopName = $("#workshopAssiged").val();
+	var campaignName = $('#CampaignTypesDiv').val();
+	var creList = '';
+	var k=0;
+	$("input:checkbox[name=wyzusersList]:checked").each(function(){
+		selected_planIds.push($(this).val());
+	});
+
+	if(selected_planIds != null) {
+
+		for (var a = 0; a < selected_planIds.length; a++) {
+			if (a == 0) {
+				creList = selected_planIds[a];
+			}
+			else {
+				creList = creList + "," + selected_planIds[a];
+			}
+		}
+	}
+	var urlLink = "/Upload/insertNewAssignmentPlans";
+	$.ajax({
+		type: 'POST',
+	    url: urlLink,
+	    data: {
+			selected_planIds:''+selected_planIds,
+	     	moduleName:''+moduleName,
+	        campSelec: ''+campaignName,
+	        workshopName:''+workshopName,
+	        creList:''+creList,
+	        cityName:''+selectedCity,
+		},
+	    success: function (json) {
+		    Lobibox.notify('success', {
+				msg: 'Auto Assignment Plan is done successfully.'
+			});
+		    setTimeout(function (){
+        		window.location='AutoAssignmentPlan';
+        	}, 2000);
+	  	},
+	    error: function () {
+		}
+
+	});
+}
+
+
+
+
+    </script>
+    }

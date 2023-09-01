@@ -1,0 +1,2389 @@
+﻿@model AutoSherpa_project.Models.ViewModels.InsurenceViewModel
+@using PagedList.Mvc
+@{
+    /**/
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string oem = Session["OEM"].ToString();
+}
+
+<style>
+
+    @@media only screen and (max-width: 768px) {
+        /* For mobile phones: */
+        .dataTables_filter {
+            float: left;
+        }
+    }
+
+    @@media only screen and (max-width: 768px) {
+        /* For mobile phones: */
+        .dataTables_scroll {
+            overflow-x: hidden !important;
+            overflow-y: scroll !important;
+        }
+
+        .table {
+            width: 350px !important;
+        }
+
+        .dataTables_scrollBody {
+            overflow-x: hidden !important;
+            overflow-y: scroll !important;
+            margin-left: 18px !important;
+        }
+
+
+        .dataTables_scrollHeadInner {
+            width: 350px !important
+        }
+
+        .tbodycls {
+            text-align: left !important;
+        }
+    }
+</style>
+
+<style>
+    .dashImg1 {
+        width: 37px;
+    }
+
+    .dashImg2 {
+        width: 20px;
+    }
+
+    .tbodycls {
+        text-align: center;
+    }
+</style>
+<div class="container-fluide">
+    <div class="row">
+        <div class="col-lg-2 col-sm-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3 id="FreeCalls"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                    <p>Fresh Calls</p>
+                </div>
+                <div class="icon">
+                    <i class="ion-android-call"></i>
+                </div>
+                @*<a href="@Url.Action("getEdit","PurchaseOrder")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>*@
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-2 col-sm-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3 id="pendingFollow"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                    <p>Pending Follow Ups</p>
+                </div>
+                <div class="icon">
+                    <i class="ion-android-checkbox-outline "></i>
+                </div>
+                @*<a href="@Url.Action("AllSalesOrders","SalesOrder")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>*@
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-2 col-sm-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3 id="nonContact"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                    <p>Non Contacts</p>
+                </div>
+                <div class="icon">
+                    <i class="ion-person-add"></i>
+                </div>
+                @*<a href="@Url.Action("CusMasMain","CustomerMaster")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>*@
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-2 col-sm-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3 id="overDue"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                    <p>Over Due Appointments</p>
+                </div>
+                <div class="icon">
+                    <i class="ion-android-download"></i>
+                </div>
+                @*<a href="@Url.Action("GetAllCompanies","CompanyMaster")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>*@
+            </div>
+        </div>
+        <div class="col-lg-2 col-sm-2">
+            <!-- small box -->
+            <div class="small-box" style="background-color:#0000A0;">
+                <div class="inner">
+                    <p style="color:#fff;margin:0 0 1px" id="duetoday">Due&nbsp;Today&nbsp;-&nbsp;<span id="duetodaycount"><img class="dashImg2" src="~/public/img/loading.gif" /></span></p>
+                    <p style="color:#fff; margin:0 0 1px" id="extremflagp">Extreme&nbsp;Flag&nbsp;-&nbsp;<span id="totalRedFlag"><img class="dashImg2" src="~/public/img/loading.gif" /></span></p>
+                    <p style="color:#fff;margin:0 0 1px">Attempts&nbsp;-&nbsp;<span id="attemptsIns"><img class="dashImg2" src="~/public/img/loading.gif" /></span></p>
+                    <p style="margin:0 0 -6px;color:#fff;">Pending&nbsp;-&nbsp;<span id="pending"><img class="dashImg2" src="~/public/img/loading.gif" /></span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-sm-2">
+            <!-- small box -->
+            <div class="small-box" style="background-color:#806517;">
+                <div class="inner">
+                    <p style="margin:0 0 1px;color:#fff;">Appointments&nbsp;-&nbsp;<span id="totalAppointments"><img class="dashImg2" src="~/public/img/loading.gif" /></span></p>
+                    <p style="margin:0 0 1px;color:#fff;">Contacts&nbsp;-&nbsp;<span id="totalContacts"><img class="dashImg2" src="~/public/img/loading.gif" /></span></p>
+                    <p style="margin:0 0 1px;color:#fff;">Total Calls&nbsp;-&nbsp;<span id="totalCall"><img class="dashImg2" src="~/public/img/loading.gif" /></span></p>
+                    <p style="margin:0 0 -6px;color:#fff;">Date&nbsp;-&nbsp;@DateTime.Now.ToString("dd-MM-yyyy")</p>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-lg-12 panelsm">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <b>INSURANCE CALL LOG</b>
+
+                    <button style="background-color:red;float:right;height:30px;width:100px;margin-top:-5px;font-size:12px" onclick="clearbucketfilters();" title="CLEAR FILTER">CLEAR FILTER</button>
+                    <button style="background-color:red;float:right;height:30px;width:60px;margin-top:-5px;" id="totalFil" title="FILTERS OFF">OFF</button>
+                </div>
+                <div class="panel-body panelsm">
+                    <div class="panel panel-default">
+                        <ul class="nav nav-tabs">
+                            <li class="active bucket" id="li-schedule" data-bucket="1">
+                                <a class="nav-link active" id="schedule-tab" data-toggle="tab" href="#schedule" role="tab" aria-controls="home" aria-selected="true">Scheduled Calls<strong><span id="scheduleCounts" style="color:black;"></span></strong></a>
+                            </li>
+                            <li class=" bucket" id="li-pendingFollowUp" data-bucket="2">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#followUp" role="tab" aria-controls="profile" aria-selected="false">Pending Follow Up<strong><span id="pendFollow" style="color:darkblue"></span></strong></a>
+                            </li>
+                            <li class="bucket" id="li-appointments" data-bucket="3">
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#NonFS" role="tab" aria-controls="contact" aria-selected="false">Appointments<strong><span id="appointmnt" style="color:darkblue"></span></strong></a>
+                            </li>
+                            <li class=" bucket" id="li-renewalNotReq" data-bucket="4">
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#serviceBooked" role="tab" aria-controls="contact" aria-selected="false">Renewal Not Required<strong><span id="renNotReq" style="color:darkblue"></span></strong></a>
+                            </li>
+                            <li class=" bucket" id="li-nonContacts" data-bucket="5">
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#serviceNotReq" role="tab" aria-controls="contact" aria-selected="false">Non Contacts<strong><span id="nonCont" style="color:darkblue"></span></strong></a>
+                            </li>
+                            <li class=" bucket" id="li-InsN_1" data-bucket="6">
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#nonContacts" role="tab" aria-controls="contact" aria-selected="false"><span id="insnplusonedaySpan">Ins (N+1)Day</span><strong><span id="nmin1" style="color:darkblue"></span></strong></a>
+                            </li>
+                            <li class=" bucket" id="li-InsNth" data-bucket="7">
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#SB1" role="tab" aria-controls="contact" aria-selected="false"><span id="insnthDaySpan">INS (Nth)Day</span><strong><span id="nth" style="color:darkblue"></span></strong></a>
+                            </li>
+                            <li class="bucket" id="li-futureFollow" data-bucket="8">
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#SBNth" role="tab" aria-controls="contact" aria-selected="false">Future Follow Up<strong><span id="fultuteFollp" style="color:darkblue"></span></strong></a>
+                            </li>
+                            @if (Session["OEM"].ToString() == "MARUTI SUZUKI" || Session["DealerCode"].ToString() == "POPULAR" || Session["DealerCode"].ToString() == "SPEEDAUTO" || Session["DealerCode"].ToString() == "MAVERICKMOTORS" || Session["DealerCode"].ToString() == "POPULARHYUNDAI" || Session["DealerCode"].ToString() == "SMARTWHEELS" || Session["DealerCode"].ToString() == "BRIDGEWAYMOTORS" || Session["DealerCode"].ToString() == "ALLIEDMOTORS" || Session["DealerCode"].ToString() == "SAIAUTOHYUNDAI")
+                            {
+                                <li class="bucket" id="li-paidbuck" data-bucket="9">
+                                    <a class="nav-link" id="paidbuck-tab" data-toggle="tab" href="#paidbuck" role="tab" aria-controls="contact" aria-selected="false">Paid<strong><span id="paidCount" style="color:darkblue"></span></strong></a>
+                                </li>
+                            }
+                            @if (Session["OEM"].ToString() == "MARUTI SUZUKI" || Session["DealerCode"].ToString() == "POPULAR" || Session["DealerCode"].ToString() == "SPEEDAUTO" || Session["DealerCode"].ToString() == "MAVERICKMOTORS" || Session["DealerCode"].ToString() == "POPULARHYUNDAI" || Session["DealerCode"].ToString() == "SMARTWHEELS" || Session["DealerCode"].ToString() == "BRIDGEWAYMOTORS" || Session["DealerCode"].ToString() == "SAIAUTOHYUNDAI")
+                            {
+
+                                <li class="bucket" id="li-other" data-bucket="10">
+                                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#other" role="tab" aria-controls="contact" aria-selected="false">Other<strong><span id="otherCount" style="color:darkblue"></span></strong></a>
+                                </li>
+                                @*<li class="bucket" id="li-reciept" data-bucket="11">
+                                        <a class="nav-link" id="reciept-tab" data-toggle="tab" href="#reciept" role="tab" aria-controls="contact" aria-selected="false">Reciept<strong><span id="recieptCount" style="color:darkblue"></span></strong></a>
+                                    </li>*@
+                            }
+                            <li class="bucket" id="li-expiryduetoday" data-bucket="11">
+                                <a class="nav-link" id="expiryduetoday-tab" data-toggle="tab" href="#expiryduetoday" role="tab" aria-controls="contact" aria-selected="false">Expiry Due Today<strong><span id="expiryduetodaycount" style="color:darkblue"></span></strong></a>
+                            </li>
+
+                        </ul>
+
+                        <div class="tab-content" id="Tabs">
+                            <div class="panel panel-default" style="border-top: #fff;">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-2" id="campaignDiv" style="display:none;">
+                                            <label>Select Campaign:</label>
+                                            @Html.DropDownList("ddlCamp", new SelectList(ViewBag.ddlcampaignList, "id", "CampaignName"), "--Select--", new { @class = "form-control filter", @data_field = "Campaign", @id = "ddlCmp", @onchange = "getfilters(this);filtercountDisplay()" })
+                                        </div>
+
+                                        <div class="col-md-2" id="expiryFromDateDiv" style="display:none;">
+                                            <label>Expiry From Date: </label>
+                                            <input type="text" class="filter form-control datepicExpiryFromDropDown" placeholder="Enter From Date" data-column-index="1" data-field="ExFromDate" onchange="getfilters(this);filtercountDisplay()" id="fromexpirydaterange" name="fromexpirydaterange" readonly>
+                                        </div>
+                                        <div class="col-md-2" id="expiryToDateDiv" style="display:none;">
+                                            <label>Expiry To Date: </label>
+                                            <input type="text" class="filter form-control datepicExpiryToDropDown datepicker" placeholder="Enter To Date" data-column-index="2" data-field="ExToDate" onchange="getfilters(this);filtercountDisplay()" id="toexpirydaterange" name="toexpirydaterange" readonly>
+                                        </div>
+
+
+                                        <div class="col-md-2" id="flagDiv" style="display:none;">
+                                            <div class="form-group">
+                                                <label>Flag:</label>
+                                                <select class="filter form-control" id="flag" data-field="Flag" data-column-index="4" name="flag" onchange="getfilters(this);filtercountDisplay()">
+                                                    <option value="">--Select--</option>
+                                                    <option style="background-color:#C30000;color:#fff" value="Extreme">Extreme</option>
+                                                    <option style="background-color:#F70000;color:#fff" value="High">High</option>
+                                                    <option style="background-color:#FF2B2B;color:#fff" value="Medium">Medium</option>
+                                                    <option style="background-color:#FF6F6F;color:#fff" value="Low">Low</option>
+                                                    <option style="background-color:#3A3A38;color:#fff" value="Lost">Lost</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" id="modelDiv" style="display:none;">
+                                            <label>Model :</label>
+                                            @Html.DropDownList("ddlModel", new SelectList(ViewBag.modelsList, "model", "model"), "--Select--", new { @class = "form-control filter", @data_field = "model", @id = "ddlmodel", @onchange = "getfilters(this);filtercountDisplay()" })
+                                        </div>
+
+
+
+                                        <div class="col-md-2" id="lastServiceFromDateDiv" style="display:none;">
+                                            <label>Last service From Date: </label>
+                                            <input type="text" class="filter form-control datepicExpiryFromDropDown" placeholder="Enter From Date" data-column-index="1" data-field="LastserviceFromDate" onchange="getfilters(this);filtercountDisplay()" id="LastserviceFromDate" name="LastserviceToDate" readonly>
+                                        </div>
+                                        <div class="col-md-2" id="lastServiceToDateDiv" style="display:none;">
+                                            <label>Last service To Date: </label>
+                                            <input type="text" class="filter form-control datepicExpiryToDropDown datepicker" placeholder="Enter To Date" data-column-index="2" data-field="LastserviceToDate" onchange="getfilters(this);filtercountDisplay()" id="LastserviceToDate" name="LastserviceToDate" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2" id="modelcategoryDiv" style="display:none;">
+                                            <label>Model Category :</label>
+                                            @Html.DropDownList("ModelCategory", new SelectList(ViewBag.modelcategorieslist, "modelcat", "modelcat"), "--Select--", new { @class = "form-control filter", @data_field = "modelcat", @id = "modelcategory", @onchange = "getfilters(this);filtercountDisplay()" })
+                                        </div>
+                                        <div class="col-md-2" id="FromSaleDateDiv" style="display:none;">
+                                            <label>From Sale Date: </label>
+                                            <input type="text" class="filter form-control datepicAppointmentFromDropDown" placeholder="Enter From Date" onchange="getfilters(this);filtercountDisplay()" data-field="fromsaleDate" id="FromSaleDate"  name="FromSaleDate"  readonly >
+                                        </div>
+                                        <div class="col-md-2" id="ToSaleDateDiv" style="display:none;">
+                                            <label>To Sale Date: </label>
+                                            <input type="text" class="filter form-control datepicAppointmentToDropDown datepicker" placeholder="Enter To Date" onchange="getfilters(this);filtercountDisplay()" data-field="tosaleDate" id="ToSaleDate" name="ToSaleDate"  readonly>
+                                        </div>
+
+                                        <div style="display:none;" class="col-md-2" id="locationDiv">
+                                            <label>Vehicle Location:</label>
+                                            @Html.DropDownList("ddlLocation", new SelectList(ViewBag.ddllocation, "id", "location"), "--Select--", new { @class = "form-control filter ", @data_field = "LocationId", @id = "ddlLocation", @onchange = "getfilters(this);" })
+                                        </div>
+                                        @if (Session["OEM"].ToString() == "MARUTI SUZUKI" || Session["DealerCode"].ToString() == "POPULARHYUNDAI")
+                                        {
+                                            <div class="col-md-2" id="taggingDiv">
+                                                <label>Taggings:</label>
+                                                @Html.DropDownList("ddlTag", new SelectList(ViewBag.ddltagging, "id", "TaggingCamp"), "Select", new { @class = "filter form-control", @id = "ddlTag", @data_field = "Tagging", @onchange = "getfilters(this);" })
+                                            </div>
+                                        }
+                                        <div class="col-md-2" id="dueDateEditedDiv">
+                                            <label>Due Date Edited:</label>
+                                            <select class="filter form-control" id="ddlDueDateEdited" data-field="DueDateEdited" onchange="getfilters(this)">
+                                                <option value="">--Select--</option>
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2" id="FromDateDiv" style="display:none;">
+                                            <label>From Date: </label>
+                                            <input type="text" class="filter form-control datepicAppointmentFromDropDown" data-column-index="8" placeholder="Enter From Date" onchange="getfilters(this);filtercountDisplay()" data-field="fromDate" id="FromDate" name="appointmentFromDate" readonly>
+                                        </div>
+                                        <div class="col-md-2" id="ToDateDiv" style="display:none;">
+                                            <label>To Date: </label>
+                                            <input type="text" class="filter form-control datepicAppointmentToDropDown datepicker" data-column-index="9" placeholder="Enter To Date" onchange="getfilters(this);filtercountDisplay()" data-field="toDate" id="ToDate" name="appointmentToDate" readonly>
+                                        </div>
+                                        @if (Session["DealerCode"].ToString() == "DREAMMACHINE")
+                                        {
+
+                                            <div class="col-md-2" id="lastDispoTypeDiv">
+                                                <label>Last Disposition:</label>
+                                                @Html.DropDownList("ddlNewListDispo", new SelectList(ViewBag.ddlNewListDispo, "id", "disposition"), "Select", new { @class = "filter form-control", @id = "ddlNewListDispo", @data_field = "LastDispostion", @onchange = "getfilters(this)" })
+                                            </div>
+                                        }
+
+                                        @*<div class="col-md-2" id="appointmentStatusDiv" style="display:none">
+                <label>Booking Status:</label>
+                <select class="filter form-control" onchange="getfilters(this)" id="appointmentStatus" data-field="BookingStatus">
+                    <option value="0">--Select--</option>
+                    <option value="25">Book Appointment</option>
+                    <option value="41">Confirmed</option>
+                    <option value="33">Over Due</option>
+                    <option value="35">Cancelled</option>
+                </select>
+            </div>*@
+                                        <div class="col-md-2" id="attemptsDiv" style="display:none;">
+                                            <label>Attempts:</label>
+                                            <select class="filter form-control" id="attempts" onchange="getfilters(this);filtercountDisplay()" data-column-index="12" data-field="attempts" name="attempts">
+                                                <option value="0">--Select--</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                            </select>
+                                        </div>
+                                        <div style="display:none;" class="col-md-2" id="appointmentTypeDiv">
+                                            <label>Appointment type:</label>
+                                            <select class="filter form-control" id="appointmentType" onchange="getfilters(this);" data-field="AppointmentType" data-column-index="6" name="appointmentType">
+                                                <option value="0">--Select--</option>
+                                                <option value="Field">Field</option>
+                                                <option value="Walk-In">Walk-In</option>
+                                                <option value="Online">Online</option>
+                                                <option value="Website">Website</option>
+                                            </select>
+                                        </div>
+
+                                        <div style="display:none;" class="col-md-2" id="renewaltypeDiv">
+                                            <label>Renewal Type:</label>
+                                            @Html.DropDownList("renewalType", new SelectList(ViewBag.renewalType, "id", "name"), "--Select--", new { @class = "form-control  filter", @data_field = "renewalTypelist", @id = "renewalTypelist", @onchange = "getfilters(this);" })
+                                        </div>
+                                        <div class="col-md-2" id="reasonsDiv" style="display:none;">
+                                            <label>Reasons:</label>
+                                            @Html.DropDownList("ddlReason", new SelectList(ViewBag.ddlreason, "id", "disposition"), "--Select--", new { @class = "form-control filter", @data_field = "reasons", @id = "ddlReason", @onchange = "getfilters(this);filtercountDisplay()" })
+                                        </div>
+
+
+                                        @* <div style="display:none;" class="col-md-2" id="insCompanyDiv">
+                 <label>Insurance Company:</label>
+                 @Html.DropDownList("ddlInsCompany", new SelectList(ViewBag.insCompany, "CompanyName", "CompanyName"), "--Select--", new { @class = "form-control filter", @data_field = "InsuCmp", @id = "ddlInsCompany", @onchange = "getfilters(this)" })
+            </div>*@
+
+
+
+
+
+
+                                        <div class="col-md-2" id="followupfromdateDiv" style="display:none;">
+                                            <label> Follow Up From Date: </label>
+                                            <input type="text" class="filter form-control datepicAppointmentToDropDown datepicker" data-column-index="3" id="followupfromdate" name="followupfromdate" placeholder="Follow Up From Date" data-field="Followupfromdate " onchange="getfilters(this); " readonly>
+                                        </div>
+                                        <div class="col-md-2" id="followuptodateDiv" style="display:none;">
+                                            <label> Follow Up To Date: </label>
+                                            <input type="text" class="filter form-control datepicAppointmentToDropDown datepicker" data-column-index="4" id="followuptodate" name="followuptodate" placeholder="Follow Up To Date" data-field="Followuptodate" onchange="getfilters(this); " readonly>
+                                        </div>
+                                        <div class="col-md-2" id="followupreasonDiv" style="display:none;">
+                                            <label>Follow Up Reason :</label>
+                                            @Html.DropDownList("ddlfollowupreason", new SelectList(ViewBag.followupreasons, "id", "followupreason"), "Select", new { @class = "filter form-control", @id = "followupreason", @data_field = "FollowupReason", @onchange = "getfilters(this);" })
+                                        </div>
+                                    </div>
+                                    <div>
+                                        @*<button style="float:right;background-color:#337ab7;color:#ffffff;" onclick="clearbucketfilters();">Clear</button>*@
+                                    </div>
+                                </div>
+                                @*<div id="search-div" class="row">
+                                        <div class="col-md-2 col-md-offset-10" style="margin-bottom:5px;margin-left: 82.333333%;">
+                                            Search:
+                                            <input type="text" class="form-control" id="search" name="search" data-field="pattern" onkeyup="getfilters(this)" />
+                                        </div>
+                                    </div>*@
+                            </div>
+                            <div class="panel panel-default tab-pane fade active in" id="schedule" role="tabpanel" aria-labelledby="schedule-tab">
+                                <div>
+                                    <table id="tblSchedule" class="table table-striped table-bordered tblIns">
+                                        <thead>
+                                            <tr>
+                                                <th>Action</th>
+                                                <th>Policy Expiry Date</th>
+                                                <th>Reg No.</th>
+                                                <th>Campaign</th>
+                                                <th>Customer Name</th>
+                                                <th>Mobile No.</th>
+                                                <th>Chassis No.</th>
+                                                <th>Flag</th>
+                                                <th>Renewal Type</th>
+                                                <th>Last Ins.Co.</th>
+                                                <!--<th>Brand</th>-->
+                                                <th>Model</th>
+                                                <th>Location</th>
+                                                <th>tagging</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody class="tbodycls"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pendingFollowUp" role="tabpanel" aria-labelledby="pendingFollowUp-tab">
+                                <div class="dataTable_wrapper">
+                                    <table id="tblpendingFollowUp" class="table table-striped table-bordered tblIns table-hover" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Action</th>
+                                                <th>Policy Expiry Date</th>
+                                                <th>Reg No.</th>
+                                                <th>Campaign</th>
+                                                <th>Customer Name</th>
+                                                <th>Mobile No.</th>
+                                                <th>Chassis No.</th>
+                                                <th>Flag</th>
+                                                <th>Renewal Type</th>
+                                                <th>Last Call Date</th>
+                                                <!-- <th>Attempts</th>-->
+                                                <th>Follow-up Date</th>
+                                                <th>Follow-up Time</th>
+                                                <!--<th>Brand</th>-->
+                                                <th>Model</th>
+                                                <th>tagging</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbodycls"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="panel panel-default tab-pane fade" id="appointments" role="tabpanel" aria-labelledby="appointments-tab">
+                                <div class="dataTable_wrapper">
+                                    <table id="tblappointments" class="table table-striped table-bordered tblIns table-hover">
+                                        <thead>
+                                            <tr role="row">
+                                                <th>Action</th>
+                                                <th>Policy Expiry Date</th>
+                                                <th>Reg No.</th>
+                                                <th>Campaign</th>
+                                                <th>Customer Name</th>
+                                                <th>Mobile No.</th>
+                                                <th>Chassis No.</th>
+                                                <th>Flag</th>
+                                                <th>Renewal Type</th>
+                                                <th>Last Call Date</th>
+                                                <th>Last Disposition</th>
+                                                <!--<th>Attempts</th>-->
+                                                <th>Appointment Date</th>
+                                                <th>Appointment Time</th>
+                                                <th>Appointment Status</th>
+                                                <th>Appointment Type</th>
+                                                <th>FSE</th>
+                                                <th>tagging</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbodycls"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="panel panel-default tab-pane fade" id="renewalNotReq" role="tabpanel" aria-labelledby="renewalNotReq-tab">
+                                <div class="dataTable_wrapper">
+                                    <table id="tblrenewalNotReq" class="table table-striped table-bordered tblIns table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Action</th>
+                                                <th>Policy Expiry Date</th>
+                                                <th>Reg No.</th>
+                                                <th>Campaign</th>
+                                                <th>Customer Name</th>
+                                                <th>Mobile No.</th>
+                                                <th>Chassis No.</th>
+                                                <th>Flag</th>
+                                                <th>Renewal Type</th>
+                                                <th>Last Call Date</th>
+                                                <th>Last Disposition</th>
+                                                <th>Reasons</th>
+                                                <th>Attempts</th>
+                                                <!--<th>Brand</th>-->
+                                                <th>Model</th>
+                                                <th>tagging</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbodycls"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="panel panel-default tab-pane fade" id="nonContacts" role="tabpanel" aria-labelledby="nonContacts-tab">
+                                <div class="dataTable_wrapper">
+                                    <table id="tblnonContacts" class="table table-striped table-bordered tblIns table-hover" width="100%">
+
+                                        <thead>
+                                            <tr>
+                                                <th>Action</th>
+                                                <th>Policy Expiry Date</th>
+                                                <th>Reg No.</th>
+                                                <th>Campaign</th>
+                                                <th>Customer Name</th>
+                                                <th>Mobile No.</th>
+                                                <th>Chassis No.</th>
+                                                <th>Flag</th>
+                                                <th>Renewal Type</th>
+                                                <th>Last Call Date</th>
+                                                <th>Last Disposition</th>
+                                                <!-- <th>Attempts</th>-->
+                                                <!--<th>Brand</th>-->
+                                                <th>Model</th>
+                                                <th>tagging</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbodycls"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="panel panel-default tab-pane fade" id="InsN_1" role="tabpanel" aria-labelledby="InsN_1-tab">
+                                <div class="dataTable_wrapper">
+                                    <table class="table table-striped table-bordered tblIns table-hover" width="100%" id="tblInsN_1">
+                                        <thead>
+                                            <tr>
+                                                <th>Action</th>
+                                                <th>Policy Expiry Date</th>
+                                                <th>Vehicle Reg No.</th>
+                                                <th>Chassis&nbsp;No.</th>
+                                                <th>Campaign</th>
+                                                <th>Customer&nbsp;Name</th>
+                                                <th>Mobile&nbsp;No.</th>
+                                                <th>Flag</th>
+                                                <th>Appointment&nbsp;Date</th>
+                                                <th>Appointment&nbsp;Time</th>
+                                                <th>Renewal&nbsp;Type</th>
+                                                <th>Appointment&nbsp;Type</th>
+                                                <th>Last&nbsp;Disposition</th>
+                                                <th>Appointment&nbsp;Status</th>
+                                                <th>Insurance&nbsp;Agent</th>
+                                                <th>Insurance&nbsp;Company</th>
+                                                <th>Field-Walkin&nbsp;Location</th>
+                                                <th>Vehicle Location</th>
+                                                <th>tagging</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbodycls"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="panel panel-default tab-pane fade" id="InsNth" role="tabpanel" aria-labelledby="InsNth-tab">
+                                <div class="dataTable_wrapper">
+                                    <table class="table table-striped table-bordered tblIns table-hover" width="100%" id="tblInsNth">
+                                        <thead>
+                                            <tr>
+                                                <th>Action</th>
+                                                <th>Policy Expiry Date</th>
+                                                <th>Vehicle Reg No.</th>
+                                                <th>Chassis&nbsp;No.</th>
+                                                <th>Campaign</th>
+                                                <th>Customer&nbsp;Name</th>
+                                                <th>Mobile&nbsp;No.</th>
+                                                <th>Flag</th>
+                                                <th>Appointment&nbsp;Date</th>
+                                                <th>Appointment&nbsp;Time</th>
+                                                <th>Renewal&nbsp;Type</th>
+                                                <th>Appointment&nbsp;Type</th>
+                                                <th>Last&nbsp;Disposition</th>
+                                                <th>Appointment&nbsp;Status</th>
+                                                <th>Insurance&nbsp;Agent</th>
+                                                <th>Insurance&nbsp;Company</th>
+                                                <th>Field-Walkin&nbsp;Location</th>
+                                                <th>Vehicle Location</th>
+                                                <th>tagging</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbodycls"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="panel panel-default tab-pane fade" id="futureFollow" role="tabpanel" aria-labelledby="futureFollow-tab">
+                                <div class="dataTable_wrapper">
+                                    <table id="tblfutureFollow" class="table table-striped table-bordered tblIns table-hover" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Action</th>
+                                                <th>Policy Expiry Date</th>
+                                                <th>Reg No.</th>
+                                                <th>Campaign</th>
+                                                <th>Customer Name</th>
+                                                <th>Mobile No.</th>
+                                                <th>Chassis No.</th>
+                                                <th>Flag</th>
+                                                <th>Renewal Type</th>
+                                                <th>Last Call Date</th>
+                                                <!--<th>Attempts</th>-->
+                                                <th>Follow-up Date</th>
+                                                <th>Follow-up Time</th>
+                                                <!--<th>Brand</th>-->
+                                                <th>Model</th>
+                                                <th>Vehicle Location</th>
+                                                <th>tagging</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbodycls"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="panel panel-default tab-pane fade" id="paidbuck" role="tabpanel" aria-labelledby="paidbuck-tab">
+                                <div class="dataTable_wrapper">
+                                    <table id="paidTable" class="table table-striped table-bordered tblIns table-hover" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Action</th>
+                                                <th>Policy Expiry Date</th>
+                                                <th>Campaign</th>
+                                                <th>Customer Name</th>
+                                                <th>Mobile No.</th>
+                                                <th>Reg No.</th>
+                                                <th>Chassis No.</th>
+                                                <th>Flag</th>
+                                                <th>Renewal Type</th>
+                                                <th>Last Call Date</th>
+                                                <th>Last Disposition</th>
+                                                <!-- <th>Attempts</th>-->
+                                                <!--<th>Brand</th>-->
+                                                <th>Model</th>
+                                                <th>Location</th>
+                                                <th>tagging</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbodycls"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="panel panel-default tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">
+                                <div class="dataTable_wrapper">
+                                    <table id="tblother" class="table table-striped table-bordered tblIns table-hover" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Action</th>
+                                                <th>Policy Expiry Date</th>
+                                                <th>Campaign</th>
+                                                <th>Customer Name</th>
+                                                <th>Mobile No.</th>
+                                                <th>Reg No.</th>
+                                                <th>Chassis No.</th>
+                                                <th>Flag</th>
+                                                <th>Renewal Type</th>
+                                                <th>Last Call Date</th>
+                                                <th>Last Disposition</th>
+                                                <!--<th>Attempts</th>-->
+                                                <!--<th>Brand</th>-->
+                                                <th>Model</th>
+                                                <th>Location</th>
+                                                <th>tagging</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbodycls"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="panel panel-default tab-pane fade" id="reciept" role="tabpanel" aria-labelledby="reciept-tab">
+                                <div class="dataTable_wrapper">
+                                    <table id="tblreciept" class="table table-striped table-bordered tblIns table-hover" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Action</th>
+                                                <th>Policy Expiry Date</th>
+                                                <th>Customer Name</th>
+                                                <th>Campaign</th>
+                                                <th>Mobile No.</th>
+                                                <th>Reg No.</th>
+                                                <th>Chassis No.</th>
+                                                <th>Flag</th>
+                                                <th>Renewal Type</th>
+                                                <th>Last Ins.Co.</th>
+                                                <th>Brand</th>
+                                                <th>Model</th>
+                                                <th>Location</th>
+                                                <th>tagging</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbodycls"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="panel panel-default tab-pane fade" id="expiryduetoday" role="tabpanel" aria-labelledby="expiryduetoday-tab">
+                                <div class="dataTable_wrapper">
+                                    <table id="tblexpiryduetoday" class="table table-striped table-bordered tblIns table-hover" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Action</th>
+                                                <th>Policy Expiry Date</th>
+                                                <th>Reg No.</th>
+                                                <th>Campaign</th>
+                                                <th>Customer Name</th>
+                                                <th>Mobile No.</th>
+                                                <th>Chassis No.</th>
+                                                <th>Flag</th>
+                                                <th>Renewal Type</th>
+                                                <th>Last Ins Co</th>                                               
+                                                <th>Model</th>
+                                                <th>Vehicle Location</th>
+                                                <th>tagging</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbodycls"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <span class="code" id="tblException" style="font-size:11pt;font-weight:bold;"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+{
+    @if (ViewBag.dispositionResult != null && ViewBag.dispoError == false)
+    {
+        <script type="text/javascript">
+        Lobibox.notify('info', {
+            delay: 4 * 200,
+            msg: '@ViewBag.dispositionResult'
+        });
+        </script>
+    }
+
+    @if (ViewBag.dispositionResult != null && ViewBag.dispoError == true)
+    {
+        <script type="text/javascript">
+        Lobibox.notify('info', {
+            delay: 4 * 7000,
+            msg: '@ViewBag.dispositionResult'
+        });
+        </script>
+    }
+
+    <script type="text/javascript">
+        var presentBucket = "", filtDist = {}, insurancefiltCountDist = {}, callAjaxClear = 0, callfromTab = 0;
+        var dataAction = '<a class="fa fa-edit" href="${siteRoot}/Home/redirectToCallLogging/CRE%2cI" style="font-size:13pt;"></a>';
+
+
+        $(document).ready(function ()
+        {
+
+            var dealerCode = '@Session["DealerCode"].ToString()';
+          if (dealerCode == "INDUS") {
+                $('#lastServiceFromDateDiv').css({ 'display': 'block' });
+                $('#lastServiceToDateDiv').css({ 'display': 'block' });
+            }
+
+            if (dealerCode == "POPULARHYUNDAI") {
+                var tableIDs = ['#tblSchedule', '#tblpendingFollowUp', '#tblappointments', '#tblrenewalNotReq', '#tblnonContacts', '#tblInsN_1', '#tblInsNth', '#tblfutureFollow', '#paidTable', '#tblother', '#tblreciept','#tblexpiryduetoday'];
+                for (var tableID in tableIDs)
+                    {
+                    $(tableIDs[tableID]).on("cut copy paste contextmenu", function (e) {
+                                e.preventDefault();
+                    });
+                    }
+                }
+
+
+
+            if (dealerCode == "ABTMARUTHI") {
+                logoutIntalk();
+            }
+
+            if (dealerCode == "POPULAR") {
+                $('#insnthDaySpan').text("Today’s appointments");
+                $('#insnplusonedaySpan').text("Tomorrow's appointments");
+                $('#extremflagp').text("Expiring In Next 5 Days - ");
+            }
+            else if (dealerCode == "INDUSTV");
+            {
+                $('#insnthDaySpan').text('INS Today');
+                $('#insnplusonedaySpan').text("INS Tomorrow");
+                $('#extremflagp').text("Extreme Flag");
+            }
+           
+            $.ajax({
+                type: "POST",
+                url: siteRoot + "/CREInsurance/loadDashCounts/",
+                data: {},
+                cache: false,
+                success: function (res) {
+                    if (res.success == true) {
+                       $('#FreeCalls').text(res.FreeCalls);
+                        $('#pendingFollow').text(res.pendingFollow);
+                        $('#nonContact').text(res.totalAttemptedPerDay + "/" + res.NonContacts);
+                        $('#overDue').text(res.overDue);
+                        $('#totalRedFlag').text(res.totalRedFlag);
+                        $('#duetodaycount').text(res.duetodaycount);
+                        $('#attemptsIns').text(res.attemptsIns);
+                        $('#pending').text(res.pending);
+                        $('#totalAppointments').text(res.totalAppointments);
+                        $('#totalContacts').text(res.totalContacts);
+                        $('#totalCall').text(res.totalCall);
+
+                        if (dealerCode == "POPULAR") {
+                            $('#extremflagp').text("Expiring In Next 5 Days - " + res.totalRedFlag);
+                        }
+                        else {
+                            $('#extremflagp').text("Extreme Flag");
+                        }
+                    }
+                    else {
+                        Lobibox.notify('warning', {
+                            msg: res.error
+                        });
+                    }
+                },
+                error: function (data) {
+                    alert("Cann't load Dashboard count, Error occured while processing data");
+                }
+            });
+
+            manageFilters(1);
+            //getDataFor==1 ----> 1,2,3 is bucket number
+            $('.datepicker').datepicker({
+                duration: "slow",
+                showOptions: { direction: "up" },
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,//this option for allowing user to select month
+                changeYear: true //this option for allowing user to select from year range
+
+            });
+
+            $('.datepicExpiryFromDropDown').datepicker({
+
+                autoclose: true,
+                dateFormat: 'yy-mm-dd',
+                //maxDate: new Date(),
+                onSelect: function (date) {
+                    $('.datepicExpiryToDropDown').datepicker("destroy");
+                    $('.datepicExpiryToDropDown').datepicker("destroy");
+                    $('.datepicExpiryToDropDown').datepicker({
+                        autoclose: true,
+                        dateFormat: 'yy-mm-dd',
+                        minDate: $('.datepicExpiryFromDropDown').datepicker('getDate')
+                    });
+                    $(this).trigger('change');var dt1 = $('.datepicExpiryFromDropDown').datepicker('getDate');
+                    var dt2 = $('.datepicExpiryToDropDown').datepicker('getDate');
+                    if (dt2 <= dt1) {
+                        var minDate = $('#dt2').datepicker('option', 'minDate');
+                        $('.datepicExpiryToDropDown').datepicker('setDate', null);
+                    }
+                }
+            })
+
+            $('.datepicAppointmentFromDropDown').datepicker({
+
+                autoclose: true,
+                dateFormat: 'yy-mm-dd',
+                //maxDate: new Date(),
+                onSelect: function (date) {
+                    $('.datepicAppointmentToDropDown').datepicker("destroy");
+                    $('.datepicAppointmentToDropDown').datepicker("destroy");
+                    $('.datepicAppointmentToDropDown').datepicker({
+                        autoclose: true,
+                        dateFormat: 'yy-mm-dd',
+                        minDate: $('.datepicAppointmentFromDropDown').datepicker('getDate')
+                    });
+                    $(this).trigger('change');var dt1 = $('.datepicAppointmentFromDropDown').datepicker('getDate');
+                    var dt2 = $('.datepicAppointmentToDropDown').datepicker('getDate');
+                    if (dt2 <= dt1) {
+                        var minDate = $('#dt2').datepicker('option', 'minDate');
+                        $('.datepicAppointmentToDropDown').datepicker('setDate', null);
+                    }
+                }
+            })
+
+
+            $('.tblIns').addClass('nowrap');
+
+
+            if (localStorage.length > 0) {
+                filtDist = JSON.parse(localStorage.getItem("Insurancefilter"));
+                if (filtDist != null)
+                {
+                    renderFilterData();
+                    localStorage.removeItem("Insurancefilter");
+
+                }
+                insurancefiltCountDist = JSON.parse(localStorage.getItem("InsurancefilterCounts"));
+                if (insurancefiltCountDist != null)
+                {
+                    renderInsuranceFilterDataCounts();
+                    localStorage.removeItem("InsurancefilterCounts");
+                }
+
+                else {
+                    presentBucket = 1;
+                    filtDist = {};
+                    bindScheduleData();
+                }
+            }
+            else {
+                presentBucket = 1;
+                bindScheduleData();
+            }
+        });
+        function renderInsuranceFilterDataCounts() {
+            //debugger;
+            for (var key in insurancefiltCountDist) {
+                $("#" + key).text("(" + insurancefiltCountDist[key] + ")");
+
+            }
+            var filt = document.getElementById('totalFil');
+            filt.style.backgroundColor = 'green';
+        }
+        //re-render the filtered element
+        function renderFilterData() {
+            //debugger;
+            for (var key in filtDist) {
+                if (key !== "getDataFor" && key !== "isFiltered") {
+                    var element = $('.filter[data-field="' + key + '"]');
+                    $(element).val(filtDist[key]);
+                }
+            }
+            if (filtDist["getDataFor"] != null) {
+                presentBucket = filtDist["getDataFor"];
+                var liElement = $('.bucket[data-bucket="' + presentBucket + '"]');
+                var id = liElement[0].id;
+                //removing current style
+                $('li.bucket').removeClass('active');
+                $('div.fade').removeClass('show active in');
+
+                //applying new style
+                $('#' + id).addClass('active');
+                $('#' + id.split('-')[1]).addClass('show active in');
+
+                manageFilters(presentBucket);
+                makeAjaxCall();
+            }
+        }
+
+        $('li.bucket').on('click', function () {
+            var id = $(this).attr('id');
+            //removing current style
+            $('li.bucket').removeClass('active');
+            $('div.fade').removeClass('show active in');
+
+            //applying new style
+            $('#' + id).addClass('active');
+            $('#' + id.split('-')[1]).addClass('show active in');
+            presentBucket = $(this).attr('data-bucket');
+            if ($.fn.DataTable.isDataTable("#dispositionHistory")) {
+                var table = $("#dispositionHistory").DataTable();
+                table.clear();
+                table.destroy();
+            }
+            manageFilters(presentBucket);
+            makeAjaxCall(presentBucket);
+            // clearbucketfilters();
+        })
+
+
+        function makeAjaxCall() {
+            if (presentBucket == 1) {
+                bindScheduleData();
+            } else if (presentBucket == 2) {
+                bindPendingFollowUp();
+            } else if (presentBucket == 3) {
+                bindAppointment();
+            } else if (presentBucket == 4) {
+                bindRenewalNotReq();
+            } else if (presentBucket == 5) {
+                bindnonContacts();
+            } else if (presentBucket == 6) {
+                bindInsN_1();
+            } else if (presentBucket == 7) {
+                bindInsNth();
+            } else if (presentBucket == 8) {
+                bindfutureFollow();
+            } else if (presentBucket == 9) {
+                bindpaid();
+            } else if (presentBucket == 10) {
+                bindothers();
+            } else if (presentBucket == 11) {
+                bindexpiryduetoday();
+            }
+        }
+
+        //Hide and show of filters based on buckets
+        function manageFilters(bucketId) {
+            if (bucketId == 1 || bucketId == 9 || bucketId == 10 || bucketId == 11 ) {
+                //Showing Divs
+                $('#campaignDiv').css({ 'display': 'block' });
+                $('#flagDiv').css({ 'display': 'block' });
+                $('#expiryFromDateDiv').css({ 'display': 'block' });
+                $('#expiryToDateDiv').css({ 'display': 'block' });
+                $('#locationDiv').css({ 'display': 'block' });
+                $('#renewaltypeDiv').css({ 'display': 'block' });
+                $('#modelcategoryDiv').css({ 'display': 'block' });
+                $('#lastServiceFromDateDiv').css({ 'display': 'block' });
+                $('#lastServiceToDateDiv').css({ 'display': 'block' });
+                $('#FromSaleDateDiv').css({ 'display': 'block' });
+                $('#ToSaleDateDiv').css({ 'display': 'block' });
+                //hiding divs
+                $('#followupfromdateDiv').css({ 'display': 'none' });
+                $('#followuptodateDiv').css({ 'display': 'none' });
+                $('#followupreasonDiv').css({ 'display': 'none' });
+                $('#appointmentTypeDiv').css({ 'display': 'none' });
+                $('#reasonsDiv').css({ 'display': 'none' });
+                $('#FromDateDiv').css({ 'display': 'none' });
+                $('#ToDateDiv').css({ 'display': 'none' });
+                $('#attemptsDiv').css({ 'display': 'none' });
+                $('#appointmentStatusDiv').css({ 'display': 'none' });
+
+                $('#lastDispoTypeDiv').css({ 'display': 'none' });
+
+            }
+            else if (bucketId == 2 ) {
+                //Showing Divs
+                $('#campaignDiv').css({ 'display': 'block' });
+                $('#flagDiv').css({ 'display': 'block' });
+                $('#expiryFromDateDiv').css({ 'display': 'block' });
+                $('#expiryToDateDiv').css({ 'display': 'block' });
+                $('#locationDiv').css({ 'display': 'block' });
+                $('#modelcategoryDiv').css({ 'display': 'block' });
+                //hiding divs
+
+                $('#appointmentTypeDiv').css({ 'display': 'none' });
+                $('#reasonsDiv').css({ 'display': 'none' });
+                $('#FromDateDiv').css({ 'display': 'none' });
+                $('#ToDateDiv').css({ 'display': 'none' });
+                $('#attemptsDiv').css({ 'display': 'none' });
+                $('#appointmentStatusDiv').css({ 'display': 'none' });
+                $('#insCompanyDiv').css({ 'display': 'none' });
+                $('#renewaltypeDiv').css({ 'display': 'none' });
+                $('#lastDispoTypeDiv').css({ 'display': 'none' });
+                $('#followupfromdateDiv').css({ 'display': 'none' });
+                $('#followuptodateDiv').css({ 'display': 'none' });
+                $('#followupreasonDiv').css({ 'dispaly': 'none' });
+
+            }
+            else if (bucketId == 3) {
+                //Showing Divs
+                $('#flagDiv').css({ 'display': 'block' });
+                $('#expiryFromDateDiv').css({ 'display': 'block' });
+                $('#expiryToDateDiv').css({ 'display': 'block' });
+                $('#FromDateDiv').css({ 'display': 'block' });
+                $('#ToDateDiv').css({ 'display': 'block' });
+                $('#appointmentStatusDiv').css({ 'display': 'block' });
+                $('#locationDiv').css({ 'display': 'block' });
+                $('#modelcategoryDiv').css({ 'display': 'block' });
+
+                //hiding divs
+                $('#campaignDiv').css({ 'display': 'none' });
+
+                $('#appointmentTypeDiv').css({ 'display': 'block' });
+                $('#reasonsDiv').css({ 'display': 'none' });
+                $('#attemptsDiv').css({ 'display': 'none' });
+                $('#insCompanyDiv').css({ 'display': 'none' });
+                $('#renewaltypeDiv').css({ 'display': 'none' });
+                $('#lastDispoTypeDiv').css({ 'display': 'none' });
+                $('#followupfromdateDiv').css({ 'display': 'none' });
+                $('#followuptodateDiv').css({ 'display': 'none' });
+                $('#followupreasonDiv').css({ 'dispaly': 'none' });
+
+            }
+            else if (bucketId == 4) {
+                //Showing Divs
+                $('#campaignDiv').css({ 'display': 'block' });
+                $('#flagDiv').css({ 'display': 'block' });
+                $('#expiryFromDateDiv').css({ 'display': 'block' });
+                $('#expiryToDateDiv').css({ 'display': 'block' });
+                $('#locationDiv').css({ 'display': 'block' });
+                $('#reasonsDiv').css({ 'display': 'block' });
+                $('#modelcategoryDiv').css({ 'display': 'block' });
+
+                //hiding divs
+
+                $('#appointmentTypeDiv').css({ 'display': 'none' });
+                $('#FromDateDiv').css({ 'display': 'none' });
+                $('#ToDateDiv').css({ 'display': 'none' });
+                $('#attemptsDiv').css({ 'display': 'none' });
+                $('#appointmentStatusDiv').css({ 'display': 'none' });
+                $('#insCompanyDiv').css({ 'display': 'none' });
+                $('#renewaltypeDiv').css({ 'display': 'none' });
+                $('#lastDispoTypeDiv').css({ 'display': 'none' });
+                $('#followupfromdateDiv').css({ 'display': 'none' });
+                $('#followuptodateDiv').css({ 'display': 'none' });
+                $('#followupreasonDiv').css({ 'dispaly': 'none' });
+
+            } else if (bucketId == 5) {
+                //Showing Divs
+                $('#campaignDiv').css({ 'display': 'block' });
+                $('#flagDiv').css({ 'display': 'block' });
+                $('#expiryFromDateDiv').css({ 'display': 'block' });
+                $('#expiryToDateDiv').css({ 'display': 'block' });
+                $('#locationDiv').css({ 'display': 'block' });
+                $('#FromDateDiv').css({ 'display': 'block' });
+                $('#ToDateDiv').css({ 'display': 'block' });
+                $('#attemptsDiv').css({ 'display': 'block' });
+                $('#lastDispoTypeDiv').css({ 'display': 'block' });
+                $('#modelcategoryDiv').css({ 'display': 'block' });
+                //hiding divs
+
+                $('#appointmentTypeDiv').css({ 'display': 'none' });
+                $('#reasonsDiv').css({ 'display': 'none' });
+                $('#appointmentStatusDiv').css({ 'display': 'none' });
+                $('#insCompanyDiv').css({ 'display': 'none' });
+                $('#renewaltypeDiv').css({ 'display': 'none' });
+                $('#followupfromdateDiv').css({ 'display': 'none' });
+                $('#followuptodateDiv').css({ 'display': 'none' });
+                $('#followupreasonDiv').css({ 'dispaly': 'none' });
+
+
+            } else if (bucketId == 6) {
+                //Showing Divs
+                $('#flagDiv').css({ 'display': 'block' });
+                $('#expiryFromDateDiv').css({ 'display': 'block' });
+                $('#expiryToDateDiv').css({ 'display': 'block' });
+                $('#locationDiv').css({ 'display': 'block' });
+                $('#appointmentTypeDiv').css({ 'display': 'block' });
+                $('#modelcategoryDiv').css({ 'display': 'block' });
+                //$('#insCompanyDiv').css({ 'display': 'block' });
+
+
+
+                //hiding divs
+                $('#campaignDiv').css({ 'display': 'none' });
+
+                $('#FromDateDiv').css({ 'display': 'none' });
+                $('#ToDateDiv').css({ 'display': 'none' });
+                $('#attemptsDiv').css({ 'display': 'none' });
+                $('#reasonsDiv').css({ 'display': 'none' });
+                $('#appointmentStatusDiv').css({ 'display': 'none' });
+                $('#renewaltypeDiv').css({ 'display': 'none' });
+                $('#lastDispoTypeDiv').css({ 'display': 'none' });
+                 $('#followupfromdateDiv').css({ 'display': 'none' });
+                $('#followuptodateDiv').css({ 'display': 'none' });
+                $('#followupreasonDiv').css({ 'dispaly': 'none' });
+
+
+            }
+            else if (bucketId == 8) {
+                //Showing Divs
+                $('#campaignDiv').css({ 'display': 'block' });
+                $('#flagDiv').css({ 'display': 'block' });
+                $('#expiryFromDateDiv').css({ 'display': 'block' });
+                $('#expiryToDateDiv').css({ 'display': 'block' });
+                $('#locationDiv').css({ 'display': 'block' });
+                $('#modelcategoryDiv').css({ 'display': 'block' });
+                $('#followupfromdateDiv').css({ 'display': 'block' });
+                $('#followuptodateDiv').css({ 'display': 'block' });
+                $('#followupreasonDiv').css({ 'display': 'block' });
+                //hiding divs
+
+                $('#appointmentTypeDiv').css({ 'display': 'none' });
+                $('#reasonsDiv').css({ 'display': 'none' });
+                $('#FromDateDiv').css({ 'display': 'none' });
+                $('#ToDateDiv').css({ 'display': 'none' });
+                $('#attemptsDiv').css({ 'display': 'none' });
+                $('#appointmentStatusDiv').css({ 'display': 'none' });
+                $('#insCompanyDiv').css({ 'display': 'none' });
+                $('#renewaltypeDiv').css({ 'display': 'none' });
+                $('#lastDispoTypeDiv').css({ 'display': 'none' });
+
+
+            }
+            else if (bucketId == 7) {
+                //Showing Divs
+                $('#flagDiv').css({ 'display': 'block' });
+                $('#expiryFromDateDiv').css({ 'display': 'block' });
+                $('#expiryToDateDiv').css({ 'display': 'block' });
+                $('#locationDiv').css({ 'display': 'block' });
+                $('#appointmentTypeDiv').css({ 'display': 'block' });
+                $('#modelcategoryDiv').css({ 'display': 'block' });
+                // $('#insCompanyDiv').css({ 'display': 'block' });
+
+
+
+                //hiding divs
+                $('#campaignDiv').css({ 'display': 'none' });                
+                $('#FromDateDiv').css({ 'display': 'none' });
+                $('#ToDateDiv').css({ 'display': 'none' });
+                $('#attemptsDiv').css({ 'display': 'none' });
+                $('#reasonsDiv').css({ 'display': 'none' });
+                $('#appointmentStatusDiv').css({ 'display': 'none' });
+                $('#renewaltypeDiv').css({ 'display': 'none' });
+                $('#lastDispoTypeDiv').css({ 'display': 'none' });
+                $('#followupfromdateDiv').css({ 'display': 'none' });
+                $('#followuptodateDiv').css({ 'display': 'none' });
+                $('#followupreasonDiv').css({ 'dispaly': 'none' });
+
+
+            }
+           /* else if (bucketId == 9) {
+
+                $('#flagDiv').css({ 'display': 'block' });
+                $('#expiryFromDateDiv').css({ 'display': 'block' });
+                $('#expiryToDateDiv').css({ 'display': 'block' });
+                $('#locationDiv').css({ 'display': 'block' });
+
+                $('#campaignDiv').css({ 'display': 'block' });
+                // $('#insCompanyDiv').css({ 'display': 'block' });
+                $('#renewaltypeDiv').css({ 'display': 'block' });
+
+
+
+                //hiding divs
+                $('#appointmentTypeDiv').css({ 'display': 'none' });
+                $('#modelDiv').css({ 'display': 'none' });
+                $('#FromDateDiv').css({ 'display': 'none' });
+                $('#ToDateDiv').css({ 'display': 'none' });
+                $('#attemptsDiv').css({ 'display': 'none' });
+                $('#reasonsDiv').css({ 'display': 'none' });
+                $('#appointmentStatusDiv').css({ 'display': 'block' });
+                $('#lastDispoTypeDiv').css({ 'display': 'none' });
+
+
+                //document.getElementById("renewalTypeDiv").style.display = "block";
+
+            } else if (bucketId == 10) {
+
+                $('#flagDiv').css({ 'display': 'block' });
+                $('#expiryFromDateDiv').css({ 'display': 'block' });
+                $('#expiryToDateDiv').css({ 'display': 'block' });
+                $('#locationDiv').css({ 'display': 'block' });
+                $('#campaignDiv').css({ 'display': 'block' });
+                // $('#insCompanyDiv').css({ 'display': 'block' });
+                $('#renewaltypeDiv').css({ 'display': 'block' });
+
+                //hiding divs
+                $('#appointmentTypeDiv').css({ 'display': 'none' });
+                $('#modelDiv').css({ 'display': 'none' });
+                $('#FromDateDiv').css({ 'display': 'none' });
+                $('#ToDateDiv').css({ 'display': 'none' });
+                $('#attemptsDiv').css({ 'display': 'none' });
+                $('#reasonsDiv').css({ 'display': 'none' });
+                $('#appointmentStatusDiv').css({ 'display': 'none' });
+                $('#lastDispoTypeDiv').css({ 'display': 'none' });
+
+
+
+                //document.getElementById("renewalTypeDiv").style.display = "block";
+
+            }*/
+        }
+
+
+        //Clear Buckets data
+        function clearbucketfilters() {
+            $('#ddlCmp').val('');
+            $('#fromexpirydaterange').val('');
+            $('#toexpirydaterange').val('');
+            $('#flag').val('');
+            $('#modelcategory').val('');
+            $('#model').val('');
+            $('#appointmentType').val('');
+            $('#ddlReason').val('');
+            $('#FromDate').val('');
+            $('#ToDate').val('');
+            $('#FromSaleDate').val('');
+            $('#ToSaleDate').val('');
+            $('#appointmentStatus').val('');
+            $('#attempts').val('');
+            $('#ddlLocation').val('');
+            $('#ddlInsCompany').val('');
+            $('#renewalTypelist').val('');
+            $('#search').val('');
+            $('#followupfromdate').val('');
+            $('#followuptodate').val('');
+            $('#followupreason').val('');
+            $('#LastserviceFromDate').val('');
+            $('#LastserviceToDate').val('');
+            $('#ddlTag').val('');
+            $('#ddlDueDateEdited').val('');
+
+
+            filtDist = {};
+            insurancefiltCountDist = {};
+
+            clearfilterCounts();
+
+            makeAjaxCall();
+        }
+
+        function clearfilterCounts() {
+            $("#scheduleCounts").text("");
+            $("#pendFollow").text("");
+            $("#appointmnt").text("");
+            $("#renNotReq").text("");
+            $("#nonCont").text("");
+            $("#nmin1").text("");
+            $("#nth").text("");
+            $("#fultuteFollp").text("");
+            $("#paidCount").text("");
+            $("#otherCount").text("");
+            $('#expiryduetodaycount').text("");
+            $('#totalFil').html('OFF');
+            var filt = document.getElementById('totalFil');
+            filt.style.backgroundColor = 'red';
+        }
+        //Function to access filter data
+        function getfilters(item) {
+            //debugger;
+            var field = $(item).attr('data-field');
+            var data = $(item).val();
+            //if (field == "renewalTypelist") {
+            //    data = $('#renewalTypelist option:selected').toArray().map(item => item.value).join();
+            //    //alert(data);
+            //}
+            if (filtDist[field] === undefined) {
+                filtDist[field] = data;
+                if (data != "") {
+                    filtDist["isFiltered"] = true;
+                }
+                else {
+                    if ($('#ddlCmp').val() === "" &&
+                        $('#fromexpirydaterange').val() === "" &&
+                        $('#toexpirydaterange').val() === "" &&
+                        $('#flag').val() === "" &&
+                        $('#modelcategory').val() === "" &&
+                        $('#appointmentType').val() === "" &&
+                        $('#ddlReason').val() === "" &&
+                        $('#FromDate').val() === "" &&
+                        $('#ToDate').val() === "" &&
+                        $('#FromSaleDate').val() === "" &&
+                        $('#ToSaleDate').val() === "" &&
+                        $('#appointmentStatus').val() === "" &&
+                        $('#attempts').val() === "" &&
+                        $('#ddlLocation').val() === "" &&
+                        $('#ddlInsCompany').val() === "" && $('#renewalTypelist').val() === "" && $('#ddlTag').val() === "" &&
+                        $('#search').val() === "") {
+                        filtDist["isFiltered"] = false;
+                    }
+                }
+            }
+            else {
+                filtDist[field] = data;
+                if (data != "") {
+                    filtDist["isFiltered"] = true;
+                }
+                else if ($('#ddlCmp').val() === "" &&
+                    $('#fromexpirydaterange').val() === "" &&
+                    $('#toexpirydaterange').val() === "" &&
+                    $('#flag').val() === "" &&
+                    $('#modelcategory').val() === "" &&
+                    $('#appointmentType').val() === "" &&
+                    $('#ddlReason').val() === "" &&
+                    $('#FromDate').val() === "" &&
+                    $('#ToDate').val() === "" &&
+                    $('#FromSaleDate').val() === "" &&
+                    $('#ToSaleDate').val() === "" &&
+                    $('#appointmentStatus').val() === "" &&
+                    $('#attempts').val() === "" &&
+                    $('#ddlLocation').val() === "" &&
+                    $('#ddlInsCompany').val() === "" && $('#renewalTypelist').val() === "" && $('#ddlTag').val() === "" &&
+                    $('#search').val() === "") {
+                    filtDist["isFiltered"] = false;
+                }
+
+            }
+            //calling ajax function
+            makeAjaxCall();
+        }
+
+        function checkFlag(data) {
+            var flag = data;
+            if (flag == "Extreme") {
+                flagColor = "<span style='background-color:#C30000;color:#fff;padding:10px;display: block;text-align:center;'>Extreme</span>";
+            } else if (flag == "High") {
+                flagColor = "<span style='background-color:#F70000;color:#fff;padding:10px;display: block;text-align:center;'>High</span>";
+            } else if (flag == "Medium") {
+                flagColor = "<span style='background-color:#FF2B2B;color:#fff;padding:10px;display: block;text-align:center;'>Medium</span>";
+            } else if (flag == "Low") {
+                flagColor = "<span style='background-color:#FF6F6F;color:#fff;padding:10px;display: block;text-align:center;'>Low</span>";
+            } else if (flag == "Lost") {
+                flagColor = "<span style='background-color:#3A3A38;color:#fff;padding:10px;display: block;text-align:center;'>Lost</span>";
+            } else {
+                flagColor = "-";
+            }
+            return flagColor;
+        }
+        function checkStatus(data) {
+            var apointmntStatus = data;
+            apointmntStatus = "<span style='background-color:#00006e;color:#fff;padding:10px;display: block;text-align:center;'>" + data + "</span > ";
+
+            return apointmntStatus;
+        }
+        //********************* Adding Filter Data *************************
+
+        function recordFilters() {
+            localStorage.setItem("Insurancefilter", JSON.stringify(filtDist));
+            localStorage.setItem("InsurancefilterCounts", JSON.stringify(insurancefiltCountDist));
+        }
+
+
+
+        //--------------------------- Binding Data To Table ---------------------------------------
+
+        //***************** Scheduler Table *****************************
+        function bindScheduleData() {
+            //debugger;
+            filtDist["getDataFor"] = 1;
+            var table = $('#tblSchedule').dataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/CREInsurance/GetBucketData/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { insurenceData: JSON.stringify(filtDist) }
+                },
+                "columns": [
+                    {
+                        "data": "Action", "bSortable": false, render: function (data, type, row) {
+                            //debugger;
+                            return `<a class="fa fa-pencil-square" href="${siteRoot}/Home/redirectToCallLogging/CRE%2cI%2c${row.customer_id}%2c${row.vehicle_vehicle_id}" style="font-size: 24pt;color: red;" onclick="recordFilters()"> </a>`
+                        }
+                    },
+                    {
+                        "data": "policyDueDate", "name": "policyDueDate", "bSortable": true, "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "RegNo", "name": "RegNo", "bSortable": false },
+                    { "data": "campaign", "name": "campaign", "bSortable": false },
+
+                    { "data": "customerName", "name": "customerName", "bSortable": false },
+                    { "data": "Phone", "name": "Phone", "bSortable": false },
+                    { "data": "chassisNo", "name": "chassisNo", "bSortable": false },
+                    {
+                        "data": "Flag", "bSortable": false , "render": function (data, type, row) {
+                            return checkFlag(data);
+                        }
+                    },
+                    { "data": "NextRenewalType", "name": "NextRenewalType", "bSortable": false },
+                    { "data": "lastInsuranceCompany", "name": "lastInsuranceCompany", "bSortable": false },
+                   // { "data": "brand", "name": "brand", "bSortable": false },
+                    { "data": "model", "name": "model", "bSortable": false },
+                    { "data": "location", "name": "location", "bSortable": false },
+                    { "data": "tagging", "name": "tagging", "bSortable": false }
+                ],
+                responsive: screen.width < 500 ? true : false,
+                columnDefs: [
+                    { className: 'compact' }
+                ],
+                "initComplete": function (data) {
+                    console.log(+data.json.filterls); $('#tblException').text(data.json.exception);
+
+                },
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "300",
+                "scrollY": "300",
+                "paging": true,
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                    $('td', nRow).attr('nowrap', 'nowrap');
+                    return nRow;
+                }
+            });
+
+            //$(table).columns..adjust().draw();
+        }
+
+        //***************** FollowUp Table *****************************
+        function bindPendingFollowUp() {
+            //debugger;
+            filtDist["getDataFor"] = 2;
+         var pendfollowdt=   $('#tblpendingFollowUp').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/CREInsurance/GetBucketData/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { insurenceData: JSON.stringify(filtDist) }
+                },
+                "columns": [
+
+                    {
+                        "data": "Action", "bSortable": false, render: function (data, type, row) {
+                            return `<a class="fa fa-pencil-square" href="${siteRoot}/Home/redirectToCallLogging/CRE%2cI%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color: red;" onclick="recordFilters()"></a>`
+                        }
+                    },
+                    {
+                        "data": "policyDueDate", "name": "policyDueDate", "bSortable": true, "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo", "bSortable": false },
+                    { "data": "campaignName", "name": "campaignName", "bSortable": false },
+
+                    { "data": "customer_name", "name": "customer_name", "bSortable": false },
+                    { "data": "Mobile_number", "name": "Mobile_number", "bSortable": false },
+                    //{ "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                    { "data": "chassisNo", "name": "chassisNo", "bSortable": false },
+                    {
+                        "data": "Flag", "bSortable": false, "render": function (data, type, row) {
+                            return checkFlag(data);
+                        }
+                    },
+                    { "data": "renewalType", "name": "renewalType", "bSortable": false },
+                    {
+                        "data": "call_date", "bSortable": false, render: function (data, type, row) {
+                            return parseJsonDateTime(data)
+                        }
+                    },
+
+                    //{ "data": "no_of_attempts", "name": "no_of_attempts", "bSortable": false },
+                    {
+                        "data": "followUpDate", "bSortable": false, render: function (data, type, row) {
+                            return reverDate(data)
+                        }
+                    },
+                    { "data": "followUpTime", "name": "followUpTime", "bSortable": false },
+
+                   //{ "data": "brand", "name": "brand", "bSortable": false },
+
+                    { "data": "model", "name": "model", "bSortable": false },
+                    { "data": "tagging", "name": "tagging", "bSortable": false }
+                ],
+                responsive: screen.width < 500 ? true : false,
+                columnDefs: [
+                    { targets: [2, 5, 7], className: 'dt-body-right' }
+                ],
+                "initComplete": function (data) {
+                    console.log(+data.json.filterls); $('#tblException').text(data.json.exception);
+                    pendfollowdt.columns(10).visible(false);
+
+                },
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "300",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+        //***************** Service Booked Table *****************************
+        function bindAppointment() {
+            filtDist["getDataFor"] = 3;
+          var dtAppointments=  $('#tblappointments').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/CREInsurance/GetBucketData/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { insurenceData: JSON.stringify(filtDist) }
+                },
+                "columns": [
+
+                    {
+                        "data": "Action", "bSortable": false, render: function (data, type, row) {
+                            return `<a class="fa fa-pencil-square" href="${siteRoot}/Home/redirectToCallLogging/CRE%2cI%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color: red;" onclick="recordFilters()"></a>`
+                        }
+                    },
+                    {
+                        "data": "policyDueDate", "name": "policyDueDate", "bSortable": true, "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo", "bSortable": false },
+                    { "data": "campaignName", "name": "campaignName", "bSortable": false },
+
+                    { "data": "customer_name", "name": "customer_name", "bSortable": false },
+                    { "data": "Mobile_number", "name": "Mobile_number", "bSortable": false },
+
+                    //{ "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                    { "data": "chassisNo", "name": "chassisNo", "bSortable": false },
+                    {
+                        "data": "Flag", "bSortable": false, "render": function (data, type, row) {
+                            return checkFlag(data);
+                        }
+                    },
+
+                    { "data": "renewalType", "name": "renewalType", "bSortable": false },
+                    {
+                        "data": "call_date", "bSortable": false, render: function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "Last_disposition", "name": "Last_disposition", "bSortable": false },
+                    //{ "data": "no_of_attempts", "name": "no_of_attempts", "bSortable": false },
+                    {
+                        "data": "appointmentDate", "bSortable": false, render: function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "appointmentTime", "name": "appointmentTime", "bSortable": false },
+                    {
+                        "data": "appointmentstatus", "bSortable": false, "render": function (data, type, row) {
+                            //var dt = parseJsonDateTime(row.appointmentDate);
+                            //var pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
+                            //var appointmentDate = new Date(dt.split("-").reverse().join("-"));
+
+
+                            //var curDate = new Date();
+
+                            if (row.appointmentstatus == "Over Due") {
+                                return `<span style='background-color:red;color:#fff;padding:10px;display: block;text-align:center;'>`+data+`</span >`;
+                            }
+                            else {
+                                return `<span style='background-color:#00006e;color:#fff;padding:10px;display: block;text-align:center;'>` + data + `</span >`;
+                            }
+                        }
+
+                    },
+
+                    { "data": "appointmentType", "name": "appointmentType", "bSortable": false },
+
+                    { "data": "fse", "name": "fse", "bSortable": false },
+
+                    { "data": "tagging", "name": "tagging", "bSortable": false }
+
+
+                ],
+                responsive: screen.width < 500 ? true : false,
+                columnDefs: [
+                    { targets: [2, 5, 7], className: 'dt-body-right' }
+                ],
+                "initComplete": function (data) {
+                    console.log(+data.json.filterls); $('#tblException').text(data.json.exception);
+                    dtAppointments.columns(11).visible(false);
+
+
+                },
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": "true",
+                "scrollX": "300",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": "true",
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+        //***************** Service Not Required *****************************
+        function bindRenewalNotReq() {
+            filtDist["getDataFor"] = 4;
+        var dtrenNotReq=    $('#tblrenewalNotReq').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/CREInsurance/GetBucketData/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { insurenceData: JSON.stringify(filtDist) }
+                },
+                "columns": [
+
+                    {
+                        "data": "Action", "bSortable": false, render: function (data, type, row) {
+                            return `<a class="fa fa-pencil-square" href="${siteRoot}/Home/redirectToCallLogging/CRE%2cI%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color: red;" onclick="recordFilters()"></a>`
+                        }
+                    },
+                    {
+                        "data": "policyDueDate", "name": "policyDueDate", "bSortable": true, "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo", "bSortable": false },
+                    { "data": "campaignName", "name": "campaignName", "bSortable": false },
+
+                    { "data": "customer_name", "name": "customer_name", "bSortable": false },
+
+                    { "data": "Mobile_number", "name": "Mobile_number", "bSortable": false },
+                    //{ "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                    { "data": "chassisNo", "name": "chassisNo", "bSortable": false },
+                    {
+                        "data": "Flag", "bSortable": false, "render": function (data, type, row) {
+                            return checkFlag(data);
+                        }
+                    },
+
+                    { "data": "renewalType", "name": "renewalType", "bSortable": false },
+                    {
+                        "data": "call_date", "bSortable": false, render: function (data, type, row) {
+                            return parseJsonDateTime(data)
+                        }
+                    },
+                    { "data": "Last_disposition", "name": "Last_disposition", "bSortable": false },
+                    { "data": "reasons", "name": "reasons", "bSortable": false },
+
+                    { "data": "no_of_attempts", "name": "no_of_attempts", "bSortable": false },
+                   // { "data": "brand", "name": "brand", "bSortable": false },
+                    { "data": "model", "name": "model", "bSortable": false },
+                    { "data": "tagging", "name": "tagging", "bSortable": false }
+                ],
+                responsive: screen.width < 500 ? true : false,
+                columnDefs: [
+                    { targets: [2, 5, 7], className: 'dt-body-right' }
+                ],
+                "initComplete": function (data) {
+                    console.log(+data.json.filterls); $('#tblException').text(data.json.exception);
+                    dtrenNotReq.columns(12).visible(false);
+
+                },
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "300",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+
+        }
+        //***************** Non Conatcts *****************************
+        function bindnonContacts() {
+            filtDist["getDataFor"] = 5;
+           var dtNonContact=$('#tblnonContacts').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/CREInsurance/GetBucketData/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { insurenceData: JSON.stringify(filtDist) }
+                },
+                "columns": [
+                    {
+                        "data": "Action", "bSortable": false, render: function (data, type, row) {
+                            return `<a class="fa fa-pencil-square" href="${siteRoot}/Home/redirectToCallLogging/CRE%2cI%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color: red;" onclick="recordFilters()"></a>`
+                        }
+                    },
+                    {
+                        "data": "policyDueDate", "name": "policyDueDate", "bSortable": true, "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo", "bSortable": false },
+                    { "data": "campaignName", "name": "campaignName", "bSortable": false },
+
+                    { "data": "customer_name", "name": "customer_name", "bSortable": false },
+                    { "data": "Mobile_number", "name": "Mobile_number", "bSortable": false },
+                    { "data": "chassisNo", "name": "chassisNo", "bSortable": false },
+                    {
+                        "data": "Flag", "bSortable": false, "render": function (data, type, row) {
+                            return checkFlag(data);
+                        }
+                    },
+                    { "data": "renewalType", "name": "renewalType", "bSortable": false },
+                    {
+                        "data": "call_date", "bSortable": false, render: function (data, type, row) {
+                            return parseJsonDateTime(data)
+                        }
+                    },
+                    { "data": "Last_disposition", "name": "Last_disposition", "bSortable": false },
+                   // { "data": "no_of_attempts", "name": "no_of_attempts", "bSortable": false },
+                   // { "data": "brand", "name": "brand", "bSortable": false },
+
+                    { "data": "model", "name": "model", "bSortable": false },
+                    { "data": "tagging", "name": "tagging", "bSortable": false }
+                ],
+                responsive: screen.width < 500 ? true : false,
+                columnDefs: [
+                    { targets: [2, 5, 7], className: 'dt-body-right' }
+                ],
+                "initComplete": function (data) {
+                    console.log(+data.json.filterls); $('#tblException').text(data.json.exception);
+                    dtNonContact.columns(11).visible(false);
+
+                },
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "300",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+
+        //***************** SB1 *****************************
+        function bindInsN_1() {
+            filtDist["getDataFor"] = 6;
+            $('#tblInsN_1').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/CREInsurance/GetBucketData/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { insurenceData: JSON.stringify(filtDist) }
+                },
+                "columns": [
+
+                    {
+                        "data": "Action", "bSortable": false, render: function (data, type, row) {
+                            return `<a class="fa fa-pencil-square" href="${siteRoot}/Home/redirectToCallLogging/CRE%2cI%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color: red;" onclick="recordFilters()"> </a>`
+                        }
+                    },
+                    //{
+                    //    "data": "policyExpiryDate", "name": "policyExpiryDate", "bSortable": true, "render": function (data, type, row) {
+                    //        return parseJsonDateTime(data);
+                    //    }
+                    //},
+                    {
+                        "data": "policyDueDate", "name": "policyDueDate", "bSortable": true, "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "vehicleRegNo", "name": "vehicleRegNo", "bSortable": false },
+                    { "data": "chassiNo", "name": "chassiNo", "bSortable": false },
+
+                    { "data": "campaignName", "name": "campaignName", "bSortable": false },
+                    { "data": "customer_name", "name": "customer_name", "bSortable": false },
+                    { "data": "phonenumber", "name": "phonenumber", "bSortable": false },
+                    //{ "data": "vehicleRegNo", "name": "vehicleRegNo" },
+                    { "data": "Flag", "name": "Flag", "bSortable": false },
+                    {
+                        "data": "appointmentDate", "bSortable": false, render: function (data, type, row) {
+                            return parseJsonDateTime(data)
+                        }
+                    },
+                    { "data": "appointmentFromTime", "name": "appointmentFromTime", "bSortable": false },
+                    { "data": "renewalType", "name": "renewalType", "bSortable": false },
+                    { "data": "typeOfPickup", "name": "typeOfPickup", "bSortable": false },
+                    { "data": "Last_disposition", "name": "Last_disposition", "bSortable": false },
+                    { "data": "appointment_status", "name": "appointment_status", "bSortable": false },
+                    { "data": "insuranceAgent", "name": "insuranceAgent", "bSortable": false },
+                    { "data": "insuranceCompany", "name": "insuranceCompany", "bSortable": false },
+                    { "data": "fieldwalkingloc", "name": "fieldwalkingloc", "bSortable": false },
+                    { "data": "vehLoc", "name": "vehLoc", "bSortable": false },
+
+                    { "data": "tagging", "name": "tagging", "bSortable": false }
+
+                ],
+                responsive: screen.width < 500 ? true : false,
+                columnDefs: [
+                    { targets: [2, 5, 7], className: 'dt-body-right' }
+                ],
+                "initComplete": function (data) {
+                    console.log(+data.json.filterls); $('#tblException').text(data.json.exception);
+
+                },
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "300",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+
+        //***************** SBNth *****************************
+        function bindInsNth() {
+            filtDist["getDataFor"] = 7;
+            $('#tblInsNth').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/CREInsurance/GetBucketData/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { insurenceData: JSON.stringify(filtDist) }
+                },
+                "columns": [
+
+                    {
+                        "data": "Action", "bSortable": false, render: function (data, type, row) {
+                            return `<a class="fa fa-pencil-square" href="${siteRoot}/Home/redirectToCallLogging/CRE%2cI%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color: red;" onclick="recordFilters()"> </a>`
+                        }
+                    },
+                    //{
+                    //    "data": "policyExpiryDate", "name": "policyExpiryDate", "bSortable": true, "render": function (data, type, row) {
+                    //        return parseJsonDateTime(data);
+                    //    }
+                    //},
+                    {
+                        "data": "policyDueDate", "name": "policyDueDate", "bSortable": true, "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+
+                    { "data": "vehicleRegNo", "name": "vehicleRegNo", "bSortable": false },
+                    { "data": "chassiNo", "name": "chassiNo", "bSortable": false },
+
+                    { "data": "campaignName", "name": "campaignName", "bSortable": false },
+
+                    { "data": "customer_name", "name": "customer_name", "bSortable": false },
+                    { "data": "phonenumber", "name": "phonenumber" },
+                    //{ "data": "vehicleRegNo", "name": "vehicleRegNo" },
+                    { "data": "Flag", "name": "Flag", "bSortable": false },
+                    {
+                        "data": "appointmentDate", "bSortable": false, render: function (data, type, row) {
+                            return parseJsonDateTime(data)
+                        }
+                    },
+                    { "data": "appointmentFromTime", "name": "appointmentFromTime", "bSortable": false },
+                    { "data": "renewalType", "name": "renewalType", "bSortable": false },
+                    { "data": "typeOfPickup", "name": "typeOfPickup", "bSortable": false },
+                    { "data": "Last_disposition", "name": "Last_disposition", "bSortable": false },
+                    { "data": "appointment_status", "name": "appointment_status", "bSortable": false },
+                    { "data": "insuranceAgent", "name": "insuranceAgent", "bSortable": false },
+                    { "data": "insuranceCompany", "name": "insuranceCompany", "bSortable": false },
+                    { "data": "fieldwalkingloc", "name": "fieldwalkingloc", "bSortable": false },
+                    { "data": "vehLoc", "name": "vehLoc", "bSortable": false },
+                    { "data": "tagging", "name": "tagging", "bSortable": false }
+
+                ],
+                responsive: screen.width < 500 ? true : false,
+                columnDefs: [
+                    { targets: [2, 5, 7], className: 'dt-body-right' }
+                ],
+                "initComplete": function (data) {
+                    console.log(+data.json.filterls); $('#tblException').text(data.json.exception);
+
+                },
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "300",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+
+
+        //***************** NON FS *****************************
+        function bindfutureFollow() {
+            filtDist["getDataFor"] = 8;
+          var dtfutureFollowup=  $('#tblfutureFollow').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/CREInsurance/GetBucketData/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { insurenceData: JSON.stringify(filtDist) }
+                },
+                "columns": [
+                    {
+                        "data": "Action", "bSortable": false, render: function (data, type, row) {
+                            return `<a class="fa fa-pencil-square" href="${siteRoot}/Home/redirectToCallLogging/CRE%2cI%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color: red;" onclick="recordFilters()"> </a>`
+                        }
+                    },
+                    {
+                        "data": "policyDueDate", "name": "policyDueDate", "bSortable": true, "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo", "bSortable": false },
+                    { "data": "campaignName", "name": "campaignName", "bSortable": false },
+
+                    { "data": "customer_name", "name": "customer_name", "bSortable": false },
+                    { "data": "Mobile_number", "name": "Mobile_number", "bSortable": false },
+                    //{ "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                    { "data": "chassisNo", "name": "chassisNo", "bSortable": false },
+                    {
+                        "data": "Flag", "bSortable": false, "render": function (data, type, row) {
+                            return checkFlag(data);
+                        }
+                    },
+
+                    { "data": "renewalType", "name": "renewalType", "bSortable": false },
+                    {
+                        "data": "call_date", "bSortable": false, render: function (data, type, row) {
+                            return parseJsonDateTime(data)
+                        }
+                    },
+                   // { "data": "no_of_attempts", "name": "no_of_attempts", "bSortable": false },
+                    {
+                        "data": "followUpDate", "bSortable": false, render: function (data, type, row) {
+                            return reverDate(data)
+                        }
+                    },
+
+                    { "data": "followUpTime", "name": "followUpTime", "bSortable": false },
+                   // { "data": "brand", "name": "brand", "bSortable": false },
+                    { "data": "model", "name": "model", "bSortable": false },
+                    { "data": "vehLoc", "name": "vehLoc", "bSortable": false },
+                    { "data": "tagging", "name": "tagging", "bSortable": false }
+                ],
+                responsive: screen.width < 500 ? true : false,
+                columnDefs: [
+                    { targets: [2, 5, 7], className: 'dt-body-right' }
+                ],
+                "initComplete": function (data) {
+                    console.log(+data.json.filterls); $('#tblException').text(data.json.exception);
+                    dtfutureFollowup.columns(10).visible(false);
+                },
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "300",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+
+        //***************** Non Table *****************************/
+        //***************** Paid *****************************
+        function bindpaid() {
+            filtDist["getDataFor"] = 9;
+         var dtPaid=   $('#paidTable').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/CREInsurance/GetBucketData/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { insurenceData: JSON.stringify(filtDist) }
+                },
+                "columns": [
+                    {
+                        "data": "Action", "bSortable": false, render: function (data, type, row) {
+                            return `<a class="fa fa-pencil-square" href="${siteRoot}/Home/redirectToCallLogging/CRE%2cI%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color: red;" onclick="recordFilters()"> </a>`
+                        }
+                    },
+                    {
+                        "data": "policyDueDate", "name": "policyDueDate", "bSortable": true, "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "campaignName", "name": "campaignName", "bSortable": false },
+                    { "data": "customer_name", "name": "customer_name", "bSortable": false },
+
+                    { "data": "Mobile_number", "name": "Mobile_number", "bSortable": false },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo", "bSortable": false },
+                    { "data": "chassisNo", "name": "chassisNo", "bSortable": false },
+
+                    {
+                        "data": "Flag", "bSortable": false, "render": function (data, type, row) {
+                            return checkFlag(data);
+                        }
+                    },
+                    { "data": "renewalType", "name": "renewalType", "bSortable": false },
+                    {
+                        "data": "call_date", "bSortable": false, render: function (data, type, row) {
+                            return parseJsonDateTime(data)
+                        }
+                    },
+                    { "data": "Last_disposition", "name": "Last_disposition", "bSortable": false },
+                   // { "data": "no_of_attempts", "name": "no_of_attempts", "bSortable": false },
+                    //{ "data": "brand", "name": "brand", "bSortable": false },
+                    { "data": "model", "name": "model", "bSortable": false },
+                    { "data": "vehLoc", "name": "vehLoc", "bSortable": false },
+                    { "data": "tagging", "name": "tagging", "bSortable": false }
+                ],
+                responsive: screen.width < 500 ? true : false,
+                columnDefs: [
+                    { targets: [2, 5, 7], className: 'dt-body-right' }
+                ],
+                "initComplete": function (data) {
+                    console.log(+data.json.filterls); $('#tblException').text(data.json.exception);
+                    dtPaid.columns(11).visible(false);
+
+                },
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "300",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+
+        //***************** Paid *****************************/
+        //***************** Others *****************************
+        function bindothers() {
+            filtDist["getDataFor"] = 10;
+           var dtOther= $('#tblother').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/CREInsurance/GetBucketData/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { insurenceData: JSON.stringify(filtDist) }
+                },
+                "columns": [
+                    {
+                        "data": "Action", "bSortable": false, render: function (data, type, row) {
+                            return `<a class="fa fa-pencil-square" href="${siteRoot}/Home/redirectToCallLogging/CRE%2cI%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color: red;" onclick="recordFilters()"> </a>`
+                        }
+                    },
+                    {
+                        "data": "policyDueDate", "name": "policyDueDate", "bSortable": true, "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "campaignName", "name": "campaignName", "bSortable": false },
+                    { "data": "customer_name", "name": "customer_name", "bSortable": false },
+
+                    { "data": "Mobile_number", "name": "Mobile_number", "bSortable": false },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo", "bSortable": false },
+                    { "data": "chassisNo", "name": "chassisNo", "bSortable": false },
+
+                    {
+                        "data": "Flag", "bSortable": false, "render": function (data, type, row) {
+                            return checkFlag(data);
+                        }
+                    },
+                    { "data": "renewalType", "name": "renewalType", "bSortable": false },
+                    {
+                        "data": "call_date", "bSortable": false, render: function (data, type, row) {
+                            return parseJsonDateTime(data)
+                        }
+                    },
+                    { "data": "Last_disposition", "name": "Last_disposition", "bSortable": false },
+                    //{ "data": "no_of_attempts", "name": "no_of_attempts", "bSortable": false },
+                    //{ "data": "brand", "name": "brand", "bSortable": false },
+                    { "data": "model", "name": "model", "bSortable": false },
+                    { "data": "vehLoc", "name": "vehLoc", "bSortable": false },
+                    { "data": "tagging", "name": "tagging", "bSortable": false }
+                ],
+                responsive: screen.width < 500 ? true : false,
+                columnDefs: [
+                    { targets: [2, 5, 7], className: 'dt-body-right' }
+                ],
+                "initComplete": function (data) {
+                    console.log(+data.json.filterls); $('#tblException').text(data.json.exception);
+                    dtOther.columns(11).visible(false);
+
+                },
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "300",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+        //***************** Paid *****************************/
+        function bindexpiryduetoday()
+        {
+            filtDist["getDataFor"] = 11;
+            var expiryduedata = $('#tblexpiryduetoday').dataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/CREInsurance/GetBucketData/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { insurenceData: JSON.stringify(filtDist) }
+                },
+                "columns": [
+                    {
+                        "data": "Action", "bSortable": false, render: function (data, type, row) {
+                            return `<a class="fa fa-pencil-square" href="${siteRoot}/Home/redirectToCallLogging/CRE%2cI%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color: red;" onclick="recordFilters()"> </a>`
+                        }
+                    },
+                    {
+                        "data": "policyDueDate", "name": "policyDueDate", "bSortable": true, "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "campaignName", "name": "campaignName", "bSortable": false },
+                    { "data": "customer_name", "name": "customer_name", "bSortable": false },
+
+                    { "data": "Mobile_number", "name": "Mobile_number", "bSortable": false },
+                    
+                    { "data": "chassisNo", "name": "chassisNo", "bSortable": false },
+
+
+                    {
+                        "data": "Flag", "bSortable": false, "render": function (data, type, row) {
+                            return checkFlag(data);
+                        }
+                    },
+                    { "data": "renewalType", "name": "renewalType", "bSortable": false },
+                    {
+                        "data": "call_date", "bSortable": false, render: function (data, type, row) {
+                            return parseJsonDateTime(data)
+                        }
+                    },
+                    { "data": "insuranceCompany", "name": "insuranceCompany", "bSortable": false },
+                    { "data": "model", "name": "model", "bSortable": false },
+                    { "data": "vehLoc", "name": "vehLoc", "bSortable": false },
+                    { "data": "tagging", "name": "tagging", "bSortable": false }
+                ],
+                responsive: screen.width < 500 ? true : false,
+                columnDefs: [
+                    { className: 'compact' }
+                ],
+                "initComplete": function (data) {
+                    console.log(+data.json.filterls); $('#tblException').text(data.json.exception);
+                    expiryduedata.columns(13).visible(false);
+
+                },
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "300",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+
+            });
+        }
+
+
+
+        //***************** Scheduler Table *****************************
+        function bindreceipt() {
+            //debugger;
+            filtDist["getDataFor"] = 11;
+            var table = $('#tblreciept').dataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/CREInsurance/GetBucketData/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { insurenceData: JSON.stringify(filtDist) }
+                },
+                "columns": [
+                    {
+                        "data": "Action", "bSortable": false, render: function (data, type, row) {
+                            //debugger;
+                            return `<a class="fa fa-id-card-o" href="${siteRoot}/Home/redirectToCallLogging/CREManager%2cI%2c${row.customer_id}%2c${row.vehicle_vehicle_id}" style="font-size: 24pt;color: red;" onclick="recordFilters()"> </a>`
+                        }
+                    },
+                    {
+                        "data": "policyDueDate", "name": "policyDueDate", "bSortable": true, "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "customerName", "name": "customerName", "bSortable": false },
+                    { "data": "campaign", "name": "campaign", "bSortable": false },
+
+
+                    { "data": "Phone", "name": "Phone", "bSortable": false },
+                    { "data": "RegNo", "name": "RegNo", "bSortable": false },
+                    { "data": "chassisNo", "name": "chassisNo", "bSortable": false },
+                    {
+                        "data": "Flag", "bSortable": false, "render": function (data, type, row) {
+                            return checkFlag(data);
+                        }
+                    },
+                    { "data": "NextRenewalType", "name": "NextRenewalType", "bSortable": false },
+                    { "data": "lastInsuranceCompany", "name": "lastInsuranceCompany", "bSortable": false },
+                    { "data": "brand", "name": "brand", "bSortable": false },
+                    { "data": "model", "name": "model", "bSortable": false },
+                    { "data": "location", "name": "location", "bSortable": false },
+                    { "data": "tagging", "name": "tagging", "bSortable": false }
+                ],
+                responsive: screen.width < 500 ? true : false,
+                columnDefs: [
+                    { className: 'compact' }
+                ],
+                "initComplete": function (data) {
+                    console.log(+data.json.filterls); $('#tblException').text(data.json.exception);
+
+                },
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollY": "300",
+                "scrollX": "300",
+                "paging": true,
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                    $('td', nRow).attr('nowrap', 'nowrap');
+                    return nRow;
+                }
+            });
+
+
+            //$(table).columns..adjust().draw();
+        }
+       
+        /*** recieprend */
+        /***** Filter Count *******/
+        function filtercountDisplay() {
+            var oem = '@oem';
+        clearfilterCounts();
+           $.ajax({
+                type: 'POST',
+                url: '@Url.Action("getFilterCount")',
+                datatype: 'json',
+                cache: false,
+                data: { insurenceData: JSON.stringify(filtDist) },
+                success: function (data) {
+                    if (data.success == true)
+                    {
+                        console.log("hello" + data.filterls);
+                        var schedCount = data.filterls[0].counts;
+                        var pendingFollowUp = data.filterls[1].counts;
+                        var appoinmtmnt = data.filterls[2].counts;
+                        var renewalNotReq = data.filterls[3].counts;
+                        //var serviceNotReq = data.json.filterls[0].counts;
+                        var nonCont = data.filterls[4].counts;
+                        var n1 = data.filterls[5].counts;
+                        var nth = data.filterls[6].counts;
+                        var futureFollow = data.filterls[7].counts;
+                        var paid = data.filterls[8].counts;
+                        var other = data.filterls[9].counts;
+                        var expiryduetoday = 0;
+
+                        $("#scheduleCounts").text("(" + schedCount + ")");
+                        $("#pendFollow").text("(" + pendingFollowUp + ")");
+                        $("#appointmnt").text("(" + appoinmtmnt + ")");
+                        $("#renNotReq").text("(" + renewalNotReq + ")");
+                        // $("#serviceNotReq").text(serviceNotReq);
+                        $("#nonCont").text("(" + nonCont + ")");
+                        $("#nmin1").text("(" + n1 + ")");
+                        $("#nth").text("(" + nth + ")");
+                        $("#fultuteFollp").text("(" + futureFollow + ")");
+                        $("#paidCount").text("(" + paid + ")");
+                        $("#otherCount").text("(" + other + ")");
+                        $('#expiryduetodaycount').text("(" + expiryduetoday + ")");
+                        var filt = document.getElementById('totalFil');
+                        filt.style.backgroundColor = 'green';
+                        var totalCounts = parseInt(schedCount) + parseInt(pendingFollowUp) + parseInt(appoinmtmnt) + parseInt(renewalNotReq) + parseInt(nonCont) + parseInt(n1) + parseInt(nth) + parseInt(futureFollow) + parseInt(paid) + parseInt(other) + parseInt(ex);
+                        $('#totalFil').html(totalCounts);
+                        insurancefiltCountDist["scheduleCounts"] = schedCount;
+                        insurancefiltCountDist["pendFollow"] = pendingFollowUp;
+                        insurancefiltCountDist["appointmnt"] = appoinmtmnt;
+                        insurancefiltCountDist["renNotReq"] = renewalNotReq;
+                        insurancefiltCountDist["nonCont"] = nonCont;
+                        insurancefiltCountDist["nmin1"] = n1;
+                        insurancefiltCountDist["nth"] = nth;
+                        insurancefiltCountDist["fultuteFollp"] = futureFollow;
+                        insurancefiltCountDist["paidCount"] = paid;
+                        insurancefiltCountDist["otherCount"] = other;
+                        insurancefiltCountDist["expiryduetodaycount"] = expiryduetoday;
+                        insurancefiltCountDist["totalFil"] = totalCounts;
+
+
+                    }
+                    else if (data.success == false)
+                    {
+                        $('#tblException').text(data.error);
+                    }
+
+                },
+            });
+
+        }
+
+        function logoutIntalk() {
+            var userTokenStorage = localStorage.getItem("usertoken");
+            if (userTokenStorage != "" && userTokenStorage != null && userTokenStorage != undefined) {
+                var json = '{"token":"' + localStorage.getItem("usertoken") + '","accountStatus":"logout"}';
+                $.ajax({
+                    url: "https://10.10.48.21/api/v1/status/edit",
+                    type: "POST",
+                    data: json,
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function (data, textStatus, jqXHR) {
+                        var obj = JSON.parse(JSON.stringify(data))
+                        localStorage.setItem("usertoken", "")
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(errorThrown);
+                    }
+                });
+            }
+        }
+
+    </script>
+}

@@ -1,0 +1,375 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    #tblNewComplaints_length{
+        display:none;
+    }
+</style>
+
+<div class="container-fluide">
+    @***********DASHBOARDS START*************@
+    @*<div class="row">
+            <div class="col-sm-2">
+                <div class="small-box bg-aqua">
+                    <div class="inner">
+                        <h3>@ViewBag.freshPSF</h3>
+                        <p>Fresh PSF</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion-android-call"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-half-offset">
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <h3>@ViewBag.pendingFollow</h3>
+                        <p>Pending Follow Ups</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-person-add"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-half-offset">
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h3>@ViewBag.nonContacts</h3>
+                        <p>Non Contacts</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion-person-add"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-half-offset">
+                <div class="small-box bg-red">
+                    <div class="inner">
+                        <h3>@ViewBag.Rework</h3>
+                        <p>Rework</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion-android-download"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-half-offset">
+                <div class="small-box" style="background-color:#806517;">
+                    <div class="inner">
+                        <p style="margin:0 0 1px;color:#fff;">Resolved&nbsp;-&nbsp;@ViewBag.surveys</p>
+                        <p style="margin:0 0 1px;color:#fff;">Contacts&nbsp;-&nbsp;@ViewBag.contacts</p>
+                        <p style="margin:0 0 1px;color:#fff;">Total Calls&nbsp;-&nbsp;@ViewBag.totalCalls</p>
+                        <p style="margin:0 0 -5px;color:#fff;">Date&nbsp;-&nbsp;@DateTime.Today.ToShortDateString()</p>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+    @***********DASHBOARDS END*************@
+
+    @*************BUCKETS AND FILTERS START*************@
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Call Log Complaints
+                    <button style="background-color:red;float:right;height:30px;width:100px;margin-top:-5px;" onclick="clearFilters();" title="CLEAR FILTER">CLEAR FILTER</button>
+                </div>
+                <div class="panel-body">
+                    @*<ul class="nav nav-tabs" id="myTab" role="tablist" style="background-color: #dcc1c1;">
+                            <li class="active bucket" id="li-NewComplaints" data-bucket="1">
+                                <a class="nav-link active" id="NewComplaints-tab" data-toggle="tab" href="#NewComplaints" role="tab" aria-controls="home"
+                                   aria-selected="true">New Complaints</a>
+                            </li>
+                        </ul>*@
+                    <div class="tab-content" id="Tabs">
+                        <div class="panel panel-default" style="border-top: #fff;">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div id="forDateschedule">
+                                        <div class="col-md-2" id="SchedulefromBillDate">
+                                            <label>From Bill Date</label>
+                                            <input type="text" class="filter form-control datepickerFilter" placeholder="Enter From Date" data-field="fromIssueDate" data-column-index="1" onchange="getfilters(this)" id="fromdaterange" name="frombilldate" readonly>
+                                        </div>
+                                        <div class="col-md-2" id="ScheduletoBillDate">
+                                            <label>To Bill Date</label>
+                                            <input type="text" class="filter form-control datepickerFilter" placeholder="Enter To Date" data-field="toIssueDate" data-column-index="2" onchange="getfilters(this)" id="todaterange" name="tobilldate" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2" id="lastDispo">
+                                        <label>Last Disposition</label>
+                                        <select class="form-control filter" onchange="getfilters(this)" id="lastDispoDDL" data-field="lastDisposition">
+                                            <option value="0">--Select--</option>
+                                            <option value="1">Fresh Complaints</option>
+                                            <option value="2">Follow Up</option>
+                                            <option value="3">Non Contact</option>
+                                            <option value="4">Rework</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2" id="workshopDiv">
+                                        <label>Workshop</label><br />
+                                        @Html.DropDownList("workshop", new SelectList(ViewBag.workshops, "id", "name"), new { @class = "form-control filter selectpicker", @id = "workshopId", @data_field = "workshop", @onchange = "getfilters(this);", @multiple = "multiple" })
+                                    </div>
+                                    @*<div class="col-md-2" id="complaintCreIdDiv">
+                                            <label>Complaint Cre Id</label>
+                                            @Html.DropDownList("Complaint Cre Id",(MultiSelectList)new SelectList(ViewBag.creComplaintList,"id", "name"), new {@class="form-control filter selectpicker show-tick ",@id="complaintCreId",@onchange="getfilters(this);", @data_field = "complaintCreId",@multiple = "multiple", @data_live_search = "true", @title = "--Select--", @data_hide_disabled = "true", @data_virtual_scroll = "false" })
+                                        </div>*@
+                                </div>
+                                <div>
+                                    @* <button style="float:right;background-color:#337ab7;color:#ffffff;" onclick="clearFilters();">Clear</button>*@
+                                </div>
+                            </div>
+                        </div>
+                        @**************TABLE STARTS************@
+                        <div class="panel panel-default tab-pane fade active in" id="NewComplaints" role="tabpanel" aria-labelledby="NewComplaints-tab">
+                            <div>
+                                <table id="tblNewComplaints" class="table table-dark table-responsive" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>Customer Name</th>
+                                            <th>Vehicle RegNo</th>
+                                            <th>Chassis No</th>
+                                            <th>Mobile Number</th>
+                                            <th>Bill Date</th>
+                                            <th>JobCard No</th>
+                                            <th>Issue Date</th>
+                                            <th>Last Comp Manager</th>
+                                            <th>Workshop</th>
+                                            <th>SA Name</th>
+                                            <th>Last Disposition</th>
+                                            @*<th>Call Id</th>*@
+                                            <th>Follow Up Date</th>
+                                            <th>Follow Up Time</th>
+                                            @*<th>PSF AssignedInteraction Id</th>
+                                                <th>Vehicle Id</th>
+                                                <th>Customer Id</th>*@
+                                        </tr>
+                                    </thead>
+
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        @**************TABLE ENDS************@
+                        <span id="tblException" style="font-size:12pt;color:red;"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*************BUCKETS AND FILTERS END*************@
+</div>
+@section scripts{
+
+    @if (ViewBag.dispositionResult != null && ViewBag.dispoError == false)
+    {
+        <script type="text/javascript">
+                Lobibox.notify('info', {
+                    delay: 4 * 200,
+                    msg: '@ViewBag.dispositionResult'
+                });
+        </script>
+    }
+
+    @if (ViewBag.dispositionResult != null && ViewBag.dispoError == true)
+    {
+        <script type="text/javascript">
+            Lobibox.notify('info', {
+                delay: 4 * 7000,
+                msg: '@ViewBag.dispositionResult'
+            });
+        </script>
+    }
+    <script>
+
+
+        $(document).ready(function () {
+
+            $('.datepickerFilter').datepicker({
+                duration: "slow",
+                showAnim: "slide",
+                showOptions: { direction: "up" },
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,//this option for allowing user to select month
+                changeYear: true //this option for allowing user to select from year range
+            });
+
+            if (localStorage.length > 0) {
+                filterDict = JSON.parse(localStorage.getItem("RMfilter"));
+                if (filterDict != null) {
+                    renderFilterData();
+                    localStorage.removeItem("RMfilter");
+
+                } 
+            }
+
+            getTable();
+
+        });
+
+        var callLogingAction = "";
+
+
+        callLogingAction = "/Home/redirectToCallLogging";
+
+        //$('li.bucket').click(function () {
+        //    var id = $(this).attr('id');
+        //    $('li.bucket').removeClass('active');
+        //    $('div.fade').removeClass('show active in');
+        //    $('#' + id).addClass('active');
+        //    $('#' + id.split('-')[1]).addClass('show active in');
+        //    getTable();
+        //});
+
+        var filterDict = {};
+
+
+
+        function renderFilterData() {
+            //debugger;
+            for (var key in filterDict) {
+                if (key !== "isFiltered") {
+                    if (key == "workshop") {
+                        $("#workshopId").removeClass('selectpicker');
+                        var selectedOptions = filterDict[key].split(",");
+                        $("#workshopId").val(selectedOptions);
+                        $("#workshopId").addClass('selectpicker');
+                        $('#workshopId').multiselect('rebuild');
+
+
+
+
+                    }
+                    else {
+                        var element = $('.filter[data-field="' + key + '"]');
+                        $(element).val(filterDict[key]);
+                    }
+                    
+                }
+                getTable();
+            }
+        }
+
+        function getfilters(item) {
+            var field = $(item).attr("data-field");
+            var data = $(item).val();
+            if (field == "workshop") {
+                data = $('#workshopId option:selected').toArray().map(item => item.value).join();
+                //alert(data);
+            }
+            if (field == "complaintCreId") {
+                data = data.join(',');
+            }
+            if (filterDict[field] === undefined) {
+                filterDict[field] = data;
+                if (data != "") {
+                    filterDict["isFiltered"] = true;
+                }
+                else if ($('#fromdaterange').val() === "" &&
+                    $('#todaterange').val() === "" &&
+                    $('#lastDispoDDL').val() === "" &&
+                    $('#workshopId').val() === "" &&
+                    $('#complaintCreId').val() === "") {
+                    filterDict["isFiltered"] = false;
+                }
+            } else {
+                filterDict[field] = data;
+                if (data != "") {
+                    filterDict["isFiltered"] = true;
+                }
+                else if ($('#fromdaterange').val() === "" &&
+                    $('#todaterange').val() === "" &&
+                    $('#lastDispoDDL').val() === "" &&
+                    $('#workshopId').val() === "" &&
+                    $('#complaintCreId').val() === "") {
+                    filterDict["isFiltered"] = false;
+                }
+            }
+            getTable();
+        }
+
+        function recordRMFilters() {
+            localStorage.setItem("RMfilter", JSON.stringify(filterDict));
+        }
+
+        function getTable() {
+            $("#tblNewComplaints").DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/PSF/PSFRMDataTable/",
+                    "type": 'post',
+                    "datatype": 'json',
+                    "data": { values: JSON.stringify(filterDict) }
+                },
+                "columns": [
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            return `<a class="fa fa-pencil-square" href="${siteRoot + callLogingAction}/CRE%2c${row.customer_id}%2c${row.vehicle_id}%2c${row.psfassignedInteraction_id}%2c${500}%2c${0}" style="font-size: 24pt;color: red;" onclick="recordRMFilters();"> </a>`
+                        }
+                    },
+                    { "data": "customerName", "name": "customerName" },
+                    { "data": "vehicleRegNo", "name": "vehicleRegNo" },
+                    { "data": "chassisno", "name": "chassisno" },
+                    { "data": "PhoneNumber", "name": "PhoneNumber" },
+                    {
+                        "data": "billdate", render: function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "jobcardnumber", "name": "jobcardnumber" },
+                    {
+                        "data": "issuedate", render: function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "last_comp_manager", "name": "last_comp_manager" },
+                    { "data": "workshop", "name": "workshop" },
+                    { "data": "saName", "name": "saName" },
+                    { "data": "Last_disposition", "name": "Last_disposition" },
+                    //{ "data": "callid", "name": "callid" },
+                    {
+                        "data": "followupdate", render: function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    //{
+                    //        "data": "FollowUptime", render: function (data, type, row) {
+                    //            return parseJsonDateTime(data);
+                    //        }
+                    //}
+                    { "data": "FollowUptime", "name": "FollowUptime" },
+                    //{ "data": "vehicle_id", "name": "vehicle_id" },
+                    //{ "data": "customer_id", "name": "customer_id" },
+                ],
+                "initComplete": function (data) {
+                    $('#tblException').text(data.json.exception);
+                    // filtercountDisplay();
+
+                },
+                "serverSide": "true",
+                "processing": "true",
+                "scrollX": "true",
+                "scrollY": "300",
+                pageLength: 1000,
+                //"paging": "false",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+
+        function clearFilters() {
+            $("#fromdaterange").val("");
+            $("#todaterange").val("");
+            $("#lastDispoDDL option:first").prop("selected", true);
+            $("#workshopId").multiselect("deselectAll", false).multiselect("refresh");
+            $("#complaintCreId").multiselect("deselectAll", false).multiselect("refresh");
+            filterDict = {};
+            getTable();
+        }
+    </script>
+}

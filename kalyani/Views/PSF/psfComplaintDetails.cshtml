@@ -1,0 +1,934 @@
+﻿
+@{
+    ViewBag.Title = "psfComplaintDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+    .dashImg1 {
+        width: 37px;
+    }
+
+    .dashImg2 {
+        width: 20px;
+    }
+
+    * {
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    .panel-body, .nav, table.table-bordered.dataTable {
+        font-size: 9pt;
+    }
+</style>
+<div class="container-fluide">
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3 id="freshPSF"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                    <p>Fresh PSF</p>
+                </div>
+                <div class="icon">
+                    <i class="ion-android-call"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-half-offset">
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3 id="pendingFollow"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                    <p>Pending Follow Ups</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-half-offset">
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3 id="nonContactsloader"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                    <p>Non Contacts</p>
+                </div>
+                <div class="icon">
+                    <i class="ion-person-add"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-half-offset">
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3 id="ReworkLoader"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                    <p>Rework</p>
+                </div>
+                <div class="icon">
+                    <i class="ion-android-download"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-half-offset">
+            <div class="small-box" style="background-color:#806517;">
+                <div class="inner">
+                    <p style="margin:0 0 1px;color:#fff;">Surveys&nbsp;-&nbsp;<span id="surveys"><img class="dashImg2" src="~/public/img/loading.gif" /></span></p>
+                    <p style="margin:0 0 1px;color:#fff;">Contacts&nbsp;-&nbsp;<span id="contacts"><img class="dashImg2" src="~/public/img/loading.gif" /></span></p>
+                    <p style="margin:0 0 1px;color:#fff;">Total Calls&nbsp;-&nbsp;<span id="totalCalls"><img class="dashImg2" src="~/public/img/loading.gif" /></span></p>
+                    <p style="margin:0 0 -5px;color:#fff;">Date&nbsp;-&nbsp;@DateTime.Today.ToShortDateString()</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Complaint List
+                    <button style="background-color:red;float:right;height:30px;width:100px;margin-top:-5px; " onclick="clearFilters();" title="CLEAR FILTER">CLEAR&nbsp;FILTER</button>
+
+                </div>
+                <div class="panel-body">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist" style="background-color: #dcc1c1;">
+                        <li class="active bucket" id="li-NewComplaints" data-bucket="1">
+                            <a class="nav-link active" id="NewComplaints-tab" data-toggle="tab" href="#NewComplaints" role="tab" aria-controls="home"
+                               aria-selected="true">New Complaints</a>
+                        </li>
+                        <li class="bucket" id="li-FollowUpRequired" data-bucket="2">
+                            <a class="nav-link active" id="FollowUpRequired-tab" data-toggle="tab" href="#FollowUpRequired" role="tab" aria-controls="home"
+                               aria-selected="true">Follow Up Required</a>
+                        </li>
+                        <li class="bucket" id="li-nonContacts" data-bucket="3">
+                            <a class="nav-link active" id="nonContacts-tab" data-toggle="tab" href="#nonContacts" role="tab" aria-controls="home"
+                               aria-selected="true">Non Contacts</a>
+                        </li>
+                        <li class="bucket" id="li-Rework" data-bucket="4">
+                            <a class="nav-link active" id="Rework-tab" data-toggle="tab" href="#Rework" role="tab" aria-controls="home"
+                               aria-selected="true">Rework</a>
+                        </li>
+                        <li class="bucket" id="li-futureFollowUpRequired" data-bucket="5">
+                            <a class="nav-link active" id="futureFollowUpRequired-tab" data-toggle="tab" href="#futureFollowUpRequired" role="tab" aria-controls="home"
+                               aria-selected="true">Future FollowUp </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="Tabs">
+                        <div class="panel panel-default" style="border-top: #fff;">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div id="forDateschedule">
+                                        <div class="col-md-2" id="SchedulefromBillDate">
+                                            <label>From Bill Date </label>
+                                            <input type="text" class="filter form-control datepicExpiryFromDropDown" placeholder="Enter From Bill Date" data-field="ExFromBillDate" data-column-index="1" onchange="getfilters(this)" id="frombilldaterange" name="frombilldaterange" readonly>
+                                        </div>
+                                        <div class="col-md-2" id="ScheduletoBillDate">
+                                            <label>To Bill Date </label>
+                                            <input type="text" class="filter form-control datepicExpiryToDropDown" placeholder="Enter To Bill Date" data-field="ExToBillDate" data-column-index="2" onchange="getfilters(this)" id="tobilldaterange" name="tobilldaterange" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2" id="ageing">
+
+                                        <label>Ageing</label>
+                                        @*<input type="text" class="filter form-control datepickerFilter" placeholder="Enter From Call Date" data-field="ExFromCallDate" data-column-index="1" onchange="getfilters(this)" id="fromCalldaterange22" name="frombilldaterange22" readonly>*@
+                                        <select class="form-control filter" onchange="getfilters(this)" id="ageingDDL" data-field="Ageing">
+                                            <option value="0">--SELECT--</option>
+                                            <option value="1">0-3</option>
+                                            <option value="2">4-7</option>
+                                            <option value="3">8-15</option>
+                                            <option value="4">16-30</option>
+                                            <option value="5">>30</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2" id="Attempts" style="display:block">
+                                        <label>Attempts </label>
+                                        <select class="form-control filter" onchange="getfilters(this)" id="AttemptsDDL" data-field="Attempts">
+                                            <option value="0">--SELECT--</option>
+                                            <option value="1">0-2</option>
+                                            <option value="2">3-5</option>
+                                            <option value="3">6-8</option>
+                                            <option value="4">8-10</option>
+                                            <option value="5">>10</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2" id="ReworkMode" style="display:none">
+                                        <label>Rework Mode </label>
+                                        <select class="form-control filter" onchange="getfilters(this)" id="ReworkModeDDL" data-field="ReworkMode">
+                                            <option value="0">--SELECT--</option>
+                                            <option value="Revisit WalkIn">Revisit WalkIn</option>
+                                            <option value="Revisit PickUp">Revisit PickUp</option>
+                                            <option value="Home Visit">Home Visit</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2" id="workshop"  style="display:none">
+                                        <label>Workshop</label>
+                                        @Html.DropDownList("workshopDDL", new SelectList(ViewBag.workshop, "id", "name"), "--Select--", new { @class = "form-control filter", @data_field = "Workshop", @id = "workshopDDL", @onchange = "getfilters(this);" })
+                                    </div>
+
+                                    @if (Session["DealerCode"].ToString() == "HANSHYUNDAI")
+                                    {
+                                        <div class="col-md-2" id="serviceTypediv">
+                                            <label>Campaign Name</label>
+                                            @Html.DropDownList("campaigntypeTypeDDL", new SelectList(ViewBag.campaigntypeType, "id", "campaigmName"), "--Select--", new { @class = "form-control filter", @data_field = "campaigntypeTypeDDL", @id = "campaigntypeTypeDDL", @onchange = "getfilters(this);" })
+                                        </div>
+                                    }
+                                    @if (Session["OEM"].ToString() == "MARUTI SUZUKI")
+                                    {
+                                        <div class="col-md-2" id="serviceTypediv">
+                                            <label>Service Type</label>
+                                            @Html.DropDownList("serviceTypeDDL", new SelectList(ViewBag.servicetypes, "serviceTypeName", "serviceTypeName"), "--Select--", new { @class = "form-control filter", @data_field = "serviceType", @id = "serviceTypeDDL", @onchange = "getfilters(this);" })
+                                        </div>
+
+                                        <div class="col-md-2" id="customerCategorydiv">
+                                            <label>CEI & NON-CEI</label>
+                                            <select class="form-control filter" onchange="getfilters(this)" id="customerCategoryDDL" data-field="customerCategory">
+                                                <option value="">--SELECT--</option>
+                                                <option value="CEI">CEI</option>
+                                                <option value="NONCEI">NON-CEI</option>
+                                            </select>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default tab-pane fade active in" id="NewComplaints" role="tabpanel" aria-labelledby="NewComplaints-tab">
+                            <div>
+                                <table id="tblNewComplaints" class="table table-dark table-responsive" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>Campaign</th>
+                                            <th>Customer Name</th>
+                                            <th>Vehicle RegNo</th>
+                                            <th>Mobile Number</th>
+                                            <th>Chassis No</th>
+                                            <th>JobCard No</th>
+                                            <th>Workshop</th>
+                                            <th>SA Name</th>
+                                            <th>Bill Date</th>
+                                            <th>Complaint Issue Date</th>
+                                            <th>Ageing</th>
+                                            <th>Attempts</th>
+                                            <th>ServiceType</th>
+                                            <th>Customer Category</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default tab-pane fade" id="FollowUpRequired" role="tabpanel" aria-labelledby="FollowUpRequired-tab">
+                            <div>
+                                <table id="tblFollowUpRequired" class="table table-bordered" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>Campaign</th>
+                                            <th>Customer Name</th>
+                                            <th>Vehicle RegNo</th>
+                                            <th>Mobile Number</th>
+                                            <th>FollowUp Date</th>
+                                            <th>FollowUp Time</th>
+                                            <th>Chassis No</th>
+                                            <th>JobCard No</th>
+                                            <th>Workshop</th>
+                                            <th>SA Name</th>
+                                            <th>Bill Date</th>
+                                            <th>Complaint Issue Date</th>
+                                            <th>Ageing</th>
+                                            <th>Attempts</th>
+                                            <th>ServiceType</th>
+                                            <th>Customer Category</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default tab-pane fade" id="nonContacts" role="tabpanel" aria-labelledby="nonContacts-tab">
+                            <div>
+                                <table id="tblnonContacts" class="table table-bordered" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>Campaign</th>
+                                            <th>Customer Name</th>
+                                            <th>Vehicle RegNo</th>
+                                            <th>Mobile Number</th>
+                                            <th>Chassis No</th>
+                                            <th>JobCard No</th>
+                                            <th>Bill Date</th>
+                                            <th>Workshop</th>
+                                            <th>SA Name</th>
+                                            <th>Last Disposition</th>
+                                            <th>Ageing</th>
+                                            <th>Attempts</th>
+                                            <th>ServiceType</th>
+                                            <th>Customer Category</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                        <div class="panel panel-default tab-pane fade" id="Rework" role="tabpanel" aria-labelledby="Rework-tab">
+                            <div>
+                                <table id="tblRework" class="table table-bordered" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>Campaign</th>
+                                            <th>Customer Name</th>
+                                            <th>Vehicle RegNo</th>
+                                            <th>Mobile Number</th>
+                                            <th>Chassis No</th>
+                                            <th>JobCard No</th>
+                                            <th>Bill Date</th>
+                                            <th>Rework Mode</th>
+                                            <th>Appointment Date</th>
+                                            <th>Appointment Time</th>
+                                            <th>Status</th>
+                                            <th>Workshop</th>
+                                            <th>SA Name</th>
+                                            <th>Ageing</th>
+                                            <th>Attempts</th>
+                                            <th>ServiceType</th>
+                                            <th>Customer Category</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default tab-pane fade" id="futureFollowUpRequired" role="tabpanel" aria-labelledby="Rework-tab">
+                            <div>
+                                <table id="tblfutureFollowUpRequired" class="table table-bordered" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>Campaign</th>
+                                            <th>Customer Name</th>
+                                            <th>Vehicle RegNo</th>
+                                            <th>Mobile Number</th>
+                                            <th>FollowUp Date</th>
+                                            <th>FollowUp Time</th>
+                                            <th>Chassis No</th>
+                                            <th>JobCard No</th>
+                                            <th>Workshop</th>
+                                            <th>SA Name</th>
+                                            <th>Bill Date</th>
+                                            <th>Complaint Issue Date</th>
+                                            <th>Ageing</th>
+                                            <th>Attempts</th>
+                                            <th>ServiceType</th>
+                                            <th>Customer Category</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <span id="tblException" style="font-size:12pt;font-weight:bold"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+
+    @if (ViewBag.dispositionResult != null && ViewBag.dispoError == false)
+    {
+        <script type="text/javascript">
+        Lobibox.notify('info', {
+            delay: 4 * 200,
+            msg: '@ViewBag.dispositionResult'
+        });
+        </script>
+    }
+
+    @if (ViewBag.dispositionResult != null && ViewBag.dispoError == true)
+    {
+        <script type="text/javascript">
+        Lobibox.notify('info', {
+            delay: 4 * 7000,
+            msg: '@ViewBag.dispositionResult'
+        });
+        </script>
+    }
+
+<script>
+
+       var dealerCode = '@Session["DealerCode"].ToString()';
+        var callLogingAction = "";
+
+
+         callLogingAction="/Home/redirectToCallLogging";
+
+        var currentBucket = "";
+        $(document).ready(function ()
+        {
+
+            var dealerCode = '@Session["DealerCode"].ToString()';
+        if (dealerCode == "ABTMARUTHI") {
+            logoutIntalk();
+            }
+
+            $.ajax({
+                type: "POST",
+                url: siteRoot + "/PSF/loadComplaintDashboardCounts/",
+                data: {},
+                cache: false,
+                success: function (res) {
+                    if (res.success == true) {
+                        $('#freshPSF').text(res.freshPSF);
+                        $('#pendingFollow').text(res.pendingFollow);
+                        $('#nonContactsloader').text(res.nonContacts);
+                        $('#ReworkLoader').text(res.Rework);
+                        $('#surveys').text(res.surveys);
+                        $('#contacts').text(res.contacts);
+                        $('#totalCalls').text(res.totalCalls);
+                    }
+                    else {
+                        Lobibox.notify('warning', {
+                            msg: res.error
+                        });
+                    }
+                },
+                error: function (data) {
+                    alert("Cann't load Dashboard count, Error occured while processing data");
+                }
+            });
+
+            $('.datepickerFilter').datepicker({
+                duration: "slow",
+                showAnim: "slide",
+                showOptions: { direction: "up" },
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,//this option for allowing user to select month
+                changeYear: true //this option for allowing user to select from year range
+            });
+
+            $('.datepicExpiryFromDropDown').datepicker({
+
+                autoclose: true,
+                dateFormat: 'yy-mm-dd',
+                //maxDate: new Date(),
+                onSelect: function (date) {
+                    $('.datepicExpiryToDropDown').datepicker("destroy");
+                    $('.datepicExpiryToDropDown').datepicker("destroy");
+                    $('.datepicExpiryToDropDown').datepicker({
+                        autoclose: true,
+                        dateFormat: 'yy-mm-dd',
+                        minDate: $('.datepicExpiryFromDropDown').datepicker('getDate')
+                    });
+                    $(this).trigger('change'); var dt1 = $('.datepicExpiryFromDropDown').datepicker('getDate');
+                    var dt2 = $('.datepicExpiryToDropDown').datepicker('getDate');
+                    if (dt2 <= dt1) {
+                        var minDate = $('#dt2').datepicker('option', 'minDate');
+                        $('.datepicExpiryToDropDown').datepicker('setDate', null);
+                    }
+                }
+            })
+
+            $('.datepicAppointmentFromDropDown').datepicker({
+
+                autoclose: true,
+                dateFormat: 'yy-mm-dd',
+                //maxDate: new Date(),
+                onSelect: function (date) {
+                    $('.datepicAppointmentToDropDown').datepicker("destroy");
+                    $('.datepicAppointmentToDropDown').datepicker("destroy");
+                    $('.datepicAppointmentToDropDown').datepicker({
+                        autoclose: true,
+                        dateFormat: 'yy-mm-dd',
+                        minDate: $('.datepicAppointmentFromDropDown').datepicker('getDate')
+                    });
+                    $(this).trigger('change'); var dt1 = $('.datepicAppointmentFromDropDown').datepicker('getDate');
+                    var dt2 = $('.datepicAppointmentToDropDown').datepicker('getDate');
+                    if (dt2 <= dt1) {
+                        var minDate = $('#dt2').datepicker('option', 'minDate');
+                        $('.datepicAppointmentToDropDown').datepicker('setDate', null);
+                    }
+                }
+            })
+
+
+            if (localStorage.length > 0) {
+                filtDist = JSON.parse(localStorage.getItem("PsfComplaintFilter"));
+                if (filtDist != null) {
+                    renderFilterData();
+                    localStorage.removeItem("PsfComplaintFilter");
+                }
+                else {
+                    currentBucket = 1;
+                    filtDist = {};
+                    showTable(currentBucket);
+                }
+
+            }
+            else {
+                currentBucket = 1;
+                showTable(currentBucket);
+            }
+        });
+
+
+        var filtDist = {};
+        $('li.bucket').click(function () {
+            var id = $(this).attr('id');
+            $('li.bucket').removeClass('active');
+            $('div.fade').removeClass('show active in');
+            $('#' + id).addClass('active');
+            $('#' + id.split('-')[1]).addClass('show active in');
+            currentBucket = $(this).attr('data-bucket');
+            showTable(currentBucket);
+           // clearFilters();
+        });
+        function renderFilterData() {
+            //debugger;
+            for (var key in filtDist) {
+                if (key !== "bucketId" && key !== "isFiltered") {
+                    var element = $('.filter[data-field="' + key + '"]');
+                    $(element).val(filtDist[key]);
+                }
+            }
+            if (filtDist["bucketId"] != null) {
+                currentBucket = filtDist["bucketId"];
+                var liElement = $('.bucket[data-bucket="' + currentBucket + '"]');
+                var id = liElement[0].id;
+                //removing current style
+                $('li.bucket').removeClass('active');
+                $('div.fade').removeClass('show active in');
+
+                //applying new style
+                $('#' + id).addClass('active');
+                $('#' + id.split('-')[1]).addClass('show active in');
+
+                showTable(currentBucket);
+            }
+        }
+        function showTable(bucketId) {
+
+            if (bucketId == 1) {
+                $('#ageing').css("display", "block");
+               // $('#Attempts').css("display", "none");
+                $('#ReworkMode').css("display", "none");
+                bindNewComplaints(bucketId);
+            }
+            else if (bucketId == 2) {
+                $('#ageing').css("display", "block");
+             //   $('#Attempts').css("display", "none");
+                $('#ReworkMode').css("display", "none");
+                bindFollowUpRequired(bucketId);
+            }
+            else if (bucketId == 3) {
+                $('#ageing').css("display", "block");
+              //  $('#Attempts').css("display", "block");
+                $('#ReworkMode').css("display", "none");
+                bindNonContacts(bucketId);
+            }
+            else if (bucketId == 4) {
+                $('#ageing').css("display", "block");
+               // $('#Attempts').css("display", "none");
+                $('#ReworkMode').css("display", "block");
+                bindRework(bucketId);
+            }
+            else if (bucketId == 5) {
+                $('#ageing').css("display", "block");
+               // $('#Attempts').css("display", "none");
+                $('#ReworkMode').css("display", "none");
+                bindFutureFollowUpRequired(bucketId);
+            }
+        }
+        function getfilters(item) {
+            var field = $(item).attr('data-field');
+            var data = $(item).val();
+            if (filtDist[field] === undefined) {
+                filtDist[field] = data;
+
+                if (data != "") {
+                    filtDist["isFiltered"] = true;
+                }
+
+                else if ($('#frombilldaterange').val() === "" &&
+                    $('#tobilldaterange').val() === "" &&
+                    ($('#ageingDDL').val() === "" || $('#ageingDDL').val() === "---SELECT-") &&
+                    ($('#AttemptsDDL').val() === "" || $('#AttemptsDDL').val() === "---SELECT-") &&
+                    ($('#ReworkModeDDL').val() === "" || $('#ReworkModeDDL').val() === "---SELECT-") &&
+                    ($('#workshopDDL').val() === "" || $('#workshopDDL').val() === "0") &&
+                    ($('#customerCategoryDDL').val() === "" || $('#customerCategoryDDL').val() === "0") &&
+                    ($('#serviceTypeDDL').val() === "" || $('#serviceTypeDDL').val() === "0")&&
+                    ($('#campaigntypeTypeDDL').val() === "" || $('#campaigntypeTypeDDL').val() === "0")) {
+                    filtDist["isFiltered"] = false;
+                }
+            }
+            else {
+                filtDist[field] = data;
+                if (data != "") {
+                    filtDist["isFiltered"] = true;
+                }
+                else if ($('#frombilldaterange').val() === "" &&
+                    $('#tobilldaterange').val() === "" &&
+                    ($('#ageingDDL').val() === "" || $('#ageingDDL').val() === "---SELECT-") &&
+                    ($('#AttemptsDDL').val() === "" || $('#AttemptsDDL').val() === "---SELECT-") &&
+                    ($('#ReworkModeDDL').val() === "" || $('#ReworkModeDDL').val() === "---SELECT-") &&
+                    ($('#workshopDDL').val() === "" || $('#workshopDDL').val() === "---SELECT-") &&
+                    ($('#customerCategoryDDL').val() === "" || $('#customerCategoryDDL').val() === "0") &&
+                    ($('#serviceTypeDDL').val() === "" || $('#serviceTypeDDL').val() === "0") &&
+                    ($('#campaigntypeTypeDDL').val() === "" || $('#campaigntypeTypeDDL').val() === "0")) {
+                    filtDist["isFiltered"] = false;
+                }
+            }
+            showTable(currentBucket);
+        }
+        function recordFilter() {
+            localStorage.setItem("PsfComplaintFilter", JSON.stringify(filtDist));
+        }
+        function bindNewComplaints(bucketID) {
+            filtDist["bucketId"] = bucketID;
+            $('#tblNewComplaints').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/PSF/getDataforBuckets/",
+                    "type": 'post',
+                    "datatype": 'json',
+                    "data": {
+                        psfValues: JSON.stringify(filtDist)
+                    }
+                },
+                "columns": [
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            return `<a class="fa fa-pencil-square" href="${siteRoot}${callLogingAction}/CRE%2c${row.customer_id}%2c${row.vehicle_id}%2c${row.psfassignedInteraction_id}%2c${900}%2c${1}" style="font-size: 24pt;color: red;" onclick="recordFilter();"> </a>`
+                        }
+                    },
+                    { "data": "campaignName", "name": "campaignName" },
+                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                    { "data": "Mobile_number", "name": "Mobile_number" },
+                    { "data": "chassisno", "name": "chassisno" },
+                    { "data": "RONumber", "name": "RONumber" },
+                    { "data": "workshop", "name": "workshop" },
+                    { "data": "saname", "name": "saname" },
+                    {
+                        "data": "BillDate", render: function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    {
+                        "data": "issuedate", render: function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "ageing", "name": "ageing" },
+                    { "data": "attempts", "name": "attempts" },
+                    { "data": "servicetype", "name": "servicetype" },
+                    { "data": "customercategory", "name": "customercategory" }
+
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                stateSave: true,
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                },
+                "initComplete": function (data) {
+                    $('#tblException').text(data.json.exception);
+                    // filtercountDisplay();
+
+                }
+            });
+        }
+        function bindFollowUpRequired(bucketID) {
+            filtDist["bucketId"] = bucketID;
+            $('#tblFollowUpRequired').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/PSF/getDataforBuckets/",
+                    "type": 'post',
+                    "datatype": 'json',
+                    "data": { psfValues: JSON.stringify(filtDist) }
+                },
+                "columns": [
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            //debugger;
+                            return `<a class="fa fa-pencil-square" href="${siteRoot}${callLogingAction}/CRE%2c${row.customer_id}%2c${row.vehicle_id}%2c${row.psfassignedInteraction_id}%2c${900}%2c${2}" style="font-size: 24pt;color: red;" onclick="recordFilter();"> </a>`
+                        }
+                    },
+                    { "data": "campaignName", "name": "campaignName" },
+                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                    { "data": "Mobile_number", "name": "Mobile_number" },
+                    {
+                        "data": "psffollowupdate", render: function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "psffollowuptime", "name": "psffollowuptime" },
+                    { "data": "chassisno", "name": "chassisno" },
+                    { "data": "RONumber", "name": "RONumber" },
+                    { "data": "workshop", "name": "workshop" },
+                    { "data": "saname", "name": "saname" },
+                    {
+                        "data": "BillDate", render: function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    {
+                        "data": "issuedate", render: function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "ageing", "name": "ageing" },
+                    { "data": "attempts", "name": "attempts" },
+                    { "data": "servicetype", "name": "servicetype" },
+                    { "data": "customercategory", "name": "customercategory" }
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                },
+                "initComplete": function (data) {
+                    $('#tblException').text(data.json.exception);
+                    // filtercountDisplay();
+
+                }
+            });
+        }
+        function bindNonContacts(bucketID) {
+            filtDist["bucketId"] = bucketID;
+            $('#tblnonContacts').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/PSF/getDataforBuckets/",
+                    "type": 'post',
+                    "datatype": 'json',
+                    "data": { psfValues: JSON.stringify(filtDist) }
+                },
+                "columns": [
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            //debugger;vehicle_id----vehicle_id = "5067"
+                            return `<a class="fa fa-pencil-square" href="${siteRoot}${callLogingAction}/CRE%2c${row.customer_id}%2c${row.vehicle_id}%2c${row.psfassignedInteraction_id}%2c${900}%2c${3}" style="font-size: 24pt;color: red;" onclick="recordFilter();"> </a>`
+                        }
+                    },
+                    { "data": "campaignName", "name": "campaignName" },
+                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                    { "data": "Mobile_number", "name": "Mobile_number" },
+                    { "data": "chassisno", "name": "chassisno" },
+                    { "data": "RONumber", "name": "RONumber" },
+                    {
+                        "data": "BillDate", render: function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "workshop", "name": "workshop" },
+                    { "data": "saname", "name": "saname" },
+                    { "data": "Last_disposition", "name": "Last_disposition" },
+                    { "data": "ageing", "name": "ageing" },
+                    { "data": "attempts", "name": "attempts" },
+                    { "data": "servicetype", "name": "servicetype" },
+                    { "data": "customercategory", "name": "customercategory" }
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                },
+                "initComplete": function (data) {
+                    $('#tblException').text(data.json.exception);
+                    // filtercountDisplay();
+
+                }
+            });
+        }
+        function bindRework(bucketID) {
+            filtDist["bucketId"] = bucketID;
+            $('#tblRework').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/PSF/getDataforBuckets/",
+                    "type": 'post',
+                    "datatype": 'json',
+                    "data": { psfValues: JSON.stringify(filtDist) }
+                },
+                "columns": [
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            //debugger;
+                            return `<a class="fa fa-pencil-square" href="${siteRoot}${callLogingAction}/CRE%2c${row.customer_id}%2c${row.vehicle_id}%2c${row.psfassignedInteraction_id}%2c${900}%2c${4}" style="font-size: 24pt;color: red;" onclick="recordFilter();"> </a>`
+                        }
+                    },
+                    { "data": "campaignName", "name": "campaignName" },
+                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                    { "data": "Mobile_number", "name": "Mobile_number" },
+                    { "data": "chassisno", "name": "chassisno" },
+                    { "data": "RONumber", "name": "RONumber" },
+                    {
+                        "data": "BillDate", render: function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "reworkMode", "name": "reworkMode" },
+                    {
+                        "data": "aptdate", render: function (data, type, row) {
+                            return parseJsonDateTime(data);;
+                        }
+                    },
+                    { "data": "apttime", "name": "apttime" },
+                    { "data": "reworkStatus_id", "name": "reworkStatus_id" },
+                    { "data": "workshop", "name": "workshop" },
+                    { "data": "saname", "name": "saname" },
+                    { "data": "ageing", "name": "ageing" },
+                    { "data": "attempts", "name": "attempts" },
+                    { "data": "servicetype", "name": "servicetype" },
+                    { "data": "customercategory", "name": "customercategory" }
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                },
+                "initComplete": function (data) {
+                    $('#tblException').text(data.json.exception);
+                    // filtercountDisplay();
+
+                }
+            });
+        }
+
+
+        function bindFutureFollowUpRequired(bucketID) {
+            filtDist["bucketId"] = bucketID;
+            $('#tblfutureFollowUpRequired').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": siteRoot + "/PSF/getDataforBuckets/",
+                    "type": 'post',
+                    "datatype": 'json',
+                    "data": { psfValues: JSON.stringify(filtDist) }
+                },
+                "columns": [
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            //debugger;
+                            return `<a class="fa fa-pencil-square" href="${siteRoot}${callLogingAction}/CRE%2c${row.customer_id}%2c${row.vehicle_id}%2c${row.psfassignedInteraction_id}%2c${900}%2c${5}" style="font-size: 24pt;color: red;" onclick="recordFilter();"> </a>`
+                        }
+                    },
+                    { "data": "campaignName", "name": "campaignName" },
+                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                    { "data": "Mobile_number", "name": "Mobile_number" },
+                    {
+                        "data": "psffollowupdate", render: function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "psffollowuptime", "name": "psffollowuptime" },
+                    { "data": "chassisno", "name": "chassisno" },
+                    { "data": "RONumber", "name": "RONumber" },
+                    { "data": "workshop", "name": "workshop" },
+                    { "data": "saname", "name": "saname" },
+                    {
+                        "data": "BillDate", render: function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    {
+                        "data": "issuedate", render: function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "ageing", "name": "ageing" },
+                    { "data": "attempts", "name": "attempts" },
+                    { "data": "servicetype", "name": "servicetype" },
+                    { "data": "customercategory", "name": "customercategory" }
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                },
+                "initComplete": function (data) {
+                    $('#tblException').text(data.json.exception);
+                    // filtercountDisplay();
+
+                }
+            });
+        }
+
+
+        function clearFilters() {
+            $('#frombilldaterange').val('');
+            $('#tobilldaterange').val('');
+            $('#ageingDDL option:first').prop('selected', true);
+            $('#AttemptsDDL option:first').prop('selected', true);
+            $('#ReworkModeDDL option:first').prop('selected', true);
+            $('#workshopDDL option:first').prop('selected', true);
+            $('#customerCategoryDDL').prop('selectedIndex', 0);
+            $('#serviceTypeDDL').prop('selectedIndex', 0);
+            $('#campaigntypeTypeDDL').prop('selectedIndex', 0);
+
+            var activeRequestsTable = $('#tblNewComplaints').DataTable();
+            activeRequestsTable.state.clear();  // 1a - Clear State
+            activeRequestsTable.destroy();
+
+            filtDist = {}
+            showTable(currentBucket);
+
+    }
+
+        function logoutIntalk() {
+        var userTokenStorage = localStorage.getItem("usertoken");
+        if (userTokenStorage != "" && userTokenStorage != null && userTokenStorage != undefined) {
+            var json = '{"token":"' + localStorage.getItem("usertoken") + '","accountStatus":"logout"}';
+            $.ajax({
+                url: "https://abt.intalk.io/cc/api/v1/status/edit",
+                type: "POST",
+                data: json,
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (data, textStatus, jqXHR) {
+                    var obj = JSON.parse(JSON.stringify(data))
+                    localStorage.setItem("usertoken", "")
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
+            });
+        }
+    }
+
+</script>
+}

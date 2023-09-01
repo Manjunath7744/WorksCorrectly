@@ -1,0 +1,535 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; ;
+}
+
+<!DOCTYPE html>
+
+
+<style>
+    .ColorGreen {
+        background-color: green;
+    }
+
+    .ColorRed {
+        background-color: red;
+    }
+
+    .example-table {
+        border-collapse: collapse;
+    }
+
+        .example-table th,
+        .example-table td {
+            white-space: nowrap;
+            background-color: #fff;
+            border: 1px solid black;
+            padding: 0px;
+        }
+
+    .schis th,
+    .schis td {
+        border: 1px solid black;
+    }
+</style>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        @*<div class="col-md-6">*@
+
+        <div class="row">
+
+
+
+            <div class="col-md-2">
+                <label> Location</label>
+                @Html.DropDownList("fieldLocation", new SelectList(ViewBag.FieldLocation, "id", "name"), "--Select--", new { @id = "locationID", @class = "locationCLS form-control", @onchange = "getFilterData(this.selectedOptions,'location');" })
+            </div>
+            <div class="col-md-2">
+                <label>FE Name</label>
+                @Html.DropDownList("fieldLocation", new SelectList(ViewBag.FieldLocation, "id", "name"), "--Select--", new { @id = "locationID", @class = "locationCLS form-control", @onchange = "getFilterData(this.selectedOptions,'location');" })
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Buckets Type</label>
+                    <select id="appointmentID" class="appointmentCLS form-control" onchange="getFilterData(this.selectedOptions,'appointment');" required>
+                        <option value="--Select--">--Select--</option>
+                        <option value="Schduled Call">Schduled Call</option> @*appointment booked table*@
+                        <option value="OverDue">OverDue</option> @*appointment booked table*@
+                        <option value="All">All</option> @*insurance assigned interaction table*@
+                    </select>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-2">
+                    <input name="View" type="button" value="View" class="form-control btn btn-info btn-small" onclick="submitData();" />
+                    <input name="Reset" type="button" value="Reset" class="form-control btn btn-success btn-small" onclick="clearData();" />
+                    @*@Html.ActionLink("Fire","FirebaseUpdation")*@
+                </div>
+            </div>
+            <a data-toggle="modal" />
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading" style="padding:inherit;">APPOINTMENT DATA</div>
+            <!-- /.panel-heading -->
+            <div class="panel-body" style="overflow-x:auto;">
+                <div class="dataTable_wrapper">
+                    <table border="1" class="table  table-hover table-responsive example-table" cellpadding="1" cellspacing="1" id="FieldSchedulerTable">
+                        <thead>
+                            <tr>
+                                <th>Action</th>
+                                <th>RegNo.</th>
+                                <th>Apt. Date&Time</th>
+                                <th>Assigned</th>
+                                <th>Pincode</th>
+                                <th>Address</th>
+                                <th>Type</th>
+                                <th>FieldExecutive</th>
+                                <th>ScheduleTime</th>
+                                <th>CustomerName</th>
+                                <th>Ph.Number</th>
+                                <th>ChassiNo</th>
+                                <th>CRE</th>
+                                <th>AppointmentId</th>
+                                <th>Pickup Date</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="buttons1"></div>
+            <!-- /.panel-body -->
+        </div>
+        @*</div>*@
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('.datepickerFilter').datepicker({
+                  duration: "slow",
+                  showAnim: "slide",
+                  showOptions: { direction: "up" },
+                  dateFormat: 'yy-mm-dd',
+                  changeMonth: true,//this option for allowing user to select month
+                  changeYear: true //this option for allowing user to select from year range
+            });
+        });
+
+        var fromDate_var, toDate_var, fieldLocation_var, appointmentType_var, assigned_var;
+
+        function getDriverDetails() {
+            let locationId = $("#").val();
+            $.ajax({
+                type: 'POST',
+                url: siteRoot + '/FieldScheduler/FetchDriverData/',
+                datatype: 'json',
+                cache: false,
+                data: { locationId: locationId },
+                success: function (res) {
+                    if (res.success == true) {
+                        if (res.success == true) {
+                            console.log(res);
+                            
+                         
+                        }
+                        else {
+                            alert(res.error);
+                        }
+                    }
+                    else {
+                        alert('something went wrong');
+                    }
+                },
+                error: function (ex) {
+                    alert(ex);
+                }
+            });
+
+        }
+
+        function submitData() {
+            var filter = {
+                fromDate:fromDate_var,
+                toDate:toDate_var,
+                fieldLocation:fieldLocation_var,
+                appointmentType:appointmentType_var,
+                assignedStatus:assigned_var
+            }
+
+            $("#FieldSchedulerTable").DataTable({
+                "destroy": true,
+                 dom: 'Bfrtip',
+                 buttons: ['copyHtml5','excelHtml5','csvHtml5'],
+                "ajax": {
+                    "url": siteRoot + "/FieldScheduler/getDataforFieldScheduer/",
+                    "type": 'post',
+                    "dataType": 'json',
+                    "data": { values: JSON.stringify(filter) },
+                },
+                "columns": [
+                    {
+                        "data": "Action2", render: function (data, type, row) {
+                            return `<button type="button" data-toggle="modal" id="btn${row.apptId}" data-cid=${row.customerID}  data-vid=${row.vehicleID} data-uid=${row.wyzUserID} data-phid=${row.phone} data-target="#smsPopuId" data-backdrop="static" data-keyboard="false" class="btn btn-primary  btn-lg" style="border-radius: 29px;" onclick="getSmsModal(this);"><i class="fa fa-envelope fa-2x" title="SMS"></i></button>`;
+                            } },
+                    { "data": "regNo", "name": "regNo" },
+                    { "data": "aptDateTime", "name": "aptDateTime" },
+                    { "data": "assigned", "name": "assigned" },
+                    { "data": "pin", "name": "pin" },
+                    { "data": "addressOfVisit", "name": "addressOfVisit" },
+                    { "data": "type", "name": "type" },
+                    { "data": "fieldExec", "name": "fieldExec" },
+                    { "data": "scheduleTime", "name": "scheduleTime" },
+                    { "data": "custName", "name": "custName" },
+                    { "data": "phone", "name": "phone" },
+                    { "data": "chassisNum", "name": "chassisNum" },
+                    { "data": "cre", "name": "cre" },
+                    { "data": "apptId", "name": "apptId" },
+                    { "data": "pickUpDate", "name": "pickUpDate" },
+                    { "data": "startTime", "name": "startTime" },
+                    { "data": "endTime", "name": "endTime" }
+                ],
+                "serverSide": "true",
+                    "processing": "true",
+                    "scrollX": "true",
+                    "scrollY": "300",
+                    "paging": "false",
+                    "searching": true,
+                    "language": {
+                        "processing": "Loading Please Wait.....!"
+                    }
+            });
+
+
+        }
+
+        function clearData() {
+            $("#fromDateID").val("");
+            $("#toDateID").val("");
+            $("#locationID option:first").prop("selected",true);
+            $("#appointmentID option:first").prop("selected",true);
+            $("#assignedID option:first").prop("selected",true);
+        }
+        var appointmentTableData=@Html.Raw(Json.Encode(Model));
+        var phoneNumber, vid, uid,selectedIdSMSType,cid;
+        function getSmsModal(ele) {
+            var id = $(ele).attr('id');
+            var data = $(ele).closest('tr').find('td:eq(13)').text();
+            var data1 = $(ele).closest('tr').find('td:eq(13)');
+            var data2 = $(ele).closest('tr').find('td:eq(8)');
+            var data3 = $(ele).parent();
+            var data4 = $(ele).parent().parent();
+            var data5 = $(ele).parent().parent().children();
+            var data6 = $(ele).parent().parent().children(':nth-child(4)').text();
+
+            vid = $(ele).attr('data-vid');
+            uid = $(ele).attr('data-uid');
+            cid = $(ele).attr('data-cid');
+            phoneNumber=$(ele).attr('data-phid');
+        }
+        function smsTypeChanged(ele) {
+            var id = $(ele).attr('id');
+            //var phNum = $('#ddl_phone_no option:selected').val();
+            /*var */selectedIdSMSType = $('#' + id + ' option:selected').val();
+            var selectedLocId = $('#ddl_location option:selected').val();
+
+            if (selectedIdSMSType == "") {
+                selectedIdSMSType = 0;
+            }
+
+            if (selectedLocId == "") {
+                selectedLocId = 0;
+            }
+            getSMSTemplat(selectedIdSMSType, 0,vid,uid);
+        }
+         function getSMSTemplat(selectedIdSMSType, selectedLocId,vid,uid) {
+            $('#smstemplate').empty();
+            $.ajax({
+                type: 'POST',
+                url: siteRoot+'/FieldScheduler/getSMSTemplateMessage/',
+                datatype: 'json',
+                cache: false,
+                data: { smsId: selectedIdSMSType, locId:selectedLocId,vehiId:vid,UserId:uid},
+                success: function (res) {
+                    if (res.success == true) {
+                        if (res.success == true) {
+                            console.log(res);
+                             console.log(res.sms);
+                            $('#smstemplate').val(res.sms);
+                            $('#smstemplate').text(res.sms);
+                            document.getElementById('smstemplate').value = res.sms;
+                        }
+                        else {
+                            alert(res.error);
+                        }
+                    }
+                    else {
+                        alert('something went wrong');
+                    }
+                },
+                error: function (ex) {
+                    alert(ex);
+                }
+           });
+        }
+
+        function sendSMS() {
+            var phNum = phoneNumber;
+
+            var smsType = selectedIdSMSType;
+           // var workshopselected = $('#ddl_workshop option:selected').val();
+            var smstemplate = $('#smstemplate').val();
+
+            if ($('#smstemplate').val() !== "" && smsType !== "" /*&& workshopselected!==""*/ && phNum!=="") {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("sendSMS")',
+                    datatype: 'json',
+                    cache: false,
+                    data: { phNum: phNum, smstemplate: smstemplate, CId:cid, VId:vid, UId:uid },
+                    success: function (res) {
+                        if (res.success == true) {
+                            if (res.success == true) {
+                                Lobibox.notify('info', {
+                                    continueDelayOnInactiveTab: true,
+                                    msg: 'Response Recorded Successfully'
+                                });
+                            }
+                            else {
+                                alert(res.error);
+                            }
+                        }
+                        else {
+                            alert('something went wrong');
+                        }
+                    },
+                    error: function (ex) {
+                        alert(ex);
+                    }
+                });
+            }
+            else {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Make sure phone no, SMS Type and Workshop is selected'
+                });
+            }
+
+        }
+    </script>
+}
+@*<script src="@routes.Assets.at("javascripts/commondisposition.js")" type="text/javascript"></script>
+    <script>
+    function getSMSbyAndSMSType(){
+        var vehicleId=$('#insVehId').val();
+        var locId = $('#fieldLocation').val();
+        var smstypeid = $('#smstype').val();
+        var typeOfDispo = "insurance";
+        var urlLink="/CRE/getSMSbyLocAndSMSType/" +locId+ "/"+smstypeid+"/"+vehicleId+"/"+typeOfDispo;
+    console.log(urlLink);
+        $.ajax({
+            url: urlLink
+
+        }).done(function (smsname) {
+           console.log(smsname);
+
+            $('#smstemplate').empty();
+
+          $('#smstemplate').val(smsname);
+
+        });
+    }
+
+    function smsIdSetModal(vehId){
+
+    console.log("vehId :"+vehId);
+    $('#smstemplate').val("");
+    var selectedOptions = document.getElementById('smstype').selectedOptions;
+    for(var i = 0; i < selectedOptions.length; i++){
+        selectedOptions[i].selected = false;
+    }
+
+    $("#insVehId").val(vehId);
+    var nameArr = vehId.split('/');
+    $("#smsrequestReference").val(nameArr[1]);
+
+
+    }
+
+    function ajaxCallForData(){
+
+        var dateIs = $('#dateis').val();
+        var cityIs = $('#fieldLocation').val();
+        var statusIs = $('#status').val();
+        var typeIs = $('#fieldType').val();
+        var dateIsTo = $('#dateTois').val();
+
+
+
+    if(dateIs==''||cityIs=='0' || typeIs=='0' || dateIsTo==''){
+
+        Lobibox.notify('warning', {
+            continueDelayOnInactiveTab: true,
+            msg: 'Please provide all values'
+        });
+
+        return false;
+    }else{
+
+        var urlLink = "/CREManager/filteredDataForSchedule"
+
+            $('#schFieldEx').dataTable({
+             "bDestroy": true,
+             "processing": true,
+             "serverSide": false,
+             "scrollY": 400,
+             "scrollX": true,
+             "paging": true,
+             "searching": true,
+             "ordering":false,
+             "ajax": {
+                    'type': 'POST',
+                    'url': urlLink,
+                    'data': {
+                        dateIs:''+dateIs,
+                        cityIs: ''+cityIs,
+                        statusIs:''+statusIs,
+                        typeIs:''+typeIs,
+                        dateIsTo:''+dateIsTo,
+                    },
+                     }
+                });
+
+        var table1 = $('#schFieldEx').DataTable();
+         var buttons = new $.fn.dataTable.Buttons(table1, {
+             buttons: [
+               'copyHtml5',
+               'excelHtml5',
+               'csvHtml5'
+            ]
+        }).container().appendTo($('#buttons1'));
+
+
+
+
+    }
+
+    }
+
+
+    function ajaxFieldSchedule(){
+
+        var selected_camps = new Array();
+        $("input[name='callId[]']:checked").each(function(i) {
+            selected_camps.push($(this).val());
+        });
+
+
+        var startTime = $('#startValueIns').val();
+        var formTime = $('#endValueIns').val();
+        var agentId = $('#driverValueIns').val();
+        var dateIs = $('#scheduleDate').val();
+        var typeIs = $('#fieldType').val();
+        console.log(" totalsize "+selected_camps.length);
+
+    if(selected_camps.length == '0' || startTime == '0' || formTime=='0'){
+
+        Lobibox.notify('warning', {
+            continueDelayOnInactiveTab: true,
+            msg: 'Please select the data before scheduling'
+        });
+
+        return false;
+
+    }else{
+        $.blockUI();
+
+        var urlLink = "/CREManager/assignFE"
+            $.ajax({
+                type: 'POST',
+                url: urlLink,
+                data: {
+                    selected_camps:''+selected_camps,
+                    startTime:''+startTime,
+                    formTime:''+formTime,
+                    agentId:''+agentId,
+                    dateIs:''+dateIs,
+                    typeIs:''+typeIs,
+
+                },
+                success: function (json) {
+                    $.unblockUI();
+                    Lobibox.notify('success', {
+                        msg: 'Done successfully.'
+                    });
+                    //setTimeout(function (){
+                        //window.location='fieldScheduler';
+                        ajaxCallForData();
+                        $("#tempValueIns").val("0");
+                        $("#tempIncreValueIns").val("0");
+                        $("#startValueIns").val("0");
+                        $("#endValueIns").val("0");
+                        $("#driverValueIns").val("0");
+                        ajaxCallForSchedular();
+                    //}, 5000);
+                },
+                error: function () {
+
+                }
+
+            });
+    }
+
+    }
+
+    </script>
+    <script type="text/javascript">
+        $('#chckHead').click(function () {
+
+            if (this.checked == false) {
+
+                $('.chcktbl:checked').attr('checked', false);
+            }
+            else {
+                $('.chcktbl:not(:checked)').attr('checked', true);
+
+            }
+        });
+
+    </script>
+    <script>
+
+
+    function updateTheScheduledLocation(){
+
+        var selectedVal=$("#fieldLocation").val();
+        console.log("selectedVal "+selectedVal);
+        $("#schLocation").val(selectedVal);
+
+        var afterselectedVal=$("#schLocation").val();
+        console.log("afterselectedVal "+afterselectedVal);
+
+
+        var afterselectedVal=$("#schLocation").val();
+        var scheduleDate = document.getElementById("scheduleDate").value;
+        if(scheduleDate!=""){
+
+            ajaxCallForSchedular();
+
+
+        }
+
+    }
+
+
+
+    </script>
+    }*@

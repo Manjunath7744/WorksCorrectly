@@ -1,0 +1,167 @@
+﻿
+@{
+    ViewBag.Title = "ManageAppForms";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .font-panel{
+        display:block;
+    }
+
+    .font-container {
+        display: block;
+        background-color: #383838;
+        color: white;
+        border: 2px white solid;
+        border-radius: 10px;
+        min-height: 100px;
+        overflow-y: scroll;
+    }
+
+    .iconseffect {
+        margin: 5px;
+        cursor: pointer;
+        padding:3px;
+    }
+
+        .iconseffect:hover {
+            font-size: 18px;
+            color: #ece8d8;
+        }
+</style>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <b>Manage Forms Fonts</b>
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="row">
+          <div class="col-md-3">
+              <div class="form-group">
+                  <label>Select Form</label>
+                  @Html.DropDownList("ddlforms",new SelectList(ViewBag.formsname, "id", "name"), "--Select--", new {@id="ddlforms",@class="form-control",@onchange="getFont();"})
+              </div>
+          </div>
+          <div class="col-md-3">
+              <div class="form-group font-panel">
+                  <label>Fonts</label>
+                  <input type="text" id="txtfont" onfocus="$('#fontContainer').show();" onfocusout="window.setTimeout(function () { $('#fontContainer').hide(); }, 300);" class="form-control" />
+                  <div id="fontContainer" style="display:none;" class="font-container animated bounceInUp">
+                  </div>
+              </div>
+              <div id="curFont"  style="display:none;">
+              </div>
+          </div>
+            <div class="col-md-3">
+                <button id="btnUpdate" class="btn btn-primary btn-sm" onclick="updateFont()">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    
+    <script type="text/javascript">
+
+        var existingFonts = 'fa fa-wrench,fa fa-phone-square,fa fa-users,fa fa-plus-square,fa fa-search,fa fa-list-alt,fa fa-pencil-square-o,fa fa-check-square,fa fa-list,fa icon-girl-talking,fa fa-phone,fa fa-dashboard AdminID,fa icon-insurance2,fa icon-set-alarm,fa fa-telegram,fa fa-cloud-upload,fa fa-upload,fa icon-microphone,fa icon-outGoing,fa icon-calendar2,fa fa fa-search,fa fa-external-link-square,fa fa-location-arrow,fa fa-random,fa fa-exchange,fa fa-outdent,fa fa-font,fa fa-th-list,fa fa-trash,fa fa-unlock,fa fa-tags,fa fa-podcast,fa fa-sitemap';
+        var fontsList = existingFonts.split(',');
+
+        $(document).ready(function () {
+            if (fontsList.length > 0) {
+
+                var fontContainer = "";
+
+                for (var i = 0; i < fontsList.length; i++) {
+                    fontContainer = fontContainer + `<i onclick="selectfont('${fontsList[i]}');" class="${fontsList[i]} iconseffect"/>`;
+                }
+                $('#fontContainer').html(fontContainer);
+            }
+        });
+
+        function getFont() {
+            var id = $('#ddlforms').val(); 
+            if (id != "") {
+                $.ajax({
+                    type: 'POST',
+                    url: siteRoot + "/NavigationTab/getFontByForm",
+                    datatype: 'json',
+                    cache: false,
+                    data: { formId: id },
+                    success: function (res) {
+                        if (res.success == true) {
+                            var spanText = `<span style="font-weight:bold;">Current Font: </span>&nbsp;<u style="color:#3c7ab7;">${res.fontIcons}</u>&nbsp;&nbsp;`;
+                            var iFont = `<i style="font-size:14px;font-weight:bold;" class="${res.fontIcons}"/>`;
+                            $('#curFont').show();
+                            $('#curFont').html(spanText + iFont);
+                        }
+                        else {
+                            Lobibox.notify('warning', {
+                                continueDelayOnInactiveTab: true,
+                                msg: res.exception
+                            });
+                        }
+                    },
+                    error: function (ex) {
+                        console.log(ex);
+                        alert(ex);
+                    }
+                });
+            }
+            else {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: 'Please select forms.'
+                });
+            }
+            
+        }
+
+        function selectfont(font) {
+            $('#txtfont').val(font);
+        }
+
+        function updateFont() {
+            var newFont = $('#txtfont').val();
+            var id = $('#ddlforms').val(); 
+
+            if (!newFont.includes('fa fa')) {
+                Lobibox.notify('warning', {
+                    continueDelayOnInactiveTab: true,
+                    msg: "Invalid Font Icon class... expecting fa icons"
+                });
+                return false;
+            }
+            
+            if (newFont != "" && id != "") {
+                $.ajax({
+                    type: 'POST',
+                    url: siteRoot + "/NavigationTab/updateFontIcons",
+                    datatype: 'json',
+                    cache: false,
+                    data: { newFont: newFont,id:id },
+                    success: function (res) {
+                        if (res.success == true) {
+                            Lobibox.notify('success', {
+                                continueDelayOnInactiveTab: true,
+                                msg: "New font-icon is updated successfully!." 
+                            });
+                            $('#txtfont,#ddlforms').val('');
+                        }
+                        else {
+                            Lobibox.notify('warning', {
+                                continueDelayOnInactiveTab: true,
+                                msg: res.exception
+                            });
+                        }
+                    },
+                    error: function (ex) {
+                        console.log(ex);
+                        alert(ex);
+                    }
+                });
+            }
+        }
+    </script>
+}

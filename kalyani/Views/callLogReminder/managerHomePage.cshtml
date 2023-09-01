@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "managerHomePage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string link="#";
+
+    if(Session["LoginUser"].ToString() == "Insurance")
+    {
+        link= "insuranceReminder";
+
+    }
+    else if (Session["LoginUser"].ToString() == "Service")
+    {
+
+        if (Session["UserRole1"].ToString() == "4")
+        {
+            link = "PSFReminder";
+        }
+        else if (Session["UserRole1"].ToString() == "5")
+        {
+            var codePath = Request.ApplicationPath;
+            if (codePath != "/")
+            {
+                link = codePath + "/postSalesDetails/postSalesLogs/2";
+            }
+        }
+        else
+        {
+            link = "serviceReminder";
+        }
+    }
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <a href="@link">
+                <img id="logosmall" class=" " src="~/public/img/crmindexpage.png" style="width: 100%;" title="Click Here" />
+                </a>
+        </div>
+        </div>
+    </div>
+
+
+

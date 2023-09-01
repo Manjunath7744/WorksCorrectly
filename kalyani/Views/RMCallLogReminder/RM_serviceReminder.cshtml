@@ -1,0 +1,1641 @@
+﻿
+@{
+    ViewBag.Title = "RM_serviceReminder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    td, th {
+        border: 1px solid black;
+        overflow: hidden;
+        text-align: center !important;
+    }
+</style>
+<div class="row">
+    <div id="dashCount_load" class="pull-right">
+        <button type="button" style="margin-bottom: 10px;margin-right: 14px;" class="btn btn-primary btn-sm" onclick="loadDashBoardCount()">Load Dashboard Count</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-2">
+        <!-- small box -->
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h3><div id="creMFreshCallsCountCRE">NA</div></h3>
+                <p>Fresh Calls</p>
+            </div>
+            <div class="icon"> <i class="ion-android-call"></i> </div>
+
+            <!--<span class="pull-left" data-toggle="modal" data-target=".myModal1">View Details</span>-->
+        </div>
+    </div>      <!-- ./col -->
+    <div class="col-sm-2 col-half-offset">
+        <!-- small box -->
+        <div class="small-box bg-orange">
+            <div class="inner">
+                <h3><div id="creMfollowupcountCRE">NA</div></h3>
+                <p>Pending Follow Ups</p>
+            </div>
+            <div class="icon"> <i class="ion-android-checkbox-outline"></i> </div>
+        </div>
+    </div>        <!-- ./col -->
+    <div class="col-sm-2 col-half-offset">
+        <!-- small box -->
+        <div class="small-box bg-red">
+            <div class="inner">
+                <h3><div id="creMnonContactsCRE">NA</div></h3>
+                <p> Non Contacts </p>
+            </div>
+            <div class="icon"> <i class="ion-person-add"></i> </div>
+        </div>
+    </div>        <!-- ./col -->
+    <div class="col-sm-2 col-half-offset">
+        <!-- small box -->
+        <div class="small-box bg-blue">
+            <div class="inner">
+                <h3><div id="creMoverDueCountCRE">NA</div></h3>
+                <p>Over Due Bookings</p>
+            </div>
+            <div class="icon"> <i class="ion-android-download"></i> </div>
+        </div>
+    </div>
+    <!-- <div class="col-sm-2 col-half-offset">
+
+       <div class="small-box bg-green">
+         <div class="inner">
+           <h3><div id="creMDailyPerCountCRE">../..</div></h3>
+           <p>Bookings/Total Calls/Day</p>
+         </div>
+         <div class="icon"> <i class="ion-android-download"></i> </div>
+          </div>
+     </div> -->
+
+    <div class="col-sm-2 col-half-offset">
+        <!-- small box -->
+        <div class="small-box" style="background-color:#806517;">
+            <div class="inner">
+                <p style="margin:0 0 1px;color:#fff;">Booking&nbsp;-&nbsp;<span id="creMTotalBookingsperDay">NA</span></p>
+                <p style="margin:0 0 1px;color:#fff;">Contacts&nbsp;-&nbsp;<span id="CREmgrContactsCREperDay">NA</span></p>
+                <p style="margin:0 0 1px;color:#fff;">Total Calls&nbsp;-&nbsp;<span id="creMTotalCallsperDay">NA</span></p>
+                <p style="margin:0 0 -5px;color:#fff;">Date&nbsp;-&nbsp;<span id="creMCurrentdate">@DateTime.Now.ToString("dd/MM/yyyy")</span></p>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ./col -->
+</div>
+
+<div>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            Scheduled Call Log Information
+            <button style="background-color:red;float:right;height:30px;width:100px;margin-top:-5px;" onclick="clearbucketfilters();" title="CLEAR FILTER">CLEAR FILTER</button>
+
+            @*<span class="btn btn-danger btn-sm" style="margin-left: 992px;" onclick="clearbucketfilters()">Clear</span>*@
+        </div>
+        <div class="panel-body">
+            <ul class="nav nav-tabs">
+                <li class="active bucket" id="li-schedule" data-bucket="1">
+                    <a class="nav-link active" id="schedule-tab" data-toggle="tab" href="#schedule" role="tab" aria-controls="home" aria-selected="true">Scheduled</a>
+                </li>
+
+                <li class=" bucket" id="li-pendingFollowUp" data-bucket="2">
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#followUp" role="tab" aria-controls="profile"
+                       aria-selected="false">Follow Up Required</a>
+                </li>
+                <li class=" bucket" id="li-serviceBooked" data-bucket="3">
+
+                    <a class="nav-link" id="serviceBooked-tab" data-toggle="tab" href="#serviceBooked" role="tab" aria-controls="serviceBooked"
+                       aria-selected="false">Service Booked</a>
+                </li>
+                <li class=" bucket" id="li-servicenotReq" data-bucket="4">
+
+                    <a class="nav-link" id="servicenotReq-tab" data-toggle="tab" href="#servicenotReq" role="tab" aria-controls="servicenotReq"
+                       aria-selected="false">Service Not Required</a>
+                </li>
+                <li class=" bucket" id="li-nonContacts" data-bucket="5">
+
+                    <a class="nav-link" id="nonContacts-tab" data-toggle="tab" href="#nonContacts" role="tab" aria-controls="nonContacts"
+                       aria-selected="false">Non Contacts</a>
+                </li>
+                <li class=" bucket" id="li-nonFSPMSCallBuc" data-bucket="6">
+
+                    <a class="nav-link" id="nonFSPMSCallBuc-tab" data-toggle="tab" href="#nonFSPMSCallBuc" role="tab" aria-controls="nonFSPMSCallBuc"
+                       aria-selected="false">Non FS-PMS</a>
+                </li>
+                <li class=" bucket" id="li-nminus1CallBuc" data-bucket="7">
+
+                    <a class="nav-link" id="nminus1CallBuc-tab" data-toggle="tab" href="#nminus1CallBuc" role="tab" aria-controls="nminus1CallBuc"
+                       aria-selected="false">SB(N+1)</a>
+                </li>
+                <li class=" bucket" id="li-nthdayCallBuc" data-bucket="8">
+                    <a class="nav-link" id="nthdayCallBuc-tab" data-toggle="tab" href="#nthdayCallBuc" role="tab" aria-controls="nthdayCallBuc"
+                       aria-selected="false">SB(N)</a>
+                </li>
+                <li class=" bucket" id="li-futureFollowupCallBuc" data-bucket="9">
+                    <a class="nav-link" id="futureFollowupCallBuc-tab" data-toggle="tab" href="#futureFollowupCallBuc" role="tab" aria-controls="futureFollowupCallBuc"
+                       aria-selected="false">Future Follow-Up</a>
+                </li>
+                @*<li onclick="clearValue();"><a href="#profile" data-toggle="tab" id="Tab2" onclick="ajaxCallForFollowUpRequiredServerMR();">Follow Up Required</a> </li>
+                    <li onclick="clearValue();"><a href="#messages" data-toggle="tab" id="Tab3" onclick="ajaxCallForserviceBookedServerDataMR();">Service Booked</a> </li>
+                    <li onclick="clearValue();"><a href="#settings" data-toggle="tab" id="Tab4" onclick="ajaxCallForServiceNotRequiredServerMR();">Service Not Required</a> </li>
+                    <li onclick="clearValue();"><a href="#nonContacts" data-toggle="tab" id="Tab5" onclick="ajaxCallForNonContactsServerMR();">Non Contacts</a> </li>
+
+                                <li onclick="clearValue();"><a href="#nonFSPMSCallBuc" data-toggle="tab" id="Tab7" onclick="ajaxCallCRMNonFSPMSBucket();">Non FS-PMS</a> </li>
+
+                                <li onclick="clearValue();"><a href="#nminus1CallBuc" data-toggle="tab" id="Tab8" onclick="ajaxCallCRMNminuOneDay();">N-1 Day</a> </li>
+                    <li onclick="clearValue();"><a href="#nthdayCallBuc" data-toggle="tab" id="Tab9" onclick="ajaxCallCRMNthDay();">Nth Day</a> </li>
+                    <li onclick="clearValue();"><a href="#futureFollowupCallBuc" data-toggle="tab" id="Tab10" onclick="ajaxCallCRMFutureFollowup();">Future Follow-Up</a> </li>*@
+
+            </ul>
+            <div class="tab-content">
+                <div class="panel panel-default" style="border-top: #fff;">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-2" id="cityDiv">
+                                <div class="form-group">
+                                    <label>City </label>
+
+                                    @Html.DropDownList("ddlLocation", new SelectList(ViewBag.ddllocation, "id", "location"), "--Select--", new { @class = "form-control", @data_field = "city", @id = "city", @onchange = "ajaxLoadWorkshopByCity();" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-2" id="workshopDiv">
+                                <div class="form-group">
+                                    <label>WorkShop Location </label>
+                                    <select class="form-control" id="workshop" Workshop" data-field="workshopLoc" name="workshopId" onchange="ajaxCallToLoadCRESByWorkshop();">
+                                        <option selected> -Select-</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2" id="cresDiv">
+                                <label>Select CRE's </label>
+                                <div class="form-group">
+                                    <select class="selectpicker filter form-control" placeholder="Select CRES" data-field="CRES" data-column-index="7" id="ddlCreIds" name="ddlCreIds" onchange="getfilters(this)" multiple></select>
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-md-2 tab-pane" id="campaignDiv">
+
+                                <label>Select Campaign</label>
+                                @Html.DropDownList("ddlCampaign", new SelectList(ViewBag.ddlCampaign, "campaignName", "campaignName"), "--Select--", new { @class = "form-control", @onchange = "getfilters(this)", @id = "campaignName", @data_field = "campaign" })
+
+                                @*<select class="filter form-control" id="campaignName"  data-column-index="0" name="campaignName">
+                <option value="0">--Select--</option>
+                @for (campaign_List < -campaignList)
+                {
+                    <option value="@campaign_List.getCampaignName()">@campaign_List.getCampaignName()</option>
+                }
+
+            </select>*@
+                            </div>
+                            <div class="col-md-2" id="reasonDiv" style="display:none">
+                                <div class="form-group">
+                                    <label>Reasons</label>
+                                    <div>
+                                        @Html.DropDownList("ddlreasons", new SelectList(ViewBag.ddlreason, "id", "disposition"), "Select", new { @class = "filter form-control", @id = "ddlreasons", @data_field = "reasons", @onchange = "getfilters(this)" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2" id="fromDateDiv">
+                                <label>From Date : </label>
+                                <input type="text" class="filter form-control datePicker" placeholder="Enter From Date" data-field="fromDate" data-column-index="1" id="fromduedaterange" name="fromduedaterange" onchange="getfilters(this)" readonly />
+
+                            </div>
+                            <div class="col-md-2" id="toDateDiv">
+                                <label>To Date : </label>
+                                <input type="text" class="filter form-control datePicker" placeholder="Enter To Date" data-field="toDate" data-column-index="2" id="toduedaterange" name="toduedaterange" onchange="getfilters(this)" readonly>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2" id="fromLSDDateDiv" style="display:none;">
+                                <label>From LSD Date : </label>
+                                <input type="text" class="filter form-control datePicker" data-field="fromSLDate" placeholder="Enter From LSD Date" data-column-index="9" id="fromlsddaterange" name="fromlsddaterange" onchange="getfilters(this)" readonly>
+                            </div>
+                            <div class="col-md-2" id="toLSDDateDiv" style="display:none;">
+                                <label>To LSD Date : </label>
+                                <input type="text" class="filter form-control datePicker" data-field="toSLDate" data-column-index="10" placeholder="Enter To LSD Date" id="tolsddaterange" name="tolsddaterange" onchange="getfilters(this)" readonly>
+                            </div>
+
+                            <div class="col-md-2" id="serviceTypeDiv">
+
+
+                                <label>Select service type</label>
+                                @Html.DropDownList("ddlserviceType", new SelectList(ViewBag.ddlserviceType, "serviceTypeName", "serviceTypeName"), "--Select--", new { @class = "form-control", @onchange = "getfilters(this)", @id = "ServiceTypeName", @data_field = "serviceType" })
+                                @*<select class="filter form-control" id="ServiceTypeName" data-column-index="3" name="ServiceTypeName">
+                                    <option value="0">--Select--</option>
+                                   @for (serviceType_List < -serviceTypeList)
+            {
+                <option value="@serviceType_List.getServiceTypeName()">@serviceType_List.getServiceTypeName()</option>
+            }
+
+                                </select>*@
+                            </div>
+
+                            <div class="col-md-2" id="serviceBookTypeDiv" style="display:none">
+                                <label>Select Booked service type</label>
+                                @Html.DropDownList("ddlBookedserviceType", new SelectList(ViewBag.ddlBookedserviceType, "serviceTypeName", "serviceTypeName"), "--Select--", new { @class = "form-control", @onchange = "getfilters(this)", @id = "serviceBookedType", @data_field = "serviceBookedType" })
+
+                                @*<select class="filter form-control" id="serviceBookedType" data-column-index="4" data-field="" name="serviceBookedType" onchange="getfilters(this)">
+                                    <option value="0">--Select--</option>
+                                    @for (bookedServiceType_List < -bookedServiceTypeList)
+            {
+                <option value="@bookedServiceType_List">@bookedServiceType_List</option>
+
+            }
+
+                                </select>*@
+                            </div>
+                            <div class="col-md-2" id="lastDispoTypeDiv" style="display:none">
+                                <label>Last Disposition</label>
+                                @Html.DropDownList("lastDispo", new SelectList(ViewBag.ddlDispo, "disposition", "disposition"), "--Select--", new { @class = "form-control", @onchange = "getfilters(this)", @id = "lastDispo", @data_field = "lastDipo" })
+
+                                @*<select class="filter form-control" id="lastDispo" data-column-index="5" data-field="lastDipo" onchange="getfilters(this)">
+                                    <option value="0">--Select--</option>
+                                    @for (dispo < -dispoList)
+            {
+                <option value="@dispo.getDisposition()">@dispo.getDisposition()</option>
+
+            }
+
+                                </select>*@
+                            </div>
+                            <div class="col-md-2" id="droppedcountDiv" style="display:none">
+                                <label>Dropped Count</label>
+                                <select class="filter form-control" id="droppedCount" data-column-index="6" data-field="droppedCount" onchange="getfilters(this)">
+                                    <option value="0">--Select--</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+
+
+                                </select>
+                            </div>
+                            <div class="col-md-3" id="modeOfSBDiv" style="display:none">
+                                <label>Mode Of ServiceBook</label>
+                                <select class="filter form-control" id="serviceMode" data-column-index="8" data-field="typeOfPickup" onchange="getfilters(this)">
+                                    <option value="0">--Select--</option>
+                                    <option value="Customer Drive-In">Customer Drive-In</option>
+                                    <option value="QWIK Service">QWIK Service</option>
+                                    <option value="Door Step Service">Door Step Service</option>
+                                    <option value="true">Pickup Drop Required</option>
+                                    <option value="Road Side Assistance">Road Side Assistance</option>
+
+
+                                </select>
+                            </div>
+                            <div class="col-md-2" id="bookingstatusDiv" style="display:none">
+                                <label>Booking Status:</label>
+                                <select class="filter form-control" id="ddllastSBDispo" data-column-index="13" data-field="bookingstatus" onchange="getfilters(this)">
+                                    <option value="">--Select--</option>
+                                    <option value="3">Book My Service</option>
+                                    <option value="41">Confirmed</option>
+                                    <option value="34">Reported</option>
+                                    <option value="35">Cancelled</option>
+                                    <option value="33">OverDue</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default tab-pane fade active in " id="schedule">
+                    <div class="panel-body inf-content">
+
+                        <div class="dataTable_wrapper">
+                            <div>
+                                <table class="table table-striped table-bordered table-hover" id="tblassignedInteractionTableMR" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>Customer Name</th>
+                                            <th>RegNo.</th>
+                                            <th>Model</th>
+                                            <th>Category</th>
+                                            <th>Loyalty</th>
+                                            <th>DueDate</th>
+                                            <th>Type</th>
+                                            <th>Forecast </th>
+                                            <th>PSFStatus</th>
+                                            <th>DND</th>
+                                            <th>Complaint</th>
+                                            <th>CRE Name</th>
+                                            <th>Last&nbsp;Service Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="buttons1"></div>
+                </div>
+                <div class="panel panel-default tab-pane fade" id="pendingFollowUp" role="tabpanel" aria-labelledby="pendingFollowUp-tab">
+                    <div class="panel-body inf-content">
+                        <div class="dataTable_wrapper">
+                            <div>
+                                <table class="table table-striped table-bordered table-hover" id="tblfollowUpRequiredServerDataMR" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Campaign Name</th>
+                                            <th>Last&nbsp;Call Date</th>
+                                            <th>Customer Name</th>
+                                            <th>Mobile Number</th>
+                                            <th>Vehicle RegNo.</th>
+                                            <th>Service Due</th>
+                                            <th>CRE Name</th>
+                                            <th>FollowUp Date</th>
+                                            <th>FollowUp Time</th>
+                                            <th>Last Disposition</th>
+                                            <th>Is Call Initiated</th>
+                                            <th>Last&nbsp;Service Date</th>
+                                            <!--  <th>Download Media</th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="buttons2"></div>
+                </div>
+                <div class="panel panel-default tab-pane fade" id="serviceBooked">
+                    <div class="panel-body inf-content">
+                        <div class="dataTable_wrapper">
+                            <div>
+                                <table class="table table-striped table-bordered table-hover" id="tblserviceBookedServerDataMR" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Campaign Name</th>
+                                            <th>Last&nbsp;Call Date</th>
+                                            <th>Customer Name</th>
+                                            <th>Mobile Number</th>
+                                            <th>Vehicle RegNo.</th>
+                                            <th>Service Due</th>
+                                            <th>CRE Name</th>
+                                            <th>Service ScheduledDate</th>
+                                            <th>Service ScheduledTime</th>
+                                            <th>Booking Status</th>
+                                            <th>Is Call Initiated</th>
+                                            <th>Last&nbsp;Service Date</th>
+                                            <!--  <th>Download Media</th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="buttons3"></div>
+                </div>
+                <div class="panel panel-default tab-pane fade" id="servicenotReq">
+                    <div class="panel-body inf-content">
+                        <div class="dataTable_wrapper">
+                            <div>
+                                <table class="table table-striped table-bordered table-hover" id="tblserviceNotRequiredServerDataMR" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>Campaign Name</th>
+                                            <th>Last&nbsp;Call Date</th>
+                                            <th>Customer Name</th>
+                                            <th>Mobile Number</th>
+                                            <th>Vehicle RegNo.</th>
+                                            <th>Service Due</th>
+                                            <th>CRE Name</th>
+                                            <th>Last Disposition</th>
+                                            <th>Reason</th>
+                                            <th>Last&nbsp;Service Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="buttons"></div>
+                </div><!--End tab panel-->
+                <div class="panel panel-default tab-pane fade" id="nonContacts">
+                    <div class="panel-body inf-content">
+                        <div>
+                            <table class="table table-striped table-bordered table-hover" id="tblnonContactsServerDataMR" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Campaign Name</th>
+                                        <th>Last&nbsp;Call Date</th>
+                                        <th>Customer Name</th>
+                                        <th>Mobile Number</th>
+                                        <th>Vehicle RegNo.</th>
+                                        <th>Service Due</th>
+                                        <th>CRE Name</th>
+                                        <th>Last Disposition</th>
+                                        <th>Is Call Initiated</th>
+                                        <th>Last&nbsp;Service Date</th>
+                                        <!--  <th>Download Media</th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="buttons4"></div>
+                </div>
+                <div class="panel panel-default tab-pane fade" id="droppedBuc">
+                    <div class="panel-body inf-content">
+                        <div class="dataTable_wrapper">
+                            <div style="overflow-x: auto">
+                                <table class="table table-striped table-bordered table-hover" id="droppedCallsServerDataMR">
+                                    <thead>
+                                        <tr>
+                                            <th>Campaign Name</th>
+                                            <th>Last&nbsp;Call Date</th>
+                                            <th>Customer Name</th>
+                                            <th>Mobile Number</th>
+                                            <th>Vehicle RegNo.</th>
+                                            <th>Service Due</th>
+                                            <th>CRE Name</th>
+                                            <th>Is Call Initiated</th>
+                                            <th>Last Disposition</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="buttons5"></div>
+                </div>
+
+                <div class="panel panel-default tab-pane fade" id="nminus1CallBuc">
+                    <div class="panel-body inf-content">
+                        <div class="dataTable_wrapper">
+                            <div>
+                                <table class="table table-striped table-bordered table-hover" id="tblserviceManagerN-1thDay" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>CRE Name</th>
+                                            <th>Last&nbsp;Call Date</th>
+                                            <th>Customer Name</th>
+                                            <th>Vehicle RegNo.</th>
+                                            <th>Chassi No</th>
+                                            <th>Service ScheduledDate</th>
+                                            <th>Service ScheduledTime</th>
+                                            <th>Service Booked Type</th>
+                                            <th>Service Advisor</th>
+                                            <th>Workshop</th>
+                                            <th>Last Disposition</th>
+                                            <th>Type Of PickUp</th>
+                                            <th>Booking Status</th>
+                                            <th>Last&nbsp;Service Date</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                        <div id="buttons9"></div>
+                    </div>
+                </div>
+                <div class="panel panel-default tab-pane fade" id="nthdayCallBuc">
+                    <div class="panel-body inf-content">
+                        <div class="dataTable_wrapper">
+                            <div>
+
+                                <table class="table table-striped table-bordered table-hover" id="tblserviceManagerNthDay">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>CRE Name</th>
+                                            <th>Last&nbsp;Call Date</th>
+                                            <th>Customer Name</th>
+                                            <th>Vehicle RegNo.</th>
+                                            <th>Chassi No</th>
+                                            <th>Service ScheduledDate</th>
+                                            <th>Service ScheduledTime</th>
+                                            <th>Service Booked Type</th>
+                                            <th>Service Advisor</th>
+                                            <th>Workshop</th>
+                                            <th>Last Disposition</th>
+                                            <th>Type Of PickUp</th>
+                                            <th>Booking Status</th>
+                                            <th>Last&nbsp;Service Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="buttons10"></div>
+                </div>
+                <div class="panel panel-default tab-pane fade" id="nonFSPMSCallBuc">
+                    <div class="panel-body inf-content">
+                        <div class="dataTable_wrapper">
+
+                            <table class="table table-striped table-bordered table-hover" id="tblserviceManagerNonFSPMS" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>CRE Name</th>
+                                        <th>Customer Name</th>
+                                        <th>Mobile Number</th>
+                                        <th>Vehicle RegNo.</th>
+                                        <th>Last&nbsp;Service Date</th>
+                                        <th>Last Service Type</th>
+                                        <th>Workshop</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                    <div id="buttons11"></div>
+                </div>
+                <div class="panel panel-default tab-pane fade" id="futureFollowupCallBuc">
+                    <div class="panel-body inf-content">
+                        <div class="dataTable_wrapper">
+                            <div>
+                                <table class="table table-striped table-bordered table-hover" id="tblserviceManagerfutureFollowUpData">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>CRE Name</th>
+                                            <th>Campaign</th>
+                                            <th>Customer Name</th>
+                                            <th>Mobile Number</th>
+                                            <th>Vehicle RegNo.</th>
+                                            <th>Service Due</th>
+                                            <th>FollowUp Date</th>
+                                            <th>FollowUp Time</th>
+                                            <th>Last Disposition</th>
+                                            <th>Last&nbsp;Call Date</th>
+                                            <th>Attempts</th>
+                                            <th>Last&nbsp;Service Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div id="buttons12"></div>
+                </div>
+            </div><!--End tab content-->
+        </div><!--End panel body-->
+    </div>
+
+</div>
+
+
+
+@section scripts
+{
+    <script>
+        var presentBucket = "", filtDist = {}, callAjaxClear = 0, callfromTab = 0;
+
+        $(document).ready(function () {
+            
+            //getDataFor==1 ----> 1,2,3 is bucket number
+         $(".datePicker").datepicker({
+                autoclose: true,
+                dateFormat: 'yy/mm/dd',
+            });
+
+            if (localStorage.length > 0) {
+                filtDist = JSON.parse(localStorage.getItem("RM_serviceReminder"));
+                if (filtDist != null) {
+                    renderFilterData();
+                }
+                else {
+                    presentBucket = 1;
+                    filtDist = {};
+                    bindScheduleData();
+                }
+            }
+            else {
+                presentBucket = 1;
+                bindScheduleData();
+            }
+
+
+        });
+
+
+        function loadDashBoardCount() {
+            $.ajax({
+                type: "POST",
+                url: siteRoot + "/RMCallLogReminder/loadRMServiceDashboardCounts/",
+                data: {},
+                cache: false,
+                success: function (res) {
+                    if (res.success == true) {
+                        $('#creMFreshCallsCountCRE').text(res.countCREMFreshCalls);
+                        $('#creMfollowupcountCRE').text(res.countCREMFollowups);
+                        $('#creMnonContactsCRE').text(res.countCREMNonContacts);
+                        $('#creMoverDueCountCRE').text(res.countCREMoverDueBookings);
+                        $('#creMTotalBookingsperDay').text(res.countCREMbookings);
+                        $('#CREmgrContactsCREperDay').text(res.countCREMcontacts);
+                        $('#creMTotalCallsperDay').text(res.countCREMtotalCalls);
+                    }
+                    else {
+                        Lobibox.notify('warning', {
+                            msg: res.error
+                        });
+                    }
+                },
+                error: function (data) {
+                    alert("Cann't load Dashboard count, Error occured while processing data");
+                }
+            });
+        }
+
+
+        //re-render the filtered element
+        function renderFilterData() {
+            //debugger;
+            for (var key in filtDist) {
+                if (key !== "getDataFor" && key !== "isFiltered") {
+                    var element = $('.filter[data-field="' + key + '"]');
+                    $(element).val(filtDist[key]);
+                }
+            }
+            if (filtDist["getDataFor"] != null) {
+                presentBucket = filtDist["getDataFor"];
+                var liElement = $('.bucket[data-bucket="' + presentBucket + '"]');
+                var id = liElement[0].id;
+                //removing current style
+                $('li.bucket').removeClass('active');
+                $('div.fade').removeClass('show active in');
+
+                //applying new style
+                $('#' + id).addClass('active');
+                $('#' + id.split('-')[1]).addClass('show active in');
+
+                manageFilters(presentBucket);
+                makeAjaxCall();
+            }
+        }
+
+
+        $('li.bucket').on('click', function () {
+
+            var id = $(this).attr('id');
+            //removing current style
+            $('li.bucket').removeClass('active');
+            $('div.fade').removeClass('show active in');
+
+            //applying new style
+            $('#' + id).addClass('active');
+            $('#' + id.split('-')[1]).addClass('show active in');
+            presentBucket = $(this).attr('data-bucket');
+            manageFilters(presentBucket);
+            clearbucketfilters();
+        })
+
+
+        function makeAjaxCall() {
+            if (presentBucket == 1) {
+                bindScheduleData();
+
+            }
+              else if (presentBucket == 2) {
+                bindfollowupData();
+            }
+             else if (presentBucket == 3) {
+                bindserviceBookedData();
+            }
+            else if (presentBucket == 4) {
+                bindservicenotRequired();
+            }
+            else if (presentBucket == 5) {
+               bindNonContacts();
+            }
+               else if (presentBucket == 6) {
+               bindFSPMS();
+   }
+    else if (presentBucket == 7) {
+                bindnextday();
+            } else if (presentBucket == 8) {
+                bindNthday();
+            }else if (presentBucket == 9) {
+                bindFuture();
+            }
+        }
+
+        //Hide and show of filters based on buckets
+        function manageFilters(bucketId) {
+
+            if (bucketId == 1) {
+                document.getElementById("cresDiv").style.display = "block";
+                document.getElementById("workshopDiv").style.display = "block";
+                document.getElementById("cityDiv").style.display = "block";
+                document.getElementById("campaignDiv").style.display = "block";
+                document.getElementById("serviceBookTypeDiv").style.display = "none";
+                document.getElementById("serviceTypeDiv").style.display = "block";
+                document.getElementById("fromDateDiv").style.display = "block";
+                document.getElementById("toDateDiv").style.display = "block";
+                document.getElementById("lastDispoTypeDiv").style.display = "none";
+                document.getElementById("droppedcountDiv").style.display = "none";
+                document.getElementById("modeOfSBDiv").style.display = "none";
+                document.getElementById("reasonDiv").style.display = "none";
+                  document.getElementById("bookingstatusDiv").style.display = "none";
+                //document.getElementById("fromLSDDateDiv").style.display = "block";
+                //document.getElementById("toLSDDateDiv").style.display = "block";
+
+            }
+            else if (bucketId == 2) {
+                document.getElementById("cresDiv").style.display = "block";
+	document.getElementById("workshopDiv").style.display = "block";
+	document.getElementById("cityDiv").style.display = "block";
+	document.getElementById("campaignDiv").style.display = "block";
+	document.getElementById("serviceBookTypeDiv").style.display = "none";
+	document.getElementById("serviceTypeDiv").style.display = "block";
+	document.getElementById("fromDateDiv").style.display = "block";
+	document.getElementById("toDateDiv").style.display = "block";
+	document.getElementById("lastDispoTypeDiv").style.display = "none";
+	document.getElementById("droppedcountDiv").style.display = "none";
+                document.getElementById("modeOfSBDiv").style.display = "none";
+                document.getElementById("reasonDiv").style.display = "none";
+                document.getElementById("bookingstatusDiv").style.display = "none";
+    //document.getElementById("fromLSDDateDiv").style.display = "block";
+    //document.getElementById("toLSDDateDiv").style.display = "block";
+
+            }
+            else if (bucketId == 3) {
+                	document.getElementById("cresDiv").style.display = "block";
+	document.getElementById("workshopDiv").style.display = "block";
+	document.getElementById("cityDiv").style.display = "block";
+	document.getElementById("campaignDiv").style.display = "block";
+	document.getElementById("serviceBookTypeDiv").style.display = "block";
+	document.getElementById("serviceTypeDiv").style.display = "none";
+	document.getElementById("fromDateDiv").style.display = "block";
+	document.getElementById("toDateDiv").style.display = "block";
+	document.getElementById("lastDispoTypeDiv").style.display = "none";
+	document.getElementById("droppedcountDiv").style.display = "none";
+    document.getElementById("modeOfSBDiv").style.display = "none";
+    document.getElementById("bookingstatusDiv").style.display = "block";
+    document.getElementById("reasonDiv").style.display = "none";
+    //document.getElementById("fromLSDDateDiv").style.display = "block";
+    //document.getElementById("toLSDDateDiv").style.display = "block";
+
+            }
+            else if (bucketId == 4) {
+                document.getElementById("cresDiv").style.display = "block";
+	document.getElementById("workshopDiv").style.display = "block";
+	document.getElementById("cityDiv").style.display = "block";
+	document.getElementById("campaignDiv").style.display = "block";
+	document.getElementById("serviceBookTypeDiv").style.display = "none";
+	document.getElementById("serviceTypeDiv").style.display = "none";
+	document.getElementById("fromDateDiv").style.display = "none";
+	document.getElementById("toDateDiv").style.display = "none";
+	document.getElementById("lastDispoTypeDiv").style.display = "none";
+	document.getElementById("droppedcountDiv").style.display = "none";
+    document.getElementById("modeOfSBDiv").style.display = "none";
+                document.getElementById("reasonDiv").style.display = "block";
+                document.getElementById("bookingstatusDiv").style.display = "none";
+    //document.getElementById("fromLSDDateDiv").style.display = "block";
+    //document.getElementById("toLSDDateDiv").style.display = "block";
+
+            }
+            else if (bucketId == 5) {
+                		document.getElementById("cresDiv").style.display = "block";
+		document.getElementById("workshopDiv").style.display = "block";
+		document.getElementById("cityDiv").style.display = "block";
+		document.getElementById("campaignDiv").style.display = "block";
+		document.getElementById("serviceBookTypeDiv").style.display = "none";
+		document.getElementById("serviceTypeDiv").style.display = "none";
+		document.getElementById("fromDateDiv").style.display = "block";
+		document.getElementById("toDateDiv").style.display = "block";
+		document.getElementById("lastDispoTypeDiv").style.display = "block";
+		document.getElementById("droppedcountDiv").style.display = "block";
+                document.getElementById("modeOfSBDiv").style.display = "none";
+                document.getElementById("reasonDiv").style.display = "none";
+                document.getElementById("bookingstatusDiv").style.display = "none";
+	    //document.getElementById("fromLSDDateDiv").style.display = "block";
+	    //document.getElementById("toLSDDateDiv").style.display = "block";
+
+            }
+            else if (bucketId == 6) {
+                document.getElementById("cresDiv").style.display = "none";
+	document.getElementById("workshopDiv").style.display = "none";
+	document.getElementById("cityDiv").style.display = "none";
+	document.getElementById("campaignDiv").style.display = "none";
+	document.getElementById("serviceBookTypeDiv").style.display = "none";
+	document.getElementById("serviceTypeDiv").style.display = "none";
+	document.getElementById("fromDateDiv").style.display = "block";
+	document.getElementById("toDateDiv").style.display = "block";
+	document.getElementById("lastDispoTypeDiv").style.display = "none";
+	document.getElementById("droppedcountDiv").style.display = "none";
+                document.getElementById("modeOfSBDiv").style.display = "none";
+                document.getElementById("reasonDiv").style.display = "none";
+                document.getElementById("bookingstatusDiv").style.display = "none";
+    //document.getElementById("fromLSDDateDiv").style.display = "none";
+    //document.getElementById("toLSDDateDiv").style.display = "none";
+
+            }
+            else if (bucketId == 7) {
+                document.getElementById("cresDiv").style.display = "block";
+	document.getElementById("workshopDiv").style.display = "block";
+	document.getElementById("cityDiv").style.display = "block";
+	document.getElementById("campaignDiv").style.display = "none";
+	document.getElementById("serviceBookTypeDiv").style.display = "block";
+	document.getElementById("serviceTypeDiv").style.display = "none";
+	document.getElementById("fromDateDiv").style.display = "block";
+	document.getElementById("toDateDiv").style.display = "block";
+	document.getElementById("lastDispoTypeDiv").style.display = "none";
+	document.getElementById("droppedcountDiv").style.display = "none";
+                document.getElementById("modeOfSBDiv").style.display = "none";
+                document.getElementById("reasonDiv").style.display = "none";
+                document.getElementById("bookingstatusDiv").style.display = "block";
+    //document.getElementById("fromLSDDateDiv").style.display = "block";
+    //document.getElementById("toLSDDateDiv").style.display = "block";
+
+
+            }
+            else if (bucketId == 8) {
+                document.getElementById("cresDiv").style.display = "block";
+	document.getElementById("workshopDiv").style.display = "block";
+	document.getElementById("cityDiv").style.display = "block";
+	document.getElementById("campaignDiv").style.display = "none";
+	document.getElementById("serviceBookTypeDiv").style.display = "block";
+	document.getElementById("serviceTypeDiv").style.display = "none";
+	document.getElementById("fromDateDiv").style.display = "block";
+	document.getElementById("toDateDiv").style.display = "block";
+	document.getElementById("lastDispoTypeDiv").style.display = "none";
+	document.getElementById("droppedcountDiv").style.display = "none";
+                document.getElementById("modeOfSBDiv").style.display = "none";
+                document.getElementById("reasonDiv").style.display = "none";
+                document.getElementById("bookingstatusDiv").style.display = "block";
+    //document.getElementById("fromLSDDateDiv").style.display = "block";
+    //document.getElementById("toLSDDateDiv").style.display = "block";
+
+            }
+            else if (bucketId == 9) {
+                document.getElementById("cresDiv").style.display = "block";
+	document.getElementById("workshopDiv").style.display = "block";
+	document.getElementById("cityDiv").style.display = "block";
+	document.getElementById("campaignDiv").style.display = "block";
+	document.getElementById("serviceBookTypeDiv").style.display = "none";
+	document.getElementById("serviceTypeDiv").style.display = "block";
+	document.getElementById("fromDateDiv").style.display = "block";
+	document.getElementById("toDateDiv").style.display = "block";
+	document.getElementById("lastDispoTypeDiv").style.display = "none";
+	document.getElementById("droppedcountDiv").style.display = "none";
+                document.getElementById("modeOfSBDiv").style.display = "none";
+                document.getElementById("reasonDiv").style.display = "none";
+                document.getElementById("bookingstatusDiv").style.display = "none";
+    //document.getElementById("fromLSDDateDiv").style.display = "block";
+    //document.getElementById("toLSDDateDiv").style.display = "block";
+
+            }
+        }
+
+
+        //Clear Buckets data
+            function clearbucketfilters() {
+
+
+
+            $('#city').val('');
+            $('#workshop').prop('selectedIndex', 0);
+            $("#ddlCreIds").empty();
+            $("#ddlCreIds").multiselect('refresh');
+
+            $('#campaignName').val('');
+            $('#fromduedaterange').val('');
+            $('#toduedaterange').val('');
+            $('#fromlsddaterange').val('');
+            $('#tolsddaterange').val('');
+            $('#ServiceTypeName').val('');
+            $('#serviceBookedType').prop('selectedIndex', 0);
+            $('#droppedCount').prop('selectedIndex', 0);
+            $('#lastDispo').prop('selectedIndex', 0);
+            $('#ddllastSBDispo').prop('selectedIndex', 0);
+            $('#ddlreasons').prop('selectedIndex', 0);
+            $('#serviceMode').val('');
+            filtDist = {};
+
+            makeAjaxCall();
+        }
+
+
+        //Function to access filter data
+        function getfilters(item) {
+            //debugger;
+            var field = $(item).attr('data-field');
+            var data = $(item).val();
+            if (field == "CRES") {
+                data = $('#ddlCreIds option:selected').toArray().map(item => item.value).join();
+                //alert(data);
+            }
+            if (filtDist[field] === undefined) {
+                filtDist[field] = data;
+                if (data != "") {
+                    filtDist["isFiltered"] = true;
+                }
+                else {
+                    if($('#ddlCmp').val() === "" &&
+                        $('#fromexpirydaterange').val() === "" &&
+                        $('#toexpirydaterange').val() === "" &&
+                        $('#flag').val() === "" &&
+                        $('#ddlmodel').val() === "" &&
+                        $('#appointmentType').val() === "" &&
+                        $('#ddlReason').val() === "" &&
+                        $('#FromDate').val() === "" &&
+                        $('#ToDate').val() === "" &&
+                        $('#appointmentStatus').val() === "" &&
+                        $('#attempts').val() === "" &&
+                        $('#ddlLocation').val() === "" &&
+                        $('#ddlInsCompany').val() === "" &&
+                        $('#ddllastSBDispo').val() === "" &&
+                         $('#ddlreasons').val() === "" &&
+                        $('#search').val() === "") {
+                        filtDist["isFiltered"] = false;
+                    }
+                }
+            }
+            else {
+                filtDist[field] = data;
+                if (data != "") {
+                    filtDist["isFiltered"] = true;
+                }
+                else if ($('#ddlCmp').val() === "" &&
+                    $('#fromexpirydaterange').val() === "" &&
+                    $('#toexpirydaterange').val() === "" &&
+                    $('#flag').val() === "" &&
+                    $('#ddlmodel').val() === "" &&
+                    $('#appointmentType').val() === "" &&
+                    $('#ddlReason').val() === "" &&
+                    $('#FromDate').val() === "" &&
+                    $('#ToDate').val() === "" &&
+                    $('#appointmentStatus').val() === "" &&
+                    $('#attempts').val() === "" &&
+                    $('#ddlLocation').val() === "" &&
+                    $('#ddllastSBDispo').val() === "" &&
+                    $('#ddlreasons').val() === "" &&
+                    $('#ddlInsCompany').val() === "" &&
+                    $('#search').val() === "") {
+                    filtDist["isFiltered"] = false;
+                }
+
+            }
+            //calling ajax function
+            makeAjaxCall();
+        }
+
+
+        //********************* Adding Filter Data *************************
+
+        function recordFilters() {
+            localStorage.setItem("RM_serviceReminder", JSON.stringify(filtDist));
+        }
+
+
+
+        //--------------------------- Binding Data To Table ---------------------------------------
+
+        //***************** Scheduler Table *****************************
+        function bindScheduleData() {
+            //debugger;
+            filtDist["getDataFor"] = 1;
+            $('#tblassignedInteractionTableMR').DataTable({
+                "destroy": true,
+                dom: 'Bfrtip',
+                buttons: ['excel'],
+                "ajax": {
+                    "url": siteRoot+"/RMCallLogReminder/getServiceBucket/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { reminderData: JSON.stringify(filtDist) }
+                },
+
+                "columns": [
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            //debugger;
+                            return `<a class="fa fa-id-card-o" href="${siteRoot}/CallLogging/Call_Logging/CREManager%2cS%2c${row.customer_id}%2c${row.vehical_Id}" style="font-size: 24pt;color:color: #00aaff;"> </a>`
+                        }
+                    },
+                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                    { "data": "veh_model", "name": "veh_model" },
+                    { "data": "category", "name": "category" },
+                    { "data": "Loyalty", "name": "Loyalty" }, {
+                        "data": "duedate", "render": function (data, type, row) {
+                            return data == null || data == "" ? "" : data.split('-')[2] + "-" + data.split('-')[1] + "-" + data.split('-')[0]
+                        }
+                    },
+                    { "data": "due_type", "name": "due_type" },
+                    { "data": "forecast_type", "name": "forecast_type" },
+                    { "data": "last_psfstatus", "name": "last_psfstatus" },
+                    { "data": "DND_status", "name": "DND_status" },
+                    { "data": "complaints_count", "name": "complaints_count" },
+                    { "data": "username", "name": "username" },
+                    { "data": "lastServiceDate", "render": function (data, type, row) {return parseJsonDateTime(data);}},
+                    //{
+                    //    "data": "lastServiceDate", "render": function (data, type, row) {
+                    //        return data == null || data==""?"": data.split('-')[2] + "-" + data.split('-')[1] + "-" + data.split('-')[0]
+                    //    }
+                    //}
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+
+           function bindfollowupData() {
+            //debugger;
+            filtDist["getDataFor"] = 2;
+            $('#tblfollowUpRequiredServerDataMR').DataTable({
+                "destroy": true,
+                dom: 'Bfrtip',
+                buttons: ['excel'],
+                "ajax": {
+                    "url": siteRoot+"/RMCallLogReminder/getServiceBucket/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { reminderData: JSON.stringify(filtDist) }
+                },
+
+                "columns": [
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            //debugger;
+                            return `<a class="fa fa-id-card-o" href="${siteRoot}/CallLogging/Call_Logging/CREManager%2cS%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color:color: #00aaff;"> </a>`
+                        }
+                    },
+
+
+			        { "data": "campaignName", "name": "campaignName" },
+                    {
+                        "data": "call_date", "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "Mobile_number", "name": "Mobile_number" },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                    {
+                        "data": "duedate", "render": function (data, type, row) {
+                            return data == null || data == "" ? "" : data.split('-')[2] + "-" + data.split('-')[1] + "-" + data.split('-')[0]
+                        }
+                    },
+
+                    { "data": "username", "name": "username" },
+                    {
+                        "data": "followUpDate", "render": function (data, type, row) {
+                            return data == null || data == "" ? "" : data.split('-')[2] + "-" + data.split('-')[1] + "-" + data.split('-')[0]
+                        }
+                    },
+
+                    { "data": "followUpTime", "name": "followUpTime" },
+                    { "data": "Last_disposition", "name": "Last_disposition" },
+                    { "data": "isCallinitaited", "name": "isCallinitaited" },
+                    { "data": "lastServiceDate", "render": function (data, type, row) {return parseJsonDateTime(data);}},
+                    //{
+                    //    "data": "lastServiceDate", "render": function (data, type, row) {
+                    //        return data == null || data == "" ? "" : data.split('-')[2] + "-" + data.split('-')[1] + "-" + data.split('-')[0]
+                    //    }
+                    //}
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+    function bindserviceBookedData() {
+            //debugger;
+            filtDist["getDataFor"] = 3;
+            $('#tblserviceBookedServerDataMR').DataTable({
+                "destroy": true,
+                dom: 'Bfrtip',
+                buttons: ['excel'],
+                "ajax": {
+                    "url": siteRoot+"/RMCallLogReminder/getServiceBucket/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { reminderData: JSON.stringify(filtDist) }
+                },
+
+                "columns": [
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            //debugger;
+                            return `<a class="fa fa-id-card-o" href="${siteRoot}/CallLogging/Call_Logging/CREManager%2cS%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color:color: #00aaff;"> </a>`
+                        }
+                    },
+
+
+                    { "data": "campaignName", "name": "campaignName" },
+                    {
+                        "data": "call_date", "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "Mobile_number", "name": "Mobile_number" },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                     {
+                        "data": "duedate", "render": function (data, type, row) {
+                            return data == null || data == "" ? "" : data.split('-')[2] + "-" + data.split('-')[1] + "-" + data.split('-')[0]
+                        }
+                    },
+                    { "data": "username", "name": "username" },
+                    {
+                        "data": "scheduled_date", "render": function (data, type, row) {
+                            return data == null || data == "" ? "" : data.split('-')[2] + "-" + data.split('-')[1] + "-" + data.split('-')[0]
+                        }
+                    },
+                    { "data": "scheduled_time", "name": "scheduled_time" },
+                    {
+                        "data": "Last_disposition", render: function (data, type, row) {
+                            var scheduleDate = new Date(row.scheduled_date);
+                            var curDate = new Date();
+                            if (scheduleDate < curDate) {
+                                return `<button class='btn btn-primary btn-sm'>OverDue</button>`;
+                            }
+                            else {
+                                return `<button class='btn btn-primary btn-sm'>${data}</button>`;
+                            }
+
+                        }
+                    },
+                    { "data": "isCallinitaited", "name": "isCallinitaited" },
+                    { "data": "lastServiceDate", "render": function (data, type, row) {return parseJsonDateTime(data);}},
+                    //{
+                    //    "data": "lastServiceDate", "render": function (data, type, row) {
+                    //        return data == null || data == "" ? "" : data.split('-')[2] + "-" + data.split('-')[1] + "-" + data.split('-')[0]
+                    //    }
+                    //}
+
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+    function bindservicenotRequired() {
+            //debugger;
+            filtDist["getDataFor"] = 4;
+            $('#tblserviceNotRequiredServerDataMR').DataTable({
+                "destroy": true,
+                dom: 'Bfrtip',
+                buttons: ['excel'],
+                "ajax": {
+                    "url": siteRoot+"/RMCallLogReminder/getServiceBucket/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { reminderData: JSON.stringify(filtDist) }
+                },
+
+                "columns": [
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            //debugger;
+                            return `<a class="fa fa-id-card-o" href="${siteRoot}/CallLogging/Call_Logging/CREManager%2cS%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color:color: #00aaff;"> </a>`
+                        }
+                    },
+			        { "data": "campaignName", "name": "campaignName" },
+{
+                        "data": "call_date", "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "Mobile_number", "name": "Mobile_number" },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                    {
+                        "data": "duedate", "render": function (data, type, row) {
+                            return data == null || data == "" ? "" : data.split('-')[2] + "-" + data.split('-')[1] + "-" + data.split('-')[0]
+                        }
+                    },
+                    { "data": "username", "name": "username" },
+                    { "data": "Last_disposition", "name": "Last_disposition" },
+                    { "data": "reason", "name": "reason" },
+                    { "data": "lastServiceDate", "render": function (data, type, row) {return parseJsonDateTime(data);}},
+                    //{
+                    //    "data": "lastServiceDate", "render": function (data, type, row) {
+                    //        return data == null || data == "" ? "" : data.split('-')[2] + "-" + data.split('-')[1] + "-" + data.split('-')[0]
+                    //    }
+                    //}
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+     function bindNonContacts() {
+            //debugger;
+            filtDist["getDataFor"] = 5;
+            $('#tblnonContactsServerDataMR').DataTable({
+                "destroy": true,
+                dom: 'Bfrtip',
+                buttons: ['excel'],
+                "ajax": {
+                    "url": siteRoot+"/RMCallLogReminder/getServiceBucket/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { reminderData: JSON.stringify(filtDist) }
+                },
+
+               "columns": [
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            //debugger;
+                            return `<a class="fa fa-id-card-o" href="${siteRoot}/CallLogging/Call_Logging/CREManager%2cS%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color:color: #00aaff;"> </a>`
+                        }
+                    },
+			        { "data": "campaignName", "name": "campaignName" },
+{
+                        "data": "call_date", "render": function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "Mobile_number", "name": "Mobile_number" },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                   {
+                       "data": "duedate", "render": function (data, type, row) {
+                           return data == null || data == "" ? "" : data.split('-')[2] + "-" + data.split('-')[1] + "-" + data.split('-')[0]
+                       }
+                   },
+                    { "data": "username", "name": "username" },
+                    { "data": "Last_disposition", "name": "Last_disposition" },
+                   { "data": "isCallinitaited", "name": "isCallinitaited" },
+                    { "data": "lastServiceDate", "render": function (data, type, row) {return parseJsonDateTime(data);}},
+                   //{
+                   //    "data": "lastServiceDate", "render": function (data, type, row) {
+                   //        return data == null || data == "" ? "" : data.split('-')[2] + "-" + data.split('-')[1] + "-" + data.split('-')[0]
+                   //    }
+                   //}
+                ],
+                 "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+
+
+    function bindFSPMS() {
+            //debugger;
+            filtDist["getDataFor"] = 6;
+            $('#tblserviceManagerNonFSPMS').DataTable({
+                "destroy": true,
+                dom: 'Bfrtip',
+                buttons: ['excel'],
+                "ajax": {
+                    "url": siteRoot+"/RMCallLogReminder/getServiceBucket/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { reminderData: JSON.stringify(filtDist) }
+                },
+
+                "columns": [
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            //debugger;
+                            return `<a class="fa fa-id-card-o" href="${siteRoot}/CallLogging/Call_Logging/CREManager%2cS%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color: #00aaff;"> </a>`
+                        }
+                    },
+
+			        { "data": "CREName", "name": "CREName" },
+                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "Mobile_number", "name": "Mobile_number" },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                    { "data": "lastServiceDate", "render": function (data, type, row) {return parseJsonDateTime(data);}},
+                    { "data": "lastServiceType", "name": "lastServiceType" },
+                    { "data": "workshop", "name": "workshop" }
+
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+
+
+    function bindnextday() {
+            //debugger;
+            filtDist["getDataFor"] = 7;
+            $('#tblserviceManagerN-1thDay').DataTable({
+                "destroy": true,
+                dom: 'Bfrtip',
+                buttons: ['excel'],
+                "ajax": {
+                    "url": siteRoot+"/RMCallLogReminder/getServiceBucket/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { reminderData: JSON.stringify(filtDist) }
+                },
+
+                "columns": [
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            //debugger;
+                            return `<a class="fa fa-id-card-o" href="${siteRoot}/CallLogging/Call_Logging/CREManager%2cS%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color:#00aaff;"> </a>`
+                        }
+                    },
+
+			        { "data": "CREName", "name": "CREName" },
+{
+                        "data": "calldate", "render": function (data, type, row) {
+                            return data == null || data == "" ? "" : data.split('-')[2] + "-" + data.split('-')[1] + "-" + data.split('-')[0]
+                        }
+                    },                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                    { "data": "chassiNo", "name": "chassiNo" },
+ {
+                        "data": "scheduled_date", "render": function (data, type, row) {
+                            return data == null || data == "" ? "" : data.split('-')[2] + "-" + data.split('-')[1] + "-" + data.split('-')[0]
+                        }
+                    },                    { "data": "scheduled_time", "name": "scheduled_time" },
+                    { "data": "serviceBookedType", "name": "serviceBookedType" },
+                    { "data": "serviceadvisor", "name": "serviceadvisor" },
+                    { "data": "workshop", "name": "workshop" },
+                    { "data": "Last_disposition", "name": "Last_disposition" },
+                    { "data": "typeOfPickup", "name": "typeOfPickup" },
+                    { "data": "booking_status", "name": "booking_status" },
+                    { "data": "lastServiceDate", "render": function (data, type, row) {return parseJsonDateTime(data);}},
+                    //{
+                    //    "data": "lastServiceDate", "render": function (data, type, row) {
+                    //        return data == null || data == "" ? "" : data.split('-')[2] + "-" + data.split('-')[1] + "-" + data.split('-')[0]
+                    //    }
+                    //}
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+        function bindNthday() {
+            //debugger;
+            filtDist["getDataFor"] = 8;
+            $('#tblserviceManagerNthDay').DataTable({
+                "destroy": true,
+                dom: 'Bfrtip',
+                buttons: ['excel'],
+                "ajax": {
+                    "url": siteRoot+"/RMCallLogReminder/getServiceBucket/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { reminderData: JSON.stringify(filtDist) }
+                },
+
+                "columns": [
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            //debugger;
+                            return `<a class="fa fa-id-card-o" href="${siteRoot}/CallLogging/Call_Logging/CREManager%2cS%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color:#00aaff;"> </a>`
+                        }
+                    },
+
+                    { "data": "CREName", "name": "CREName" },
+                    {
+                        "data": "calldate", "render": function (data, type, row) {
+                            return data == null || data == "" ? "" : data.split('-')[2] + "-" + data.split('-')[1] + "-" + data.split('-')[0]
+                        }
+                    },
+                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                    { "data": "chassiNo", "name": "chassiNo" },
+                    {
+                        "data": "scheduled_date", "render": function (data, type, row) {
+                            return data == null || data == "" ? "" : data.split('-')[2] + "-" + data.split('-')[1] + "-" + data.split('-')[0]
+                        }
+                    },
+                    { "data": "scheduled_time", "name": "scheduled_time" },
+                    { "data": "serviceBookedType", "name": "serviceBookedType" },
+                    { "data": "serviceadvisor", "name": "serviceadvisor" },
+                    { "data": "workshop", "name": "workshop" },
+                    { "data": "Last_disposition", "name": "Last_disposition" },
+                    { "data": "typeOfPickup", "name": "typeOfPickup" },
+                    { "data": "booking_status", "name": "booking_status" },
+                    { "data": "lastServiceDate", "render": function (data, type, row) {return parseJsonDateTime(data);}},
+                    //{
+                    //    "data": "lastServiceDate", "render": function (data, type, row) {
+                    //        return data == null || data == "" ? "" : data.split('-')[2] + "-" + data.split('-')[1] + "-" + data.split('-')[0]
+                    //    }
+                    //}
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+       function bindFuture() {
+            //debugger;
+            filtDist["getDataFor"] = 9;
+            $('#tblserviceManagerfutureFollowUpData').DataTable({
+                "destroy": true,
+                dom: 'Bfrtip',
+                buttons: ['excel'],
+                "ajax": {
+                    "url": siteRoot+"/RMCallLogReminder/getServiceBucket/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { reminderData: JSON.stringify(filtDist) }
+                },
+
+                "columns": [
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            //debugger;
+                            return `<a class="fa fa-id-card-o" href="${siteRoot}/CallLogging/Call_Logging/CREManager%2cS%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color:#00aaff;"> </a>`
+                        }
+                    },
+
+
+			        { "data": "CREName", "name": "CREName" },
+                    { "data": "campaignName", "name": "campaignName" },
+                    { "data": "customer_name", "name": "customer_name" },
+                    { "data": "Mobile_number", "name": "Mobile_number" },
+                    { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                    {
+                        "data": "duedate", "render": function (data, type, row) {
+                            return data == null || data == "" ? "" : data.split('-')[2] + "-" + data.split('-')[1] + "-" + data.split('-')[0]
+                        }
+                    },
+                     {
+                        "data": "followUpDate", "render": function (data, type, row) {
+                            return data == null || data == "" ? "" : data.split('-')[2] + "-" + data.split('-')[1] + "-" + data.split('-')[0]
+                        }
+                    },
+                    { "data": "followUpTime", "name": "followUpTime" },
+                    { "data": "Last_disposition", "name": "Last_disposition" },
+                     {
+                         "data": "call_date", "render": function (data, type, row) {
+                             return parseJsonDateTime(data);
+                        }
+                    },
+                     { "data": "lastServiceDate", "render": function (data, type, row) {return parseJsonDateTime(data);}},
+                    //{ "data": "attempts", "name": "attempts" },
+                    //    {
+                    //    "data": "lastServiceDate", "render": function (data, type, row) {
+                    //        return data == null || data == "" ? "" : data.split('-')[2] + "-" + data.split('-')[1] + "-" + data.split('-')[0]
+                    //    }
+                    //}                
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "serverSide": true,
+                "scrollX": "true",
+                "scrollY": "300",
+                "paging": "true",
+                "searching": true,
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+
+
+
+    function ajaxLoadWorkshopByCity() {
+
+
+        var selectedCity = document.getElementById('city').value;
+        var urlLink = siteRoot+ "/RMCallLogReminder/listWorkshops/";
+
+        $.ajax({
+            type: 'POST',
+            url: urlLink,
+            datatype: 'json',
+            data: { selectedCity: selectedCity },
+            cache: false,
+            success: function (workshoplist) {
+
+                if (workshoplist != null) {
+                    $('#workshop').empty();
+                    var dropdown = document.getElementById("workshop");
+                    dropdown[0] = new Option('select', '0');
+
+                    for (var i = 0; i < workshoplist.length; i++) {
+                        $('#workshop').append('<option value="' + workshoplist[i].id + '">' + workshoplist[i].workshopName + '</option>');
+                    }
+                }
+            }, error(error) {
+                console.log(error);
+            },
+             timeout: 591111 // timeout 9.85185 minutes
+        });
+    }
+
+
+    function ajaxCallToLoadCRESByWorkshop() {
+                        $('#ddlCreIds').empty();
+        var workshopId = document.getElementById('workshop').value;
+        var urlLink = siteRoot+ "/RMCallLogReminder/getCRESListBasedOnWorkshop/";
+        $.ajax({
+            type: 'POST',
+            url: urlLink,
+            datatype: 'json',
+            data: { workshopId: workshopId },
+            cache: false,
+            success: function (crelist) {
+                console.log(crelist);
+                $('#ddlCreIds').empty();
+                var dropdown = document.getElementById("ddlCreIds");
+                for (var i = 0; i < crelist.length; i++) {
+                    dropdown[dropdown.length] = new Option(crelist[i].creName, crelist[i].id);
+                    $("#ddlCreIds").addClass('selectpicker');
+                    $('#ddlCreIds').multiselect('rebuild');
+                }
+            }, error(error) {
+
+            },
+             timeout: 591111 // timeout 9.85185 minutes
+            });
+    }
+
+
+    </script>
+}

@@ -1,0 +1,563 @@
+﻿
+@{
+    ViewBag.Title = "INSDataLogsForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .scroll {
+        width: 20px;
+        height: 12px;
+        overflow: auto;
+        margin: 0 10px;
+    }
+
+    .scroll4::-webkit-scrollbar {
+        width: 10px;
+        height: 6px;
+    }
+
+    .scroll4::-webkit-scrollbar-thumb {
+        background: #666;
+        border-radius: 20px;
+    }
+
+    .scroll4::-webkit-scrollbar-track {
+        background: #ddd;
+        border-radius: 20px;
+    }
+
+    .panel-heading {
+        cursor: pointer;
+    }
+
+    div#container {
+        height: 400px;
+        width: 400px;
+        border: 2px solid #000;
+        overflow: scroll;
+    }
+
+    .accordion-toggle:after {
+        font-family: 'FontAwesome';
+        content: "\f077";
+        float: right;
+        color: inherit;
+    }
+
+    .panel-heading.collapsed .accordion-toggle:after {
+        content: "\f078";
+    }
+
+    .box-body {
+        padding: 0px;
+    }
+
+    hr {
+        margin-top: 0px;
+        margin-bottom: 0px;
+        border: 0;
+        /*   border-top: 1px solid #eee; */
+    }
+
+    #slideOut {
+        position: fixed;
+        width: 230px;
+        height: 800px;
+        top: 147px;
+        right: -230px;
+        /* Animation  */
+        transition-property: all;
+        transition-duration: .5s;
+        transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+        z-index: 999;
+    }
+
+
+    /* Display slideOut */
+
+    .showSlideOut {
+        right: 0px !important;
+    }
+
+
+    /* Tab */
+
+    .slideOutTab {
+        margin-top: 50px;
+        position: absolute;
+        left: -40px;
+        height: 200px;
+        width: 40px;
+        -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+        background: #F2AB34;
+        border-radius: 15px 0px 0px 15px
+    }
+
+        .slideOutTab div {
+            text-align: center;
+            position: relative;
+            right: 70px;
+            top: 90px;
+            background: #F2AB34;
+            width: 180px;
+            -webkit-transform: rotate(270deg);
+            -moz-transform: rotate(270deg);
+            -o-transform: rotate(270deg);
+            writing-mode: lr-tb;
+        }
+
+
+    h2 {
+        font-size: 18px;
+    }
+
+    .dbbgcolor1 {
+        background-color: #03a9f4;
+    }
+
+    .dbbgcolor2 {
+        background-color: #ffc107;
+    }
+
+    .dbbgcolor3 {
+        background-color: #d559ea;
+    }
+
+    .dbbgcolor4 {
+        background-color: #ff5652;
+    }
+
+    .dbbgcolor5 {
+        background-color: #69afff;
+    }
+
+    .dbbgcolor6 {
+        background-color: #4edec1;
+    }
+
+    .dbbgcolor7 {
+        background-color: #ffc107;
+    }
+
+    .dbbgcolor8 {
+        background-color: #d559ea;
+    }
+
+    .dbbgcolor9 {
+        background-color: #ff5652;
+    }
+
+    ul.multiselect-container.dropdown-menu {
+        height: 121px;
+        overflow: auto;
+    }
+
+    .tile-stats span {
+        margin-top: 5px;
+        font-size: 12px;
+    }
+
+    .boxes {
+        margin: 6px;
+    }
+
+    .x_title h2 {
+        float: none;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    #myTab {
+        margin-bottom: 0px;
+    }
+
+        #myTab > li {
+            /* width: 110px;
+        word-wrap: break-word;*/
+            border-bottom: 2px solid #fff;
+        }
+
+    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        padding: 3px;
+        line-height: 1;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+        color: #000 !important;
+        font-size: 13px;
+        background-color: #fff;
+    }
+
+    .dataTables_length,
+    .dataTables_filter,
+    .dataTables_info {
+        font-size: 12px;
+    }
+
+    /*tbody,th{
+      text-align: center;
+    }*/
+
+
+    .nav-tabs > li > a:hover {
+        border-color: #b14b4b #b93131 #b33;
+        color: #000;
+    }
+
+    .donloadClass {
+        text-align: center;
+        position: relative;
+        margin-top: 38px;
+        margin-left: 0px;
+        font-size: medium;
+    }
+
+    .html5buttons {
+        display: none;
+    }
+</style>
+
+<br />
+<!-- Model POP up Start -->
+<div class="panel panel-primary">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-3 col-md-3 col-sm-12 col-xs-12 INSdownloadmodalclick" data-toggle="modal" data-target="#insDownloadModal" data-id="2">
+                <div class="panel panel-primary" style="text-align: center; cursor:pointer">
+                    <div class="panel-heading">Insurance Call History</div>
+                    <div class="panel-body" style="height: 88px;">
+                        <h2>Insurance Call History Logs</h2>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-3 col-md-3 col-sm-12 col-xs-12 INSdownloadmodalclick" data-toggle="modal" data-target="#insDownloadModal" data-id="3">
+                <div class="panel panel-primary" style="text-align: center; cursor:pointer">
+                    <div class="panel-heading">Call Summary</div>
+                    <div class="panel-body" style="height: 88px;">
+                        <h2>Insurance Call Summary Report</h2>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-3 col-md-3 col-sm-12 col-xs-12 INSdownloadmodalclick" data-toggle="modal" data-target="#insDownloadModal" data-id="4">
+                <div class="panel panel-primary" style="text-align: center; cursor:pointer">
+                    <div class="panel-heading">Interaction Summary</div>
+                    <div class="panel-body" style="height: 88px;">
+                        <h2>SMS Interaction Summary</h2>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Model POP up End -->
+<!-- Model popup window Start -->
+<div class="modal fade" id="insDownloadModal" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="text-align:center;background-color: #106A86;color: #fff;">
+                <button type="button" class="close" data-dismiss="modal" style="opacity:2;">
+                    <img src="~/public/images/close1.png" alt="X">
+                </button>
+                <h4 class="modal-title" id="INSdwnldmodaltitle">Insurance Call History Filters</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div id="insdwnlddateDiv" style="display:none;">
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label id="lblinsfromdatedwnld">CallDate From</label>
+                                    <input id="inscalldatefrom" readonly type="text" class="datepickerfrom form-control calldatedisable">
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label id="lblinstodatedwnld">CallDate To</label>
+                                    <input id="inscalldateto" readonly type="text" class="datepickerto form-control calldatedisable">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-4" id="INSCampaignDiv" style="display:none;">
+                            <div class="form-group">
+                                <label>Campaign Name</label>
+                                @Html.DropDownList("inscallcampaign", new SelectList(ViewBag.ddlcampaignList, "id", "CampaignName"), new { @class = "form-control selectpickerAll", @multiple = "multiple", @id = "inscallcampaign" })
+                            </div>
+                        </div>
+                        <div class="col-xs-4" id="INSstatustypeDiv" style="display:none;">
+                            <div class="form-group">
+                                <label>Status Types</label>
+                                <select class="selectpickerAll form-control" name="InsSmsinteractionstatus" id="InsSmsinteractionstatus" ;" multiple>
+                                    <option value="Notsent"> Notsent</option>
+                                    <option value="Sent"> Sent</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-4" id="INScremanagerDiv" style="display:none;">
+                            <label>CRE Manager</label>
+                            <div class="form-group">
+                                @Html.DropDownList("inscreManager", new SelectList(ViewBag.ddlmanager, "id", "creName"), new { @class = "form-control selectpickerAll", @onchange = "getmanagerCres('inscallHistory')", @multiple = "multiple", @id = "inscreManager" })
+
+                            </div>
+                        </div>
+                        <div class="col-xs-4" id="INScreDiv" style="display:none;">
+                            <label>CRE</label>
+                            <div class="form-group">
+                                @Html.DropDownList("inscre", new SelectList(ViewBag.ddlcres, "id", "creName"), new { @class = "form-control selectpickerAll", @multiple = "multiple", @id = "inscre" })
+
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4" id="INSlocationDiv" style="display:none;">
+                            <div class="form-group">
+                                <label>Location Name</label>
+                                @Html.DropDownList("insworkshop", new SelectList(ViewBag.ddlWorkshop, "workshopId", "workshopName"), new { @class = "form-control selectpickerAll", @multiple = "multiple", @id = "insworkshop" })
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4 " id="INSsendtypeDiv" style="display:none;">
+                            <div class="form-group">
+                                <label>Send Types</label>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" class="form-check-input " id="manual" name="SendType" value="1">
+                                    <label class="form-check-label" for="Manual">Manual</label>&nbsp;
+
+                                    <input type="radio" class="form-check-input " id="auto" name="SendType" value="2" checked>
+                                    <label class="form-check-label" for="Auto">Auto</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 Smstypedisable" id="INSsendsmstypeDiv" style="display:none;">
+                            <div class="form-group ">
+                                <label>SMSSend Types</label>
+                                <select class="selectpickerAll form-control" name="InsSmsinteractiontype" id="InsSmsinteractiontype" ;" multiple>
+                                    <option value="WhatsApp Msg"> WhatsApp Msg</option>
+                                    <option value="Text Msg"> Text Msg</option>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="hidden" name="INSbucketID" id="INSbucketID" value="" />
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="return  clearDownloadINSFilters();getmanagerCres('inscallHistory');">&nbsp;Clear all</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" id="tblFordCallhisInsuranceDatalogs" onclick="downloadINSReports(); clearDownloadINSFilters();"><i class="fa fa-cloud-download">  &nbsp;&nbsp;Download</i></button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/liveRptJqury")
+    <script>
+        $(document).ready(function () {
+
+            $(".datepickerfrom").datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: 0,
+
+                onSelect: function () {
+                    var datepickerto = $('.datepickerto');
+                    var startDate = $(this).datepicker('getDate');
+                    var minDate = $(this).datepicker('getDate');
+                    var dt2Date = datepickerto.datepicker('getDate');
+                    //difference in days. 86400 seconds in day, 1000 ms in second
+                    var dateDiff = (dt2Date - minDate) / (86400 * 1000);
+
+                    startDate.setDate(startDate.getDate() + 30);
+                    if (dt2Date == null || dateDiff < 0) {
+                        datepickerto.datepicker('setDate', minDate);
+                    }
+                    else if (dateDiff > 30) {
+                        datepickerto.datepicker('setDate', startDate);
+                    }
+                    //sets dt2 maxDate to the last day of 30 days window
+                    datepickerto.datepicker('option', 'maxDate', startDate);
+                    datepickerto.datepicker('option', 'minDate', minDate);
+                }
+            });
+            $('.datepickerto').datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: 0,
+
+            });
+            $('.selectpickerAll').multiselect({
+                allSelectedText: 'All',
+                enableFiltering: true,
+                enableCaseInsensitiveFiltering: true,
+                numberDisplayed: 1,
+                buttonWidth: '140px',
+                maxHeight: 250,
+                includeSelectAllOption: true
+            });
+
+            selectallINSmultipleFilter();
+
+            $(".INSdownloadmodalclick").click(function () {
+
+                var my_id_value = $(this).data('id');
+
+                document.getElementById('lblinsfromdatedwnld').innerHTML = 'CallDate From';
+                document.getElementById('lblinstodatedwnld').innerHTML = 'CallDate To';
+
+                if (my_id_value == "2" || my_id_value == "3") {
+                    if (my_id_value == "2") {
+                        document.getElementById("INSdwnldmodaltitle").innerHTML = "Insurance Call History Filters";
+
+                    }
+                    if (my_id_value == "3") {
+                        document.getElementById("INSdwnldmodaltitle").innerHTML = "Insurance Call Summary Filters";
+                    }
+                    $('#insdwnlddateDiv').css({ 'display': 'block' });
+                    $('#INSCampaignDiv').css({ 'display': 'block' });
+                    $('#INScremanagerDiv').css({ 'display': 'block' });
+                    $('#INScreDiv').css({ 'display': 'block' });
+                    $('#INSlocationDiv').css({ 'display': 'block' });
+                    $('#INSstatustypeDiv').css({ 'display': 'none' });
+                    $('#INSsendtypeDiv').css({ 'display': 'none' });
+                    $('#INSsendsmstypeDiv').css({ 'display': 'none' });
+                }
+                else if (my_id_value == "4") {
+                    document.getElementById("INSdwnldmodaltitle").innerHTML = "PSF SMS Logs Filters";
+                    document.getElementById('lblinsfromdatedwnld').innerHTML = 'SMS From Date';
+                    document.getElementById('lblinstodatedwnld').innerHTML = 'SMS To Date';
+                    $('#insdwnlddateDiv').css({ 'display': 'block' });
+                    $('#INSCampaignDiv').css({ 'display': 'none' });
+                    $('#INScremanagerDiv').css({ 'display': 'block' });
+                    $('#INScreDiv').css({ 'display': 'block' });
+                    $('#INSlocationDiv').css({ 'display': 'none' });
+                    $('#INSstatustypeDiv').css({ 'display': 'block' });
+                    $('#INSsendtypeDiv').css({ 'display': 'block' });
+                    $('#INSsendsmstypeDiv').css({ 'display': 'none' });
+                }
+
+                $(".modal-body #INSbucketID").val(my_id_value);
+            });
+
+            $('input[type=radio]').click(function () {
+
+                var smstype = $("input:radio[name=SendType]:checked").val()
+
+
+                if (smstype == "2") {
+                    $("#InsSmsinteractiontype").val('');
+                    $("#InsSmsinteractiontype").multiselect('refresh');
+
+                    $('.Smstypedisable').hide();
+                }
+                else if (smstype == "1") {
+                    $("#InsSmsinteractiontype").multiselect('selectAll', false);
+                    $("#InsSmsinteractiontype").multiselect('updateButtonText');
+                    $('.Smstypedisable').show();
+
+                }
+                else {
+                    $('.Smstypedisable').hide();
+                }
+            });
+
+        });
+
+
+        function selectallINSmultipleFilter() {
+            $("#inscallcampaign").multiselect('selectAll', false);
+            $("#inscallcampaign").multiselect('updateButtonText')
+
+            $("#inscreManager").multiselect('selectAll', false);
+            $("#inscreManager").multiselect('updateButtonText');
+
+            $("#inscre").multiselect('selectAll', false);
+            $("#inscre").multiselect('updateButtonText');
+
+            $("#insworkshop").multiselect('selectAll', false);
+            $("#insworkshop").multiselect('updateButtonText')
+
+
+            $("#InsSmsinteractionstatus").multiselect('selectAll', false);
+            $("#InsSmsinteractionstatus").multiselect('updateButtonText');
+
+            $("#InsSmsinteractiontype").multiselect('selectAll', false);
+            $("#InsSmsinteractiontype").multiselect('updateButtonText');
+        }
+
+        function clearDownloadINSFilters() {
+            selectallINSmultipleFilter();
+
+            $('#inscalldatefrom').val('');
+            $('#inscalldateto').val('');
+
+            $("#auto").prop("checked", true);
+
+        }
+
+        
+
+        function getmanagerCres(type) {
+            var  managerIds = $('#inscreManager option:selected').toArray().map(item => item.value).join();
+          
+            if (managerIds != "")
+            {
+                $.ajax({
+                    url: siteRoot + '/InsuranceLiveForm/getCRES/',
+                    type: "GET",
+                    data: { managerIds: managerIds },
+                    beforeSend: function () {
+                        //$('#inscallsmscreManager').attr('disabled', 'disabled');
+                    },
+                    success: function (result) {
+                        if (result.success == true) {
+                            $('#inscre').empty();
+                            var dropdown = document.getElementById("inscre");
+                                for (var i = 0; i < result.cres.length; i++) {
+                                    dropdown[dropdown.length] = new Option(result.cres[i].UName, result.cres[i].id);
+
+                                }
+                            $("#inscre").addClass('selectpicker');
+                            $('#inscre').multiselect('rebuild');
+                            $("#inscre").multiselect('selectAll', false);
+                            $("#inscre").multiselect('updateButtonText');
+                        }
+                        else if (result.success == false) {
+                            Lobibox.notify('warning', {
+                                continueDelayOnInactiveTab: true,
+                                msg: result.error
+                            });
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        if (textStatus == 'Unauthorized') {
+                            alert('custom message. Error: ' + errorThrown);
+                        } else {
+                            alert('custom message. Error: ' + errorThrown);
+                        }
+                    },
+                    complete: function () {
+                        //    $('#inscallsmscreManager').removeAttr('disabled');
+
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            }
+        }
+    </script>
+}

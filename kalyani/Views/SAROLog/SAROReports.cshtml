@@ -1,0 +1,350 @@
+﻿
+@{
+    ViewBag.Title = "SAROReports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/public/liveReportCSS/custom.css" rel="stylesheet" />
+<style>
+    thead {
+        background-color: rgb(128, 203, 196);
+        width: 84px;
+    }
+
+    th.dt-center, td.dt-center {
+        text-align: center;
+    }
+</style>
+<div class="container-fluide">
+    <div class="row">
+        <div class="col-xs-12 panelsm">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <b>Dashboard</b>
+                </div>
+                <div class="panel-body">
+
+
+                    <div class="container-fluide">
+                        <div class="row">
+                            <div class="col-xs-12 panelsm">
+                                <div class="panel panel-primary">
+                                    <div class="panel-body">
+
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="">
+                                                    <div class="x_panel">
+                                                        <div class="x_title">
+                                                            <b>RO STATUS</b>
+                                                            <ul class="nav navbar-right panel_toolbox">
+
+                                                                <li>
+                                                                    <a id="tblROStatus_xl"></a>
+                                                                </li>
+                                                            </ul>
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                        <div class="x_content" id="tblROStatusDiv">
+                                                            <div class="">
+                                                                <div>
+                                                                    <img id="tblROStatus_Spinner" style=" display: block; margin-left: auto; margin-right: auto; width: 20%;" src="~/public/img/fe.gif" />
+                                                                </div>
+                                                                <table id="tblROStatus" class="display" width="100%">
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="container-fluide">
+                        <div class="row">
+                            <div class="col-xs-12 panelsm">
+                                <div class="panel panel-primary">
+                                    <div class="panel-body">
+
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="">
+                                                    <div class="x_panel">
+                                                        <div class="x_title">
+                                                            <b>PDT STATUS</b>
+                                                            <ul class="nav navbar-right panel_toolbox">
+
+                                                                <li>
+                                                                    <a id="tblPDTStatus_xl"></a>
+                                                                </li>
+                                                            </ul>
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                        <div class="x_content" id="tblPDTStatusDiv">
+                                                            <div class="">
+                                                                <div>
+                                                                    <img id="tblPDTStatus_Spinner" style=" display: block; margin-left: auto; margin-right: auto; width: 20%;" src="~/public/img/fe.gif" />
+                                                                </div>
+                                                                <table id="tblPDTStatus" class="display" width="100%">
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="container-fluide">
+                        <div class="row">
+                            <div class="col-xs-12 panelsm">
+                                <div class="panel panel-primary">
+                                    <div class="panel-body">
+
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="">
+                                                    <div class="x_panel">
+                                                        <div class="x_title">
+                                                            <b>PENDING REASON UPDATE</b>
+                                                            <ul class="nav navbar-right panel_toolbox">
+
+                                                                <li>
+                                                                    <a id="tblPendingreasonStatus_xl"></a>
+                                                                </li>
+                                                            </ul>
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                        <div class="x_content" id="tblPendingreasonStatusDiv">
+                                                            <div class="">
+                                                                <div>
+                                                                    <img id="tblPendingreasonStatus_Spinner" style=" display: block; margin-left: auto; margin-right: auto; width: 20%;" src="~/public/img/fe.gif" />
+                                                                </div>
+                                                                <table id="tblPendingreasonStatus" class="display" width="100%">
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="container-fluide">
+                        <div class="row">
+                            <div class="col-xs-12 panelsm">
+                                <div class="panel panel-primary">
+                                    <div class="panel-body">
+
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="">
+                                                    <div class="x_panel">
+                                                        <div class="x_title">
+                                                            <b>REFERRALS TODAY</b>
+                                                            <ul class="nav navbar-right panel_toolbox">
+
+                                                                <li>
+                                                                    <a id="tblreferaltoday_xl"></a>
+                                                                </li>
+                                                            </ul>
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                        <div class="x_content" id="tblreferaltodayDiv">
+                                                            <div class="">
+                                                                <div>
+                                                                    <img id="tblreferaltoday_Spinner" style=" display: block; margin-left: auto; margin-right: auto; width: 20%;" src="~/public/img/fe.gif" />
+                                                                </div>
+                                                                <table id="tblreferaltoday" class="display" width="100%">
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="container-fluide">
+                        <div class="row">
+                            <div class="col-xs-12 panelsm">
+                                <div class="panel panel-primary">
+                                    <div class="panel-body">
+
+                                        <div class="row">
+                                            <div class=" col-xs-12">
+                                                <div class="">
+                                                    <div class="x_panel">
+                                                        <div class="x_title">
+                                                            <b>REFERRALS MTD</b>
+                                                            <ul class="nav navbar-right panel_toolbox">
+
+                                                                <li>
+                                                                    <a id="tblreferalMTD_xl"></a>
+                                                                </li>
+                                                            </ul>
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                        <div class="x_content" id="tblreferalMTDDiv">
+                                                            <div class="">
+                                                                <div>
+                                                                    <img id="tblreferalMTD_Spinner" style=" display: block; margin-left: auto; margin-right: auto; width: 20%;" src="~/public/img/fe.gif" />
+                                                                </div>
+                                                                <table id="tblreferalMTD" class="display" width="100%">
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <span class="code" id="tblException" style="font-size:11pt;font-weight:bold;color:red;"></span>
+                        </div>
+                    </div>
+                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @section scripts
+        {
+                        @Scripts.Render("~/bundles/liveRptJqury")
+                        <script>
+                            $(document).ready(function () {
+
+                                callSAprocedure('1', 'tblROStatus');
+                                callSAprocedure('2', 'tblPDTStatus');
+                                callSAprocedure('3', 'tblPendingreasonStatus');
+                                callSAprocedure('4', 'tblreferaltoday');
+                                callSAprocedure('5', 'tblreferalMTD');
+
+
+                            });
+                            function callSAprocedure(Id, tblId) {
+
+                                var reportId = Id;
+
+                                if (!$.fn.DataTable.isDataTable("#" + tblId)) {
+                                    {
+                                        callSAReports(reportId, tblId);
+                                    }
+                                }
+                            }
+                            function getSAROTableData(reportId) {
+                                return $.ajax({
+                                    "url": siteRoot + "/SAROLog/getSAROReports",
+                                    "type": "POST",
+                                    "data": { reportId: reportId },
+                                    "datatype": "json"
+                                });
+                            }
+                            function callSAReports(reportId, tblId) {
+                                $('#' + tblId + '_Spinner').show();
+                                getSAROTableData(reportId).done(function (records) {
+                                    var jsonrecords = JSON.parse(records.data);
+                                    var my_columns = [];
+                                    if (records.exception === "" && jsonrecords.length > 0) {
+                                        $.each(jsonrecords[0], function (key, value) {
+                                            var my_item = {};
+                                            my_item.data = key;
+                                            my_item.title = key;
+                                            my_columns.push(my_item);
+                                        });
+
+                                        $('#' + tblId).DataTable({
+                                            data: jsonrecords,
+                                            "columns": my_columns,
+                                            "paging": false,
+                                            responsive: true,
+                                            "searching": false,
+                                            "order": [[0, "asc"]],
+                                            "pageLength": 50,
+                                            "columnDefs": [
+                                                { "className": "dt-center", "targets": "_all" }
+                                            ],
+                                            "initComplete": function (settings, exception) {
+                                                $('#' + tblId + '_Spinner').hide();
+                                                $("#" + tblId + "_button").show();
+                                            }
+
+                                        });
+                                        var buttons = new $.fn.dataTable.Buttons('#' + tblId, {
+                                            buttons: [
+                                                {
+                                                    extend: 'csvHtml5',
+                                                    text: '<i class="fa fa-download">&nbsp;&nbsp;Excel</i>',
+                                                    titleAttr: 'Excel',
+                                                    filename: tblId
+
+                                                }
+                                            ]
+                                        }).container().appendTo($('#' + tblId + '_xl'));
+                                    }
+                                    else {
+                                        var dataset = [{ "Result": "No Data Available" }];
+
+                                        var my_columns = [];
+                                        $.each(dataset[0], function (key, value) {
+                                            var my_item = {};
+                                            my_item.data = key;
+                                            my_item.title = key;
+                                            my_columns.push(my_item);
+                                        });
+
+                                        $('#' + tblId).DataTable({
+                                            data: dataset,
+                                            "columns": my_columns,
+                                            "paging": false,
+                                            responsive: true,
+                                            "searching": false,
+                                            "order": [[0, "asc"]],
+                                            "pageLength": 50,
+                                            "initComplete": function (settings, exception) {
+                                                $('#' + tblId + '_Spinner').hide();
+                                                $("#" + tblId + "_button").show();
+
+                                            }
+                                        });
+                                        $('#tblException').text(records.exception);
+                                    }
+
+                                });
+
+                            }
+
+                        </script>
+                    }
+
+

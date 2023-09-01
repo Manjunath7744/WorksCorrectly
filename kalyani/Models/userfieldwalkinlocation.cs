@@ -1,0 +1,22 @@
+namespace AutoSherpa_project.Models
+{
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
+
+    [Table("userfieldwalkinlocation")]
+    public partial class userfieldwalkinlocation
+    {
+        [Key]
+        [Column(Order = 0)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public long userFieldWalkinLocation_id { get; set; }
+
+        [Key]
+        [Column(Order = 1)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public long fieldWalkinLocationList_id { get; set; }
+    }
+}

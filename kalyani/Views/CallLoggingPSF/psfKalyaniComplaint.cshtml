@@ -1,0 +1,379 @@
+﻿@model AutoSherpa_project.Models.ViewModels.CallLoggingViewModel
+
+@{
+
+    string address = "";
+    if (Model.cust.addresses.FirstOrDefault(m => m.isPreferred == true) != null && Model.cust.addresses.FirstOrDefault(m => m.isPreferred == true).concatenatedAdress != null)
+    {
+        address = Model.cust.addresses.FirstOrDefault(m => m.isPreferred == true).concatenatedAdress;
+    }
+    else
+    {
+        address = "NA";
+    }
+
+    if (Session["DealerCode"].ToString() == "KALYANIMOTORS")
+    {
+        @Html.TextBoxFor(m => m.compInteractions.Benefits, new { @type = "hidden" })
+        @Html.TextBoxFor(m => m.compInteractions.DissatStatus_id, new { @type = "hidden" })
+        @Html.TextBoxFor(m => m.compInteractions.complaint_creid, new { @type = "hidden" })
+        @Html.TextBoxFor(m => m.compInteractions.campaign_id, new { @type = "hidden" })
+        @Html.TextBoxFor(m => m.compInteractions.customer_id, new { @type = "hidden" })
+        @Html.TextBoxFor(m => m.compInteractions.vehicle_id, new { @type = "hidden" })
+        @Html.TextBoxFor(m => m.compInteractions.issueDateTime, new { @type = "hidden" })
+        @Html.TextBoxFor(m => m.compInteractions.location_id, new { @type = "hidden" })
+        @Html.TextBoxFor(m => m.compInteractions.psfassignedInteraction_id, new { @type = "hidden" })
+        @Html.TextBoxFor(m => m.compInteractions.bucket_id, new { @type = "hidden" })
+        @Html.TextBoxFor(m => m.compInteractions.compRaisedCreId, new { @type = "hidden" })
+        @Html.TextBoxFor(m => m.compInteractions.compRaisedCreName, new { @type = "hidden" })
+
+    }
+}
+
+<div class="panel-body">
+    <div class="col-md-12">
+        <div class="form-group">
+
+            <div id="PSFconnectCall1">
+                <label for=""><b>Are you able to connect with the customer ?</b></label>
+                <br>
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.indusPsfInteraction.isContacted, "Yes", new { @Value = "Yes" })
+                        @*<input type="radio" name="isContacted" value="PSF Yes" id="">*@
+                        Yes
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.indusPsfInteraction.isContacted, "No", new { @Value = "No" })
+                        @*<input type="radio" name="isContacted" value="PSF No" id="">*@
+                        No
+                    </label>
+                </div>
+            </div>
+
+            <div style="display:none;" class="row animated  bounceInRight" id="PSFNotSpeachDiv">
+                <br>
+                <div class="col-md-12">
+                    <br>
+                    <label for=""><b>Choose reason for not being able to talk to customer:</b></label>
+                    <br>
+                    <div class="radio">
+                        <label>
+                            @Html.RadioButtonFor(m => m.indusPsfInteraction.PSFDisposition, "Ringing No response", new { @Value = "Ringing No response" })
+                            @*<input type="radio" name="PSFDispositon" value="Ringing No response" id="">*@
+                            Ringing No response
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            @Html.RadioButtonFor(m => m.indusPsfInteraction.PSFDisposition, "Busy", new { @Value = "Busy" })
+                            @*<input type="radio" name="PSFDispositon" value="Busy" id="">*@
+                            Busy
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            @Html.RadioButtonFor(m => m.indusPsfInteraction.PSFDisposition, "Switched Off / Unreachable", new { @Value = "Switched Off / Unreachable" })
+                            @*<input type="radio" name="PSFDispositon" value="Switched Off / Unreachable" id="">*@
+                            Switched Off / Unreachable
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            @Html.RadioButtonFor(m => m.indusPsfInteraction.PSFDisposition, "Invalid Number", new { @Value = "Invalid Number" })
+                            @*<input type="radio" name="PSFDispositon" value="Invalid Number" id="">*@
+                            Invalid Number
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            @Html.RadioButtonFor(m => m.indusPsfInteraction.PSFDisposition, "NoOther", new { @Value = "NoOther" })
+                            @*<input type="radio" name="PSFDispositon" value="NoOther" id="NOOthersCheck">*@
+                            Other
+                        </label>
+                    </div>
+
+
+                    <div class="row animated  bounceInRight" id="PSFNoOthers" style="display:none;">
+                        <div class="col-md-3">
+                            <label><b>Remarks</b></label>
+                            @Html.TextAreaFor(m => m.indusPsfInteraction.OtherComments, new { @class = "form-control characterLimit remarks1", @rows = "1" })
+                            @*<textarea type="text" class="form-control characterLimit" rows="1" name="OtherComments"></textarea*@
+                        </div>
+                    </div>
+
+                    <div class="row animated  bounceInRight" style="display:none;" id="PSFOtherDivShow">
+                        <div class="col-md-4">
+                            <label><b>Please Specify</b></label>
+                            @Html.TextAreaFor(m => m.indusPsfInteraction.OtherComments, new { @class = "form-control textOnlyAccepted characterLimit remarks1", @rows = "2" })
+                        </div>
+                    </div>
+                    <div class="pull-right">
+
+                        <button type="submit" class="btn btn-info" id="talkCustomerSubmit">Submit</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:none;" class="row animated  bounceInRight" id="PSFYesTalk">
+                <div class="col-md-12">
+                    <p>Namaskar ! I am <b>@Model.wyzuser.userName</b></p>
+                    <p>We want to take your feedback on the performance of your <b>@Model.vehi.model</b>, <b>@Model.vehi.vehicleRegNo</b> </p>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.indusPsfInteraction.whatCustSaid, "No Resolution - Closed", new { @Value = "No Resolution - Closed", @id = "NoResolutionId" })
+                            No Resolution - Closed
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.indusPsfInteraction.whatCustSaid, "Re-Work", new { @Value = "Re-Work", @id = "ReWorkId" })
+                            Re-Work
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.indusPsfInteraction.whatCustSaid, "Resolved", new { @Value = "Resolved", @id = "ResolvedId" })
+                            Resolved
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.indusPsfInteraction.whatCustSaid, "Call Me Later", new { @Value = "Call Me Later", @id = "PSFNoNamaskarbtn" })
+                            Call Back Later
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- --No Resolution -->
+
+            <div style="display:none;" class="row animated  bounceInRight" id="NoResolutionClosedSelId">
+                <div class="col-md-12">
+
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.indusPsfInteraction.reasonOfDissatification, "Unjustified Demand") Unjustified Demand
+
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.indusPsfInteraction.reasonOfDissatification, "Unjustified Demand") Awareness Issue
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.indusPsfInteraction.reasonOfDissatification, "Unjustified Demand") Others
+                        </label>
+                    </div>
+
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-info" id="BackTospeakResolution">Back</button>
+                        <!-- <button type="submit" class="btn btn-info" name="NextToPSFDriveIN" value="" id="NextToPSFDriveIN">Next</button> -->
+                        <button type="submit" class="btn btn-info" id="noresolutionSubmit">Submit</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- After Resoution -->
+
+            <div style="display:none;" class="row animated  bounceInRight" id="ConfirmStatusDivId">
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        <label>Reason:<sup style="color:red">*</sup>  </label>
+                        @Html.DropDownListFor(m => m.indusPsfInteraction.modeOfService, new List<SelectListItem> {
+                                    new SelectListItem{Value="Dissatisfied with PSF",Text="Pending"},
+                                    new SelectListItem{Value="ResolutionConfirmed",Text="Resolved"},
+                                    new SelectListItem{Value="NoResolution",Text="Closed - No Resolution"}
+
+                                }, "--Select--", new { @class = "form-control", @id = "dropDownCheckedSelect1" })
+                    </div>
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-info" id="BackToAfterresolution">Back</button>
+                        <!-- <button type="submit" class="btn btn-info" name="NextToPSFDriveIN" value="" id="NextToPSFDriveIN">Next</button> -->
+                        <button type="submit" class="btn btn-info" id="noAfterresolution">Submit</button>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- Re- work flow -->
+
+            <div style="display:none;" class="row animated  bounceInRight" id="ReworkDivId">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Workshop:<sup style="color:red">*</sup> </label>
+                        @if (ViewBag.workshops != null)
+                        {
+                            @Html.DropDownListFor(m => m.compInteractions.workshop_id, new SelectList(ViewBag.workshops, "id", "name"), "--Select--", new { @class = "form-control", @id = "workshop_id_Data" })
+                        }
+                        else
+                        {
+                            @:-Workshop Error
+                        }
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Rework mode:<sup style="color:red">*</sup> </label>
+                        @Html.DropDownListFor(m => m.compInteractions.reworkMode, new List<SelectListItem> {
+                                new SelectListItem{Value="Revisit WalkIn",Text="Revisit WalkIn" },
+                                new SelectListItem{Value="Revisit PickUp",Text="Revisit PickUp" },
+                                new SelectListItem{Value="Home Visit",Text="Home Visit" }
+
+                                    }, "--Select--", new { @class = "form-control", @id = "reworkmodeId" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Address:<sup style="color:red">*</sup> </label>
+                        @Html.TextBoxFor(m => m.compInteractions.reworkAddress, new { @Value = address, @class = "form-control", @id = "reworkAddId" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Apt DateTime:<sup style="color:red">*</sup> </label>
+                        @Html.TextBoxFor(m => m.compInteractions.reworkDateAndTime, new { @class = "form-control datetimePicker", id = "schDateTimeId", @readonly = "readonly" })
+                    </div>
+                </div>
+                </br>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-info" id="BackToRework">Back</button>
+                    <button type="submit" class="btn btn-info" id="reWorkSubmit">Submit</button>
+                </div>
+
+            </div>
+            <!-- Resolved work flow -->
+            <div style="display:none;" class="row animated  bounceInRight" id="ResolvedDivId">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Resolution date & time:<sup style="color:red">*</sup> </label>
+                        @Html.TextBoxFor(m => m.compInteractions.resolutionDateAndTime, new { @class = "form-control datetimePickerAttended", id = "resolutionDateTime", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Resolved by:<sup style="color:red">*</sup> </label>
+                        @Html.TextBoxFor(m => m.compInteractions.resolvedBy, new { @id = "resolvedById", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Resolution Mode:<sup style="color:red">*</sup> </label>
+                        @Html.DropDownListFor(m => m.compInteractions.resolutionMode, new List<SelectListItem> {
+                              new SelectListItem{Value="Phone",Text="Phone" },
+                              new SelectListItem{Value="Email",Text="Email" },
+                              new SelectListItem{Value="Home Visit",Text="Home Visit" },
+                              new SelectListItem{Value="Re-visit",Text="Re-visit" }
+                                  }, "--Select--", new { @class = "form-control", @id = "resolutionModeId" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Discount Given:<sup style="color:red">*</sup> </label>
+                        @Html.TextBoxFor(m => m.compInteractions.discount, new { @class = "form-control", @id = "discID", @Value = "0" })
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Benefits:<sup style="color:red">*</sup> </label>
+                        @Html.TextBoxFor(m => m.compInteractions.Benefits, new { @class = "form-control", @id = "benefId", @Value = "No Benefits Applied" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Compliant Category:<sup style="color:red">*</sup> </label>
+                        @if (ViewBag.ComplaintCategory != null)
+                        {
+                            @Html.DropDownListFor(m => m.compInteractions.Compliant_Category_id, new SelectList(ViewBag.ComplaintCategory, "id", "catName"), "--Select--", new { @class = "form-control", @id = "Compliant_Category_id" })
+                        }
+                        else
+                        {
+                            @:-Workshop Error
+                        }
+                    </div>
+                </div>
+                </br>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-info" id="BackToResolved">Back</button>
+                    <button type="submit" class="btn btn-info" id="reSolvedSubmit">Submit</button>
+                </div>
+
+            </div>
+            <!------------------Call Me Latter----------------->
+
+            <div style="display:none;" class="row animated  bounceInRight" id="PSFYesNamaskarNoDiv">
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="followUpDate">Date:</label>
+                        @Html.TextBoxFor(m => m.indusPsfInteraction.FollowUpdate, new { @id = "selDate", @class = "datePickerrangeto form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="followUpTime">Time:</label>
+                        @Html.TextBoxFor(m => m.indusPsfInteraction.FollowUptime, new { @id = "FollowUpTime", @class = "timepicker_7 form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+                </br>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-info" id="BackToDidUtlakPSF">Back</button>
+                    <button type="submit" class="btn btn-info" id="notCallMeLaterSubmit">Submit</button>
+                </div>
+
+            </div>
+            <!--------------------------Not Interested------------------------>
+            <div style="display:none;" class="row animated  bounceInRight" id="remarksDivDisplay">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Customer Feedback : </label><br>
+                        @Html.TextAreaFor(m => m.indusPsfInteraction.customerFeedBack, new { @class = "form-control characterLimit remarks1", @id = "custFB" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>CRE Remark : </label><br>
+                        @Html.TextAreaFor(m => m.indusPsfInteraction.creRemarks, new { @class = "form-control characterLimit remarks1", @id = "creRemarks" })
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="display:none;" class="row animated  bounceInRight" id="NotInterestedBtns">
+
+                <div class="pull-right">
+                    <br>
+                    <button type="button" class="btn btn-info" id="BackToDidUtlakPSF1">Back</button>
+                    <button type="submit" class="btn btn-info" id="notInterestedSubmit">Submit</button>
+                </div>
+            </div>
+
+        </div><!-----panel Group End---->
+    </div>
+</div><!---panel Body End--->
+
+
+@Scripts.Render("~/public/javascripts/jquery-3.2.1.min.js")
+@Scripts.Render("~/public/CallLogFiles/psfKalyaniDotNet.js")
+
+<script>
+     $(document).ready(function () {
+        var psfType = '@ViewBag.typeOfPSF';
+
+        if (psfType == "4") {
+            $('#interHeading').text('PSF 6TH DISPOSITION FORM');
+        }
+        else {
+            $('#interHeading').text('PSF Complaint DISPOSITION FORM');
+        }
+
+        $('#imgInter').attr('src', siteRoot + "/public/images/INTERACTION HISTORY.png");
+    });
+</script>

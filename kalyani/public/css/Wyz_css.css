@@ -1,0 +1,373 @@
+@media (min-width: 992px) {
+    .col-half-offset {
+        margin-left: 4.166666667%
+    }
+}
+
+@media (max-width:768px) {
+    .panelsm {
+        padding-right: 1px !important;
+        padding-left: 1px !important;
+    }
+    /*.panel-body{
+        padding:0px !important;
+    }*/
+}
+.nav-tabs>li>a {
+   
+    background-color: #e2e1e1!important;
+    
+}
+ul.nav.nav-tabs {
+    background-color: #f5f5f5!important;
+}
+
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    color: #555;
+    cursor: default;
+    background-color: #fff!important;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+}
+
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color: #fff!important;
+    opacity: 1;
+}
+  .multiselect-container {
+   
+   height: 230px;
+    overflow: auto;
+
+}
+  .Profile
+{
+    position: absolute;
+    width: 100%;
+    left: 0;
+    text-align: center;
+    margin: auto;
+     margin-top: 12px;
+    color: #ffffff;
+    cursor:pointer;
+}
+/* Validation*/
+/*added on 03/01/2017*/
+
+/*datepicker of month color and background change 27/02/2018*/
+.ui-datepicker select.ui-datepicker-month{
+    width: 45%;
+     color: #000000;
+    background-color: #EEEEEE;
+border-color: #eee;
+}
+
+.ui-datepicker select.ui-datepicker-year {
+    width: 45%;
+      color: #000000;
+    background-color: #EEEEEE;
+border-color: #eee;
+}
+
+
+
+.input-group-addon.primary {
+	color: rgb(255, 255, 255);
+	background-color: rgb(50, 118, 177);
+	border-color: rgb(40, 94, 142);
+}
+.input-group-addon.success {
+	color: rgb(255, 255, 255);
+	background-color: rgb(92, 184, 92);
+	border-color: rgb(76, 174, 76);
+}
+.input-group-addon.info {
+	color: rgb(255, 255, 255);
+	background-color: rgb(57, 179, 215);
+	border-color: rgb(38, 154, 188);
+}
+.input-group-addon.warning {
+	color: rgb(255, 255, 255);
+	background-color: rgb(240, 173, 78);
+	border-color: rgb(238, 162, 54);
+}
+.input-group-addon.danger {
+	color: rgb(255, 255, 255);
+	background-color: rgb(217, 83, 79);
+	border-color: rgb(212, 63, 58);
+}
+
+.modal {
+  text-align: center;
+  padding: 0!important;
+}
+
+.modal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -4px;
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.modal-backdrop {
+    background-color: #BBDEFB;
+  }
+
+.chart-legend li span{
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-left: 5px;
+}
+.panel-group .panel-heading + .panel-collapse > .panel-body {
+  border: 1px solid #ddd;
+}
+.panel-group,
+.panel-group .panel,
+.panel-group .panel-heading,
+.panel-group .panel-heading a,
+.panel-group .panel-title,
+.panel-group .panel-title a,
+.panel-group .panel-body,
+.panel-group .panel-group .panel-heading + .panel-collapse > .panel-body {
+  border-radius: 2px;
+  border: 0;
+}
+.panel-group .panel-heading {
+  padding: 0;
+}
+.panel-group .panel-heading a {
+  display: block;
+  background: #668bb1;
+  color: #ffffff;
+  padding: 15px;
+  text-decoration: none;
+  position: relative;
+}
+.panel-group .panel-heading a.collapsed {
+  background: #eeeeee;
+  color: inherit;
+}
+.panel-group .panel-heading a:after {
+  content: '-';
+  position: absolute;
+  right: 20px;
+  top:5px;
+  font-size:30px;
+}
+.panel-group .panel-heading a.collapsed:after {
+  content: '+';
+}
+.panel-group .panel-collapse {
+  margin-top: 5px !important;
+}
+.panel-group .panel-body {
+  background: #ffffff;
+  padding: 15px;
+}
+.panel-group .panel {
+  background-color: transparent;
+}
+.panel-group .panel-body p:last-child,
+.panel-group .panel-body ul:last-child,
+.panel-group .panel-body ol:last-child {
+  margin-bottom: 0;
+}
+.divpad {
+	padding: 10px;
+	font-size: 14px;
+}
+
+
+.ribbon-green{
+cursor:pointer;
+}
+
+.ribbon-wrapper-green {
+pointer-events: none;
+}
+.ribbon-wrapper-green {
+    width: 153px;
+    height: 112px;
+    overflow: hidden;
+    position: absolute;
+    top: -3px;
+    right: -3px;
+}
+
+.ribbon-green {
+    pointer-events: fill;
+    font: bold 15px Sans-Serif;
+    color: #333;
+    text-align: center;
+    text-shadow: rgba(255,255,255,0.5) 0px 1px 0px;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    position: relative;
+    padding: 7px 0;
+    left: -5px;
+    top: 15px;
+    width: 240px;
+    background-color: #BFDC7A;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#BFDC7A), to(#8EBF45));
+    background-image: -webkit-linear-gradient(top, #BFDC7A, #8EBF45);
+    background-image: -moz-linear-gradient(top, #BFDC7A, #8EBF45);
+    background-image: -ms-linear-gradient(top, #BFDC7A, #8EBF45);
+    background-image: -o-linear-gradient(top, #BFDC7A, #8EBF45);
+    color: #6a6340;
+    -webkit-box-shadow: 0px 0px 3px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0px 0px 3px rgba(0,0,0,0.3);
+    box-shadow: 0px 0px 3px rgba(0,0,0,0.3);
+}
+
+.ribbon-green:before, .ribbon-green:after {
+  content: "";
+  border-top:   3px solid #6e8900;   
+  border-left:  3px solid transparent;
+  border-right: 3px solid transparent;
+  position:absolute;
+  bottom: -3px;
+}
+
+.ribbon-green:before {
+  left: 0;
+}
+.ribbon-green:after {
+  right: 0;
+}
+/*
+ * Timepicker stylesheet
+ * Highly inspired from datepicker
+ * FG - Nov 2010 - Web3R 
+ *
+ * version 0.0.3 : Fixed some settings, more dynamic
+ * version 0.0.4 : Removed width:100% on tables
+ * version 0.1.1 : set width 0 on tables to fix an ie6 bug
+ */
+
+.ui-timepicker-inline { display: inline; }
+
+#ui-timepicker-div { padding: 0.2em; }
+.ui-timepicker-table { display: inline-table; width: 0; }
+.ui-timepicker-table table { margin:0.15em 0 0 0; border-collapse: collapse; }
+
+.ui-timepicker-hours, .ui-timepicker-minutes { padding: 0.2em;  }
+
+.ui-timepicker-table .ui-timepicker-title { line-height: 1.8em; text-align: center; }
+.ui-timepicker-table td { padding: 0.1em; width: 2.2em; }
+.ui-timepicker-table th.periods { padding: 0.1em; width: 2.2em; }
+
+/* span for disabled cells */
+.ui-timepicker-table td span {
+	display:block;
+    padding:0.2em 0.3em 0.2em 0.5em;
+    width: 2.2em;
+
+    text-align:right;
+    text-decoration:none;
+}
+/* anchors for clickable cells */
+.ui-timepicker-table td a {
+    display:block;
+    padding:0.2em 0.3em 0.2em 0.5em;
+    width: 2.2em;
+    cursor: pointer;
+    text-align:right;
+    text-decoration:none;
+}
+
+
+/* buttons and button pane styling */
+.ui-timepicker .ui-timepicker-buttonpane {
+    background-image: none; margin: .7em 0 0 0; padding:0 .2em; border-left: 0; border-right: 0; border-bottom: 0;
+}
+.ui-timepicker .ui-timepicker-buttonpane button { margin: .5em .2em .4em; cursor: pointer; padding: .2em .6em .3em .6em; width:auto; overflow:visible; }
+/* The close button */
+.ui-timepicker .ui-timepicker-close { float: right }
+
+/* the now button */
+.ui-timepicker .ui-timepicker-now { float: left; }
+
+/* the deselect button */
+.ui-timepicker .ui-timepicker-deselect { float: left; }
+
+/*datepicker of month color and background change 27/02/2018*/
+.ui-datepicker-prev span,
+.ui-datepicker-next span {
+  background-image: none !important;
+}
+
+.ui-datepicker-prev:before,
+.ui-datepicker-next:before {
+  font-family: FontAwesome;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  font-weight: normal;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-datepicker-prev:before {
+  content: "\f100";
+}
+
+.ui-datepicker-next:before {
+  content: "\f101";
+}
+
+
+	.buttonglow {
+	  background-color: #004A7F;
+	  -webkit-border-radius: 10px;
+	  border-radius: 10px;
+	  border: none;
+	  color: #FFFFFF;
+	  cursor: pointer;
+	  display: inline-block;
+	  font-family: Arial;
+	  font-size: 20px;
+	  padding: 3px 0px;
+	  text-align: center;
+	  text-decoration: none;
+	  -webkit-animation: glowing 1500ms infinite;
+	  -moz-animation: glowing 1500ms infinite;
+	  -o-animation: glowing 1500ms infinite;
+	  animation: glowing 1500ms infinite;
+	}
+	@-webkit-keyframes glowing {
+	  0% { background-color: #B20000; -webkit-box-shadow: 0 0 3px #B20000; }
+	  50% { background-color: #FF0000; -webkit-box-shadow: 0 0 40px #FF0000; }
+	  100% { background-color: #B20000; -webkit-box-shadow: 0 0 3px #B20000; }
+	}
+	
+	@-moz-keyframes glowing {
+	  0% { background-color: #B20000; -moz-box-shadow: 0 0 3px #B20000; }
+	  50% { background-color: #FF0000; -moz-box-shadow: 0 0 40px #FF0000; }
+	  100% { background-color: #B20000; -moz-box-shadow: 0 0 3px #B20000; }
+	}
+	
+	@-o-keyframes glowing {
+	  0% { background-color: #B20000; box-shadow: 0 0 3px #B20000; }
+	  50% { background-color: #FF0000; box-shadow: 0 0 40px #FF0000; }
+	  100% { background-color: #B20000; box-shadow: 0 0 3px #B20000; }
+	}
+	
+	@keyframes glowing {
+	  0% { background-color: #B20000; box-shadow: 0 0 3px #B20000; }
+	  50% { background-color: #FF0000; box-shadow: 0 0 40px #FF0000; }
+	  100% { background-color: #B20000; box-shadow: 0 0 3px #B20000; }
+	}

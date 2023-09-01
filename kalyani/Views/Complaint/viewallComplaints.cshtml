@@ -1,0 +1,785 @@
+﻿@model AutoSherpa_project.Models.ViewModels.ComplaintViewModel
+@{
+    ViewBag.Title = "viewallComplaints";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    AjaxOptions Taboptions = new AjaxOptions();
+    Taboptions.OnSuccess = "TabSuccess";
+    Taboptions.OnFailure = "TabFailure";
+    Taboptions.HttpMethod = "POST";
+}
+
+@Html.AntiForgeryToken()
+@using (Ajax.BeginForm("viewallComplaints", "Complaint", new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "OnSuccess",
+    OnFailure = "OnFailure"
+}))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading" style="text-align:center;"><b>COMPLAINT HISTORY</b></div>
+                <div class="panel-body">
+
+                    <div class="col-md-2">
+                        <label>Location:</label>
+                        @Html.DropDownListFor(model => model.location, new SelectList(ViewBag.locationList, "id", "name"), "--Select--", new { @class = "form-control", @Required = "required", @id = "ddlCityId" })
+
+                    </div>
+                    <div class="col-md-2">
+                        <label>Function:</label>
+                        @Html.DropDownListFor(model => model.functionName, new SelectListItem[]{
+                    new SelectListItem() {Text = "Select Function", Value=""},
+                    new SelectListItem() {Text = "FINANCE", Value="finance"},
+                     new SelectListItem() {Text = "INSURANCE", Value="insurance"},
+                      new SelectListItem() {Text = "PARTS", Value="parts"},
+                       new SelectListItem() {Text = "PRODUCT", Value="product"},
+                        new SelectListItem() {Text = "SALES", Value="sales"},
+                    new SelectListItem() {Text = "USED CAR SALES", Value="usedcarsales"}}, new { @class = "form-control", @Required = "required", @id = "ddlfunctid" })
+
+                    </div>
+                    <div class="col-md-2">
+                        <label>Start Date:</label>
+                        <input type="text" class="form-control datepicker" id="txtstratDate" />
+                    </div>
+                    <div class="col-md-2">
+                        <label>End Date:</label>
+                        <input type="text" class="datepicker form-control" id="txtendDateId" name="endDate" readonly />
+
+
+                    </div>
+                    <div class="col-md-2">
+                        <label>Status:</label>
+                        @Html.DropDownListFor(model => model.complaintStatus, new SelectListItem[]{
+                new SelectListItem() {Text = "--Select--", Value="0"},
+                new SelectListItem() {Text = "NEW COMPLAINT", Value="New"},
+                 new SelectListItem() {Text = "ASSIGNED COMPLAINT", Value="Assigned"},
+                  new SelectListItem() {Text = "CLOSED COMPLAINT", Value="Closed"}}, new { @class = "form-control", @Required = "required", @id = "ddlstatus" })
+
+
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            <label></label>
+                            <button type="button" class="btn btn-success form-control" onclick="ajaxsearchComplaintByFilter();">SUBMIT</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="openComplaintID">
+        <div class="col-lg-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading nameappend" style="text-align:center;"> <b>COMPLAINTS LIST</b> </div>
+                <div class="panel-body">
+                    <div class="dataTable_wrapper">
+
+                        <table class="table table-striped table-bordered table-hover" style="width:100%" cellspacing="0" id="ComplaintID">
+                            <thead>
+                                <tr>
+                                    <th>VIEW</th>
+
+                                    <th>COMPLAINT No</th>
+                                    <th>ISSUE DATE</th>
+                                    <th>AGING (Days)</th>
+                                    <th>REGISTERED BY</th>
+                                    <th>SOURCE</th>
+                                    <th>FUNCTION</th>
+                                    <th>VEHICLE No</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    /********************/
+
+    <!-- Open Complain Popup -->
+    <div class="modal fade" id="OpenComplaintPopup" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" style="opacity:2;">
+                        <img src="~/public/images/close1.png">
+                    </button>
+                </div>
+                <div class="modal-body">
+
+
+                    <div class="panel-group">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading" style="text-align: center;"><b>OPEN COMPLAINT RESOLUTION FORM</b></div>
+                            <div id="" class="panel">
+
+                                <div class="panel-body">
+                                    <h4 style="color: #E80B0B;"><b>CUSTOMER DETAILS :<b></h4>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <table class="table table-condensed table-responsive table-user-information">
+                                                <tbody>
+
+                                                    <tr>
+                                                        <td><strong> VEHICLE NUMBER*:</strong></td>
+                                                        <td id="veh_num_pop" class="text-primary"></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>CUSTOMER NAME:</strong></td>
+                                                        <td id="cust_name_pop" class="text-primary"></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>MOBILE No: </strong></td>
+                                                        <td id="cust_phone_pop" class="text-primary"></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>EMAIL: </strong></td>
+                                                        <td id="cust_email" class="text-primary"></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>ADDRESS: </strong></td>
+                                                        <td id="addressName" class="text-primary"></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>CHASSIS No: </strong></td>
+                                                        <td id="chassisno" class="text-primary"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <table class="table table-condensed table-responsive table-user-information">
+                                                <tbody>
+
+                                                    <tr>
+                                                        <td><strong>MODEL:</strong></td>
+                                                        <td id="model" class="text-primary"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>VARIANT: </strong></td>
+                                                        <td id="variant" class="text-primary"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>SALE DATE: </strong></td>
+                                                        <td id="saledate" class="text-primary"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>LAST SERVICE: </strong></td>
+                                                        <td id="lastserv" class="text-primary"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>SERVICE ADVISOR : </strong></td>
+                                                        <td id="serviceadvisor" class="text-primary"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>WORKSHOP: </strong></td>
+                                                        <td id="workshop" class="text-primary"></td>
+                                                    </tr>
+
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                    <h4 style="color: #E80B0B;"><b>COMPLAINT INFORMATION:</b></h4>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <table class="table table-condensed table-responsive table-user-information">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><strong> COMPLAINT NUMBER</strong></td>
+                                                        <td id="compnum" class="text-primary"> </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong> COMPLAINT STATUS</strong></td>
+                                                        <td id="compstatus" class="text-primary"> </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong> FUNCTION:</strong></td>
+                                                        <td id="function" class="text-primary"> </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>CATEGORY:</strong></td>
+                                                        <td id="complaintType" class="text-primary"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td rowspan="2"><strong>DESCRIPTION:</strong></td>
+                                                        <td id="description" class="text-primary"></td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <table class="table table-condensed table-responsive table-user-information">
+                                                <tbody>
+
+                                                    <tr>
+                                                        <td><strong>SOURCE:</strong></td>
+                                                        <td id="source" class="text-primary">  </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>SUB CATEGORY 1: </strong></td>
+                                                        <td id="subcomplaintType" class="text-primary"></td>
+                                                    </tr>
+
+
+
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="panel panel-primary">
+                                                <div class="panel-heading" id="cmplthist" align="center" onclick="findcomplaintHistory();" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne4" style="cursor:pointer;">
+                                                    <h4 class="panel-title accordion-toggle"></h4>
+                                                    <img src="" style="width:17px;" />&nbsp;<b>COMPLAINTS  HISTORY</b>
+                                                </div>
+                                                <div id="collapseOne4" class="panel-collapse collapse">
+                                                    <div class="panel-body">
+                                                        <div class="row">
+                                                            <table class="table table-border table-responsive" id="ComplaintHistory" >
+                                                            </table>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+
+
+                                    <div class="row" style="display:none;">
+                                        <div class="col-lg-12" style="">
+
+                                            <input type="button" class="btn btn-info pull-right Resolve_It" id="Resolve_It" value="Resolve It">
+                                            <input type="button" class="btn btn-info" id="Reassign_It" onclick="ajaxCallToLoadCity();" value="Assign It">
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="display:none" id="Resolve_compID">
+
+                                        <h4 class="modal-title" style="text-align:center; color:red;"><b> COMPLAINT RESOLUTION</b></h4>
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label for="reasonfor">REASON FOR </label>
+                                                <input type="text" id="reasonfor" class="form-control" name="reasonfor" autocomplete="off" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label for="complaintStatus">COMPLAINT STATUS</label>
+
+                                                <select id="complaintStatus" class="form-control" name="complaintStatus">
+
+                                                    <option value="Closed">Closed</option>
+                                                    <option value="Open">Open</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label for="customerStatus">CUSTOMER STATUS</label>
+
+                                                <select id="customerStatus" class="form-control" name="customerStatus">
+
+                                                    <option value="Satisfied">Satisfied</option>
+                                                    <option value="Dissatisfied">Dissatisfied</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label for="actionTaken">ACTION TAKEN </label>
+                                                <input type="text" id="actionTaken" class="form-control" name="actionTaken" autocomplete="off" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label for="resolutionBy">RESOLUTION By: </label>
+                                                <input type="text" id="resolutionBy" class="form-control" name="resolutionBy" value="" autocomplete="off" />
+                                            </div>
+                                        </div>
+                                        <div class="text-right">
+                                            <button type="button" id="resolve_savebymanager" class="btn btn-success resolve_savebymanager" data-dismiss="modal">Update</button>
+
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                        </div>
+
+                                    </div>
+                 
+                                    <div class="row" id="reassign_compID" style="display:none;">
+                                        <h4 class="modal-title" style="text-align:center; color:red;"><b>ASSIGNMENT COMPLAINT</b></h4>
+
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label for="customerName">CITY </label>
+                                                @Html.DropDownListFor(model => model.location, new SelectList(ViewBag.locationList, "id", "name"), "--Select--", new { @class = "form-control", @Required = "required", @id = "ddlCity",@onchange = "FindworkshopByCity()" })
+               
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label for="workshop">LOCATION </label>
+
+                                                @Html.DropDownListFor(model => model.workshop, Enumerable.Empty<SelectListItem>() , "--Select--", new { @class = "form-control", @Required = "required", @id = "ddlworkshopId" })
+ 
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label for="customerName">FUNCTION </label>
+                                                @Html.DropDownListFor(m => m.funRole, new SelectList(Model.Roles, "id", "role1"), new { @class = "form-control", @id = "FUNCTION",@onchange="ajaxLoadUserByFunc()" })
+
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label for="customerName">OWNERSHIP </label>
+                                                @Html.DropDownListFor(m => m.ownerships, Enumerable.Empty<SelectListItem>(), "--Select--", new { @class = "form-control insuranceAgent", @id = "OWNERSHIP" })
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label for="customerName">PRIORITY </label>
+
+                                                <select id="PRIORITY" class="form-control">
+                                                    <option value="0">--Select--</option>
+                                                    <option value="2">High</option>
+                                                    <option value="3" selected="selected">Medium</option>
+                                                    <option value="4">Low</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label for="customerName">ESCALATION 1 </label>
+                                                <input type="text" class="form-control" name="ESCALATION1" id="ESCALATION1" autocomplete="off" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label for="customerName">ESCALATION 2 </label>
+                                                <input type="text" class="form-control" name="ESCALATION2" id="ESCALATION2" autocomplete="off" />
+                                            </div>
+                                        </div>
+
+                                        <div class="text-right">
+                                            <button class="btn btn-success AddComplaintResolution" type="button">Submit</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    /*******************/
+
+
+
+
+}
+
+
+@section  scripts
+{
+    
+    
+    <script>
+        $(document).ready(function () {
+
+
+            $('.datepicker').datepicker({
+                duration: "slow",
+                showAnim: "slide",
+                showOptions: { direction: "up" },
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,//this option for allowing user to select month
+                changeYear: true //this option for allowing user to select from year range
+
+            });
+        });
+
+        $(".modal").on("hidden.bs.modal", function() {
+    $(".modal-body1").html("Where did he go?!?!?!");
+  });
+
+
+        function OnSuccess(res) {
+            alert("Search succesfull");
+
+        }
+        function OnFailure() {
+            alert('Something went to wrong...');
+        }
+
+
+
+
+
+           function parseJsonDateTime(datetime) {
+                var ConDate = "";
+                if (datetime != null) {
+                    ConDate = new Date(parseInt(datetime.substr(6)));
+
+                    if (ConDate.getMonth() < 10) {
+                        ConDate = ConDate.getFullYear() + '-0' + (parseInt(ConDate.getMonth()) + 1) + '-' + ConDate.getDate();
+                    }
+                    else {
+                        ConDate = ConDate.getFullYear() + '-' + (parseInt(ConDate.getMonth()) + 1) + '-' + ConDate.getDate();
+                    }
+
+                    return ConDate;
+                }
+                else {
+                    return ConDate;
+                }
+            }
+        //Data-Filter Ajax Function
+
+        function ajaxsearchComplaintByFilter() {
+            var filterData = $('#ddlstatus').val();
+            var varLoc = $('#ddlCityId').val();
+            var varfunc = $('#ddlfunctid').val();
+            var varraisedDate = $('#txtstratDate').val();
+            var varendDate = $('#txtendDateId').val();
+
+            var table = $('#ComplaintID').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": '@Url.Action("getComplaintsFilterDataByStatus")',
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": { filterData: filterData, loc: varLoc, func: varfunc, raisedDateIs: varraisedDate, endDate: varendDate },
+                },
+                "columns": [
+                    {
+                        "data": "Action", render: function (data, type, row) {
+                            return `<a class="getModel"  style="font-size: 11pt;color: blue;" onclick="ajaxsearchComplaintByView('${row.complaintNumber}','${row.vehicleRegNo}');" ><i class="fa fa-arrow-circle-right"></i>&nbsp;View </a>`
+                        }
+                    },
+                    { "data": "complaintNumber", "name": "complaintNumber" },
+                    {
+                        "data": "issueDate", render: function (data, type, row) {
+                            return parseJsonDateTime(data);
+                        }
+                    },
+                    { "data": "ageOfComplaint", "name": "ageOfComplaint" },
+                    { "data": "wyzUser_id", "name": "wyzUser_id" },
+                    { "data": "sourceName", "name": "sourceName" },
+                    { "data": "functionName", "name": "functionName" },
+                    { "data": "vehicleRegNo", "name": "vehicleRegNo" }
+                ],
+                responsive: screen.width < 500 ? true : false,
+                "initComplete": function (data) {
+                    $('#tblException').text(data.json.exception);
+                },
+                "bLengthChange": false,
+
+                "language": {
+                    "processing": "Loading Please Wait.....!"
+                }
+            });
+        }
+
+
+                function ajaxsearchComplaintByView(complaintNum,VehicleRegNo) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("getComplaints")',
+                datatype: 'json',
+                cache: false,
+                data: { complaintNum: complaintNum,VehicleRegNo:VehicleRegNo},
+                success: function (res) {
+
+                   openComplaintDetails(res.data);
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+
+                }
+                });
+        }
+
+
+        function findcomplaintHistory() {
+            $("#ComplaintHistory tr").detach();
+                          var complaintNumber = $('#compnum').text();
+                          var vehregnumber = $('#veh_num_pop').text();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("getComplaintsHistory")',
+                datatype: 'json',
+                cache: false,
+                data: { complaintNumber: complaintNumber, vehregnumber: vehregnumber },
+                success: function (res) {
+                    if (res.success == true) {
+                        openComplaintHistory(res.data);
+                    }
+                    else if (res.success == false) {
+                       $("#ComplaintHistory tr").remove();
+
+                        Lobibox.notify('warning', {
+				continueDelayOnInactiveTab: true,
+				msg: 'No Complaint History'
+});
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                }
+                });
+        }
+
+        function openComplaintHistory(data) {
+            if (data.length > 0) {
+                $("#ComplaintHistory").empty();
+
+                var tableHeaderRowCount = 1;
+                var table = document.getElementById('ComplaintHistory');
+                $("#ComplaintHistory").find("tr").remove();
+                $('#ComplaintHistory tbody tr').empty();
+
+                th = $('<tr>');
+                th.append('<th>COMPLAINT No</th>');
+                th.append('<th>COMPLAINT STATUS</th>');
+                th.append('<th>ISSUE DATE</th>');
+                th.append('<th>AGING (Days)</th>');
+                th.append('<th>REGISTERED BY</th>');
+                th.append('<th>SOURCE</th>');
+                th.append('<th>FUNCTION</th>');
+                th.append('<th>VEHICLE No</th>');
+                // th.append('<th>RESOLVED BY</th>');
+                $('#ComplaintHistory').append(th);
+
+                for (i = 0; i < data.length; i++) {
+
+
+                    var complaintNum = data[i].complaintNumber;
+                    var complaintStatus = data[i].complaintStatus;
+                    var issueDate = data[i].issueDate;
+                    var ageOfComplaint = data[i].ageOfComplaint;
+                    var wyzUser = data[i].wyzUser;
+                    var sourceName = data[i].sourceName;
+                    var functionName = data[i].functionName;
+                    var vehregno = data[i].vehicleRegNo;
+                    var resolBy = data[i].resolutionBy;
+
+                    tr = $('<tr/>');
+                    tr.append('<td id="complaintNum">' + complaintNum + '</td>');
+                    tr.append('<td id="compstatus">' + complaintStatus + '</td>');
+                    tr.append('<td id="issueDateS">' + issueDate + '</td>');
+                    tr.append('<td id="ageOfComplaint">' + ageOfComplaint + '</td>');
+                    tr.append('<td id="wyzUser">' + wyzUser + '</td>');
+                    tr.append('<td id="sourceName">' + sourceName + '</td>');
+                    tr.append('<td id="functionName">' + functionName + '</td>');
+                    tr.append('<td id="vehregno">' + vehregno + '</td>');
+                    // tr.append('<td id="resolBy">'+resolBy+'</td>');
+
+                    $('#ComplaintHistory').append(tr);
+                }
+            }
+            else {
+                 $("#ComplaintHistory").find("tr").remove();
+                $('#ComplaintHistory tbody tr').empty();            }
+        }
+
+
+
+        function ajaxCallToLoadCity() {
+            var city = $('#city').val();
+            $.ajax({
+           type: "GET",
+                url: '@Url.Action("ajaxCallToLoadCity")',
+                data: "{}",
+           success: function (data) {
+               var s = '<option value="-1">Select </option>';
+               for (var i = 0; i < data.length; i++) {
+                   s += '<option value="' + data[i].cityId + '">' + data[i].cityName + '</option>';
+               }
+               $("#city").html(s);
+           }
+       });
+        }
+
+
+
+        function ajaxCallToLoadWorkShopByCityComplaints() {
+            //var city = 2;// $( "#city" ).val();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("WorkShopByCityComplaints")',
+                datatype: 'json',
+                cache: false,
+                data: { },
+                success: function (workshoplist) {
+                    if (workshoplist != null) {
+                        $('#workshopSelected').empty();
+                        var dropdown = document.getElementById("workshopSelected");
+                        dropdown[0] = new Option('--Select--', 'select');
+                        for (var i = 0; i < workshoplist.length; i++)
+                        {
+                            dropdown[dropdown.length] = new Option(workshoplist[i].Name, workshoplist[i].ID);
+                        }
+                    }
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+
+                }
+                });
+        }
+
+
+        function openComplaintDetails(data) {
+            if (data.length > 0) {
+                $("#collapseOne4").collapse("hide");
+                $("#veh_num_pop").html(data[0].vehicleNumber);
+                $("#cust_phone_pop").html(data[0].phone);
+                $("#cust_name_pop").html(data[0].customerNames);
+                $("#cust_email").html(data[0].email);
+                $("#serviceadvisor").html(data[0].serviceadvisor);
+                $("#addressName").html(data[0].concatenatedAdress);
+                $("#chassisno").html(data[0].chasiNum);
+                $("#saledate").html(parseJsonDateTime(data[0].saleDates));
+                $("#variant").html(data[0].variants);
+                $("#model").html(data[0].models);
+                $("#function").html(data[0].function);
+                $("#compnum").html(data[0].compNum);
+                $("#compstatus").html(data[0].compStatus);
+                $("#serviceadvisor").html(data[0].serviceAdvisor);
+                $("#source").html(data[0].source);
+                $("#description").html(data[0].descriptions);
+                $("#subcomplaintType").html(data[0].subcat);
+                $("#complaintType").html(data[0].category);
+                $("#function").html(data[0].functionName);
+                $("#assignOwnership").html(data[0].assignedUser);
+                $("#prorityName").html(data[0].priority);
+                $("#cityName").html(data[0].location);
+                $("#lastserv").html(parseJsonDateTime(data[0].lastService));
+                $("#workshop").html(data[0].workshops);
+                $("#OpenComplaintPopup").modal("show");
+            }
+            else {
+
+            }
+
+
+        }
+         $('#Reassign_It').click(function(){
+	            $("#reassign_compID").show();
+	            $("#Resolve_compID").hide();
+	    });
+	    $('#Resolve_It').click(function(){
+	          $("#Resolve_compID").show();
+	            $("#reassign_compID").hide();
+        });
+
+
+
+
+
+              function FindworkshopByCity() {
+
+
+        var cityId = $('#ddlCity').val();
+        //console.log(CategoryId);
+                $("#ddlworkshopId").html("");
+        $.ajax({
+            url: '../Customer/FillWorkshopDropdown/',
+            type: "GET",
+            dataType: "JSON",
+            data: { cityId: cityId },
+            success: function (response) {
+                console.log(response);
+                $("#ddlworkshopId").html("");
+                $.each(response, function (index, value) {
+                    $("#ddlworkshopId").append(
+                        $('<option></option>').val(value.id).html(value.workshopName));
+                });
+            }
+        });
+        }
+
+
+function ajaxLoadUserByFunc() {
+    var func = document.getElementById('FUNCTION').value;
+    var urlLink = "../Complaint/listOwnership/";
+
+    $.ajax({
+        type: 'POST',
+        url: urlLink,
+        datatype: 'json',
+        data: { func: func },
+        cache: false,
+        success: function (res) {
+            if (res.userlist != null) {
+                $('#OWNERSHIP').empty();
+                var dropdown = document.getElementById("OWNERSHIP");
+
+                for (var i = 0; i < res.userlist.length; i++) {
+
+                    dropdown[dropdown.length] = new Option(res.userlist[i].id, res.userlist[i].name);
+                }
+            }
+        }, error(error) {
+            console.log(error);
+        }
+    });
+}
+
+    </script>
+
+
+
+}

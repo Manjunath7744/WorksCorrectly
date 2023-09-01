@@ -1,0 +1,2227 @@
+﻿@model AutoSherpa_project.Models.ViewModels.ServiceLogViewModel
+@using PagedList.Mvc
+@{
+    //ViewBag.Title = "Service";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<style>
+
+    /*.dataTables_scroll {
+        overflow: auto;
+    }*/
+    .dashImg1 {
+        width: 37px;
+    }
+
+    .dashImg2 {
+        width: 20px;
+    }
+
+    /*table {
+        table-layout: fixed;
+        width: 98% !important;
+    }*/
+
+    .table {
+        table-layout: auto !important;
+        width: 100% !important;
+        max-width: none !important;
+    }
+
+    .tbodycls {
+        text-align: center;
+    }
+
+    @@media only screen and (max-width: 768px) {
+        /* For mobile phones: */
+        .dataTables_scroll {
+            overflow-x: hidden !important;
+            overflow-y: scroll !important;
+        }
+
+        .dataTables_scrollBody {
+            overflow-x: hidden !important;
+            overflow-y: scroll !important;
+            margin-left: 18px !important;
+        }
+
+        .dataTables_scrollHeadInner {
+            width: 300px !important
+        }
+
+        .tbodycls {
+            text-align: left !important;
+        }
+    }
+</style>
+
+
+<div class="container-fluide">
+    <div class="row">
+        <div class="col-md-2">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3 id="FreeCalls"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                    <p>Fresh Calls</p>
+                </div>
+                <div class="icon">
+                    <i class="ion-android-call"></i>
+                </div>
+                @*<a href="@Url.Action("getEdit","PurchaseOrder")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>*@
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-md-2 col-sm-2 col-half-offset">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3 id="pendingFollow"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                    <p>Pending Follow Ups</p>
+                </div>
+                <div class="icon">
+                    <i class="ion-android-checkbox-outline"></i>
+                </div>
+                @*<a href="@Url.Action("AllSalesOrders","SalesOrder")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>*@
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-md-2 col-sm-2 col-half-offset">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3 id="nonContact"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                    <p>Attempted/Non Contacts</p>
+                </div>
+                <div class="icon">
+                    <i class="ion-person-add"></i>
+                </div>
+                @*<a href="@Url.Action("CusMasMain","CustomerMaster")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>*@
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-md-2 col-sm-2 col-half-offset">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3 id="overDue"><img class="dashImg1" src="~/public/img/loading.gif" /></h3>
+                    <p>Over Due Bookings</p>
+                </div>
+                <div class="icon">
+                    <i class="ion-android-download"></i>
+                </div>
+                @*<a href="@Url.Action("GetAllCompanies","CompanyMaster")" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>*@
+            </div>
+        </div>
+        <div class="col-md-2  col-sm-2 col-half-offset">
+            <!-- small box -->
+            <div class="small-box" style="background-color:#806517;">
+                <div class="inner">
+                    <p style="margin:0 0 1px;color:#fff;">Booking&nbsp;-&nbsp;<span id="totalBooking"><img class="dashImg2" src="~/public/img/loading.gif" /></span></p>
+                    <p style="margin:0 0 1px;color:#fff;">Contacts&nbsp;-&nbsp;<span id="totalContacts"><img class="dashImg2" src="~/public/img/loading.gif" /></span></p>
+                    <p style="margin:0 0 1px;color:#fff;">Total Calls&nbsp;-&nbsp;<span id="totalCalls"><img class="dashImg2" src="~/public/img/loading.gif" /></span></p>
+                    <p style="margin:0 0 -5px;color:#fff;">Date&nbsp;-&nbsp;<span id="creCurrentdate">@DateTime.Now.ToString("dd-MM-yyyy")</span></p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 panelsm">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <b>Call Log Information</b>
+                    <button style="background-color:red;float:right;height:30px;width:100px;margin-top:-5px;" onclick="clearbucketfilters();" title="CLEAR FILTER">CLEAR</button>
+                    <button style="background-color:red;float:right;height:30px;width:60px;margin-top:-5px;" id="totalFil" title="FILTERS OFF">OFF</button>
+
+                </div>
+                <div class="panel-body">
+                    <div class="panel panel-default">
+                        <ul class="nav nav-tabs">
+                            <li class="active bucket" id="li-schedule" data-bucket="1">
+                                <a class="nav-link active" id="schedule-tab" data-toggle="tab" href="#schedule" role="tab" aria-controls="home"
+                                   aria-selected="true">Fresh Calls<strong><span id="scheduleCounts" style="color:black;"></span></strong></a>
+                                @*<span class="nav-link active" id="schedule-tab" role="tab" aria_controls="Schedule" aria_selected="true">Scheduled</span>*@
+                                @*@Ajax.ActionLink("Scheduled", "GetBucketData", "CREServiceLog", new { @id = 1 }, Taboptions, new { @class = "nav-link active", id = "schedule-tab", @role = "tab", @aria_controls = "Schedule", @aria_selected = "true" })*@
+                            </li>
+                            <li class="bucket" id="li-followUp" data-bucket="2">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#followUp" role="tab" aria-controls="profile"
+                                   aria-selected="false">Pending Follow Up<strong><span id="followUpCounts" style="color:black;"></span></strong></a>
+                                @*<span class="nav-link active" id="followUp-tab" role="tab" aria_controls="followUp" aria_selected="true">Follow Up Required</span>*@
+                                @*@Ajax.ActionLink("Follow Up Required", "GetBucketData", "CREServiceLog", new { @id = 2 }, Taboptions, new { @class = "nav-link active", id = "followUp-tab", @role = "tab", @aria_controls = "follow", @aria_selected = "true" })*@
+                            </li>
+                            <li class=" bucket" id="li-serviceBooked" data-bucket="3">
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#serviceBooked" role="tab" aria-controls="contact"
+                                   aria-selected="false">Service Booked<strong><span id="serviceBookedCounts" style="color:black;"></span></strong></a>
+                                @*<span class="nav-link active" id="followUp-tab" role="tab" aria_controls="followUp" aria_selected="true">Follow Up Required</span>*@
+                                @*@Ajax.ActionLink("Service Booked", "GetBucketData", "CREServiceLog", new { @id = 3 }, Taboptions, new { @class = "nav-link active", id = "serviceBooked-tab", @role = "tab", @aria_controls = "serviceBooked", @aria_selected = "true" })*@
+                            </li>
+                            <li class=" bucket" id="li-serviceNotReq" data-bucket="4">
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#serviceNotReq" role="tab" aria-controls="contact"
+                                   aria-selected="false">Service Not Required<strong><span id="servicenotReqCounts" style="color:black;"></span></strong></a>
+                                @*<span class="nav-link active" id="followUp-tab" role="tab" aria_controls="followUp" aria_selected="true">Follow Up Required</span>*@
+                                @*@Ajax.ActionLink("Service Not Required", "GetBucketData", "CREServiceLog", new { @id = 4 }, Taboptions, new { @class = "nav-link active", id = "serviceNotReq-tab", @role = "tab", @aria_controls = "serviceNotReq", @aria_selected = "true" })*@
+                            </li>
+                            <li class="bucket" id="li-nonContacts" data-bucket="5">
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#nonContacts" role="tab" aria-controls="contact"
+                                   aria-selected="false">Non Contacts<strong><span id="nonContactsCounts" style="color:black;"></span></strong></a>
+                                @*<span class="nav-link active" id="followUp-tab" role="tab" aria_controls="followUp" aria_selected="true">Follow Up Required</span>*@
+                                @*@Ajax.ActionLink("Non Contacts", "GetBucketData", "CREServiceLog", new { @id = 5 }, Taboptions, new { @class = "nav-link active", id = "nonContacts-tab", @role = "tab", @aria_controls = "nonContacts", @aria_selected = "true" })*@
+                            </li>
+                            <li class="bucket" id="li-SB1" data-bucket="6">
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#SB1" role="tab" aria-controls="contact"
+                                   aria-selected="false" data-bucket="6"><span id="smrnplusonethDaySpan">SB(N+1)Day</span><strong><span id="sbnminoneCounts" style="color:black;"></span></strong></a>
+                                @*<span class="nav-link active" id="followUp-tab" role="tab" aria_controls="followUp" aria_selected="true">Follow Up Required</span>*@
+                                @*@Ajax.ActionLink("SB(N-1)Day", "GetBucketData", "CREServiceLog", new { @id = 6 }, Taboptions, new { @class = "nav-link active", id = "SB1-tab", @role = "tab", @aria_controls = "SB1", @aria_selected = "true" })*@
+                            </li>
+                            <li class="bucket" id="li-SBNth" data-bucket="7">
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#SBNth" role="tab" aria-controls="contact"
+                                   aria-selected="false"><span id="smrnthDaySpan">SBNthDay</span><strong><span id="dbnthCounts" style="color:black;"></span></strong></a>
+                                @*<span class="nav-link active" id="followUp-tab" role="tab" aria_controls="followUp" aria_selected="true">Follow Up Required</span>*@
+                                @*@Ajax.ActionLink("SBNthDay", "GetBucketData", "CREServiceLog", new { @id = 7 }, Taboptions, new { @class = "nav-link active", id = "SBNth-tab", @role = "tab", @aria_controls = "SBNth", @aria_selected = "true" })*@
+                            </li>
+                            @if ((Session["DealerCode"].ToString() != "KATARIATRUCKING" && Session["DealerCode"].ToString() != "SSHYUNDAI"))
+                            {
+                                <li class="bucket" id="li-NonFS" data-bucket="8">
+                                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#NonFS" role="tab" aria-controls="contact"
+                                       aria-selected="false">Non-FS-PMS<strong><span id="fsPmsCounts" style="color:black;"></span></strong></a>
+                                    @*<span class="nav-link active" id="followUp-tab" role="tab" aria_controls="followUp" aria_selected="true">Follow Up Required</span>*@
+                                    @*@Ajax.ActionLink("Non-FS-PMS", "GetBucketData", "CREServiceLog", new { @id = 8 }, Taboptions, new { @class = "nav-link active", id = "NonFS-tab", @role = "tab", @aria_controls = "NonFS", @aria_selected = "true" })*@
+                                </li>
+                            }
+                            <li class="bucket" id="li-futureFollow" data-bucket="9">
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#futureFollow" role="tab" aria-controls="contact"
+                                   aria-selected="false">Future Follow Up<strong><span id="futureFollowCount" style="color:black;"></span></strong></a>
+                                @*<span class="nav-link active" id="followUp-tab" role="tab" aria_controls="followUp" aria_selected="true">Follow Up Required</span>*@
+                                @*@Ajax.ActionLink("Future Follow Up", "GetBucketData", "CREServiceLog", new { @id = 9 }, Taboptions, new { @class = "nav-link active", id = "futureFollow-tab", @role = "tab", @aria_controls = "futureFollow", @aria_selected = "true" })*@
+                            </li>
+                            @if ((Session["OEM"].ToString() == "MARUTI SUZUKI" && Session["IsSuperCRE"] != null && Session["DealerCode"].ToString() != "KATARIATRUCKING") || (Session["OEM"].ToString() == "BENZ" && Session["DealerCode"].ToString() != "KATARIATRUCKING"))//newly added
+                            {
+                                <li class="bucket" id="li-others" data-bucket="10">
+                                    <a class="nav-link" id="others-tab" data-toggle="tab" href="#others" role="tab" aria-controls="contact"
+                                       aria-selected="false">Others<strong><span id="othersCount" style="color:black;"></span></strong></a>
+                                    @*<span class="nav-link active" id="followUp-tab" role="tab" aria_controls="followUp" aria_selected="true">Follow Up Required</span>*@
+                                    @*@Ajax.ActionLink("Future Follow Up", "GetBucketData", "CREServiceLog", new { @id = 9 }, Taboptions, new { @class = "nav-link active", id = "futureFollow-tab", @role = "tab", @aria_controls = "futureFollow", @aria_selected = "true" })*@
+                                </li>
+                            }
+                        </ul>
+                        <div class="tab-content" id="Tabs">
+
+                            <div class="panel panel-default" style="border-top: #fff;">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <!--Starts Mandatory Global Filters-->
+                                        <div class="col-md-2 tab-pane" id="campaignDiv">
+                                            <label>Campaign:</label>
+                                            @Html.DropDownList("ddlcamp", new SelectList(ViewBag.ddlcampaignList, "id", "CampaignName"), "Select", new { @class = "filter form-control", @id = "ddlcamp", @data_field = "Campaign", @onchange = "getfilters(this); filtercountDisplay()", @style = "border:  1px solid blue;" })
+                                        </div>
+
+                                        <div class="col-md-2" id="serviceTypeDiv">
+                                            <label>Service Type:</label>
+                                            @Html.DropDownList("ddlServiceType", new SelectList(ViewBag.ddlserviceType, "id", "serviceTypeName"), "Select", new { @class = "filter form-control", @id = "ddlServiceType", @data_field = "Service_type", @onchange = "getfilters(this); filtercountDisplay()", @style = "border:  1px solid blue;" })
+                                        </div>
+
+                                        <div class="col-md-2" id="LSDfromDateDiv">
+                                            <label>LSD From Date: </label>
+                                            <input type="text" class="filter form-control datepicLSDFromDropDown datepicker" data-column-index="1" placeholder="Enter From LSD Date" id="fromLSDDate" name="fromLSDDate" data-field="LSD_From_Date" onchange="getfilters(this); filtercountDisplay()" style="border:  1px solid blue;" readonly>
+                                        </div>
+                                        <div class="col-md-2" id="LSDtoDateDiv">
+                                            <label>LSD To Date: </label>
+                                            <input type="text" class="filter form-control datepicLSDToDropDown datepicker" data-column-index="2" placeholder="Enter To LSD Date" id="toLSDDate" name="toLSDDate" data-field="LSD_To_Date" onchange="getfilters(this); filtercountDisplay()" style="border:  1px solid blue;" readonly>
+                                        </div>
+
+                                        <div class="col-md-2" id="fromDateDiv">
+                                            <label>Service Due From Date: </label>
+                                            <input type="text" class="filter form-control datepicServiceDueFromDropDown datepicker" data-column-index="3" id="fromDate" name="fromDate" placeholder="From Due Date" data-field="From_date" onchange="getfilters(this); filtercountDisplay()" style="border:  1px solid blue;" readonly>
+                                        </div>
+                                        <div class="col-md-2" id="toDateDiv">
+                                            <label>Service Due To Date: </label>
+                                            <input type="text" class="filter form-control datepicServiceDueToDropDown datepicker" data-column-index="4" id="toDate" name="toDate" placeholder="To Due Date" data-field="To_Date" onchange="getfilters(this); filtercountDisplay()" style="border:  1px solid blue;" readonly>
+                                        </div>
+                                        @if (Session["DealerCode"].ToString() == "KATARIA")
+                                        {
+                                            <div class="col-md-2" id="fromsaleDateDiv">
+                                                <label> From Sale Date: </label>
+                                                <input type="text" class="filter form-control datepicServiceDueFromDropDown datepicker" data-column-index="3" id="fromsaleDate" name="fromSaleDate" placeholder="From Sale Date" data-field="From_Saledate" onchange="getfilters(this); filtercountDisplay()" style="border:  1px solid blue;" readonly>
+                                            </div>
+                                            <div class="col-md-2" id="toSaleDateDiv">
+                                                <label> To Sale Date: </label>
+                                                <input type="text" class="filter form-control datepicServiceDueToDropDown datepicker" data-column-index="4" id="toSaleDate" name="toSaleDate" placeholder="To Sale Date" data-field="To_SaleDate" onchange="getfilters(this); filtercountDisplay()" style="border:  1px solid blue;" readonly>
+                                            </div>
+                                        }
+
+                                        @if (Session["DealerCode"].ToString() == "KATARIA")
+                                        {
+                                            <div class="col-md-2" id="workshopDiv">
+                                                <div class="form-group">
+                                                    <label>Workshop Location: </label>
+                                                    @Html.DropDownList("ddlWorkshop", new SelectList(ViewBag.ddlWorkshop, "workshopId", "workshopName"), new { @class = "filter form-control selectpicker", @id = "ddlWorkshop", @data_field = "workshop_Id", @onchange = "getfilters(this); filtercountDisplay()", @style = "border:  1px solid blue;", @multiple = "multiple" })
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-md-2" id="workshopDiv">
+                                                <div class="form-group">
+                                                    <label>Workshop Location: </label>
+                                                    @Html.DropDownList("ddlWorkshop", new SelectList(ViewBag.ddlWorkshop, "workshopId", "workshopName"), "Select", new { @class = "filter form-control selectpicker", @id = "ddlWorkshop", @data_field = "workshop_Id", @onchange = "getfilters(this); filtercountDisplay()", @style = "border:  1px solid blue;" })
+                                                </div>
+                                            </div>
+                                        }
+
+
+
+                                        @if (Session["OEM"].ToString() == "MARUTI SUZUKI" || (Session["DealerCode"].ToString() == "POPULAR"))
+                                        {
+                                            <div class="col-md-2" id="modelDiv">
+                                                <label>Model Category:</label>
+                                                <select class="filter form-control" id="ddlModel" onchange="getfilters(this); filtercountDisplay()" data-column-index="5" data-field="modelId" name="ddlModel" style="border:  1px solid blue;">
+                                                    <option value="">--Select--</option>
+                                                    <option value="0">Arena</option>
+                                                    <option value="1">Nexa</option>
+                                                    <option value="3">Commercial</option>
+                                                    <option value="4">No Mapping</option>
+                                                </select>
+                                            </div>
+
+                                        }
+
+                                        @if (Session["DealerCode"].ToString() == "ADVAITHHYUNDAI")
+                                        {
+                                            <div class="col-md-2" id="ddlCallTypeDiv">
+                                                <label>Incoming&nbsp;Call&nbsp;Type:</label>
+                                                <select class="filter form-control" id="ddlCallType" onchange="getfilters(this); filtercountDisplay()" data-column-index="5" data-field="IncomingCallType" name="ddlCallType" style="border:  1px solid blue;">
+                                                    <option value="">--Select--</option>
+                                                    <option value="WelcomeCall">Welcome&nbsp;Call</option>
+                                                    <option value="NormalCall">Normal&nbsp;Call</option>
+                                                </select>
+                                            </div>
+
+                                        }
+
+                                        <div class="col-md-2" id="taggingDiv">
+                                            <label>Taggings:</label>
+                                            @Html.DropDownList("ddlTag", new SelectList(ViewBag.ddltagging, "id", "TaggingCamp"), "Select", new { @class = "filter form-control", @id = "ddlTag", @data_field = "Tagging", @onchange = "getfilters(this); filtercountDisplay()", @style = "border:  1px solid blue;" })
+                                        </div>
+
+
+                                        <!--Ends Mandatory Global Filters-->
+
+                                        <div class="col-md-2" id="followupfromDateDiv">
+                                            <label>FollowUp From Date: </label>
+                                            <input type="text" class="filter form-control datepicFollowUpFromDropDown datepicker" data-column-index="6" id="followupfromDate" name="followUPfromDate" placeholder="From Followup Date" data-field="followUP_From_date" onchange="getfilters(this)" readonly>
+                                        </div>
+                                        <div class="col-md-2" id="followuptoDateDiv">
+                                            <label>FollowUp To Date: </label>
+                                            <input type="text" class="filter form-control datepicFollowUpToDropDown datepicker" data-column-index="7" id="folowuptoDate" name="followUPtoDate" placeholder="To Followup Date" data-field="followUP_To_Date" onchange="getfilters(this)" readonly>
+                                        </div>
+
+
+                                        <div class="col-md-2" id="lastcallfromDateDiv">
+                                            <label>Last Call From Date: </label>
+                                            <input type="text" class="filter form-control datepicLastCallFromDropDown datepicker" data-column-index="8" id="lastcallfromDate" name="lastcallfromDate" placeholder="From Last Call Date" data-field="lastcall_From_date" onchange="getfilters(this)" readonly>
+                                        </div>
+                                        <div class="col-md-2" id="lastcalltoDateDiv">
+                                            <label>Last Call To Date: </label>
+                                            <input type="text" class="filter form-control datepicLastCallToDropDown datepicker" data-column-index="9" id="lastcalltoDate" name="lastcalltoDate" placeholder="To Last Call Date" data-field="lastcall_To_Date" onchange="getfilters(this)" readonly>
+                                        </div>
+
+
+
+                                        <div class="col-md-2" id="bookedfromDateDiv">
+                                            <label>Booked From Date: </label>
+                                            <input type="text" class="filter form-control datepicBookedFromDropDown datepicker" data-column-index="10" id="bookedfromDate" name="bookedfromDate" placeholder="From Booking Date" data-field="Booked_From_date" onchange="getfilters(this)" readonly>
+                                        </div>
+                                        <div class="col-md-2" id="bookedtoDateDiv">
+                                            <label>Booked To Date: </label>
+                                            <input type="text" class="filter form-control datepicBookedToDropDown datepicker" data-column-index="11" id="bookedtoDate" name="bookedfromDate" placeholder="To Booking Date" data-field="Booked_To_Date" onchange="getfilters(this)" readonly>
+                                        </div>
+
+                                        <div class="col-md-2" id="lastvititypeDiv" style="display:none;">
+                                            <label>Last Visit Type: </label>
+                                            <input type="text" class="filter form-control " data-column-index="12" id="lastvisitType" name="lastvisitType" placeholder="Visit Type" data-field="visit_Type" onchange="getfilters(this)" readonly>
+                                        </div>
+                                        
+
+                                        <div class="col-md-2" id="reasonDiv">
+                                            <div class="form-group">
+                                                <label>Reasons:</label>
+                                                <div>
+                                                    @Html.DropDownList("ddlreasons", new SelectList(ViewBag.ddlreason, "disposition", "disposition"), "Select", new { @class = "filter form-control", @id = "ddlreasons", @data_field = "reasons", @onchange = "getfilters(this)" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" id="serviceBookTypeDiv">
+                                            <label>Booked Service Type:</label>
+                                            @Html.DropDownList("ddlBookedService", new SelectList(ViewBag.bookedService, "id", "name"), "Select", new { @class = "filter form-control", @id = "ddlBookedService", @data_field = "ServiceBooked_type", @onchange = "getfilters(this)" })
+                                        </div>
+                                        <div class="col-md-2" id="lastDispoTypeDiv">
+                                            <label>Last Disposition:</label>
+                                            @Html.DropDownList("ddlNewListDispo", new SelectList(ViewBag.ddlNewListDispo, "id", "disposition"), "Select", new { @class = "filter form-control", @id = "ddlNewListDispo", @data_field = "LastDispostion", @onchange = "getfilters(this)" })
+                                        </div>
+                                        <div class="col-md-2" id="bookingstatusDiv">
+                                            <label>Booking Status:</label>
+                                            <select class="filter form-control" id="ddllastSBDispo" data-column-index="13" data-field="BookingStatus" onchange="getfilters(this)">
+                                                <option value="">--Select--</option>
+                                                <option value="3">Book My Service</option>
+                                                <option value="41">Confirmed</option>
+                                                <option value="34">Reported</option>
+                                                <option value="35">Cancelled</option>
+                                                <option value="33">OverDue</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2" id="droppedcountDiv">
+                                            <label>Attempts:</label>
+                                            <select class="filter form-control" id="droppedCount" data-field="droppedCount" onchange="getfilters(this)">
+                                                <option value="">--Select--</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                    <div>
+                                        @*<button style="float:right;background-color:#337ab7;color:#ffffff;" onclick="clearbucketfilters();">Clear</button>*@
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default tab-pane fade active in" id="schedule" role="tabpanel" aria-labelledby="schedule-tab">
+                                <div class="dataTable_wrapper">
+                                    <table class="table table-striped table-bordered table-hover tbSMR" width="100%" id="tblSchedule">
+                                        <thead>
+                                            <tr>
+                                                <th>Action</th>
+                                                <th>RegNo.</th>
+                                                <th>Campaign</th>
+                                                <th>Service Due</th>
+                                                <th>Customer Name</th>
+                                                <th>Mobile Number</th>
+                                                <th>Tagging</th>
+                                                <th>Model</th>
+                                                <th>Category</th>
+                                                <th>Service Type</th>
+                                                <th>DND</th>
+                                                <th>Complaint</th>
+                                                <th>Last Service Date</th>
+                                                <th>Workshop</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbodycls"></tbody>
+                                    </table>
+                                    @*@if (Model.callLogAjaxLoads != null)
+                                        {
+                                            @Html.PagedListPager(Model.callLogAjaxLoads, page => Url.Action("GetBucketData", new { page, id = 1 }))
+                                        }*@
+
+                                </div>
+                            </div>
+                            <div class="panel panel-default tab-pane fade" id="followUp" role="tabpanel" aria-labelledby="followUp-tab">
+                                <div>
+                                    <table id="tblFollowUp" class="table table-striped table-bordered table-hover tbSMR" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Action</th>
+                                                <th>RegNo.</th>
+                                                <th>Campaign</th>
+                                                <th>Service Due</th>
+                                                <th>Customer Name</th>
+                                                <th>Tagging</th>
+                                                <th>Model</th>
+                                                <th>Last Call Date</th>
+                                                <th>Mobile Number</th>
+                                                <th>Service Type</th>
+                                                <th>FollowUp Date</th>
+                                                <th>FollowUp Time</th>
+                                                <th>Last Disposition</th>
+                                                <th>Attempts</th>
+                                                <th>Last Service Date</th>
+                                                <th>Workshop</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbodycls"></tbody>
+                                    </table>
+                                    @*@if (Model.dispositionLoads != null)
+                                        {
+                                            @Html.PagedListPager(Model.dispositionLoads, pageNo => Url.Action("GetBucketData", new { pageNo, id = 2 }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "POST", OnSuccess = "TabSuccess", OnFailure = "TabFailure", UpdateTargetId = "pagination" }))
+                                        }*@
+
+                                </div>
+                            </div>
+                            <div class="panel panel-default tab-pane fade" id="serviceBooked" role="tabpanel" aria-labelledby="contact-tab">
+                                <div>
+                                    <table id="tblServiceBooked" class="table table-striped table-bordered table-hover wrap">
+                                        <thead>
+                                            <tr>
+                                                <th>Action</th>
+                                                <th>RegNo.</th>
+                                                <th>Booking ID</th>
+                                                <th>Campaign</th>
+                                                <th>Service Due</th>
+                                                <th>Customer Name</th>
+                                                <th>Tagging</th>
+                                                <th>Model</th>
+                                                <th>Last Call Date</th>
+                                                <th>Mobile Number</th>
+                                                <th>Service Type</th>
+                                                <th>Service ScheduledDate</th>
+                                                <th>Service ScheduledTime</th>
+                                                <th>Service Advisor</th>
+                                                <th>Booking Status</th>
+                                                <th>Last Disposition</th>
+                                                <th>Attempts</th>
+                                                <th>Workshop</th>
+                                                <th>Last Service Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbodycls"></tbody>
+                                    </table>
+                                    @*@if (Model.dispositionLoads != null)
+                                        {
+                                            @Html.PagedListPager(Model.dispositionLoads, pageNo => Url.Action("GetBucketData", new { pageNo, id = 3 }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "POST", OnSuccess = "TabSuccess", OnFailure = "TabFailure", UpdateTargetId = "pagination" }))
+                                        }*@
+                                </div>
+                            </div>
+                            <div class="panel panel-default tab-pane fade" id="serviceNotReq" role="tabpanel" aria-labelledby="serviceNotReq-tab">
+                                <div>
+                                    <table id="tblserviceNotReq" class="table table-striped table-bordered table-hover tbSMR" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Action</th>
+                                                <th>RegNo.</th>
+                                                <th>Campaign</th>
+                                                <th>Service Due</th>
+                                                <th>Customer Name</th>
+                                                <th>Tagging</th>
+                                                <th>Model</th>
+                                                <th>Last Call Date</th>
+                                                <th>Mobile Number</th>
+                                                <th>Service Type</th>
+                                                <th>Last Disposition</th>
+                                                <th>Reason</th>
+                                                <th>Attempts</th>
+                                                <th>Last Service Date</th>
+                                                <th>Workshop</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbodycls"></tbody>
+                                    </table>
+                                    @*@if (Model.dispositionLoads != null)
+                                        {
+                                            @Html.PagedListPager(Model.dispositionLoads, pageNo => Url.Action("GetBucketData", new { pageNo, id = 4 }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "POST", OnSuccess = "TabSuccess", OnFailure = "TabFailure", UpdateTargetId = "pagination" }))
+                                        }*@
+                                </div>
+                            </div>
+                            <div class="panel panel-default tab-pane fade" id="nonContacts" role="tabpanel" aria-labelledby="nonContacts-tab">
+                                <div>
+                                    <table id="tblnonContacts" class="table table-striped table-bordered table-hover tbSMR" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Action</th>
+                                                <th>RegNo.</th>
+                                                <th>Campaign</th>
+                                                <th>Service Due</th>
+                                                <th>Customer Name</th>
+                                                <th>Tagging</th>
+                                                <th>Model</th>
+                                                <th>Last Call Date</th>
+                                                <th>Mobile Number</th>
+                                                <th>Service Type</th>
+                                                <th>Last Disposition</th>
+                                                <th>Attempts</th>
+                                                <th>Last Service Date</th>
+                                                <th>Workshop</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbodycls"></tbody>
+                                    </table>
+                                    @*@if (Model.dispositionLoads != null)
+                                        {
+                                            @Html.PagedListPager(Model.dispositionLoads, pageNo => Url.Action("GetBucketData", new { pageNo, id = 5 }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "POST", OnSuccess = "TabSuccess", OnFailure = "TabFailure", UpdateTargetId = "pagination" }))
+                                        }*@
+                                </div>
+                            </div>
+                            <div class="panel panel-default tab-pane fade" id="SB1" role="tabpanel" aria-labelledby="SB1-tab">
+                                <table id="tblSB1" class="table table-striped table-bordered table-hover tbSMR" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>RegNo.</th>
+                                            <th>Campaign</th>
+                                            <th>Service Due</th>
+                                            <th>Customer Name</th>
+                                            <th>Last Call Date</th>
+                                            <th>Tagging</th>
+                                            <th>Model</th>
+                                            <th>Service Type</th>
+                                            <th>Chassi No</th>
+                                            <th>Service Scheduled Date</th>
+                                            <th>Service Scheduled Time</th>
+                                            <th>Service Booked Type</th>
+                                            <th>Service Advisor</th>
+                                            <th>Workshop</th>
+                                            <th>Type Of PickUp</th>
+                                            <th>Last Disposition</th>
+                                            <th>Booking Status</th>
+                                            <th>Last Service Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbodycls"></tbody>
+                                </table>
+                                @*@if (Model.dispositionLoads != null)
+                                    {
+                                        @Html.PagedListPager(Model.dispositionLoads, pageNo => Url.Action("GetBucketData", new { pageNo, id = 6 }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "POST", OnSuccess = "TabSuccess", OnFailure = "TabFailure", UpdateTargetId = "pagination" }))
+                                    }*@
+                            </div>
+                            <div class="panel panel-default tab-pane fade" id="SBNth" role="tabpanel" aria-labelledby="SBNth-tab">
+                                <table id="tblSBNth" class="table table-striped table-bordered table-hover tbSMR" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>RegNo.</th>
+                                            <th>Campaign</th>
+                                            <th>Service Due</th>
+                                            <th>Customer Name</th>
+                                            <th>Tagging</th>
+                                            <th>Model</th>
+                                            <th>Service Type</th>
+                                            <th>Last Call Date</th>
+                                            <th>Chassi No</th>
+                                            <th>Service Scheduled Date</th>
+                                            <th>Service Scheduled Time</th>
+                                            <th>Service Booked Type</th>
+                                            <th>Service Advisor</th>
+                                            <th>Workshop</th>
+                                            <th>Type Of PickUp</th>
+                                            <th>Last Disposition</th>
+                                            <th>Booking Status</th>
+                                            <th>Last Service Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbodycls"></tbody>
+                                </table>
+                                @*@if (Model.dispositionLoads != null)
+                                    {
+                                        @Html.PagedListPager(Model.dispositionLoads, pageNo => Url.Action("GetBucketData", new { pageNo, id = 7 }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "POST", OnSuccess = "TabSuccess", OnFailure = "TabFailure", UpdateTargetId = "pagination" }))
+                                    }*@
+                            </div>
+                            <div class="panel panel-default tab-pane fade" id="NonFS" role="tabpanel" aria-labelledby="NonFS-tab">
+                                <div>
+                                    <table id="tblNonFS" class="table table-striped table-bordered table-hover tbSMR" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Action</th>
+                                                <th>RegNo.</th>
+                                                <th>Campaign</th>
+                                                <th>Service Due</th>
+                                                <th>Customer Name</th>
+                                                <th>Mobile Number</th>
+                                                <th>Tagging</th>
+                                                <th>Model</th>
+                                                <th>Service Type</th>
+                                                <th>Last Service Date</th>
+                                                <th>Last Service Type</th>
+                                                <th>Workshop</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbodycls"></tbody>
+                                    </table>
+                                    @*@if (Model.dispositionLoads != null)
+                                        {
+                                            @Html.PagedListPager(Model.dispositionLoads, pageNo => Url.Action("GetBucketData", new { pageNo, id = 8 }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "POST", OnSuccess = "TabSuccess", OnFailure = "TabFailure", UpdateTargetId = "pagination" }))
+                                        }*@
+                                </div>
+                            </div>
+                            <div class="panel panel-default tab-pane fade" id="futureFollow" role="tabpanel" aria-labelledby="futureFollow-tab">
+                                <div>
+                                    <table id="tblfutureFollow" class="table table-striped table-bordered table-hover tbSMR" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Action</th>
+                                                <th>RegNo.</th>
+                                                <th>Campaign</th>
+                                                <th>Service Due</th>
+                                                <th>Customer Name</th>
+                                                <th>Tagging</th>
+                                                <th>Last Call Date</th>
+                                                <th>Mobile Number</th>
+                                                <th>Model</th>
+                                                <th>Service Type</th>
+                                                <th>FollowUp Date</th>
+                                                <th>FollowUp Time</th>
+                                                <th>Last Disposition</th>
+                                                <th>Attempts</th>
+                                                <th>Last Service Date</th>
+                                                <th>Workshop</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbodycls"></tbody>
+                                    </table>
+                                    @*@if (Model.dispositionLoads != null)
+                                        {
+                                            @Html.PagedListPager(Model.dispositionLoads, pageNo => Url.Action("GetBucketData", new { pageNo, id = 9 }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "POST", OnSuccess = "TabSuccess", OnFailure = "TabFailure", UpdateTargetId = "pagination" }))
+                                        }*@
+                                </div>
+                            </div>
+                            <div class="panel panel-default tab-pane fade" id="others" role="tabpanel" aria-labelledby="others-tab">
+                                <div class="panel-body inf-content">
+                                    <div class="dataTable_wrapper">
+                                        <table class="table table-striped table-bordered table-hover" id="tblothers">
+                                            <thead>
+                                                <tr>
+                                                    <th>Action</th>
+                                                    <th>RegNo.</th>
+                                                    <th>Campaign</th>
+                                                    <th>Service Due</th>
+                                                    <th>Customer Name</th>
+                                                    <th>Tagging</th>
+                                                    <th>Last&nbsp;Call Date</th>
+                                                    <th>Mobile Number</th>
+                                                    <th>Model</th>
+                                                    <th>Service Type</th>
+                                                    <th>Last Disposition</th>
+                                                    <th>Attempts</th>
+                                                    <th>Last Service Date</th>
+                                                    <th>Workshop</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <span class="code" id="tblException" style="font-size:11pt;font-weight:bold;"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End tab content-->
+                </div><!--End panel body-->
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+@section scripts
+{
+
+    @if (ViewBag.dispositionResult != null && ViewBag.dispoError == false)
+    {
+        <script type="text/javascript">
+        Lobibox.notify('info', {
+            delay: 4 * 200,
+            msg: '@ViewBag.dispositionResult'
+        });
+        </script>
+    }
+
+    @if (ViewBag.dispositionResult != null && ViewBag.dispoError == true)
+    {
+        <script type="text/javascript">
+        Lobibox.notify('info', {
+            delay: 4 * 7000,
+            msg: '@ViewBag.dispositionResult'
+        });
+        </script>
+    }
+
+
+<script type="text/javascript">
+
+        var presentBucket = "", filtDist = {}, callAjaxClear = 0, callfromTab = 0, servicefiltCountDist = {};
+
+    var dataAction = '<a class="fa fa-edit" href="${siteRoot}/Home/redirectToCallLogging/CRE%2cS" style="font-size:13pt;"></a>';
+
+    $(document).ready(function () {
+        var dealerCode = '@Session["DealerCode"].ToString()';
+        if (dealerCode == "ABTMARUTHI") {
+            logoutIntalk();
+        }
+
+            if (dealerCode == "KATARIA") {
+                $('#smrnthDaySpan').text("SB-Today");
+                $('#smrnplusonethDaySpan').text("SB-Tomorrow");
+            }
+            else {
+                $('#smrnthDaySpan').text("SBNthDay");
+                $('#smrnplusonethDaySpan').text("SB(N+1)thDay");
+            }
+
+            $.ajax({
+                type: "POST",
+                url: siteRoot + "/CREServiceLog/loadDashCounts/",
+                data: {},
+                cache: false,
+                success: function (res) {
+                    if (res.success == true) {
+                        $('#FreeCalls').text(res.FreeCalls);
+                        $('#pendingFollow').text(res.pendingFollow);
+                        $('#nonContact').text(res.totalAttemptedPerDay + "/" + res.NonContacts);
+                        $('#overDue').text(res.overDue);
+                        $('#totalBooking').text(res.totalBooking);
+                        $('#totalContacts').text(res.totalContacts);
+                        $('#totalCalls').text(res.totalCalls);
+                    }
+                    else {
+                        Lobibox.notify('warning', {
+                            msg: res.error
+                        });
+                    }
+                },
+                error: function (data) {
+                    alert("Cann't load Dashboard count, Error occured while processing data");
+                }
+            });
+
+        manageFilters(1);
+        //getDataFor==1 ----> 1,2,3 is bucket number
+        $('.datepicker').datepicker({
+            duration: "slow",
+            showOptions: { direction: "up" },
+            dateFormat: 'yy-mm-dd',
+            changeMonth: true,//this option for allowing user to select month
+            changeYear: true //this option for allowing user to select from year range
+
+        });
+
+            $('.datepicLSDFromDropDown').datepicker({
+
+                autoclose: true,
+                dateFormat: 'yy-mm-dd',
+                //maxDate: new Date(),
+                onSelect: function (date) {
+                    $('.datepicLSDToDropDown').datepicker("destroy");
+                    $('.datepicLSDToDropDown').datepicker("destroy");
+                    $('.datepicLSDToDropDown').datepicker({
+                        autoclose: true,
+                        dateFormat: 'yy-mm-dd',
+                        minDate: $('.datepicLSDFromDropDown').datepicker('getDate')
+                    });
+                    $(this).trigger('change');var dt1 = $('.datepicLSDFromDropDown').datepicker('getDate');
+                    var dt2 = $('.datepicLSDToDropDown').datepicker('getDate');
+                    if (dt2 <= dt1) {
+                        var minDate = $('#dt2').datepicker('option', 'minDate');
+                        $('.datepicLSDToDropDown').datepicker('setDate', null);
+                    }
+                }
+            })
+
+
+            $('.datepicServiceDueFromDropDown').datepicker({
+
+                autoclose: true,
+                dateFormat: 'yy-mm-dd',
+                //maxDate: new Date(),
+                onSelect: function (date) {
+                    $('.datepicServiceDueToDropDown').datepicker("destroy");
+                    $('.datepicServiceDueToDropDown').datepicker("destroy");
+                    $('.datepicServiceDueToDropDown').datepicker({
+                        autoclose: true,
+                        dateFormat: 'yy-mm-dd',
+                        minDate: $('.datepicServiceDueFromDropDown').datepicker('getDate')
+                    });
+                    $(this).trigger('change');var dt1 = $('.datepicServiceDueFromDropDown').datepicker('getDate');
+                    var dt2 = $('.datepicServiceDueToDropDown').datepicker('getDate');
+                    if (dt2 <= dt1) {
+                        var minDate = $('#dt2').datepicker('option', 'minDate');
+                        $('.datepicServiceDueToDropDown').datepicker('setDate', null);
+                    }
+                }
+            })
+
+            $('.datepicFollowUpFromDropDown ').datepicker({
+
+                autoclose: true,
+                dateFormat: 'yy-mm-dd',
+                //maxDate: new Date(),
+                onSelect: function (date) {
+                    $('.datepicFollowUpToDropDown').datepicker("destroy");
+                    $('.datepicFollowUpToDropDown').datepicker("destroy");
+                    $('.datepicFollowUpToDropDown').datepicker({
+                        autoclose: true,
+                        dateFormat: 'yy-mm-dd',
+                        minDate: $('.datepicFollowUpFromDropDown ').datepicker('getDate')
+                    });
+                    $(this).trigger('change');var dt1 = $('.datepicFollowUpFromDropDown ').datepicker('getDate');
+                    var dt2 = $('.datepicFollowUpToDropDown').datepicker('getDate');
+                    if (dt2 <= dt1) {
+                        var minDate = $('#dt2').datepicker('option', 'minDate');
+                        $('.datepicFollowUpToDropDown').datepicker('setDate', null);
+                    }
+                }
+            })
+
+            $('.datepicBookedFromDropDown ').datepicker({
+
+                autoclose: true,
+                dateFormat: 'yy-mm-dd',
+                //maxDate: new Date(),
+                onSelect: function (date) {
+                    $('.datepicBookedToDropDown').datepicker("destroy");
+                    $('.datepicBookedToDropDown').datepicker("destroy");
+                    $('.datepicBookedToDropDown').datepicker({
+                        autoclose: true,
+                        dateFormat: 'yy-mm-dd',
+                        minDate: $('.datepicBookedFromDropDown ').datepicker('getDate')
+                    });
+                    $(this).trigger('change');var dt1 = $('.datepicBookedFromDropDown ').datepicker('getDate');
+                    var dt2 = $('.datepicBookedToDropDown').datepicker('getDate');
+                    if (dt2 <= dt1) {
+                        var minDate = $('#dt2').datepicker('option', 'minDate');
+                        $('.datepicBookedToDropDown').datepicker('setDate', null);
+                    }
+                }
+            })
+
+
+
+            $('.datepicLastCallFromDropDown ').datepicker({
+
+                autoclose: true,
+                dateFormat: 'yy-mm-dd',
+                //maxDate: new Date(),
+                onSelect: function (date) {
+                    $('.datepicLastCallToDropDown').datepicker("destroy");
+                    $('.datepicLastCallToDropDown').datepicker("destroy");
+                    $('.datepicLastCallToDropDown').datepicker({
+                        autoclose: true,
+                        dateFormat: 'yy-mm-dd',
+                        minDate: $('.datepicLastCallFromDropDown ').datepicker('getDate')
+                    });
+                    $(this).trigger('change');var dt1 = $('.datepicLastCallFromDropDown ').datepicker('getDate');
+                    var dt2 = $('.datepicLastCallToDropDown').datepicker('getDate');
+                    if (dt2 <= dt1) {
+                        var minDate = $('#dt2').datepicker('option', 'minDate');
+                        $('.datepicLastCallToDropDown').datepicker('setDate', null);
+                    }
+                }
+            })
+
+
+
+
+        $('.tbSMR').addClass('nowrap');
+
+
+        if (localStorage.length > 0) {
+            filtDist = JSON.parse(localStorage.getItem("Servicefilter"));
+            if (filtDist != null) {
+                renderFilterData();
+                localStorage.removeItem("Servicefilter");
+            }
+            servicefiltCountDist = JSON.parse(localStorage.getItem("ServicefilterCounts"));
+            if (servicefiltCountDist != null) {
+                renderFilterDataCounts();
+                localStorage.removeItem("ServicefilterCounts");
+            }
+
+            else {
+                presentBucket = 1;
+                filtDist = {};
+                bindScheduleData();
+            }
+        }
+        else {
+            presentBucket = 1;
+            bindScheduleData();
+        }
+
+
+    });
+        function renderFilterDataCounts() {
+            //debugger;
+            for (var key in servicefiltCountDist) {
+                $("#" + key).text("(" + servicefiltCountDist[key] + ")");
+
+            }
+            var filt = document.getElementById('totalFil');
+            filt.style.backgroundColor = 'green';
+        }
+    //re-render the filtered element
+    function renderFilterData() {
+        //debugger;
+        for (var key in filtDist) {
+            if (key !== "getDataFor" && key !== "isFiltered") {
+                var element = $('.filter[data-field="' + key + '"]');
+                $(element).val(filtDist[key]);
+            }
+        }
+        if (filtDist["getDataFor"] != null) {
+            presentBucket = filtDist["getDataFor"];
+            var liElement = $('.bucket[data-bucket="' + presentBucket + '"]');
+            var id = liElement[0].id;
+            //removing current style
+            $('li.bucket').removeClass('active');
+            $('div.fade').removeClass('show active in');
+
+            //applying new style
+            $('#' + id).addClass('active');
+            $('#' + id.split('-')[1]).addClass('show active in');
+
+            manageFilters(presentBucket);
+            makeAjaxCall();
+        }
+    }
+
+
+    $('li.bucket').on('click', function () {
+
+        var id = $(this).attr('id');
+        //removing current style
+        $('li.bucket').removeClass('active');
+        $('div.fade').removeClass('show active in');
+
+        //applying new style
+        $('#' + id).addClass('active');
+        $('#' + id.split('-')[1]).addClass('show active in');
+        presentBucket = $(this).attr('data-bucket');
+        manageFilters(presentBucket);
+        makeAjaxCall(presentBucket);
+
+
+        //  clearbucketfilters();
+    })
+
+    function makeAjaxCall() {
+
+        if (presentBucket == 1) {
+            bindScheduleData();
+        } else if (presentBucket == 2) {
+            bindFollowUps();
+        } else if (presentBucket == 3) {
+            bindServiceBooked();
+        } else if (presentBucket == 4) {
+            bindServiceNotReq();
+        } else if (presentBucket == 5) {
+            bindNonContacts();
+        } else if (presentBucket == 6) {
+            bindSB1();
+        } else if (presentBucket == 7) {
+            bindSBNth();
+        } else if (presentBucket == 8) {
+            bindNonFS();
+        } else if (presentBucket == 9) {
+            bindFutureFollow();
+        } else if (presentBucket == 10) {
+            bindOthers();
+        }
+
+    }
+
+    //Hide and show of filters based on buckets
+    function manageFilters(bucketId) {
+
+        $('#ddlCallTypeDiv').css({ 'display': 'none' });
+        if (bucketId == 1) {
+            $('#followupfromDateDiv').css({ 'display': 'none' });
+            $('#followuptoDateDiv').css({ 'display': 'none' });
+            $('#lastcallfromDateDiv').css({ 'display': 'none' });
+            $('#lastcalltoDateDiv').css({ 'display': 'none' });
+            $('#bookedfromDateDiv').css({ 'display': 'none' });
+            $('#bookedtoDateDiv').css({ 'display': 'none' });
+            $('#lastvititypeDiv').css({ 'display': 'none' });
+            $('#reasonDiv').css({ 'display': 'none' });
+            $('#serviceBookTypeDiv').css({ 'display': 'none' });
+            $('#lastDispoTypeDiv').css({ 'display': 'none' });
+            $('#bookingstatusDiv').css({ 'display': 'none' });
+            $('#droppedcountDiv').css({ 'display': 'none' });
+            $('#ddlCallTypeDiv').css({ 'display': 'block' });
+
+        }
+        else if (bucketId == 2) {
+            $('#followupfromDateDiv').css({ 'display': 'block' });
+            $('#followuptoDateDiv').css({ 'display': 'block' });
+            $('#lastcallfromDateDiv').css({ 'display': 'none' });
+            $('#lastcalltoDateDiv').css({ 'display': 'none' });
+            $('#bookedfromDateDiv').css({ 'display': 'none' });
+            $('#bookedtoDateDiv').css({ 'display': 'none' });
+            $('#lastvititypeDiv').css({ 'display': 'none' });
+            $('#reasonDiv').css({ 'display': 'none' });
+            $('#serviceBookTypeDiv').css({ 'display': 'none' });
+            $('#lastDispoTypeDiv').css({ 'display': 'none' });
+            $('#bookingstatusDiv').css({ 'display': 'none' });
+            $('#droppedcountDiv').css({ 'display': 'none' });
+
+        }
+        else if (bucketId == 3) {
+            $('#followupfromDateDiv').css({ 'display': 'none' });
+            $('#followuptoDateDiv').css({ 'display': 'none' });
+            $('#lastcallfromDateDiv').css({ 'display': 'none' });
+            $('#lastcalltoDateDiv').css({ 'display': 'none' });
+            $('#bookedfromDateDiv').css({ 'display': 'block' });
+            $('#bookedtoDateDiv').css({ 'display': 'block' });
+            $('#lastvititypeDiv').css({ 'display': 'none' });
+            $('#reasonDiv').css({ 'display': 'none' });
+            $('#serviceBookTypeDiv').css({ 'display': 'block' });
+            $('#lastDispoTypeDiv').css({ 'display': 'block' });
+            $('#bookingstatusDiv').css({ 'display': 'block' });
+            $('#droppedcountDiv').css({ 'display': 'none' });
+
+        }
+        else if (bucketId == 4) {
+            $('#followupfromDateDiv').css({ 'display': 'none' });
+            $('#followuptoDateDiv').css({ 'display': 'none' });
+            $('#lastcallfromDateDiv').css({ 'display': 'block' });
+            $('#lastcalltoDateDiv').css({ 'display': 'block' });
+            $('#bookedfromDateDiv').css({ 'display': 'none' });
+            $('#bookedtoDateDiv').css({ 'display': 'none' });
+            $('#lastvititypeDiv').css({ 'display': 'none' });
+            $('#reasonDiv').css({ 'display': 'block' });
+            $('#serviceBookTypeDiv').css({ 'display': 'none' });
+            $('#lastDispoTypeDiv').css({ 'display': 'none' });
+            $('#bookingstatusDiv').css({ 'display': 'none' });
+            $('#droppedcountDiv').css({ 'display': 'none' });
+
+        }
+        else if (bucketId == 5) {
+            $('#followupfromDateDiv').css({ 'display': 'none' });
+            $('#followuptoDateDiv').css({ 'display': 'none' });
+            $('#lastcallfromDateDiv').css({ 'display': 'block' });
+            $('#lastcalltoDateDiv').css({ 'display': 'block' });
+            $('#bookedfromDateDiv').css({ 'display': 'none' });
+            $('#bookedtoDateDiv').css({ 'display': 'none' });
+            $('#lastvititypeDiv').css({ 'display': 'none' });
+            $('#reasonDiv').css({ 'display': 'none' });
+            $('#serviceBookTypeDiv').css({ 'display': 'none' });
+            $('#lastDispoTypeDiv').css({ 'display': 'block' });
+            $('#bookingstatusDiv').css({ 'display': 'none' });
+            $('#droppedcountDiv').css({ 'display': 'block' });
+
+        }
+        else if (bucketId == 6) {
+            $('#followupfromDateDiv').css({ 'display': 'none' });
+            $('#followuptoDateDiv').css({ 'display': 'none' });
+            $('#lastcallfromDateDiv').css({ 'display': 'block' });
+            $('#lastcalltoDateDiv').css({ 'display': 'block' });
+            $('#bookedfromDateDiv').css({ 'display': 'none' });
+            $('#bookedtoDateDiv').css({ 'display': 'none' });
+            $('#lastvititypeDiv').css({ 'display': 'none' });
+            $('#reasonDiv').css({ 'display': 'none' });
+            $('#serviceBookTypeDiv').css({ 'display': 'block' });
+            $('#lastDispoTypeDiv').css({ 'display': 'none' });
+            $('#bookingstatusDiv').css({ 'display': 'block' });
+            $('#droppedcountDiv').css({ 'display': 'none' });
+
+        }
+        else if (bucketId == 7) {
+            $('#followupfromDateDiv').css({ 'display': 'none' });
+            $('#followuptoDateDiv').css({ 'display': 'none' });
+            $('#lastcallfromDateDiv').css({ 'display': 'block' });
+            $('#lastcalltoDateDiv').css({ 'display': 'block' });
+            $('#bookedfromDateDiv').css({ 'display': 'none' });
+            $('#bookedtoDateDiv').css({ 'display': 'none' });
+            $('#lastvititypeDiv').css({ 'display': 'none' });
+            $('#reasonDiv').css({ 'display': 'none' });
+            $('#serviceBookTypeDiv').css({ 'display': 'block' });
+            $('#lastDispoTypeDiv').css({ 'display': 'none' });
+            $('#bookingstatusDiv').css({ 'display': 'block' });
+            $('#droppedcountDiv').css({ 'display': 'none' });
+
+        }
+        else if (bucketId == 8) {
+            $('#followupfromDateDiv').css({ 'display': 'none' });
+            $('#followuptoDateDiv').css({ 'display': 'none' });
+            $('#lastcallfromDateDiv').css({ 'display': 'none' });
+            $('#lastcalltoDateDiv').css({ 'display': 'none' });
+            $('#bookedfromDateDiv').css({ 'display': 'none' });
+            $('#bookedtoDateDiv').css({ 'display': 'none' });
+           // $('#lastvititypeDiv').css({ 'display': 'block' });
+            $('#reasonDiv').css({ 'display': 'none' });
+            $('#serviceBookTypeDiv').css({ 'display': 'none' });
+            $('#lastDispoTypeDiv').css({ 'display': 'none' });
+            $('#bookingstatusDiv').css({ 'display': 'none' });
+            $('#droppedcountDiv').css({ 'display': 'none' });
+
+        }
+        else if (bucketId == 9) {
+            $('#followupfromDateDiv').css({ 'display': 'block' });
+            $('#followuptoDateDiv').css({ 'display': 'block' });
+            $('#lastcallfromDateDiv').css({ 'display': 'none' });
+            $('#lastcalltoDateDiv').css({ 'display': 'none' });
+            $('#bookedfromDateDiv').css({ 'display': 'none' });
+            $('#bookedtoDateDiv').css({ 'display': 'none' });
+            $('#lastvititypeDiv').css({ 'display': 'none' });
+            $('#reasonDiv').css({ 'display': 'none' });
+            $('#serviceBookTypeDiv').css({ 'display': 'none' });
+            $('#lastDispoTypeDiv').css({ 'display': 'none' });
+            $('#bookingstatusDiv').css({ 'display': 'none' });
+            $('#droppedcountDiv').css({ 'display': 'none' });
+
+        }
+        else if (bucketId == 10) {
+            $('#followupfromDateDiv').css({ 'display': 'none' });
+            $('#followuptoDateDiv').css({ 'display': 'none' });
+            $('#lastcallfromDateDiv').css({ 'display': 'none' });
+            $('#lastcalltoDateDiv').css({ 'display': 'none' });
+            $('#bookedfromDateDiv').css({ 'display': 'none' });
+            $('#bookedtoDateDiv').css({ 'display': 'none' });
+            $('#lastvititypeDiv').css({ 'display': 'none' });
+            $('#reasonDiv').css({ 'display': 'none' });
+            $('#serviceBookTypeDiv').css({ 'display': 'none' });
+            $('#lastDispoTypeDiv').css({ 'display': 'none' });
+            $('#bookingstatusDiv').css({ 'display': 'none' });
+            $('#droppedcountDiv').css({ 'display': 'none' });
+
+        }
+    }
+
+    //Clear Buckets data
+    function clearbucketfilters() {
+        $('#ddlcamp').val('');
+        $('#ddlServiceType').val('');
+        $('#ddlModel').prop('selectedIndex', 0);
+        $('#ddlCallType').prop('selectedIndex', 0);
+
+        $('#fromLSDDate').val('');
+        $('#toLSDDate').val('');
+
+        $('#fromDate').val('');
+        $('#toDate').val('');
+        $('#ddlWorkshop').val('');
+        $('#ddlTag').val('');
+        $('#followupfromDate').val('');
+        $('#folowuptoDate').val('');
+        $('#lastcallfromDate').val('');
+        $('#lastcalltoDate').val('');
+
+        $('#bookedfromDate').val('');
+        $('#bookedtoDate').val('');
+        $('#lastvisitType').val('');
+        $('#ddlreasons').val('');
+        $('#ddlBookedService').val('');
+        $('#ddlNewListDispo').val('');
+        $('#ddllastSBDispo').val('');
+        $('#droppedCount').val('');
+
+        $('#search').val('');
+        $('#fromsaleDate').val('');
+        $('#tosaleDate').val('');
+
+
+
+        filtDist = {};
+        servicefiltCountDist = {};
+
+        clearfilterCounts();
+        makeAjaxCall();
+    }
+
+    function clearfilterCounts() {
+
+        $("#scheduleCounts").text("");
+        $("#followUpCounts").text("");
+        $("#serviceBookedCounts").text("");
+        $("#servicenotReqCounts").text("");
+        $("#nonContactsCounts").text("");
+        $("#sbnminoneCounts").text("");
+        $("#dbnthCounts").text("");
+        $("#fsPmsCounts").text("");
+        $("#futureFollowCount").text("");
+        $("#othersCount").text("");
+        $('#totalFil').html('OFF');
+        var filt = document.getElementById('totalFil');
+        filt.style.backgroundColor = 'red';
+    }
+
+    //Function to access filter data
+        function getfilters(item) {
+       // clearfilterCounts();
+        //debugger;
+            var field = $(item).attr('data-field');
+            var dealerCode = '@Session["DealerCode"].ToString()';
+            if (dealerCode == "KATARIA" && field == "workshop_Id") {
+
+                data = $('#ddlWorkshop option:selected').toArray().map(item => item.value).join();
+                //alert(data);
+
+            }
+            else {
+                var data = $(item).val();
+            }
+
+        if (filtDist[field] === undefined) {
+            filtDist[field] = data;
+            if (data != "") {
+                filtDist["isFiltered"] = true;
+            }
+            else {
+                if ($('#ddlcamp').val() === "" &&
+                    $('#ddlModel').val() === "" &&
+                    $('#followupfromDate').val() === "" &&
+                    $('#folowuptoDate').val() === "" &&
+                    $('#lastcallfromDate').val() === "" &&
+                    $('#lastcalltoDate').val() === "" &&
+                    $('#bookedfromDate').val() === "" &&
+                    $('#bookedtoDate').val() === "" &&
+                    $('#lastvisitType').val() === "" &&
+                    $('#ddlreasons').val() === "" &&
+                    $('#droppedCount').val() === "" &&
+                    $('#fromDate').val() === "" &&
+                    $('#toDate').val() === "" &&
+                    $('#toDateddlServiceType').val() === "" &&
+                    $('#ddlBookedService').val() === "" &&
+                    $('#fromLSDDate').val() === "" &&
+                    $('#toLSDDate').val() === "" &&
+                    $('#ddlNewListDispo').val() === "" &&
+                    $('#ddllastSBDispo').val() === "" &&
+                    $('#ddlWorkshop').val() === "" &&
+                    $('#ddlTag').val() === "" &&
+                    $('#fromsaleDate').val()===""&&
+                $('#tosaleDate').val()==="" &&
+                    $('#ddlServiceType').val() === "" &&
+                    $('#search').val() === "" && $('#ddlCallType').val()==="") {
+                    filtDist["isFiltered"] = false;
+                }
+            }
+        }
+        else {
+            filtDist[field] = data;
+            if (data != "") {
+                filtDist["isFiltered"] = true;
+            }
+            else if ($('#ddlcamp').val() === "" &&
+                $('#ddlModel').val() === "" &&
+                    $('#followupfromDate').val() === "" &&
+                    $('#folowuptoDate').val() === "" &&
+                    $('#lastcallfromDate').val() === "" &&
+                    $('#lastcalltoDate').val() === "" &&
+                    $('#bookedfromDate').val() === "" &&
+                    $('#bookedtoDate').val() === "" &&
+                    $('#lastvisitType').val() === "" &&
+                    $('#ddlreasons').val() === "" &&
+                    $('#droppedCount').val() === "" &&
+
+                $('#fromDate').val() === "" &&
+                $('#toDate').val() === "" &&
+                $('#toDateddlServiceType').val() === "" &&
+                $('#ddlBookedService').val() === "" &&
+                $('#fromLSDDate').val() === "" &&
+                $('#toLSDDate').val() === "" &&
+                $('#ddlNewistDispo').val() === "" &&
+                $('#ddllastSBDispo').val() === "" &&
+                $('#ddlWorkshop').val() === "" &&
+                $('#ddlTag').val() === "" &&
+                $('#ddlServiceType').val() === "" &&
+                $('#fromsaleDate').val() === "" &&
+                $('#tosaleDate').val() === "" &&
+                $('#search').val() === "" && $('#ddlCallType').val()==="") {
+                filtDist["isFiltered"] = false;
+            }
+
+        }
+        //calling ajax function
+        makeAjaxCall();
+    }
+
+    //********************* Adding Filter Data *************************
+
+    function recordFilters() {
+        localStorage.setItem("Servicefilter", JSON.stringify(filtDist));
+        localStorage.setItem("ServicefilterCounts", JSON.stringify(servicefiltCountDist));
+    }
+
+
+    //--------------------------- Binding Data To Table ---------------------------------------
+
+    //***************** Scheduler Table *****************************
+    function bindScheduleData() {
+        filtDist["getDataFor"] = 1;
+     var table =   $('#tblSchedule').DataTable({
+            "destroy": true,
+            "ajax": {
+                "url": siteRoot + "/CREServiceLog/GetBucketData/",
+                "type": "POST",
+                "datatype": "json",
+                "data": { serviceData: JSON.stringify(filtDist) }
+            },
+            "columns": [
+                {
+                    "data": "Action", render: function (data, type, row) {
+                        //debugger;
+                        return `<a class="fa fa-pencil-square" href="${siteRoot}/Home/redirectToCallLogging/CRE%2cS%2c${row.customer_id}%2c${row.vehical_Id}" style="font-size: 24pt;color: red;" onclick="recordFilters()"> </a>`
+                    }
+                },
+                { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                { "data": "campaignName", "name": "campaignName" },
+                {
+                    "data": "duedate", render: function (data, type, row) {
+                        return reverDate(data);
+                    }
+                },
+                { "data": "customer_name", "name": "customer_name" },
+                { "data": "phoneNumber", "name": "phoneNumber" },
+                { "data": "tagging", "name": "tagging" },
+                { "data": "veh_model", "name": "veh_model" },
+                { "data": "category", "name": "category" },
+                { "data": "due_type", "name": "due_type" },
+                {
+                    "data": "DND_status", render: function (data, type, row) {
+                        return (data == "1") ? "<i class='fa fa-ban' style='font-size:20px;color:#DD4B39;'></i>" : "";
+                    }
+                },
+                { "data": "complaints_count", "name": "complaints_count" },
+                {
+                    "data": "lastServiceDate", "render": function (data, type, row) {
+                        return parseJsonDateTime(data);
+                    }
+                },
+                { "data": "workshop", "name": "workshop" },
+
+         ],
+         responsive: screen.width < 500 ? true : false,
+            "initComplete": function (data) {
+                $('#tblException').text(data.json.exception);
+                                   // filtercountDisplay();
+
+                $(window).resize(function () {
+                    //table.columns.adjust();
+
+                });
+
+                //table.columns.adjust.apply();
+            },
+            "serverSide": "true",
+            "processing": "true",
+         "serverSide": "true",
+         "scrollX": "true",
+            "scrollY": "300",
+            "paging": "true",
+            "searching": "true",
+            "language": {
+                "processing": "Loading Please Wait.....!"
+            }
+        });
+        //table.columns.adjust();
+        //$('.dataTable').wrap('<div class="dataTables_scroll" />');
+        //$(window).resize(function () {
+        //    table.columns.adjust();
+        //});
+
+        //if ($.browser.webkit) {
+        //    setTimeout(function () {
+        //        table.columns.adjust.apply();
+        //    }, 10);
+        //}
+
+        //setTimeout(function () {
+        //    table.columns.adjust.apply();
+        //    table.responsive.recalc();
+        //    console.log(table);
+        //}, 1000);
+
+        //table.on('responsive-resize', function (e, datatable, columns) {
+        //    var count = columns.reduce(function (a, b) {
+        //        return b === false ? a + 1 : a;
+        //    }, 0);
+
+        //    console.log(count + ' column(s) are hidden');
+        //});
+
+        //setTimeout(function () {
+        //    table.columns.adjust().draw();
+        //}, 100);
+        }
+
+
+    //***************** FollowUp Table *****************************
+    function bindFollowUps() {
+        filtDist["getDataFor"] = 2;
+        $('#tblFollowUp').DataTable({
+            "destroy": true,
+            "ajax": {
+                "url": siteRoot + "/CREServiceLog/GetBucketData/",
+                "type": "POST",
+                "datatype": "json",
+                "data": { serviceData: JSON.stringify(filtDist) }
+            },
+            "columns": [
+                {
+                    "data": "Action", render: function (data, type, row) {
+                        return `<a class="fa fa-pencil-square" href="${siteRoot}/Home/redirectToCallLogging/CRE%2cS%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color: red;" onclick="recordFilters()"> </a>`
+                    }
+                },
+                { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                { "data": "campaignName", "name": "campaignName" },
+                {
+                    "data": "duedate", render: function (data, type, row) {
+                        return reverDate(data);
+                    }
+                },
+                { "data": "customer_name", "name": "customer_name" },
+                { "data": "tagging", "name": "tagging" },
+                { "data": "model", "name": "model" },
+
+                {
+                    "data": "call_date", render: function (data, type, row) {
+                        return parseJsonDateTime(data)
+                    }
+                },
+                { "data": "Mobile_number", "name": "Mobile_number" },
+                { "data": "duetype", "name": "duetype" },
+                {
+                    "data": "followupdate", render: function (data, type, row) {
+                        return reverDate(data);
+                    }
+                },
+                { "data": "followuptime", "name": "followuptime" },
+                {
+                    "data": "Last_disposition", render: function (data, type, row) {
+                        return data;
+                    }
+                },
+                { "data": "attempts", "name": "attempts" },
+                {
+                    "data": "lastServiceDate", render: function (data, type, row) {
+                        return parseJsonDateTime(data)
+                    }
+                },
+                { "data": "workshop", "name": "workshop" }
+            ],
+            responsive: screen.width < 500 ? true : false,
+            fixedColumns: true, fixedHeader: true,
+            "initComplete": function (data) {
+
+                $('#tblException').text(data.json.exception);
+                   // filtercountDisplay();
+
+            },
+            "serverSide": "true",
+            "processing": "true",
+            "serverSide": "true",
+           "scrollX": "true",
+            "scrollY": "300",
+            "paging": "true",
+            "searching": "true",
+            "language": {
+                "processing": "Loading Please Wait.....!"
+            }
+        });
+    }
+
+    //***************** Service Booked Table *****************************
+    function bindServiceBooked() {
+        filtDist["getDataFor"] = 3;
+        var DataTable_TblServiceBooked =  $('#tblServiceBooked').DataTable({
+            "destroy": true,
+            "ajax": {
+                "url": siteRoot + "/CREServiceLog/GetBucketData/",
+                "type": "POST",
+                "datatype": "json",
+                "data": { serviceData: JSON.stringify(filtDist) }
+            },
+            "columns": [
+
+                {
+                    "data": "Action", render: function (data, type, row) {
+                        return `<a class="fa fa-pencil-square" href="${siteRoot}/Home/redirectToCallLogging/CRE%2cS%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color: red;" onclick="recordFilters()"> </a>`
+                    }
+                },
+                { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                { "data": "followupdate", "name": "followupdate" },
+                { "data": "campaignName", "name": "campaignName" },
+                {
+                    "data": "duedate", render: function (data, type, row) {
+                        return reverDate(data);
+                    }
+                },
+                { "data": "customer_name", "name": "customer_name" },
+                { "data": "tagging", "name": "tagging" },
+                { "data": "model", "name": "model" },
+
+                {
+                    "data": "call_date", render: function (data, type, row) {
+                        return parseJsonDateTime(data);
+                    }
+                },
+                { "data": "Mobile_number", "name": "Mobile_number" },
+                { "data": "duetype", "name": "duetype" },
+                {
+                    "data": "scheduled_date", render: function (data, type, row) {
+                        return data.split('-')[2] + "-" + data.split('-')[1] + "-" + data.split('-')[0];
+                    }
+                },
+                { "data": "scheduled_time", "name": "scheduled_time" },
+                { "data": "followuptime", "name": "followuptime" },
+                {
+                    "data": "reason", render: function (data, type, row) {
+                        var scheduleDate = new Date(row.scheduled_date);
+                        var curDate = new Date();
+                        if (scheduleDate < curDate) {
+                            return `<button class='btn btn-primary btn-sm'>OverDue</button>`;
+                        }
+                        else if (data == "0")
+                        {
+                            return "-";
+                        }
+                        else {
+                            return `<button class='btn btn-primary btn-sm'>${data}</button>`;
+                        }
+                    }
+                },
+                {
+                    "data": "Last_disposition", render: function (data, type, row) {
+                        return `<button class='btn btn-warning btn-sm'>${data}</button>`;
+                        }
+                },
+                { "data": "attempts", "name": "attempts" },
+                { "data": "workshop", "name": "workshop" },
+                {
+                    "data": "lastServiceDate", render: function (data, type, row) {
+                        return parseJsonDateTime(data)
+                    }
+                }
+            ],
+            responsive: screen.width < 500 ? true : false,
+            "initComplete": function (settings,data) {
+                //if (screen.width > 500) {
+                //    DataTable_TblServiceBooked.DataTable({ "scrollX": "300", "scrollY": "300" })
+                //}
+
+                $('#tblException').text(data.exception);
+            },
+            "autoWidth": false,
+            "processing": "true",
+            "scrollX": screen.width < 500 ? false : "350",
+            "scrollY": screen.width < 500 ? false : "350",
+            "serverSide": "true",
+            "paging": "true",
+            "searching": "true",
+            "language": {
+                "processing": "Loading Please Wait.....!"
+            }
+            //fixedHeader: {
+            //    header: true,
+            //    footer: true
+            //}
+        });
+
+
+        }
+
+
+    //***************** Service Not Required *****************************
+    function bindServiceNotReq() {
+        filtDist["getDataFor"] = 4;
+        $('#tblserviceNotReq').DataTable({
+            "destroy": true,
+            "ajax": {
+                "url": siteRoot + "/CREServiceLog/GetBucketData/",
+                "type": "POST",
+                "datatype": "json",
+                "data": { serviceData: JSON.stringify(filtDist) }
+            },
+            "columns": [
+
+                {
+                    "data": "Action", render: function (data, type, row) {
+                        return `<a class="fa fa-pencil-square" href="${siteRoot}/Home/redirectToCallLogging/CRE%2cS%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color: red;" onclick="recordFilters()"> </a>`
+                    }
+                },
+                { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                { "data": "campaignName", "name": "campaignName" },
+                {
+                    "data": "duedate", render: function (data, type, row) {
+                        return reverDate(data);
+                    }
+                },
+                { "data": "customer_name", "name": "customer_name" },
+                { "data": "tagging", "name": "tagging" },
+                { "data": "model", "name": "model" },
+                {
+                    "data": "call_date", render: function (data, type, row) {
+                        return parseJsonDateTime(data)
+                    }
+                },
+                { "data": "Mobile_number", "name": "Mobile_number" },
+                { "data": "duetype", "name": "duetype" },
+                {
+                    "data": "Last_disposition", render: function (data, type, row) {
+                        return `<span class='label label-primary'>${data}</span>`;
+                    }
+                },
+                { "data": "reason", "name": "reason" },
+                { "data": "attempts", "name": "attempts", "bSortable": true },
+                {
+                    "data": "lastServiceDate", render: function (data, type, row) {
+                        return parseJsonDateTime(data)
+                    }
+                },
+                { "data": "workshop", "name": "workshop" }
+            ],
+            responsive: screen.width < 500 ? true : false,
+            "initComplete": function (data) {
+                $('#tblException').text(data.json.exception);
+                                   // filtercountDisplay();
+
+            },
+            "serverSide": "true",
+            "processing": "true",
+            "serverSide": true,
+           "scrollX": "true",
+            "scrollY": "300",
+            "paging": "true",
+            "searching": true,
+            "order": [1, 'asc'],
+            "language": {
+                "processing": "Loading Please Wait.....!"
+            },
+            fixedHeader: {
+                header: true,
+                footer: true
+            }
+        });
+
+    }
+
+    //***************** Non Conatcts *****************************
+    function bindNonContacts() {
+        filtDist["getDataFor"] = 5;
+        $('#tblnonContacts').DataTable({
+            "destroy": true,
+            "ajax": {
+                "url": siteRoot + "/CREServiceLog/GetBucketData/",
+                "type": "POST",
+                "datatype": "json",
+                "data": { serviceData: JSON.stringify(filtDist) }
+            },
+            "columns": [
+
+                {
+                    "data": "Action", render: function (data, type, row) {
+                        return `<a class="fa fa-pencil-square" href="${siteRoot}/Home/redirectToCallLogging/CRE%2cS%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color: red;" onclick="recordFilters()"> </a>`
+                    }
+                },
+                { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                { "data": "campaignName", "name": "campaignName" },
+                {
+                    "data": "duedate", render: function (data, type, row) {
+                        return reverDate(data);
+                    }
+                },
+                { "data": "customer_name", "name": "customer_name" },
+                { "data": "tagging", "name": "tagging" },
+                { "data": "model", "name": "model" },
+                {
+                    "data": "call_date", render: function (data, type, row) {
+                        return parseJsonDateTime(data)
+                    }
+                },
+                { "data": "Mobile_number", "name": "Mobile_number" },
+                { "data": "duetype", "name": "duetype" },
+                {
+                    "data": "Last_disposition", render: function (data, type, row) {
+                        return `<span class='label label-primary'>${data}</span>`;
+                    }
+                },
+                { "data": "attempts", "name": "attempts" },
+                {
+                    "data": "lastServiceDate", render: function (data, type, row) {
+                        return parseJsonDateTime(data)
+                    }
+                },
+                { "data": "workshop", "name": "workshop" }
+            ],
+            responsive: screen.width < 500 ? true : false,
+            "initComplete": function (data) {
+                $('#tblException').text(data.json.exception);
+                                 //   filtercountDisplay();
+
+            },
+            "serverSide": "true",
+            "processing": "true",
+            "serverSide": true,
+           "scrollX": "true",
+            "scrollY": "300",
+            "paging": "true",
+            "searching": true,
+            "language": {
+                "processing": "Loading Please Wait.....!"
+            },
+            fixedHeader: {
+                header: true,
+                footer: true
+            }
+        });
+    }
+
+    //***************** SB1 *****************************
+    function bindSB1() {
+        filtDist["getDataFor"] = 6;
+        $('#tblSB1').DataTable({
+            "destroy": true,
+            "ajax": {
+                "url": siteRoot + "/CREServiceLog/GetBucketData/",
+                "type": "POST",
+                "datatype": "json",
+                "data": { serviceData: JSON.stringify(filtDist) }
+            },
+            "columns": [
+                {
+                    "data": "Action", render: function (data, type, row) {
+                        return `<a class="fa fa-pencil-square" href="${siteRoot}/Home/redirectToCallLogging/CRE%2cS%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color: red;" onclick="recordFilters()"> </a>`
+                    }
+                },
+                { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                { "data": "campaign", "name": "campaign" },
+                {
+                    "data": "duedate", render: function (data, type, row) {
+                        return reverDate(data);
+                    }
+                },
+                { "data": "customer_name", "name": "customer_name" },
+                {
+                    "data": "calldate", render: function (data, type, row) {
+                        return parseJsonDateTime(data)
+                    }
+                },
+                { "data": "tagging", "name": "tagging" },
+                { "data": "model", "name": "model" },
+                { "data": "duetype", "name": "duetype" },
+                { "data": "chassiNo", "name": "chassiNo" },
+                {
+                    "data": "scheduled_date", render: function (data, type, row) {
+                        return data.split('-')[2] + "-" + data.split('-')[1] + "-" + data.split('-')[0];
+                    }
+                },
+                { "data": "scheduled_time", "name": "scheduled_time" },
+                { "data": "serviceBookedType", "name": "serviceBookedType" },
+                { "data": "serviceadvisor", "name": "serviceadvisor" },
+                { "data": "workshop", "name": "workshop" },
+                { "data": "typeOfPickup", "name": "typeOfPickup" },
+                {
+                    "data": "Last_disposition", render: function (data, type, row) {
+                        return `<span class="badge badge-pill badge-primary">${data}</span>`
+                    }
+                },
+                {
+                    "data": "booking_status", render: function (data, type, row) {
+                        return `<span class="label label-primary">${data}</span>`
+                    }
+                },
+                {
+                    "data": "lastServiceDate", render: function (data, type, row) {
+                        return parseJsonDateTime(data)
+                    }
+                }
+
+            ],
+            responsive: screen.width < 500 ? true : false,
+            "initComplete": function (data) {
+                $('#tblException').text(data.json.exception);
+                                   // filtercountDisplay();
+
+            },
+            "serverSide": "true",
+            "processing": "true",
+            "serverSide": true,
+           "scrollX": "true",
+            "scrollY": "300",
+            "paging": "true",
+            "searching": true,
+            "language": {
+                "processing": "Loading Please Wait.....!"
+            },
+            fixedHeader: {
+                header: true,
+                footer: true
+            }
+        });
+    }
+
+    //***************** SBNTh *****************************
+    function bindSBNth() {
+        filtDist["getDataFor"] = 7;
+        $('#tblSBNth').DataTable({
+            "destroy": true,
+            "ajax": {
+                "url": siteRoot + "/CREServiceLog/GetBucketData/",
+                "type": "POST",
+                "datatype": "json",
+                "data": { serviceData: JSON.stringify(filtDist) }
+            },
+            "columns": [
+
+                {
+                    "data": "Action", render: function (data, type, row) {
+                        return `<a class="fa fa-pencil-square" href="${siteRoot}/Home/redirectToCallLogging/CRE%2cS%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color: red;" onclick="recordFilters()"> </a>`
+                    }
+                },
+                { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                { "data": "campaign", "name": "campaign" },
+                {
+                    "data": "duedate", render: function (data, type, row) {
+                        return reverDate(data);
+                    }
+                },
+                { "data": "customer_name", "name": "customer_name" },
+                { "data": "tagging", "name": "tagging" },
+                { "data": "model", "name": "model" },
+                { "data": "duetype", "name": "duetype" },
+                {
+                    "data": "calldate", render: function (data, type, row) {
+                        return parseJsonDateTime(data)
+                    }
+                },
+                { "data": "chassiNo", "name": "chassiNo" },
+                {
+                    "data": "scheduled_date", render: function (data, type, row) {
+                        return data.split('-')[2] + "-" + data.split('-')[1] + "-" + data.split('-')[0]
+                    }
+                },
+                { "data": "scheduled_time", "name": "scheduled_time" },
+                { "data": "serviceBookedType", "name": "serviceBookedType" },
+                { "data": "serviceadvisor", "name": "serviceadvisor" },
+                { "data": "workshop", "name": "workshop" },
+                { "data": "typeOfPickup", "name": "typeOfPickup" },
+                {
+                    "data": "Last_disposition", render: function (data, type, row) {
+                    return `<span class="label label-warning">${data}</span>`                    }
+                },
+                {
+                    "data": "booking_status", render: function (data, type, row) {
+                        return `<span class="label label-primary">${data}</span>`
+                    }
+                },
+                {
+                    "data": "lastServiceDate", render: function (data, type, row) {
+                        return parseJsonDateTime(data)
+                    }
+                }
+
+            ],
+            responsive: screen.width < 500 ? true : false,
+            "initComplete": function (data) {
+                $('#tblException').text(data.json.exception);
+                             //       filtercountDisplay();
+
+            },
+            "serverSide": "true",
+            "processing": "true",
+            "serverSide": true,
+           "scrollX": "true",
+            "scrollY": "300",
+            "paging": "true",
+            "searching": true,
+            "language": {
+                "processing": "Loading Please Wait.....!"
+            },
+            fixedHeader: {
+                header: true,
+                footer: true
+            }
+        });
+    }
+
+
+    //***************** NON FS *****************************
+    function bindNonFS() {
+        filtDist["getDataFor"] = 8;
+        $('#tblNonFS').DataTable({
+            "destroy": true,
+            "ajax": {
+                "url": siteRoot + "/CREServiceLog/GetBucketData/",
+                "type": "POST",
+                "datatype": "json",
+                "data": { serviceData: JSON.stringify(filtDist) }
+            },
+            "columns": [
+                {
+                    "data": "Action", render: function (data, type, row) {
+                        return `<a class="fa fa-pencil-square" href="${siteRoot}/Home/redirectToCallLogging/CRE%2cS%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color: red;" onclick="recordFilters()"> </a>`
+                    }
+                },
+                { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                { "data": "campaign", "name": "campaign" },
+                {
+                    "data": "duedate", render: function (data, type, row) {
+                        return reverDate(data);
+                    }
+                },
+                { "data": "customer_name", "name": "customer_name" },
+                { "data": "Mobile_number", "name": "Mobile_number" },
+                { "data": "tagging", "name": "tagging" },
+                { "data": "model", "name": "model" },
+                { "data": "duetype", "name": "duetype" },
+                {
+                    "data": "lastServiceDate", render: function (data, type, row) {
+                        return parseJsonDateTime(data)
+                    }
+                },
+                { "data": "lastServiceType", "name": "lastServiceType" },
+                { "data": "workshop", "name": "workshop" }
+            ],
+            responsive: screen.width < 500 ? true : false,
+            "initComplete": function (data) {
+                $('#tblException').text(data.json.exception);
+                                   // filtercountDisplay();
+
+            },
+            "serverSide": "true",
+            "processing": "true",
+            "serverSide": true,
+           "scrollX": "true",
+            "scrollY": "300",
+            "paging": "true",
+            "searching": true,
+            "language": {
+                "processing": "Loading Please Wait.....!"
+            },
+            fixedHeader: {
+                header: true,
+                footer: true
+            }
+        });
+    }
+
+    //***************** FollowUp Table *****************************
+    function bindFutureFollow() {
+        filtDist["getDataFor"] = 9;
+        $('#tblfutureFollow').DataTable({
+            "destroy": true,
+            "ajax": {
+                "url": siteRoot + "/CREServiceLog/GetBucketData/",
+                "type": "POST",
+                "datatype": "json",
+                "data": { serviceData: JSON.stringify(filtDist) }
+            },
+            "columns": [
+
+                {
+                    "data": "Action", render: function (data, type, row) {
+                        return `<a class="fa fa-pencil-square" href="${siteRoot}/Home/redirectToCallLogging/CRE%2cS%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color: red;" onclick="recordFilters()"> </a>`
+                    }
+                },
+                { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                { "data": "campaignName", "name": "campaignName" },
+                {
+                    "data": "duedate", render: function (data, type, row) {
+                        return reverDate(data);
+                    }
+                },
+                { "data": "customer_name", "name": "customer_name" },
+                { "data": "tagging", "name": "tagging" },
+                {
+                    "data": "call_date", render: function (data, type, row) {
+                        return parseJsonDateTime(data)
+                    }
+                },
+                { "data": "Mobile_number", "name": "Mobile_number" },
+                { "data": "model", "name": "model" },
+                { "data": "duetype", "name": "duetype" },
+                {
+                    "data": "followupdate", render: function (data, type, row) {
+                        return reverDate(data);
+                    }
+                },
+                { "data": "followuptime", "name": "followuptime" },
+                {
+                    "data": "Last_disposition", render: function (data, type, row) {
+                        return `<button class='btn btn-primary btn-sm'>${data}</button>`;
+                    }
+                },
+                { "data": "attempts", "name": "attempts" },
+                {
+                    "data": "lastServiceDate", render: function (data, type, row) {
+                        return parseJsonDateTime(data)
+                    }
+                },
+                { "data": "workshop", "name": "workshop" }
+            ],
+            responsive: screen.width < 500 ? true : false,
+            "initComplete": function (data) {
+                $('#tblException').text(data.json.exception);
+                                   // filtercountDisplay();
+
+            },
+            "serverSide": "true",
+            "processing": "true",
+            "serverSide": true,
+           "scrollX": "true",
+            "scrollY": "300",
+            "paging": "true",
+            "searching": true,
+            "language": {
+                "processing": "Loading Please Wait.....!"
+            },
+            fixedHeader: {
+                header: true,
+                footer: true
+            }
+        });
+    }
+
+    function bindOthers() {
+        filtDist["getDataFor"] = 10;
+        $('#tblothers').DataTable({
+            "destroy": true,
+            "ajax": {
+                "url": siteRoot + "/CREServiceLog/GetBucketData/",
+                "type": "POST",
+                "datatype": "json",
+                "data": { serviceData: JSON.stringify(filtDist) }
+            },
+            "columns": [
+
+                {
+                    "data": "Action", render: function (data, type, row) {
+                        return `<a class="fa fa-pencil-square" href="${siteRoot}/Home/redirectToCallLogging/CRE%2cS%2c${row.customer_id}%2c${row.vehicle_id}" style="font-size: 24pt;color: red;" onclick="recordFilters()"> </a>`
+                    }
+                },
+                { "data": "vehicle_RegNo", "name": "vehicle_RegNo" },
+                { "data": "campaignName", "name": "campaignName" },
+                {
+                    "data": "duedate", render: function (data, type, row) {
+                        return reverDate(data);
+                    }
+                },
+                { "data": "customer_name", "name": "customer_name" },
+                { "data": "tagging", "name": "tagging" },
+                {
+                    "data": "call_date", render: function (data, type, row) {
+                        return parseJsonDateTime(data)
+                    }
+                },
+                { "data": "Mobile_number", "name": "Mobile_number" },
+                { "data": "model", "name": "model" },
+                { "data": "duetype", "name": "duetype" },
+                {
+                    "data": "Last_disposition", render: function (data, type, row) {
+                        return `<button class='btn btn-primary btn-sm'>${data}</button>`;
+                    }
+                },
+                { "data": "attempts", "name": "attempts" },
+                {
+                    "data": "lastServiceDate", render: function (data, type, row) {
+                        return parseJsonDateTime(data)
+                    }
+                },
+                { "data": "workshop", "name": "workshop" }
+            ],
+            responsive: screen.width < 500 ? true : false,
+            "initComplete": function (data) {
+                $('#tblException').text(data.json.exception);
+                                 //   filtercountDisplay();
+
+            },
+            "serverSide": "true",
+            "processing": "true",
+            "serverSide": true,
+           "scrollX": "true",
+            "scrollY": "300",
+            "paging": "true",
+            "searching": true,
+            "language": {
+                "processing": "Loading Please Wait.....!"
+            },
+            fixedHeader: {
+                header: true,
+                footer: true
+            }
+        });
+    }
+
+
+    function filtercountDisplay() {
+        clearfilterCounts();
+           $.ajax({
+                type: 'POST',
+                url: '@Url.Action("getServiceFilterCount")',
+                datatype: 'json',
+                cache: false,
+                data: { serviceData: JSON.stringify(filtDist) },
+                success: function (data) {
+                    if (data.success == true)
+                    {
+                        console.log("Fileter counts",data);
+                          var schedCount = data.filterls[0].counts;
+                    var pendingFollowUp = data.filterls[1].counts;
+                    var serviceBookedCon = data.filterls[2].counts;
+                    var serNotReq = data.filterls[3].counts;
+                    var nonCont = data.filterls[4].counts;
+                    var n1 = data.filterls[5].counts;
+                    var nth = data.filterls[6].counts;
+                   var fsPms = data.filterls[7].counts;
+                    var futureFollow = data.filterls[8].counts;
+                  
+                    //  var others = data.json.filterls[9].counts;
+
+                        $("#scheduleCounts").text("(" + schedCount + ")");
+                    $("#followUpCounts").text("(" + pendingFollowUp + ")");
+                    $("#serviceBookedCounts").text("(" + serviceBookedCon + ")");
+                    $("#servicenotReqCounts").text("(" + serNotReq + ")");
+                    $("#nonContactsCounts").text("(" + nonCont + ")");
+                    $("#sbnminoneCounts").text("(" + n1 + ")");
+                    $("#dbnthCounts").text("(" + nth + ")");
+                    $("#fsPmsCounts").text("(" + fsPms + ")");
+                        $("#futureFollowCount").text("(" + futureFollow + ")");
+
+                        servicefiltCountDist["scheduleCounts"] = schedCount;
+                        servicefiltCountDist["followUpCounts"] = pendingFollowUp;
+                        servicefiltCountDist["serviceBookedCounts"] = serviceBookedCon;
+                        servicefiltCountDist["servicenotReqCounts"] = serNotReq;
+                        servicefiltCountDist["nonContactsCounts"] = nonCont;
+                        servicefiltCountDist["sbnminoneCounts"] = n1;
+                        servicefiltCountDist["dbnthCounts"] = nth;
+                        servicefiltCountDist["fsPmsCounts"] = fsPms;
+                        servicefiltCountDist["futureFollowCount"] = futureFollow;
+                    //  $("#othersCount").text("(" + others + ")");
+
+                    var filt = document.getElementById('totalFil');
+                    filt.style.backgroundColor = 'green';
+                    var totalCounts = parseInt(schedCount) + parseInt(pendingFollowUp) + parseInt(serviceBookedCon) + parseInt(serNotReq) + parseInt(nonCont) + parseInt(n1) + parseInt(nth) + parseInt(fsPms) + parseInt(futureFollow);
+
+                    //var totalCounts = parseInt(schedCount) + parseInt(pendingFollowUp) + parseInt(serviceBookedCon) + parseInt(serNotReq) + parseInt(nonCont) + parseInt(n1) + parseInt(nth) + parseInt(fsPms) + parseInt(futureFollow) + parseInt(others);
+                    $('#totalFil').html(totalCounts);
+                        servicefiltCountDist["totalFil"] = totalCounts;
+                    }
+                    else if (data.success == false)
+                    {
+                        $('#tblException').text(data.error);
+                    }
+
+                },
+            });
+
+    }
+
+    function logoutIntalk() {
+        var userTokenStorage = localStorage.getItem("usertoken");
+        if (userTokenStorage != "" && userTokenStorage != null && userTokenStorage != undefined) {
+            var json = '{"token":"' + localStorage.getItem("usertoken") + '","accountStatus":"logout"}';
+            $.ajax({
+                url: "https://abt.intalk.io/cc/api/v1/status/edit",
+                type: "POST",
+                data: json,
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (data, textStatus, jqXHR) {
+                    var obj = JSON.parse(JSON.stringify(data))
+                    localStorage.setItem("usertoken", "")
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
+            });
+        }
+    }
+
+</script>
+}

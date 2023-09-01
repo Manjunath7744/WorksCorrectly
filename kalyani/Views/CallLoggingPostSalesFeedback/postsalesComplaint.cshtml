@@ -1,0 +1,340 @@
+﻿@model AutoSherpa_project.Models.ViewModels.CallLoggingViewModel
+@*---------------Note: Main binding model is  psfinteraction ................*@
+
+@Html.TextBoxFor(m => m.postsalescompinteraction.DissatStatus_id, new { @type = "hidden" })
+@Html.TextBoxFor(m => m.postsalescompinteraction.complaint_creid, new { @type = "hidden" })
+@Html.TextBoxFor(m => m.postsalescompinteraction.campaign_id, new { @type = "hidden" })
+@Html.TextBoxFor(m => m.postsalescompinteraction.customer_id, new { @type = "hidden" })
+@Html.TextBoxFor(m => m.postsalescompinteraction.vehicle_id, new { @type = "hidden" })
+@Html.TextBoxFor(m => m.postsalescompinteraction.issueDateTime, new { @type = "hidden" })
+@Html.TextBoxFor(m => m.postsalescompinteraction.location_id, new { @type = "hidden" })
+@Html.TextBoxFor(m => m.postsalescompinteraction.psfassignedInteraction_id, new { @type = "hidden" })
+@Html.TextBoxFor(m => m.postsalescompinteraction.bucket_id, new { @type = "hidden" })
+@Html.TextBoxFor(m => m.postsalescompinteraction.compRaisedCreId, new { @type = "hidden" })
+@Html.TextBoxFor(m => m.postsalescompinteraction.compRaisedCreName, new { @type = "hidden" })
+@Html.TextBoxFor(m => m.postsalescompinteraction.location_id, new { @type = "hidden" })
+@Html.TextBoxFor(m => m.postsalescompinteraction.workshop_id, new { @type = "hidden" })
+<div class="panel-body">
+    <div class="col-md-12">
+        <div class="form-group">
+
+            <div id="postsalescomplaintWelcomeDiv" class="animated  bounceInRight">
+                <label for=""><b>Did You talk to the Customer?</b></label>
+                <br>
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.postsalesdispositions.isContacted, "Yes", new { @class = "used", @id = "" })
+                        Yes
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.postsalesdispositions.isContacted, "No", new { @id = "" })
+                        No
+                    </label>
+                </div>
+            </div>
+
+            <div style="display:none;" class="animated  bounceInRight" id="postsalescomplaintnoncontactDiv">
+                <br>
+                <label for=""><b>Choose reason for not being able to talk to customer:</b></label>
+                <br>
+                <div class="radio">
+                    <label>
+                        @Html.RadioButtonFor(m => m.postsalesdispositions.PSFDispositon, "Ringing No response", new { @id = "", @class = "reason_for_not_talking" })
+                        Ringing No response
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        @Html.RadioButtonFor(m => m.postsalesdispositions.PSFDispositon, "Busy", new { @id = "", @class = "reason_for_not_talking" })
+                        Busy
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        @Html.RadioButtonFor(m => m.postsalesdispositions.PSFDispositon, "Switched Off / Unreachable", new { @id = "", @class = "reason_for_not_talking" })
+                        Switched Off / Unreachable
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        @Html.RadioButtonFor(m => m.postsalesdispositions.PSFDispositon, "Invalid Number", new { @id = "", @class = "reason_for_not_talking" })
+                        Invalid Number
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        @Html.RadioButtonFor(m => m.postsalesdispositions.PSFDispositon, "NoOther", new { @id = "NOOthersCheck", @class = "reason_for_not_talking" })
+                        Other
+                    </label>
+                </div>
+
+                <div class="row animated  bounceInRight" style="display:none;" id="postservicefeedbackCCMOtherDivShow">
+                    <div class="col-md-4">
+                        <label><b>Please Specify</b></label>
+                        @Html.TextAreaFor(m => m.postsalesdispositions.OtherComments, new { @class = "form-control OtherComments characterLimit", @id = "txtccmOther", @rows = "1" })
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-info" name="" id="btnsubmitccmescalationnoncontact" value="">Submit</button>
+                </div>
+            </div>
+
+            <div id="postsalesccmescalationDiv" class="animated  bounceInRight" style="display:none">
+                <label for=""><b>What Did the Customer Say ?</b></label>
+                <br>
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.postsalesdispositions.whatcustsays, "Complaint Resolution Status", new { @class = "", @id = "rdoresolutionstatus" })
+                        FEEDBACK
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.postsalesdispositions.whatcustsays, "Call Me Later", new { @id = "rdocmplntfollowupltr", @class = "" })
+                        FOLLOWUP LATER
+                    </label>
+                </div>
+            </div>
+            <br>
+
+            @*<div style="display:none;" class="row animated  bounceInRight" id="PSFYesTalk">
+                    <div class="col-md-12">
+                        <div class="radio-inline">
+                            <label>
+                                @Html.RadioButtonFor(m => m.postsalesdispositions.isresolvedorpending, "Resolved", new { @Value = "Resolved", @id = "ResolvedId" })
+                                Resolved
+                            </label>
+                        </div>
+
+                        <div class="radio-inline">
+                            <label>
+                                @Html.RadioButtonFor(m => m.postsalesdispositions.isresolvedorpending, "Escaltion to Dealer Head", new { @Value = "Escaltion to CEO", @id = "ConfirmStatusId" })
+                                Escaltion to CEO
+                            </label>
+                        </div>
+
+                    </div>
+                </div>*@
+            <br>
+
+            <div id="postsalesresovedesclateComplaintDiv" class="animated  bounceInRight" style="display:none;">
+                <label for=""><b>Complaint Resolved?</b></label>
+                <br>
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.postsalescompinteraction.resolutionMode, "Resolved", new { @class = "used", @id = "" })
+                        Resolved
+                    </label>
+                </div>
+                <br />
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.postsalescompinteraction.resolutionMode, "Escalate to Dealer Head", new { @id = "" })
+                        Escalate to Dealer Head
+                    </label>
+                </div>
+                <div class="pull-right" id="">
+                    <button type="submit" class="btn btn-info" name="" id="btnsubmitccmescalation">Submit</button>
+                </div>
+            </div>
+
+            <div style="display:none;" class="row animated  bounceInRight" id="postsalesccmcalmelaterDiv">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="followUpDate">Call Back Date</label>
+                        @Html.TextBoxFor(m => m.postsalesdispositions.postsalesFollowUpDate, new { @id = "txtpostsalesccmcallbackdate", @class = "datepickerPlus30Days datePickerrangeto form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="followUpTime">Call Back Time</label>
+                        @Html.TextBoxFor(m => m.postsalesdispositions.postsalesFollowUpTime, new { @id = "txtpostsaleccmcallbacktime", @class = "single-input form-control timepicker_7", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="pull-right" id="">
+                    <button type="submit" class="btn btn-info" name="" id="btnsubmitpostsalesfollowuplater">Submit</button>
+                </div>
+
+            </div>
+
+            <div style="display:block;" class="row animated  bounceInRight" id="postsalesComplaintRemarksDiv">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="followUpTime">Customer Remarks</label>
+                                @Html.TextAreaFor(m => m.postsalesdispositions.remarks, new { @class = "form-control characterLimit", @id = "remarks_for_followUpLater" })
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="followUpTime">CRE Remarks</label>
+                                @Html.TextAreaFor(m => m.postsalesdispositions.CREOtherComments, new { @class = "form-control characterLimit", @id = "remarks_for_followUpLater" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@Scripts.Render("~/public/javascripts/jquery-3.2.1.min.js")
+
+<script>
+     $(document).ready(function () {
+        var psfType = '@ViewBag.typeOfPSF';
+
+        if (psfType == "7") {
+            $('#interHeading').text('PSF 3RD DISPOSITION FORM');
+        }
+        else {
+            $('#interHeading').text('PSF Complaint DISPOSITION FORM');
+        }
+
+        $('#imgInter').attr('src', siteRoot + "/public/images/INTERACTION HISTORY.png");
+     });
+
+    $("input[name='postsalesdispositions.isContacted']").click(function () {
+        testPSF = $(this).val();
+        if (testPSF == "Yes") {
+            $('#ccmRemarks').val('');
+            $("#postsalesccmescalationDiv").show();
+            $("#postsalescomplaintnoncontactDiv").hide();
+            clearallComplaintnodivControl();
+        }
+        if (testPSF == "No") {
+            $('#ccmRemarks').val('');
+            $("#postsalescomplaintnoncontactDiv").show();
+            $("#postsalesccmescalationDiv").hide();
+            $("#postsalesccmcalmelaterDiv").hide();
+            $("#postsalesresovedesclateComplaintDiv").hide();
+            clearallccmescalationdiv();
+            clearwhatcustsays();
+
+
+        }
+    });
+
+
+    $("input[name='postsalesdispositions.whatcustsays']").click(function () {
+        testPSF = $(this).val();
+        if (testPSF == "Complaint Resolution Status") {
+            $("#postsalesresovedesclateComplaintDiv").show();
+            $("#postsalesccmcalmelaterDiv").hide();
+            clearallFollowuplaterDiv();
+        }
+        if (testPSF == "Call Me Later") {
+            $("#postsalesresovedesclateComplaintDiv").hide();
+            $("#postsalesccmcalmelaterDiv").show();
+            clearallccmescalationdiv();
+        }
+    });
+
+
+    $("input[name$='postsalesdispositions.PSFDispositon']").click(function () {
+        var datais = $(this).val();
+
+        if (datais == "NoOther") {
+            $("#postservicefeedbackCCMOtherDivShow").show();
+        } else {
+            $("#postservicefeedbackCCMOtherDivShow").hide();
+        }
+    });
+
+
+    function clearallComplaintnodivControl() {
+        const chbx = document.getElementsByName("postsalesdispositions.PSFDispositon");
+
+        for (let i = 0; i < chbx.length; i++) {
+            chbx[i].checked = false;
+        }
+        $("#postsalescomplaintnoncontactDiv").hide();
+        $('#ccmRemarks').val('');
+        $('#txtccmOther').val('');
+
+    }
+
+    function clearallComplaintyesdivcontrol() {
+        clearallFollowuplaterDiv();
+        clearallccmescalationdiv();
+        const chbx = document.getElementsByName("postsalesdispositions.whatcustsays");
+
+        for (let i = 0; i < chbx.length; i++) {
+            chbx[i].checked = false;
+        }
+    }
+
+    function clearallFollowuplaterDiv() {
+        $('#ccmRemarks').val('');
+        $('#txtpostsalesccmcallbackdate').val('');
+        $('#txtpostsaleccmcallbacktime').val('');
+    }
+    function clearallccmescalationdiv() {
+        const chbx = document.getElementsByName("postsalescompinteraction.resolutionMode");
+
+        for (let i = 0; i < chbx.length; i++) {
+            chbx[i].checked = false;
+        }
+        $('#ccmRemarks').val('');
+
+    }
+    function clearwhatcustsays() {
+        
+        const chbx = document.getElementsByName("postsalesdispositions.whatcustsays");
+
+        for (let i = 0; i < chbx.length; i++) {
+            chbx[i].checked = false;
+        }
+        $('#ccmRemarks').val('');
+    }
+
+    $("#btnsubmitccmescalationnoncontact").click(function () {
+
+        var chkincSubmit = 0;
+        $('[name="postsalesdispositions.PSFDispositon"]').each(function () {
+            if ($(this).is(':checked')) chkincSubmit++;
+        });
+        if (chkincSubmit == 0) {
+            Lobibox.notify('warning', {
+                continueDelayOnInactiveTab: true,
+                msg: 'Please Select any one Reason.'
+            });
+            return false;
+        }
+        else {
+            var selected = $("input[name='postsalesdispositions.PSFDispositon']:checked").val();
+            if (selected == "NoOther") {
+                var textNoOthers = $('#txtccmOther').val();
+                if (textNoOthers == '' || textNoOthers == undefined) {
+                    Lobibox.notify('warning', {
+                        continueDelayOnInactiveTab: true,
+                        msg: 'Pleasy Enter Other Reason.'
+                    });
+                    return false;
+                }
+            }
+        }
+
+    });
+    
+    $("#btnsubmitccmescalation").click(function () {
+        var chkincSubmit = 0;
+        $('[name="postsalescompinteraction.resolutionMode"]').each(function () {
+            if ($(this).is(':checked')) chkincSubmit++;
+        });
+        if (chkincSubmit == 0) {
+            Lobibox.notify('warning', {
+                continueDelayOnInactiveTab: true,
+                msg: 'Please Select any one Reason.'
+            });
+            return false;
+        }
+
+    });
+
+
+</script>
